@@ -15,11 +15,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-Route::group(['prefix' => 'admin'], function () {
-    Voyager::routes();
-});
-
 Route::group(['prefix' => 'client'], function () {
   //Route::get('/login', 'ClientAuth\LoginController@showLoginForm');
   Route::get('/login', 'ClientAuth\LoginController@showLoginForm')->name('login');
