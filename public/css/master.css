@@ -1,0 +1,214 @@
+/* styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 110px;
+  /* margin-bottom: 60px; */
+  /* add for viewing margin-bottom */
+  border : 0px solid black;
+  /* add for scrolling */
+  /* height: 1500px; */
+  /* add  */
+  font-family: "標楷體", DFKai-sb, BiauKai;
+  font-size: 18px;
+  color: #777;
+}
+/* add  */
+.nav-tabs li a {
+    color: #111;
+}
+
+.footer {
+  /* position: absolute; */
+  /* http://stackoverflow.com/questions/19330611/fixed-footer-in-bootstrap */
+  /* position: fixed; */
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 100px;
+  background-color: #f5f5f5;
+}
+
+
+/* Custom page CSS
+-------------------------------------------------- */
+
+body > .container {
+  /* padding: 60px 15px 0; */
+  padding: 20px 15px 0;
+  border : 0px solid red;
+}
+.container .text-muted {
+  margin: 10px 0;
+}
+
+.footer > .container {
+  padding-right: 15px;
+  padding-left: 15px;
+  border : 0px solid blue;
+}
+
+code {
+  font-size: 80%;
+}
+
+/* add */
+.footer p {
+    color: #111;
+}
+.footer li a {
+    color: #111;
+    text-decoration: none
+}
+/* add
+.nounderline {
+    text-decoration: none
+}
+*/
+/* add
+.navbar-nav li a:hover, .navbar-nav li.active a {
+    color: #111 !important;
+    background-color: #fff !important;
+}
+*/
+
+.navbar-nav li a:hover, .navbar-nav li.active a {
+    color: #fff !important;
+    background-color: #337ab7 !important;
+}
+
+.panel-heading {
+    color: #fff !important;
+    background-color: #337ab7 !important;
+    padding: 25px;
+    border-bottom: 1px solid transparent;
+}
+.panel:hover {
+    box-shadow: 5px 0px 40px rgba(0,0,0, .2);
+}
+
+/* fade on slider */
+.carousel-fade .carousel-inner .item {
+  opacity: 0;
+  -webkit-transition-property: opacity;
+  -moz-transition-property: opacity;
+  -o-transition-property: opacity;
+  transition-property: opacity;
+
+}
+.carousel-fade .carousel-inner .active {
+  opacity: 1 !important;
+
+}
+.carousel-fade .carousel-inner .active.left,
+.carousel-fade .carousel-inner .active.right {
+  left: 0;
+  opacity: 0;
+  z-index: 1;
+}
+.carousel-fade .carousel-inner .next.left,
+.carousel-fade .carousel-inner .prev.right {
+  opacity: 1;
+}
+.carousel-fade .carousel-control {
+  z-index: 2;
+}
+/*
+img {
+  max-height: 400px;
+}
+*/
+
+/* Slide in elements on scroll */
+.slideanim {visibility:hidden;}
+.slide {
+    animation-name: slide;
+    -webkit-animation-name: slide;
+    animation-duration: 1s;
+    -webkit-animation-duration: 1s;
+    visibility: visible;
+}
+@keyframes slide {
+  0% {
+    opacity: 0;
+    transform: translateY(70%);
+  } 
+  100% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}
+@-webkit-keyframes slide {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(70%);
+  } 
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0%);
+  }
+}
+
+
+/* dropdown-submenu */
+.dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-submenu > .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -6px;
+    margin-left: -1px;
+    -webkit-border-radius: 0 6px 6px 6px;
+    -moz-border-radius: 0 6px 6px;
+    border-radius: 0 6px 6px 6px;
+}
+
+.dropdown-submenu:hover>.dropdown-menu {
+    display: block;
+}
+
+.dropdown-submenu > a:after {
+    display: block;
+    content: " ";
+    float: right;
+    width: 0;
+    height: 0;
+	/*
+    border-color: transparent;
+    border-style: solid;
+	/* another triagle - use top(transparent) , bottom(transparent) , left border */
+    border-width: 5px 0 5px 5px;
+    border-left-color: #ccc;
+	*/
+	/* change to my style */
+    border-width:5px;
+    border-style: dashed dashed dashed solid;
+    border-color: transparent transparent transparent #ccc;
+	
+    margin-top: 5px;
+    margin-right: -10px;
+}
+
+.dropdown-submenu:hover > a:after {
+    border-left-color: #fff;
+}
+
+.dropdown-submenu.pull-left {
+    float: none;
+}
+
+.dropdown-submenu.pull-left > .dropdown-menu {
+    left: -100%;
+    margin-left: 10px;
+    -webkit-border-radius: 6px 0 6px 6px;
+    -moz-border-radius: 6px 0 6px 6px;
+    border-radius: 6px 0 6px 6px;
+}
+
