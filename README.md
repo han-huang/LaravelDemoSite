@@ -23,9 +23,13 @@ mysql> CREATE DATABASE yourdatabase CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ```
 php artisan voyager:install --with-dummy
 ```
+- run the NewDatabaseSeeder class
+```
+php artisan db:seed --class=NewDatabaseSeeder
+```
 - URL
-  - http://project
-  - http://project/client/register
-  - http://project/client/login
-  - http://project/admin/login
+  - http://yourdomain
+  - http://yourdomain/client/register
+  - http://yourdomain/client/login
+  - http://yourdomain/admin/login
 
