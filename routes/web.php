@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('/welcome', function () {
     return view('welcome');
 });
 
@@ -82,4 +82,8 @@ Route::any('captcha-test', function(\Illuminate\Http\Request $request)
     $form .= '</form></body></html>';
     return $form;
 
+});
+
+Route::get('/', function () {
+    return view('site.index_view');
 });
