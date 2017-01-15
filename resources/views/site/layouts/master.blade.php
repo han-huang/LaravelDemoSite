@@ -15,7 +15,7 @@
 
     <!-- Bootstrap core JavaScript -->
     <script type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
-    <script>window.jQuery || document.write('<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"><\/script>')</script>
+    <script>window.jQuery || document.write('<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"><\/script>')</script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script type="text/javascript" src="js/ie10-viewport-bug-workaround.js"></script>  
@@ -39,14 +39,6 @@
 
     @yield('head')
   </head>
-<!--     
-http://www.w3schools.com/bootstrap/bootstrap_navbar.asp
-http://getbootstrap.com/examples/sticky-footer-navbar/
-
-“icon-bar” in twitter bootstrap navigation bar
-http://stackoverflow.com/questions/18864657/icon-bar-in-twitter-bootstrap-navigation-bar
-It's used for responsive layouts to create a button that looks like ≡ on narrow browser screens.
--->
   <body>
 
     <!-- Fixed navbar -->

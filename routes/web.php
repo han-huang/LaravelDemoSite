@@ -84,6 +84,4 @@ Route::any('captcha-test', function(\Illuminate\Http\Request $request)
 
 });
 
-Route::get('/', function () {
-    return view('site.index_view');
-});
+Route::get('/', 'IndexController@getIndexView');
