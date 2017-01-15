@@ -11,17 +11,42 @@
 @section('content')
     <!-- carousel -->
     <div class="container" style="border : 0px solid green;padding-top: 50px;line-height: 0px">
-      <br>
-      <div id="myCarousel" class="carousel slide carousel-fade" data-ride="carousel"  data-interval="2000" style="border : 0px solid blue;margin 0px">
 
-        {!! App\IndexCarousel::display(); !!}
+      <div id="indexCarousel" class="carousel slide carousel-fade" data-ride="carousel"  data-interval="2000" style="border : 0px solid blue;margin 0px">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+        @for ($i = 0; $i < $carouselActiveItems->count(); $i++)
+            @if ($i)
+                <li data-target="#indexCarousel" data-slide-to="{{ $i }}"></li>
+            @else
+                <li data-target="#indexCarousel" data-slide-to="{{ $i }}" class="active"></li>
+            @endif
+        @endfor
+        </ol>
+        
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox" style="border : 0px solid black;padding: 0px;margin 0px">
+        @foreach ($carouselActiveItems as $key => $item)
+          @if($key)
+              <div class="item">
+          @else
+              <div class="item active">
+          @endif
+                <img src="{{ Voyager::image($item->image) }}" alt="{{ $item->title }}" style="width:100%">
+                <div class="carousel-caption">
+                  <h3>{{ $item->title }}</h3>
+                  <p>{{ $item->description }}</p>
+                </div>
+              </div>
+        @endforeach
+        </div>
         
         <!-- Left and right controls -->
-        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+        <a class="left carousel-control" href="#indexCarousel" role="button" data-slide="prev">
           <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
           <span class="sr-only">Previous</span>
         </a>
-        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+        <a class="right carousel-control" href="#indexCarousel" role="button" data-slide="next">
           <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
           <span class="sr-only">Next</span>
         </a>
@@ -141,7 +166,7 @@
         </div>
     </div>
     
-    <!-- GoopMap -->
+    <!-- GoogleMap -->
     <div id="gmap" class="container slideanim">
     <iframe class="col-md-12 " src="https://maps.google.com/?q=台南市北區文賢路720號&output=embed&t=d" width="100%" height="400px" frameborder="0" style="border:none;"></iframe>
     </div>
