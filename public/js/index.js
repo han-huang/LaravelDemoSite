@@ -44,9 +44,9 @@ $(document).ready(function(){
     tune_img_max_height(); 
   });
   
-  $('#myCarousel').parent().css("padding-top", "35px");
+  // $('#indexCarousel').parent().css("padding-top", "35px");
 
-  var myCarousel = document.getElementById('myCarousel');
-  myCarousel.parentNode.style.paddingTop = "60px";
+  var indexCarousel = document.getElementById('indexCarousel');
+  indexCarousel.parentNode.style.paddingTop = "60px";
 
 });

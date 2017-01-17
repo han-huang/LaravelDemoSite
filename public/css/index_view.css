@@ -1,0 +1,18 @@
+/* styles
+-------------------------------------------------- */
+body > .container {
+  /* padding: 60px 15px 0; */
+  padding: 20px 15px 0;
+  border : 0px solid red;
+}
+
+#divCarousel {
+  border : 0px solid green;
+  /* padding-top: 50px; */ /* set by index.js */
+  line-height: 0px;
+}
+
+#indexCarousel {
+  border : 0px solid blue;
+  margin 0px;
+}
