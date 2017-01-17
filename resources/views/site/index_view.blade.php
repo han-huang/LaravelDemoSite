@@ -5,14 +5,18 @@
 @stop
 
 @section('javascript')
-<script type="text/javascript" src="js/index.js"></script>  
+<script type="text/javascript" src="js/index.js"></script>
+@stop
+
+@section('css')
+<link href="css/index_view.css" rel="stylesheet" type="text/css">
 @stop
 
 @section('content')
     <!-- carousel -->
-    <div class="container" style="border : 0px solid green;padding-top: 50px;line-height: 0px">
+    <div class="container" id="divCarousel" >
 
-      <div id="indexCarousel" class="carousel slide carousel-fade" data-ride="carousel"  data-interval="2000" style="border : 0px solid blue;margin 0px">
+      <div id="indexCarousel" class="carousel slide carousel-fade" data-ride="carousel"  data-interval="2000" >
         <!-- Indicators -->
         <ol class="carousel-indicators">
         @for ($i = 0; $i < $carouselActiveItems->count(); $i++)
@@ -25,7 +29,7 @@
         </ol>
         
         <!-- Wrapper for slides -->
-        <div class="carousel-inner" role="listbox" style="border : 0px solid black;padding: 0px;margin 0px">
+        <div class="carousel-inner" role="listbox" >
         @foreach ($carouselActiveItems as $key => $item)
           @if($key)
               <div class="item">
