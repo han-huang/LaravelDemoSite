@@ -9,7 +9,6 @@ body > .container {
 #divCarousel {
   border : 0px solid green;
   /* padding-top: 50px; */ /* set by index.js */
-  line-height: 0px;
 }
 
 #indexCarousel {
