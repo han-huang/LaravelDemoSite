@@ -7,20 +7,20 @@ function tune_img_max_height(){
   var win_w = win.width();
   console.log(win_w);
   if(win_w >= 1280) {
-      $('img').css("max-height", 420);
-      console.log("condition 1");
+    $('img').css("max-height", 420);
+    console.log("condition 1");
   }
   else if(win_w >= 1024 && win_w < 1280 ) { 
-      $('img').css("max-height", 350);
-      console.log("condition 2");
+    $('img').css("max-height", 350);
+    console.log("condition 2");
   }
   else if(win_w >= 800 && win_w < 1024 ) { 
-      $('img').css("max-height", 280);
-      console.log("condition 3");
+    $('img').css("max-height", 280);
+    console.log("condition 3");
   }
   else if(win_w < 800 ) { 
-      $('img').css("max-height", 200);
-      console.log("condition 4");
+    $('img').css("max-height", 200);
+    console.log("condition 4");
   }
   console.log("window width " + win.width() + " window height " + win.height() + ", img max-height " + $('img').css("max-height"));
 }
