@@ -27,6 +27,13 @@ function tune_img_max_height(){
 
 $(document).ready(function(){
   
+  /* control_panel */
+  $('#indexCarousel').mouseover(function() {
+    $('#control_panel').css("display", "block");
+  }).mouseout(function() {
+    $("#control_panel").css("display", "none");
+  });
+
   // Slide in elements on scroll
   $(window).scroll(function() {
     $(".slideanim").each(function(){

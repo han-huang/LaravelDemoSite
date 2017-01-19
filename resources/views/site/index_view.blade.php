@@ -5,7 +5,7 @@
 @stop
 
 @section('javascript')
-<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/index_view.js"></script>
 @stop
 
 @section('css')
@@ -36,24 +36,28 @@
           @else
               <div class="item active">
           @endif
-                <img src="{{ Voyager::image($item->image) }}" alt="{{ $item->title }}" style="width:100%">
-                <div class="carousel-caption">
-                  <h3>{{ $item->title }}</h3>
-                  <p>{{ $item->description }}</p>
-                </div>
+                <a href="{{ $item->url }}">
+                  <img src="{{ Voyager::image($item->image) }}" alt="{{ $item->title }}" style="width:100%">
+                  <div class="carousel-caption">
+                    <h3>{{ $item->title }}</h3>
+                    <p>{{ $item->description }}</p>
+                  </div>
+                </a>
               </div>
         @endforeach
         </div>
         
         <!-- Left and right controls -->
-        <a class="left carousel-control" href="#indexCarousel" role="button" data-slide="prev">
-          <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-          <span class="sr-only">Previous</span>
-        </a>
-        <a class="right carousel-control" href="#indexCarousel" role="button" data-slide="next">
-          <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-          <span class="sr-only">Next</span>
-        </a>
+        <div id="control_panel">
+          <a class="left carousel-control" href="#indexCarousel" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="right carousel-control" href="#indexCarousel" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
       </div>
     </div>  
  
