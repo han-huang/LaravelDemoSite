@@ -68,12 +68,12 @@
         <h4>選擇最佳方案</h4>
     </div>
     <div class="row slideanim">
-        <div class="col-sm-4 col-xs-12">
-            <div class="panel panel-default text-center">
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <div class="panel panel-default text-center panel-min-height">
                 <div class="panel-heading">
                 <h1>基本方案</h1>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body panel-body-height">
                 <p>支援文字、影音、圖像等多元格式</p>
                 <p>多元化的數位廣告成效解決方案</p>
                 <p>精彩圖文完整呈現</p>
@@ -87,12 +87,12 @@
                 </div>
             </div>      
         </div>     
-        <div class="col-sm-4 col-xs-12">
-            <div class="panel panel-default text-center">
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <div class="panel panel-default text-center panel-min-height">
                 <div class="panel-heading">
                 <h1>進階方案</h1>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body panel-body-height">
                 <p>支援文字、影音、圖像等多元格式</p>
                 <p>多元化的數位廣告成效解決方案</p>
                 <p>精彩圖文完整呈現</p>
@@ -106,12 +106,12 @@
                 </div>
             </div>      
         </div>       
-        <div class="col-sm-4 col-xs-12">
-            <div class="panel panel-default text-center">
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <div class="panel panel-default text-center panel-min-height">
                 <div class="panel-heading">
                 <h1>高級方案</h1>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body panel-body-height">
                 <p>支援文字、影音、圖像等多元格式</p>
                 <p>多元化的數位廣告成效解決方案</p>
                 <p>精彩圖文完整呈現</p>
@@ -126,12 +126,12 @@
             </div>      
         </div> 
 
-        <div class="col-sm-offset-4 col-sm-4 col-xs-12 ">
-            <div class="panel panel-default text-center">
+        <div class="col-md-offset-4 col-md-4 col-sm-6 col-xs-12 ">
+            <div class="panel panel-default text-center panel-min-height">
                 <div class="panel-heading">
                 <h1>優惠試用方案</h1>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body panel-body-height">
                 <p>支援文字、影音、圖像等多元格式</p>
                 <p>多元化的數位廣告成效解決方案</p>
                 <p>精彩圖文完整呈現</p>
