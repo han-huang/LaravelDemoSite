@@ -37,7 +37,7 @@
               <div class="item active">
           @endif
                 <a href="{{ $item->url }}">
-                  <img src="{{ Voyager::image($item->image) }}" alt="{{ $item->title }}" style="width:100%">
+                  <img src="{{ Voyager::image($item->image) }}" alt="{{ $item->title }}">
                   <div class="carousel-caption">
                     <h3>{{ $item->title }}</h3>
                     <p>{{ $item->description }}</p>

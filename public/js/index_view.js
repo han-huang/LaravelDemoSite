@@ -1,7 +1,8 @@
-/*
+/**
  *  for index page
  */
 
+/* use @media screen instead of function tune_img_max_height */
 function tune_img_max_height(){
   var win = $(this); //this = window
   var win_w = win.width();
@@ -45,11 +46,13 @@ $(document).ready(function(){
         }
     });
   });    
-  
+
+  /* use @media screen instead of function tune_img_max_height
   tune_img_max_height();
   $(window).on('resize', function(){
     tune_img_max_height(); 
   });
+  */
   
   // $('#indexCarousel').parent().css("padding-top", "35px");
 
