@@ -61,7 +61,7 @@
         
     <footer class="footer text-center">
       <div class="container">
-        <p class="text-muted">Copyright <span class="glyphicon glyphicon glyphicon-copyright-mark"></span> 2016 LaravelDemoSite</p>
+        <p class="text-muted">Copyright <span class="glyphicon glyphicon-copyright-mark"></span> 2016 LaravelDemoSite</p>
         <ol class="breadcrumb">
             <li><a href="#">網站地圖</a></li>
             <li><a href="#">隱私權條款</a></li>
