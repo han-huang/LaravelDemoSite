@@ -16,6 +16,7 @@ class NewDataRowsTableSeeder extends Seeder
         $indexMenusDataType = DataType::where('slug', 'index-menus')->firstOrFail();
         $menuItemsDataType = DataType::where('slug', 'menu-items')->firstOrFail();
         $indexCarouselsDataType = DataType::where('slug', 'index-carousels')->firstOrFail();
+        $newsCategoriesDataType = DataType::where('slug', 'news-categories')->firstOrFail();
 
         $dataRow = DataRow::firstOrNew([
             'data_type_id' => $indexMenusDataType->id,
@@ -170,8 +171,8 @@ class NewDataRowsTableSeeder extends Seeder
                 'type'         => 'PRI',
                 'display_name' => 'Id',
                 'required'     => 1,
-                'browse'       => 0,
-                'read'         => 0,
+                'browse'       => 1,
+                'read'         => 1,
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
@@ -335,7 +336,7 @@ class NewDataRowsTableSeeder extends Seeder
                 'browse'       => 1,
                 'read'         => 1,
                 'edit'         => 1,
-                'add'          => 1,
+                'add'          => 0,
                 'delete'       => 0,
                 'details'      => '',
             ])->save();
@@ -521,6 +522,130 @@ class NewDataRowsTableSeeder extends Seeder
             ])->save();
         }
 
-        
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $newsCategoriesDataType->id,
+            'field'        => 'id',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'PRI',
+                'display_name' => 'Id',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $newsCategoriesDataType->id,
+            'field'        => 'str',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Str',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $newsCategoriesDataType->id,
+            'field'        => 'title',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Title',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $newsCategoriesDataType->id,
+            'field'        => 'label_class',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Label Class',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $newsCategoriesDataType->id,
+            'field'        => 'color',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Color',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $newsCategoriesDataType->id,
+            'field'        => 'created_at',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => 'Created At',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 0,
+                'delete'       => 1,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $newsCategoriesDataType->id,
+            'field'        => 'updated_at',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => 'Updated At',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'details'      => '',
+            ])->save();
+        }
     }
 }
