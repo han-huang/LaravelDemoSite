@@ -28,11 +28,13 @@ class IndexController extends Controller
     /**
      * Get Index View.
      *
+     * @param  Request  $request
      * @return Response
      */
-    public function getIndexView()
+    public function getIndexView(Request $request)
     {
         $carouselActiveItems = $this->indexCarouselRepository->getActiveItems();
+        ClickCounterController::trackRecord($request);
         return view('site.index_view', compact('carouselActiveItems'));
     }
 }
