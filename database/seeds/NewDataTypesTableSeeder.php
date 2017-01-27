@@ -71,5 +71,20 @@ class NewDataTypesTableSeeder extends Seeder
                 'description'           => '',
             ])->save();
         }
+
+        $dataType = DataType::firstOrNew([
+            'slug'                  => 'news-articles',
+        ]);
+        if (!$dataType->exists) {
+            $dataType->fill([
+                'name'                  => 'news_articles',
+                'display_name_singular' => 'News Article',
+                'display_name_plural'   => 'News Articles',
+                'icon'                  => 'voyager-world',
+                'model_name'            => '\\App\\NewsArticle',
+                'generate_permissions'  => 1,
+                'description'           => '',
+            ])->save();
+        }
     }
 }
