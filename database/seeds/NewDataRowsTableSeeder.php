@@ -745,7 +745,7 @@ class NewDataRowsTableSeeder extends Seeder
         ]);
         if (!$dataRow->exists) {
             $dataRow->fill([
-                'type'         => 'text',
+                'type'         => 'checkbox',
                 'display_name' => 'Active',
                 'required'     => 1,
                 'browse'       => 1,
