@@ -1,0 +1,28 @@
+--- ../news_bracch_temp/routes/web.php	2017-01-29 11:35:06.116637000 +0800
++++ routes/web.php	2017-01-28 23:02:56.848569100 +0800
+@@ -86,7 +86,24 @@
+ 
+ Route::get('/', 'IndexController@getIndexView');
+ 
+-
+ Route::group(['prefix' => 'admin'], function () {
++
+     Voyager::routes();
++
++    // custom routes
++    Route::group(['as' => 'voyager.'], function () {
++        $namespacePrefix = '\\TCG\\Voyager\\Http\\Controllers\\';
++
++        Route::group(['middleware' => ['admin.user']], function () use ($namespacePrefix) {
++            // news-articles Routes
++            Route::group([
++                'as'     => 'news-articles.',
++                'prefix' => 'news-articles',
++            ], function () use ($namespacePrefix) {
++                // Route::get('/', ['uses' => 'NewsArticleController@index', 'as' => 'index']);
++                Route::get('create', ['uses' => 'NewsArticleController@create', 'as' => 'create']);
++                Route::get('{news_article}/edit', ['uses' => 'NewsArticleController@edit', 'as' => 'edit']);
++            });
++        });
++    });
+ });
