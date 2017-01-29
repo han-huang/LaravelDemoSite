@@ -18,7 +18,7 @@ class NewDataRowsTableSeeder extends Seeder
         $indexCarouselsDataType = DataType::where('slug', 'index-carousels')->firstOrFail();
         $newsCategoriesDataType = DataType::where('slug', 'news-categories')->firstOrFail();
         $newsArticlesDataType = DataType::where('slug', 'news-articles')->firstOrFail();
-        $newsPostsDataType = DataType::where('slug', 'news-articles')->firstOrFail();
+        $newsPostsDataType = DataType::where('slug', 'news-posts')->firstOrFail();
 
         $dataRow = DataRow::firstOrNew([
             'data_type_id' => $indexMenusDataType->id,
