@@ -27,6 +27,10 @@ php artisan voyager:install --with-dummy
 ```
 php artisan db:seed --class=NewDatabaseSeeder
 ```
+- patch files
+```
+./patch.sh
+```
 - URL
   - http://yourdomain
   - http://yourdomain/client/register
