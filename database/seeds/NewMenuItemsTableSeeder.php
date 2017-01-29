@@ -123,5 +123,20 @@ class NewMenuItemsTableSeeder extends Seeder
                 'order'      => 16,
             ])->save();
         }
+
+        $menuItem = MenuItem::firstOrNew([
+            'menu_id'    => $menu->id,
+            'title'      => 'News Posts',
+            'url'        => '/admin/news-posts',
+        ]);
+        if (!$menuItem->exists) {
+            $menuItem->fill([
+                'target'     => '_self',
+                'icon_class' => 'voyager-hammer',
+                'color'      => null,
+                'parent_id'  => null,
+                'order'      => 17,
+            ])->save();
+        }
     }
 }
