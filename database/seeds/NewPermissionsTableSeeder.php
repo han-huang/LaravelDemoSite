@@ -17,5 +17,6 @@ class NewPermissionsTableSeeder extends Seeder
         Permission::generateFor('index_carousels');
         Permission::generateFor('news_categories');
         Permission::generateFor('news_articles');
+        Permission::generateFor('news_posts');
     }
 }
