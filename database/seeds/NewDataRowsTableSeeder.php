@@ -691,7 +691,7 @@ class NewDataRowsTableSeeder extends Seeder
         ]);
         if (!$dataRow->exists) {
             $dataRow->fill([
-                'type'         => 'text',
+                'type'         => 'select_dropdown',
                 'display_name' => 'News Category Id',
                 'required'     => 1,
                 'browse'       => 1,
