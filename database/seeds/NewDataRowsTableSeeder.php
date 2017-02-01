@@ -1006,7 +1006,7 @@ class NewDataRowsTableSeeder extends Seeder
             $dataRow->fill([
                 'type'         => 'text',
                 'display_name' => 'Slug',
-                'required'     => 1,
+                'required'     => 0,
                 'browse'       => 0,
                 'read'         => 1,
                 'edit'         => 1,
@@ -1024,7 +1024,7 @@ class NewDataRowsTableSeeder extends Seeder
             $dataRow->fill([
                 'type'         => 'text_area',
                 'display_name' => 'Meta Description',
-                'required'     => 1,
+                'required'     => 0,
                 'browse'       => 0,
                 'read'         => 1,
                 'edit'         => 1,
@@ -1042,7 +1042,7 @@ class NewDataRowsTableSeeder extends Seeder
             $dataRow->fill([
                 'type'         => 'text_area',
                 'display_name' => 'Meta Keywords',
-                'required'     => 1,
+                'required'     => 0,
                 'browse'       => 0,
                 'read'         => 1,
                 'edit'         => 1,

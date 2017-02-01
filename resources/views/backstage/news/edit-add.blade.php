@@ -175,7 +175,7 @@
                                         <br>
                                         <?php $options = json_decode($row->details); ?>
                                         <?php $checked = (isset($dataTypeContent->{$row->field}) && old($row->field,
-                                                        $dataTypeContent->{$row->field}) == 1) ? true : session()->pull($row->field, 'default'); ?>
+                                                        $dataTypeContent->{$row->field}) == 1) ? true : session()->pull($row->field); ?>
                                         @if(isset($options->on) && isset($options->off))
                                             <input type="checkbox" name="{{ $row->field }}" class="toggleswitch"
                                                    data-on="{{ $options->on }}" @if($checked) checked
