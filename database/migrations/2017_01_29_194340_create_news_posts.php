@@ -24,7 +24,7 @@ class CreateNewsPosts extends Migration
             $table->text('excerpt')->nullable();
             $table->mediumText('body');
             $table->string('image')->nullable();
-            $table->string('slug')->unique()->nullable();
+            $table->string('slug')->nullable();
             $table->text('meta_description')->nullable();
             $table->text('meta_keywords')->nullable();
             $table->enum('status', ['PUBLISHED', 'DRAFT', 'PENDING'])->default('DRAFT');
