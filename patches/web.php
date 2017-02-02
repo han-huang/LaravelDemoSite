@@ -104,6 +104,24 @@ Route::group(['prefix' => 'admin'], function () {
                 Route::get('create', ['uses' => 'NewsArticleController@create', 'as' => 'create']);
                 Route::get('{news_article}/edit', ['uses' => 'NewsArticleController@edit', 'as' => 'edit']);
             });
+
+            // news-posts Routes
+            /*
+            Route::group([
+                'as'     => 'news-posts.',
+                'prefix' => 'news-posts',
+            ], function () use ($namespacePrefix) {
+                // Route::get('/', ['uses' => 'NewsPostController@index', 'as' => 'index']);
+                Route::get('create', ['uses' => 'NewsPostController@create', 'as' => 'create']);
+                Route::get('{news_post}/edit', ['uses' => 'NewsPostController@edit', 'as' => 'edit']);
+                Route::post('/', ['uses' => 'NewsPostController@store', 'as' => 'store']);
+                Route::put('{news_post}   ', ['uses' => 'NewsPostController@update', 'as' => 'update']);
+                Route::patch('{news_post}   ', ['uses' => 'NewsPostController@update', 'as' => 'update']);
+            });
+            */
+            Route::resource('news-posts', 'NewsPostController', ['only' => [
+                'create', 'edit', 'store', 'update'
+            ]]);
         });
     });
 });
