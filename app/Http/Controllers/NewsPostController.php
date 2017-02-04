@@ -111,19 +111,22 @@ class NewsPostController extends VoyagerController
     // POST BRE(A)D
     public function store(Request $request)
     {
-        //??? can not work
-        // $this->newspostValidate($request);
+        $ret = $this->newspostValidate($request);
+        if(!empty($ret)) {
+            // Log::info('get_class($ret) '.get_class($ret)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+            return $ret;
+        }
         
-        $validator = Validator::make($request->all(), $this->rules, $this->messages);
+        // $validator = Validator::make($request->all(), $this->rules, $this->messages);
         
         // Log::info('Validator::make '.__FILE__." ".__FUNCTION__." ".__LINE__);
         
-        if ($validator->fails()) {
+        // if ($validator->fails()) {
             // Log::info('$validator->fails() '.__FILE__." ".__FUNCTION__." ".__LINE__);
 
-            return redirect()->back()->withInput()
-                ->withErrors($validator);
-        }
+            // return redirect()->back()->withInput()
+                // ->withErrors($validator);
+        // }
         
         $slug = $this->getSlug($request);
 
@@ -151,19 +154,22 @@ class NewsPostController extends VoyagerController
     // POST BR(E)AD
     public function update(Request $request, $id)
     {
-        //??? can not work
-        // $this->newspostValidate($request);
+        $ret = $this->newspostValidate($request);
+        if(!empty($ret)) {
+            // Log::info('get_class($ret) '.get_class($ret)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+            return $ret;
+        }
         
-        $validator = Validator::make($request->all(), $this->rules, $this->messages);
+        // $validator = Validator::make($request->all(), $this->rules, $this->messages);
         
         // Log::info('Validator::make '.__FILE__." ".__FUNCTION__." ".__LINE__);
         
-        if ($validator->fails()) {
+        // if ($validator->fails()) {
             // Log::info('$validator->fails() '.__FILE__." ".__FUNCTION__." ".__LINE__);
 
-            return redirect()->back()->withInput()
-                ->withErrors($validator);
-        }
+            // return redirect()->back()->withInput()
+                // ->withErrors($validator);
+        // }
         
         $slug = $this->getSlug($request);
 
@@ -183,34 +189,20 @@ class NewsPostController extends VoyagerController
             ]);
     }
 
-    //??? can not work
+    /**
+     * Validate for requested data of news post.
+     *
+     * @param  Request $request
+     * @return Illuminate\Http\RedirectResponse
+     */
     public function newspostValidate(Request $request)
     {
-        $rules = [
-            'author' => 'required|max:255',
-            'news_category_id' => 'required|integer',
-            'title' => 'required|max:255',
-            'body' => 'required',
-            'status' => 'required|max:255',
-            /**
-             * toggleswitch checkbox - on -> send active:on
-             * toggleswitch checkbox - off -> send nothing
-             * 
-             * comment 'active' due to : on -> send active:on (not integer), off -> send nothing(not required)
-             */
-            //'active' => 'required|integer',
-        ];
-        
-        $messages = [
-            'required' => ':attribute 的欄位是必要的。',
-        ];
-        
-        $validator = Validator::make($request->all(), $rules, $messages);
-        
-        Log::info('Validator::make '.__FILE__." ".__FUNCTION__." ".__LINE__);
-        
+        $validator = Validator::make($request->all(), $this->rules, $this->messages);
+
+        // Log::info('Validator::make '.__FILE__." ".__FUNCTION__." ".__LINE__);
+
         if ($validator->fails()) {
-            Log::info('$validator->fails() '.__FILE__." ".__FUNCTION__." ".__LINE__);
+            // Log::info('$validator->fails() '.__FILE__." ".__FUNCTION__." ".__LINE__);
 
             return redirect()->back()->withInput()
                 ->withErrors($validator);
