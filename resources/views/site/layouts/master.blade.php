@@ -39,7 +39,7 @@
 
     @yield('head')
   </head>
-  <body>
+  <body id="pagebody">
 
     <!-- Fixed navbar -->
     <nav class="navbar navbar-default navbar-fixed-top">
