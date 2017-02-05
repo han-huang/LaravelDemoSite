@@ -5,11 +5,11 @@
 @stop
 
 @section('javascript')
-<script type="text/javascript" src="js/index_view.js"></script>
+<script type="text/javascript" src="{{ asset('js/index_view.js') }}"></script>
 @stop
 
 @section('css')
-<link href="css/index_view.css" rel="stylesheet" type="text/css">
+<link href="{{ asset('css/index_view.css') }}" rel="stylesheet" type="text/css">
 @stop
 
 @section('content')

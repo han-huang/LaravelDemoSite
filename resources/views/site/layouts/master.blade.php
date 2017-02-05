@@ -14,11 +14,11 @@
     @yield('title')
 
     <!-- Bootstrap core JavaScript -->
-    <script type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery-3.1.0.min.js') }}"></script>
     <script>window.jQuery || document.write('<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"><\/script>')</script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script type="text/javascript" src="js/ie10-viewport-bug-workaround.js"></script>  
+    <script type="text/javascript" src="{{ asset('js/ie10-viewport-bug-workaround.js') }}"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -29,11 +29,11 @@
     @yield('javascript')
     
     <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet" type="text/css">
+    <link href="{{ asset('css/ie10-viewport-bug-workaround.css') }}" rel="stylesheet" type="text/css">
     <!-- Custom styles for this template -->
-    <link href="css/master.css" rel="stylesheet" type="text/css">
+    <link href="{{ asset('css/master.css') }}" rel="stylesheet" type="text/css">
     
     @yield('css')
 

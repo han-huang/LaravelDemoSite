@@ -6,19 +6,19 @@
 
 @section('javascript')
 <!-- textslider -->
-<script type="text/javascript" src="js/jquery.textslider.min.js"></script>
+<script type="text/javascript" src="{{ asset('js/jquery.textslider.min.js') }}"></script>
 <!-- jssocials -->
-<script src="js/jssocials.min.js"></script>
+<script src="{{ asset('js/jssocials.min.js') }}"></script>
 @stop
 
 @section('css')
 <!-- font-awesome -->
-<link href="css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
 <!-- textslider -->
-<link href="css/textslider.css" rel="stylesheet" type="text/css">
+<link href="{{ asset('css/textslider.css') }}" rel="stylesheet" type="text/css">
 <!-- jssocials -->
-<link rel="stylesheet" type="text/css" href="css/jssocials.css" />
-<link rel="stylesheet" type="text/css" href="css/jssocials-theme-classic.css" />
+<link rel="stylesheet" type="text/css" href="{{ asset('css/jssocials.css') }}" />
+<link rel="stylesheet" type="text/css" href="{{ asset('css/jssocials-theme-classic.css') }}" />
 @stop
 
 @section('content')
@@ -244,7 +244,7 @@ $(document).ready(function() {
         showLabel: false,
         showCount: true,
         shareIn: "popup",
-        url: "http://192.168.56.1/www_20160916/bootstrap/index_static/news_4.html",
+        url: "http://192.168.10.10:8028/news_content",
         text: "text to share",
         //shares: ["email", "twitter", "facebook", "googleplus", "linkedin", "pinterest", "stumbleupon", "whatsapp"]
         shares: ["twitter", "googleplus", "linkedin", "pinterest", "whatsapp"]
@@ -313,7 +313,7 @@ $(document).ready(function() {
           </li>
           <li class="list-group-item">
             <!-- fb-like -->
-            <div class="fb-like" data-href="http://192.168.10.10:8028/news" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
+            <div class="fb-like" data-href="http://192.168.10.10:8028/news_content" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
           </li>
           </ul>
         </div>
