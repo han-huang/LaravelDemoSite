@@ -440,7 +440,7 @@ $(document).ready(function() {
                                     <img src="{{ Voyager::image('index-carousels/January2017/5o7nTc5dBtOGTGWy1JE9.jpg') }}" alt="bookstore" style="height: 400px;width: 743.4px;">
                                     <div class="carousel-caption">
                                         <h3>書店</h3>
-                                        <p>The atmosphere in Chania has a touch of Florence and Venice.</p>
+                                        <p>輕鬆打造質感生活，提供齊全中外文書籍</p>
                                     </div>
                                 </a>
                             </div>
@@ -450,7 +450,7 @@ $(document).ready(function() {
                                     <img src="{{ Voyager::image('index-carousels/January2017/ztP8tEkdJeaOtiBhMh18.jpg') }}" alt="news" style="height: 400px;width: 743.4px;">
                                     <div class="carousel-caption">
                                         <h3>新聞</h3>
-                                        <p>2 The atmosphere in Chania has a touch of Florence and Venice.</p>
+                                        <p>頭條新聞及即時新聞，讓你隨時隨地掌握最新消息和熱門話題</p>
                                     </div>
                                 </a>
                             </div>
@@ -460,7 +460,7 @@ $(document).ready(function() {
                                     <img src="{{ Voyager::image('index-carousels/January2017/x0boUEd8Om1PSSzeGpHo.jpg') }}" alt="sports" style="height: 400px;width: 743.4px;">
                                     <div class="carousel-caption">
                                         <h3>運動</h3>
-                                        <p>Beatiful flowers in Kolymbari, Crete.</p>
+                                        <p>所有體育賽事相關報導</p>
                                     </div>
                                 </a>
                             </div>
@@ -470,7 +470,7 @@ $(document).ready(function() {
                                     <img src="{{ Voyager::image('index-carousels/January2017/HHk1ReHXaMe9RYEwgjDw.jpg') }}" alt="movie" style="height: 400px;width: 743.4px;">
                                     <div class="carousel-caption">
                                         <h3>電影</h3>
-                                        <p>Beatiful flowers in Kolymbari, Crete.</p>
+                                        <p>電影介紹,電影時刻表,電影預告,最新電影</p>
                                     </div>
                                 </a>
                             </div>
@@ -480,7 +480,7 @@ $(document).ready(function() {
                                     <img src="{{ Voyager::image('index-carousels/January2017/eH0jY1dQ3lEyoh6Xq3hD.jpg') }}" alt="music" style="height: 400px;width: 743.4px;">
                                     <div class="carousel-caption">
                                         <h3>音樂</h3>
-                                        <p>Beatiful flowers in Kolymbari, Crete.</p>
+                                        <p>所有音樂類型的相關資訊</p>
                                     </div>
                                 </a>
                             </div>
