@@ -90,7 +90,7 @@ class NewsController extends Controller
         $count = $newspostsModel->newscount();
         $pages = ($count % $limit) > 0 ? (intval($count / $limit) + 1)
                     : ($count / $limit);
-        Log::info('$count: '.$count." ".', $pages: '.$pages." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        // Log::info('$count: '.$count." ".', $pages: '.$pages." ".__FILE__." ".__FUNCTION__." ".__LINE__);
         // return $newsposts;
         // return compact('newsposts');
         return compact('newsposts', 'pages', 'page');
@@ -154,7 +154,7 @@ class NewsController extends Controller
         // return $page;
 
         //verify $page is an integer or not
-        $match = preg_match("/^[1-9][0-9]*$/", $page); ;
+        $match = preg_match("/^[1-9][0-9]*$/", $page);
         if (!$match) {
             // Log::info('!$match: '.$page." ".__FILE__." ".__FUNCTION__." ".__LINE__);
             return redirect()->route('news');
@@ -164,7 +164,12 @@ class NewsController extends Controller
         $offset = ($page - 1) * $limit;
         // $newsposts = NewsCategory::where('str', '=', $str)->first()->newsPost->where('active', '=', 1);
         $newsCategory = NewsCategory::where('str', '=', $str)->first();
-        // $newsposts = $newsCategory->getNewsPostActive;
+        // $newsposts = $newsCategory->getNewsPostActive; //Illuminate\Database\Eloquent\Collection
+        // Log::info('$newsCategory->getNewsPostActive get_class($newsposts): '.get_class($newsposts)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        // $newsposts = $newsCategory->getNewsPostActive(); //Illuminate\Database\Eloquent\Relations\HasMany
+        // Log::info('$newsCategory->getNewsPostActive() get_class($newsposts): '.get_class($newsposts)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        // $newsposts = $newsCategory->getNewsPostActive()->get(); //Illuminate\Database\Eloquent\Collection
+        // Log::info('$newsCategory->getNewsPostActive()->get() get_class($newsposts): '.get_class($newsposts)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
         // $newsposts = $newsCategory->getNewsPostIndexActivePublished;
         $newsposts = $newsCategory->getNewsPostLimitIndexActivePublished($offset, $limit);
         // $newsposts = $newsCategory->getNewsPostIndexActive;
@@ -179,7 +184,7 @@ class NewsController extends Controller
         $count = $newsCategory->countNewsPostActivePublished();
         $pages = ($count % $limit) > 0 ? (intval($count / $limit) + 1)
                     : ($count / $limit);
-        Log::info('$count: '.$count." ".', $pages: '.$pages." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        // Log::info('$count: '.$count." ".', $pages: '.$pages." ".__FILE__." ".__FUNCTION__." ".__LINE__);
 
         // $view = 'site.news.category_index';
 
@@ -202,7 +207,7 @@ class NewsController extends Controller
         //verify $id
         $match = preg_match("/^[1-9][0-9]*$/", $id); ;
         if (!$match) {
-            Log::info('!$match: $id: '.$id." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+            // Log::info('!$match: $id: '.$id." ".__FILE__." ".__FUNCTION__." ".__LINE__);
             return redirect()->route('news');
         }
 
@@ -218,7 +223,7 @@ class NewsController extends Controller
         $newspost = $newspostsModel->newsarticle($id)->get();
 
         if (!count($newspost)) {
-            Log::info('!count($newspost): '.count($newspost)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+            // Log::info('!count($newspost): '.count($newspost)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
             return redirect()->route('news');
         }
         // $view = 'site.news.news_article';
@@ -245,7 +250,7 @@ class NewsController extends Controller
         // Log::info('show $id '.$id." ".'$str: '.$str." ".__FILE__." ".__FUNCTION__." ".__LINE__);
 
         $newsCategory = NewsCategory::where('str', '=', $str)->first();
-        $newspost = $newsCategory->getNewsPostActivePublishedSingle($id)->get();
+        $newspost = $newsCategory->getNewsPostActivePublishedId($id)->get();
         // Log::info('get_class($newspost) '.get_class($newspost)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
         // Log::info('count($newspost) '.count($newspost)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
         if (!count($newspost)) {
