@@ -23,7 +23,7 @@ class NewsCategory extends Model
     /**
      * Get NewsPost.
      *
-     * @return
+     * @return Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function newsPost()
     {
@@ -33,7 +33,7 @@ class NewsCategory extends Model
     /**
      * Get active NewsPost.
      *
-     * @return
+     * @return Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function getNewsPostActive()
     {
@@ -43,7 +43,7 @@ class NewsCategory extends Model
     /**
      * Get active and published NewsPost .
      *
-     * @return
+     * @return Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function getNewsPostActivePublished()
     {
@@ -53,7 +53,7 @@ class NewsCategory extends Model
     /**
      * Get index of active NewsPost .
      *
-     * @return
+     * @return Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function getNewsPostIndexActive()
     {
@@ -64,7 +64,7 @@ class NewsCategory extends Model
     /**
      * Get index of active and published NewsPost .
      *
-     * @return
+     * @return Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function getNewsPostIndexActivePublished()
     {
@@ -77,7 +77,7 @@ class NewsCategory extends Model
      *
      * @param  $offset
      * @param  $limit
-     * @return
+     * @return Illuminate\Database\Eloquent\Collection
      */
     public function getNewsPostLimitIndexActivePublished($offset, $limit)
     {
@@ -95,7 +95,7 @@ class NewsCategory extends Model
     /**
      * count active and published NewsPost .
      *
-     * @return
+     * @return integer
      */
     public function countNewsPostActivePublished()
     {
@@ -104,23 +104,23 @@ class NewsCategory extends Model
     }
 
     /**
-     * Get single row of active NewsPost.
+     * Get an active row of specific id in NewsPost.
      *
      * @param  $id
-     * @return
+     * @return Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function getNewsPostActiveSingle($id)
+    public function getNewsPostActiveId($id)
     {
         return $this->newsPost()->active()->where('id', '=', $id);
     }
 
     /**
-     * Get single row of active and published NewsPost .
+     * Get an active and published row of specific id in NewsPost.
      *
      * @param  $id
-     * @return
+     * @return Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function getNewsPostActivePublishedSingle($id)
+    public function getNewsPostActivePublishedId($id)
     {
         return $this->newsPost()->active()->published()->where('id', '=', $id);
     }

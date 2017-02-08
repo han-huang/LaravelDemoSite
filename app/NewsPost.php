@@ -33,8 +33,7 @@ class NewsPost extends Model
     /**
      * Scope a query to only published scopes.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopePublished(Builder $query)
@@ -45,8 +44,7 @@ class NewsPost extends Model
     /**
      * Scope a query to only active scopes.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeActive(Builder $query)
@@ -58,8 +56,8 @@ class NewsPost extends Model
     /**
      * Scope a query to find id.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param  $id
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeFindid(Builder $query, $id)
@@ -71,8 +69,7 @@ class NewsPost extends Model
     /**
      * Scope a query to select brief index.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeSelectbrief(Builder $query)
@@ -84,8 +81,7 @@ class NewsPost extends Model
     /**
      * Scope a query to order by updated_at desc.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeUpdatedtimedesc(Builder $query)
@@ -97,8 +93,9 @@ class NewsPost extends Model
     /**
      * Scope a query to get limited rows.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param  $offset
+     * @param  $limit
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeGetlimit(Builder $query, $offset = 0, $limit = 10)
@@ -110,8 +107,9 @@ class NewsPost extends Model
     /**
      * Scope a query to get news page.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param  $offset
+     * @param  $limit
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeNewspage(Builder $query, $offset = 0, $limit = 10)
@@ -124,9 +122,8 @@ class NewsPost extends Model
     /**
      * Scope a query to get news article.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param $id
-     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param  $id
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeNewsarticle(Builder $query, $id)
@@ -138,9 +135,8 @@ class NewsPost extends Model
     /**
      * Scope a query to count news article.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @return integer
      */
     public function scopeNewscount(Builder $query)
     {
@@ -150,6 +146,8 @@ class NewsPost extends Model
 
     /**
      * Get NewsCategory.
+     *
+     * @return Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function newsCategory()
     {
