@@ -19,5 +19,6 @@ class NewDatabaseSeeder extends Seeder
         $this->call(IndexMenusTableSeeder::class);
         $this->call(IndexCarouselsTableSeeder::class);
         $this->call(NewsCategoriesTableSeeder::class);
+        $this->call(NewsPostsTableSeeder::class);
     }
 }
