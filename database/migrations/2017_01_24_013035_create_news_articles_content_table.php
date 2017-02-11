@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateNewsArticlesContent extends Migration
+class CreateNewsArticlesContentTable extends Migration
 {
     /**
      * Run the migrations.

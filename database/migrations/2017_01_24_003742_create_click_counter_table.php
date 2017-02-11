@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateClickCounter extends Migration
+class CreateClickCounterTable extends Migration
 {
     /**
      * Run the migrations.
