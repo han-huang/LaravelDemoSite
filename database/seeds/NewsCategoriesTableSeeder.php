@@ -18,7 +18,7 @@ class NewsCategoriesTableSeeder extends Seeder
         ]);
         if (!$dataType->exists) {
             $dataType->fill([
-                'label_class' => 'label-defaul',
+                'label_class' => 'label-default',
                 'color'     => '#777',
             ])->save();
         }
@@ -85,7 +85,7 @@ class NewsCategoriesTableSeeder extends Seeder
         if (!$dataType->exists) {
             $dataType->fill([
                 'label_class' => 'label-danger',
-                'color'     => '#777',
+                'color'     => '#d9534f',
             ])->save();
         }
 
