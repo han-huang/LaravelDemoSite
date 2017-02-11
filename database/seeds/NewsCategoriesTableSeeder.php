@@ -19,7 +19,6 @@ class NewsCategoriesTableSeeder extends Seeder
         if (!$dataType->exists) {
             $dataType->fill([
                 'label_class' => 'label-default',
-                'color'     => '#777',
             ])->save();
         }
         
@@ -30,7 +29,6 @@ class NewsCategoriesTableSeeder extends Seeder
         if (!$dataType->exists) {
             $dataType->fill([
                 'label_class' => 'label-primary',
-                'color'     => '#337ab7',
             ])->save();
         }
 
@@ -41,7 +39,6 @@ class NewsCategoriesTableSeeder extends Seeder
         if (!$dataType->exists) {
             $dataType->fill([
                 'label_class' => 'label-success',
-                'color'     => '#5cb85c',
             ])->save();
         }
 
@@ -63,7 +60,6 @@ class NewsCategoriesTableSeeder extends Seeder
         if (!$dataType->exists) {
             $dataType->fill([
                 'label_class' => 'label-info',
-                'color'     => '#5bc0de',
             ])->save();
         }
 
@@ -74,7 +70,6 @@ class NewsCategoriesTableSeeder extends Seeder
         if (!$dataType->exists) {
             $dataType->fill([
                 'label_class' => 'label-warning',
-                'color'     => '#f0ad4e',
             ])->save();
         }
 
@@ -85,7 +80,6 @@ class NewsCategoriesTableSeeder extends Seeder
         if (!$dataType->exists) {
             $dataType->fill([
                 'label_class' => 'label-danger',
-                'color'     => '#d9534f',
             ])->save();
         }
 
@@ -107,7 +101,7 @@ class NewsCategoriesTableSeeder extends Seeder
         if (!$dataType->exists) {
             $dataType->fill([
                 'label_class' => 'label-orange',
-                'color'     => '#ffa500',
+                'color'     => '#FFA500',
             ])->save();
         }
 
@@ -117,8 +111,8 @@ class NewsCategoriesTableSeeder extends Seeder
         ]);
         if (!$dataType->exists) {
             $dataType->fill([
-                'label_class' => 'label-cyan',
-                'color'     => '#00ffff',
+                'label_class' => 'label-darkcyan',
+                'color'     => '#008B8B',
             ])->save();
         }
 

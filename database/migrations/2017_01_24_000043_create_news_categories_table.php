@@ -18,7 +18,7 @@ class CreateNewsCategoriesTable extends Migration
             $table->string('str');
             $table->string('title');
             $table->string('label_class')->nullable();
-            $table->string('color');
+            $table->string('color')->nullable();
             $table->timestamps();
         });
     }
