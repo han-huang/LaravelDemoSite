@@ -64,7 +64,7 @@ class NewsController extends Controller
     {
         // $path = $request->route()->getName();
         // Log::info('newsIndex $path: '.$path." ".__FILE__." ".__FUNCTION__." ".__LINE__);
-        $limit = 5;
+        $limit = 30;
 
         //verify $page is an integer or not
         $match = preg_match("/^[1-9][0-9]*$/", $page); ;
@@ -81,7 +81,8 @@ class NewsController extends Controller
                          // ->active()->published()
                          // ->updatedtimedesc()->getlimit($offset, $limit)->get();
 
-        $newsposts = $newspostsModel->newspage($offset, $limit)->get();
+        // $newsposts = $newspostsModel->newspage($offset, $limit)->get();
+        $newsposts = $newspostsModel->newsPostJoinNewsCategory($offset, $limit)->get();
         if (!count($newsposts)) {
             // Log::info('!count($newspost): '.count($newspost)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
             return redirect()->route('news');
@@ -90,10 +91,20 @@ class NewsController extends Controller
         $count = $newspostsModel->newscount();
         $pages = ($count % $limit) > 0 ? (intval($count / $limit) + 1)
                     : ($count / $limit);
+        $start = ($page % 10) > 0 ? (floor($page / 10) * 10 + 1) : (($page / 10) - 1) * 10 + 1;
+        $end = $pages > ($start + 9) ? ($start + 9) : $pages;
         // Log::info('$count: '.$count." ".', $pages: '.$pages." ".__FILE__." ".__FUNCTION__." ".__LINE__);
         // return $newsposts;
         // return compact('newsposts');
-        return compact('newsposts', 'pages', 'page');
+        // return compact('newsposts', 'pages', 'page');
+
+        $newscategoryModel = new NewsCategory();
+        $newscategories = $newscategoryModel->excludenullcolor()->get();
+        // Log::info('$newscategoryModel->excludenullcolor '.__FILE__." ".__FUNCTION__." ".__LINE__);
+
+        $view = 'site.news.news_index';
+        // return compact('newsposts', 'newscategories', 'pages', 'page', 'start', 'end');
+        return view($view, compact('newsposts', 'newscategories', 'pages', 'page', 'start', 'end'));
     }
 
     /**
@@ -160,7 +171,7 @@ class NewsController extends Controller
             return redirect()->route('news');
         }
 
-        $limit = 5;
+        $limit = 30;
         $offset = ($page - 1) * $limit;
         // $newsposts = NewsCategory::where('str', '=', $str)->first()->newsPost->where('active', '=', 1);
         $newsCategory = NewsCategory::where('str', '=', $str)->first();
@@ -171,7 +182,7 @@ class NewsController extends Controller
         // $newsposts = $newsCategory->getNewsPostActive()->get(); //Illuminate\Database\Eloquent\Collection
         // Log::info('$newsCategory->getNewsPostActive()->get() get_class($newsposts): '.get_class($newsposts)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
         // $newsposts = $newsCategory->getNewsPostIndexActivePublished;
-        $newsposts = $newsCategory->getNewsPostLimitIndexActivePublished($offset, $limit);
+        $newsposts = $newsCategory->getNewsPostJoinNewsCategory($offset, $limit);
         // $newsposts = $newsCategory->getNewsPostIndexActive;
         // $newsposts = $newsCategory->getNewsPostActivePublished;
         // Log::info('$newsposts: '.$newsposts." ".__FILE__." ".__FUNCTION__." ".__LINE__);
@@ -184,13 +195,24 @@ class NewsController extends Controller
         $count = $newsCategory->countNewsPostActivePublished();
         $pages = ($count % $limit) > 0 ? (intval($count / $limit) + 1)
                     : ($count / $limit);
+        $start = ($page % 10) > 0 ? (floor($page / 10) * 10 + 1) : (($page / 10) - 1) * 10 + 1;
+        $end = $pages > ($start + 9) ? ($start + 9) : $pages;
         // Log::info('$count: '.$count." ".', $pages: '.$pages." ".__FILE__." ".__FUNCTION__." ".__LINE__);
 
         // $view = 'site.news.category_index';
 
         // return view($view, compact('newsposts'));
         // return $newsposts;
-        return compact('newsposts', 'pages', 'page');
+
+        // return compact('newsposts', 'pages', 'page');
+
+        $newscategoryModel = new NewsCategory();
+        $newscategories = $newscategoryModel->excludenullcolor()->get();
+        // Log::info('$newscategoryModel->excludenullcolor '.__FILE__." ".__FUNCTION__." ".__LINE__);
+
+        $view = 'site.news.news_index';
+        // return compact('newsposts', 'newscategories', 'pages', 'page', 'start', 'end', 'str');
+        return view($view, compact('newsposts', 'newscategories', 'pages', 'page', 'start', 'end', 'str'));
     }
 
     /**

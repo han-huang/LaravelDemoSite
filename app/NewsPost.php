@@ -75,7 +75,7 @@ class NewsPost extends Model
     public function scopeSelectbrief(Builder $query)
     {
         // Log::info('select brief index '.__FILE__." ".__FUNCTION__." ".__LINE__);
-        return $query->select(['id', 'news_category_id', 'title', 'updated_at']);
+        return $query->select('id', 'news_category_id', 'title', 'updated_at');
     }
 
     /**
@@ -116,7 +116,7 @@ class NewsPost extends Model
     {
         // Log::info('get news page '.__FILE__." ".__FUNCTION__." ".__LINE__);
         return $query->selectbrief()->active()->published()
-		           ->updatedtimedesc()->getlimit($offset, $limit);
+                   ->updatedtimedesc()->getlimit($offset, $limit);
     }
 
     /**
@@ -145,6 +145,30 @@ class NewsPost extends Model
     }
 
     /**
+     * Scope a query to Join news categories.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @return integer
+     */
+    public function scopeJoinnewscategories(Builder $query)
+    {
+        // Log::info('Joinnewscategories '.__FILE__." ".__FUNCTION__." ".__LINE__);
+        return $query->join('news_categories', 'news_posts.news_category_id', '=', 'news_categories.id');
+    }
+
+    /**
+     * Scope a query to select joined columns.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @return integer
+     */
+    public function scopeSelectjoined(Builder $query)
+    {
+        // Log::info('Selectjoined '.__FILE__." ".__FUNCTION__." ".__LINE__);
+        return $query->select('news_posts.id', 'news_posts.news_category_id', 'news_posts.title', 'news_posts.updated_at', 'news_categories.title as cate_title', 'news_categories.label_class', 'news_categories.color');
+    }
+
+    /**
      * Get NewsCategory.
      *
      * @return Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -152,5 +176,22 @@ class NewsPost extends Model
     public function newsCategory()
     {
         return $this->belongsTo('App\NewsCategory', 'news_category_id');
+    }
+
+    /**
+     * NewsPost Join NewsCategory.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function newsPostJoinNewsCategory($offset = 0, $limit = 10)
+    {
+        // return $this->join('news_categories', 'news_posts.news_category_id', '=', 'news_categories.id')
+                   // ->active()->published()->updatedtimedesc()
+                   // ->select('news_posts.id', 'news_posts.news_category_id', 'news_posts.title', 'news_posts.updated_at', 'news_categories.title as cate_title', 'news_categories.label_class', 'news_categories.color')
+                   // ->getlimit($offset, $limit);
+        return $this->joinnewscategories()
+                   ->active()->published()->updatedtimedesc()
+                   ->selectjoined()
+                   ->getlimit($offset, $limit);
     }
 }
