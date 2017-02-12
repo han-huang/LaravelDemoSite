@@ -196,7 +196,7 @@
 
 #newslist li {
   padding-left: 40px;
-}  
+}
 
 #newslist time, #newslist span {
   /* padding: 0px 10px 0px 0px; */
@@ -215,6 +215,11 @@
 #newslist li:nth-child(odd) {
   /* background-color: #bce8f1; */
   background-color: #e7eaec;
+}
+
+#newslist li:hover {
+  background-color: #bddbc6;
+  /* background-color: #E3F0E7; */
 }
 
 #newslist_panel-body {

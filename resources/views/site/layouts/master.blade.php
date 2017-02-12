@@ -9,7 +9,7 @@
     <meta name="author" content="Han Huang">
     <meta name="csrf_token" content="{{ csrf_token() }}" />
     <!-- Favicon -->
-    <link rel="icon" href="favicon.ico">
+    <link rel="icon" href="{{ asset('favicon.ico') }}">
 
     @yield('title')
 
@@ -71,6 +71,15 @@
         </ol>
       </div>
     </footer>
-
+  <script type="text/javascript">
+  $(document).ready(function(){
+      //set current menu item to "active" color
+      $(".navbar-nav li a[href='/{{ explode("/",Request::path())[0] }}']:eq(0)").css("color", "#fff").css("background-color", "#337ab7");
+      // console.log("{{ url()->current() }}");
+      // console.log("{{ Request::url() }}");
+      // console.log("{{ Request::path() }}");
+      // console.log("{{ explode("/",Request::path())[0] }}");
+  });
+  </script>
   </body>
 </html>

@@ -150,13 +150,13 @@ class NewsCategoriesTableSeeder extends Seeder
         }
 
         $dataType = NewsCategory::firstOrNew([
-            'str' => 'columns',
+            'str' => 'specolumn',
             'title'   => '專欄',
         ]);
         if (!$dataType->exists) {
             $dataType->fill([
-                'label_class' => 'label-greenyellow',
-                'color'     => '#ADFF2F',
+                'label_class' => 'label-powderblue',
+                'color'     => '#B0E0E6',
             ])->save();
         }
     }

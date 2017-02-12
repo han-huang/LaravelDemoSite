@@ -17,9 +17,9 @@ class NewsPostsTableSeeder extends Seeder
         DB::table('news_posts')->truncate();
 
         $now = Carbon::now('Asia/Taipei');
-        $num = 16; //no-repeat records
+        $num = 26; //no-repeat records
         $id = 0;
-        $round = 48;
+        $round = 30;
         $input_time = $now->subHours($num * $round); //first record is the oldest
 
         for ($i = 0; $i < $round; $i++) {
@@ -558,6 +558,345 @@ class NewsPostsTableSeeder extends Seeder
                     'image'            => 'news-posts/February2017/NMvXObaO5UAUyUPiRlj3.jpg',
                     'meta_description' => '今（19）日聖安東尼奧馬刺在主場以113：100擊敗了紐奧良鵜鶘，不過在這特殊的夜晚，比賽勝負早已不是重點，馬刺主場AT&amp;T Center在此役賽後為傳奇球星Tim Duncan舉辦了溫馨而隆重的球衣退休儀式，向這位陪伴馬刺走過19個球季的巨星致敬。',
                     'meta_keywords'    => '退休,NBA,馬刺,Tim Duncan,Gregg Popovich,三立,三立新聞,三立新聞台,三立財經台,新聞台,財經台',
+                    'status'           => 'PUBLISHED',
+                    'active'           => 1,
+                    'created_at'       => $input_time,
+                    'updated_at'       => $input_time,
+                ])->save();
+            }
+
+            $id++;
+            $input_time = $now->addHour(); //one record per hour
+            $dataType = NewsPost::firstOrNew([
+                'id'     => $id,
+                'author' => '林國賢',
+                'title'  => '台灣燈會湧人潮、車潮 交通大打結',
+            ]);
+            if (!$dataType->exists) {
+                $dataType->fill([
+                    'author_id'        => 1,
+                    'news_category_id' => 2,
+                    'seo_title'        => '台灣燈會湧人潮、車潮 交通大打結 - 生活 - 自由時報電子報',
+                    'excerpt'          => '',
+                    'body'             => '<p>台灣燈會開燈湧入190萬人參觀，散場時人潮、車潮塞爆，直到今天凌晨1時許才紓解；主辦單位預估今天入場人數與昨天相當，呼籲民眾多搭乘大眾運輸工具轉搭接駁車，紓解交通壓力。</p>
+<figure class="image"><img title="台灣燈會開幕夜，現場人山人海。（圖由縣府提供）" src="/storage/news-posts/February2017/CmmsqqAYoFaaxGdIqAZP.jpg" alt="台灣燈會開幕夜，現場人山人海。（圖由縣府提供）" />
+<figcaption>台灣燈會開幕夜，現場人山人海。（圖由縣府提供）</figcaption>
+</figure>
+<p>&nbsp;</p>
+<p>台灣燈會昨晚由總統蔡英文與民眾一起倒數開燈，賞燈民眾將燈區擠得水洩不通，晚上8時30分以後民眾陸續離場，但人潮眾多疏散不易，燈會周邊交通更是大打結，包括清雲路、145線道吳厝段、145乙往國道一號虎尾交流道段，一度定點動彈不得，直到凌晨0時過後才逐漸恢復正常。</p>
+<figure class="image"><img title="台灣燈會首日人車爆滿，散場時周邊道路大塞車，直到今天凌晨才紓解。（記者林國賢攝）" src="/storage/news-posts/February2017/g8nJVngS73epMx69xcBB.jpg" alt="台灣燈會首日人車爆滿，散場時周邊道路大塞車，直到今天凌晨才紓解。（記者林國賢攝）" />
+<figcaption>台灣燈會首日人車爆滿，散場時周邊道路大塞車，直到今天凌晨才紓解。（記者林國賢攝）</figcaption>
+</figure>
+<p>&nbsp;</p>
+<p>雲林縣政府文化處長林孟儀表示，今天入場賞燈民眾預估與昨天相當，但因明天是上班日，遊客應會提早離場，人潮最多時間應是晚間8、9點，希望民眾多使用大眾運輸系統，方便又安全。</p>
+<p>林孟儀指出，縣府在燈區周邊道路規劃接駁車專用道，主要提供接駁車及發生緊急事故供救護車、警車等救護車輛行駛，請一般車輛不要誤入，影響接駁與救護。</p>
+<p>&nbsp;</p>',
+                    'image'            => 'news-posts/February2017/4D7GCKUDHm11hkvZ2opC.jpg',
+                    'meta_description' => '台灣燈會開燈湧入190萬人參觀，散場時人潮、車潮塞爆，直到今天凌晨1時許才紓解；主辦單位預估今天入場人數與昨天相當，呼籲民眾多搭乘大眾運輸工具轉搭接駁車，紓解交通壓力。台灣燈會昨晚由總統蔡英文與民眾一起倒數開燈，賞燈民眾將燈區擠得水洩不通，晚上8時30分以後民眾陸續離場，但人潮眾多疏散不易，燈會周邊交通更是大打結，包括清雲路、145線道吳厝段、145乙往國道一號虎尾交流道段，一度定點動彈不得，直到凌晨0時過後才逐漸恢復正常。',
+                    'meta_keywords'    => '台灣燈會,自由時報, 自由電子報',
+                    'status'           => 'PUBLISHED',
+                    'active'           => 1,
+                    'created_at'       => $input_time,
+                    'updated_at'       => $input_time,
+                ])->save();
+            }
+
+            $id++;
+            $input_time = $now->addHour(); //one record per hour
+            $dataType = NewsPost::firstOrNew([
+                'id'     => $id,
+                'author' => 'TVBS',
+                'title'  => '禍從天降！路跑遭10Kg重馬達砸傷 險沒命',
+            ]);
+            if (!$dataType->exists) {
+                $dataType->fill([
+                    'author_id'        => 1,
+                    'news_category_id' => 3,
+                    'seo_title'        => '禍從天降！路跑遭10Kg重馬達砸傷 險沒命',
+                    'excerpt'          => '',
+                    'body'             => '<p>民眾參加路跑，卻被從天而降的馬達砸傷！12日上午，有銀行業者舉辦路跑活動，但一名陳姓男子經過麥帥二橋橋下時，橋墩維護平台上的馬達疑似老舊鬆脫，居然直接掉落打傷人，跑者當場倒地，送醫救治後頭縫了12針、下巴4針，門牙還斷裂。無辜的陳姓跑者受訪時說，他醒來時已經在救護車，要是馬達掉落時間再晚點，恐怕傷的人更多。</p>
+<p>記者吳欣倫：「當時陳姓跑者就是行經麥帥二橋下面，不過他頭頂上的維修平台當時有個馬達疑似老舊鬆脫，掉落後直接砸到他，讓他血流如柱。」</p>
+<p>參加路跑怎麼會被砸傷？惹禍的就是這台重達10公斤的馬達，外層都是明顯的生鏽痕跡，砸中路過的陳姓跑者，救護人員到場後趕緊將他送醫，由於頭部前額充當其衝，除了腦震盪之外，頭部縫了12針，下巴4針，門牙斷4根，回想起事發經過，陳姓跑者心有餘悸。</p>
+<p>受傷陳姓跑者：「那個時間只會覺得，我怎麼躺在救護車，我快嚇死了，我真的不知道為什麼會倒地耶。」</p>
+<p>真的嚇都嚇死了，或許是因為受傷的關係，陳姓跑者還是有些聲音微弱，熱愛路跑的他，和老婆才在幾天前參加花博路跑，獲得團體賽第2名，在朋友邀約下想再次突破，沒想到禍從天降。</p>
+<p>受傷陳姓跑者：「氣死我，我使出洪荒之力，然後我覺得喉嚨怪怪的，我摸頭都是血，我就跟他們講說，既然要弄就弄成都敏俊，害我以後不趕跑河邊了。」</p>
+<p>當時，陳姓跑者的太太也目擊了所有過程，但怎麼也沒想過，受傷的居然是身邊的枕邊人。</p>
+<p>遭砸傷跑者太太黃小姐：「我有看到一個人滿臉是血，我沒認出來他是我老公，之後才回想起來，原來血流如注的是我老公。」</p>
+<p>台北新工處工務科科長郭俊昇：「那個馬達平台比較老舊，零件要去做更換。」</p>
+<p>台北市新工處表示，本來在3月要維護的機具卻突然壞了，將會再了解惹禍原因，至於賠償部分，會以「工務險」處理，路跑主辦單位也有300萬的意外險；只是這回在熱愛的路跑出事，短時間他們行經河濱公園，恐怕心中都會有陰影揮之不去。</p>
+<p><img title="路跑遭10Kg重馬達砸傷" src="/storage/news-posts/February2017/zz1kCB78vE1g0ArvLwwN.jpg" alt="路跑遭10Kg重馬達砸傷" width="870" height="489" /></p>',
+                    'image'            => 'news-posts/February2017/dEAEmSbVaKf141dKP77i.jpg',
+                    'meta_description' => '民眾參加路跑，卻被從天而降的馬達砸傷！12日上午，有銀行業者舉辦路跑活動，但一名陳姓男子經過麥帥二橋橋下時，橋墩維護平台上的馬達疑似老舊鬆脫，居然直接掉落打傷人，跑者當場倒地，送醫救治後頭縫了12針、...',
+                    'meta_keywords'    => '路跑,馬達',
+                    'status'           => 'PUBLISHED',
+                    'active'           => 1,
+                    'created_at'       => $input_time,
+                    'updated_at'       => $input_time,
+                ])->save();
+            }
+
+            $id++;
+            $input_time = $now->addHour(); //one record per hour
+            $dataType = NewsPost::firstOrNew([
+                'id'     => $id,
+                'author' => '黃村杉',
+                'title'  => '平溪天燈節登場 20呎台日美景主燈升空',
+            ]);
+            if (!$dataType->exists) {
+                $dataType->fill([
+                    'author_id'        => 1,
+                    'news_category_id' => 4,
+                    'seo_title'        => '平溪天燈節登場 20呎台日美景主燈升空-大台北-HiNet新聞',
+                    'excerpt'          => '',
+                    'body'             => '<p style="margin: 0px 0px 20px; padding: 0px; border: none; text-align: justify; color: #555555; font-family: 微軟正黑體, Arial, Helvetica; font-size: 18px;">平溪天燈節11日於十分廣場隆重登場，吸引來自世界各地的朋友一早到場排隊，1200份天燈施放卷50分鐘內即發送完畢。今年天燈活動亮點是象徵臺日交流意象的20呎大型主燈，市長朱立倫、日本臺灣交流協會沼田幹夫代表及侯友宜、李四川、葉惠青等3位副市長一同施放，且也邀臺日小朋友攜手體驗放天燈的樂趣。</p>
+<p style="margin: 0px 0px 20px; padding: 0px; border: none; text-align: justify; color: #555555; font-family: 微軟正黑體, Arial, Helvetica; font-size: 18px;">該象徵臺日交流意象的20呎大型主燈，囊括新北市的野柳、九份、淡水、烏來、金瓜石、鶯歌等地區，秀出獨特的山城、瀑布、博物館、原住民圖騰以及天燈飛升的美景，也同時呈現深受台灣人喜愛的日本人氣景點，像是富士山、大阪城、晴空塔、淺草寺等等，都是兩地10大必去、必遊的超熱門景點。</p>
+<p style="margin: 0px 0px 20px; padding: 0px; border: none; text-align: justify; color: #555555; font-family: 微軟正黑體, Arial, Helvetica; font-size: 18px;">朱立倫表示，新北市平溪天燈節已邁入第19個年頭，每年吸引無數國內外遊客造訪，屢獲國際推崇與肯定。據交通部觀光局105年最新統計資料，平溪首度躍升為來臺自由行旅客最喜愛的前10大熱門景點之一，同年也獲得國家地理雜誌推薦為「全球10大最佳冬季旅遊」之一，證明平溪在國際上的熱門程度及獨特的觀光魅力，讓平溪地區從平靜純樸的小鎮化身為國際知名的觀光景點。</p>
+<p style="margin: 0px 0px 20px; padding: 0px; border: none; text-align: justify; color: #555555; font-family: 微軟正黑體, Arial, Helvetica; font-size: 18px;">觀光旅遊局強調，隨著平溪天燈節的轉型，平溪在地商圈、社團與協會等也積極投入資源推廣在地觀光，像是敲鐘躲貓貓、天燈我材必有用等季節性活動。另2/19(日)、2/25(六)更邀請知名自然觀察家-劉克襄老師及平溪文史工作者-郭聰能老師，帶領大家一同淨山並體驗平溪自然與人文之美。</p>',
+                    'image'            => 'news-posts/February2017/49qaoehTEry7A7DkGyBr.jpg',
+                    'meta_description' => '記者黃村杉／新北報導 平溪天燈節11日於十分廣場隆重登場，吸引來自世界各地的朋友一早到場排隊，1200份天燈施放卷50分鐘內即發送完畢。今年天燈活動亮點是象徵臺日交流意象的20呎大型主燈，市長朱立倫、...',
+                    'meta_keywords'    => '平溪天燈節登場',
+                    'status'           => 'PUBLISHED',
+                    'active'           => 1,
+                    'created_at'       => $input_time,
+                    'updated_at'       => $input_time,
+                ])->save();
+            }
+
+            $id++;
+            $input_time = $now->addHour(); //one record per hour
+            $dataType = NewsPost::firstOrNew([
+                'id'     => $id,
+                'author' => '娛樂頻道',
+                'title'  => '聽張學友唱到哭 盧廣仲台下竟幾乎全程比「這手勢」',
+            ]);
+            if (!$dataType->exists) {
+                $dataType->fill([
+                    'author_id'        => 1,
+                    'news_category_id' => 5,
+                    'seo_title'        => '聽張學友唱到哭  盧廣仲台下竟幾乎全程比「這手勢」 - 自由娛樂',
+                    'excerpt'          => '',
+                    'body'             => '<p>55歲的「歌神」張學友昨日晚間在台北小巨蛋華麗開唱，連唱6場、7.1萬張的門票全部受鑿，推估吸金超過2.3億台幣，人氣依舊不減。而和張同為「巨蟹座又屬牛」的創作歌手盧廣仲昨日也親臨現場一睹偶像風采，更興奮表示「超級害羞我臉超級紅」。</p>
+<figure class="image"><img title="張學友昨日晚間在台北開唱。（資料照，記者趙世勳攝）" src="/storage/news-posts/February2017/icmizrtdNlJCUG4fOCj3.jpg" alt="張學友昨日晚間在台北開唱。（資料照，記者趙世勳攝）" />
+<figcaption>張學友昨日晚間在台北開唱。（資料照，記者趙世勳攝）</figcaption>
+</figure>
+<p>&nbsp;</p>
+<p>張學友昨日開始在台舉辦「A CLASSIC TOUR 學友&middot;經典世界巡迴演唱會」，歌手盧廣仲不僅親自現身，還在臉書發文以「條列式」透露感想。盧首先表示，他聽到張唱《吻別》和《每天愛你多一些》時忍不住落淚，還跟張說自己小學參加歌唱比賽時就是演唱《吻別》，不過慘在第一輪就被淘汰，沒想到張回應說「因為很不適合你唱唷」，反應超幽默。</p>
+<figure class="image"><img title="張學友出道多年人氣依舊不減。（資料照，記者趙世勳攝）" src="/storage/news-posts/February2017/srFKlxoM9l2o9ZFRTFWp.jpeg" alt="張學友出道多年人氣依舊不減。（資料照，記者趙世勳攝）" />
+<figcaption>張學友出道多年人氣依舊不減。（資料照，記者趙世勳攝）</figcaption>
+</figure>
+<p>&nbsp;</p>
+<p>此外，盧還表示自己見到偶像「超級害羞我臉超級紅」，更搞笑列出「第3.5點」說張在舞台上唱歌時他幾乎全程都是「ROCK」手勢，笑翻眾人。不過，盧也感性說道，張跟他說，自己為了演唱會不僅健身2年、親自參與設計舞台，全場演唱會也沒用提詞機跟幾乎沒忘詞，讓他相當佩服又感動，直呼「謝謝歌神分享如此珍貴和巨大的意志力」。</p>
+<figure class="image"><img title="盧廣仲臉書全文。（翻攝自盧廣仲臉書）" src="/storage/news-posts/February2017/vqAaswSwS7I1WujQJBp5.png" alt="盧廣仲臉書全文。（翻攝自盧廣仲臉書）" />
+<figcaption>盧廣仲臉書全文。（翻攝自盧廣仲臉書）</figcaption>
+</figure>
+<p>&nbsp;</p>',
+                    'image'            => 'news-posts/February2017/PLYD8kgj1rjL3OpjvJwY.jpg',
+                    'meta_description' => '盧廣仲（左）昨去看偶像張學友（右）的演唱會。（翻攝自盧廣仲臉書）〔娛樂頻道／綜合報導〕55歲的「歌神」張學友昨日晚間在台北小巨蛋華麗開唱，連唱6場、7.1萬張的門票全部受鑿，推估吸金超過2.3億台幣，人氣依舊不減。而和張同為「巨蟹座又屬牛」的創作歌手盧廣仲昨日也親臨現場一睹偶像風采，',
+                    'meta_keywords'    => '盧廣仲,張學友,演唱會',
+                    'status'           => 'PUBLISHED',
+                    'active'           => 1,
+                    'created_at'       => $input_time,
+                    'updated_at'       => $input_time,
+                ])->save();
+            }
+
+            $id++;
+            $input_time = $now->addHour(); //one record per hour
+            $dataType = NewsPost::firstOrNew([
+                'id'     => $id,
+                'author' => '台灣好新聞報政治中心',
+                'title'  => '自打臉？又主持萬大線動工 柯P：捷運局拜託的',
+            ]);
+            if (!$dataType->exists) {
+                $dataType->fill([
+                    'author_id'        => 1,
+                    'news_category_id' => 8,
+                    'seo_title'        => '自打臉？又主持萬大線動工 柯P：捷運局拜託的',
+                    'excerpt'          => '',
+                    'body'             => '<p>台北市長柯文哲12日上午出席捷運萬大線CQ840及850A區段標聯合動土典禮，宣示萬大線台北市段全線動工，工期8年，預計114年完工。由於捷運萬大線已多次動工，柯文哲前年參加第3次區段標動工時曾批評，「多次動工有必要嗎？」。但今日又出席動工典禮，媒體質疑柯是否「自打嘴巴」？柯文哲12日受訪表示，萬大線是大陸工程包的，高達100多億，也是台北境內最大的一標，所以捷運局特別拜託他去，他只好答應。</p>
+<p>連接台北西區與中和及樹林的捷運萬大線分二期施作，第一期路線採地下興建，長9.5公里，其中北市段3.8公里、新北市段5.7公里，共設9座車站和1座機廠；第二期工程路線長13.3公里，全在新北市，設13座車站，包含地下2座、高架11座。未來完工通車後，將與中正紀念堂站銜接，可紓解萬華、中永和及土城等地交通。</p>
+<figure class="image"><img title="台北捷運萬大線台北市段已進入全線動工階段，捷運工程局預計2025年萬大線就會完工。（圖／台北市政府捷運工程局）" src="/storage/news-posts/February2017/5quF5BnwMq2pJzDLbw35.jpg" alt="台北捷運萬大線台北市段已進入全線動工階段，捷運工程局預計2025年萬大線就會完工。（圖／台北市政府捷運工程局）" />
+<figcaption>台北捷運萬大線台北市段已進入全線動工階段，捷運工程局預計2025年萬大線就會完工。（圖／台北市政府捷運工程局）</figcaption>
+</figure>
+<p>&nbsp;</p>
+<p>柯文哲今天一早也參加 2017台北渣打馬拉松，會受接受訪問。媒體詢問，之前不是才批評說不用每一段都要再動工一次？柯文哲說，萬大線工程約有800多億元，分為好幾區段招標，這是在台北市境內最大的一標，所以他大概也只會去這場。至於萬大線完工之前還會有其他動土嗎？柯文哲表示，好像應該沒有了，大概就這個，因為捷運局也不會隨便叫他再去什麼動土，大概就這一次而已。</p>
+<p>柯文哲說，萬大線行經的中正、萬華2區，是台北市發展比較早的地區，施工環境很艱困，但他對捷運局有信心，一定能夠克服所有困難，如期如質施工。他也特別提醒施工單位要以安全為重－注意工程安全，維持交通安全，確保民眾安全，有安全才有品質。</p>
+<p>捷運局表示，萬大線北市段所面對的挑戰包括，路窄、住宅密集、管線多且大、穿越新店溪、小轉彎半徑、碰到古河道、大排水箱涵、考古與文化遺址搶救。 萬大線行經的南海路、西藏路、萬大路等路寬都在30公尺以下，在圍籬的佈設、交通維持計畫的擬定等造成很大的困擾。路窄加住宅密集，車站連續壁幾乎緊貼民房，如路寬僅16.36公尺的南海路段約在30公分左右，需加強施作建物保護措施。LG03至LG04站的西藏路轉萬大路，是僅約50公尺的小轉彎半徑，潛盾施工難度高。G02站就在「植物園遺址」的中心點，必需先進行44個月的「人工考古開挖」後，才能進行主體工程。這些因素均會讓完工時間拉長。</p>
+<p>&nbsp;</p>',
+                    'image'            => 'news-posts/February2017/dpAtZsNg7RmnAm28OEXF.jpg',
+                    'meta_description' => '台北市長柯文哲12日上午出席捷運萬大線CQ840及850A區段標聯合動土典禮，宣示萬大線台北市段全線動工，工期8年，預計114年完工。由於捷運萬大線已多次動工，柯文哲前年參加第3次區段標動工時曾批評，「多次動工有必要嗎？」。但今日又出席動工典禮，媒體質疑柯是否「自打嘴巴」？柯文哲12日受訪表示，萬大線是大陸工程包的，高達100多億，也是台北境內最大的一標，所以捷運局特別拜託他去，他只好答應。',
+                    'meta_keywords'    => '柯文哲,捷運萬大線',
+                    'status'           => 'PUBLISHED',
+                    'active'           => 1,
+                    'created_at'       => $input_time,
+                    'updated_at'       => $input_time,
+                ])->save();
+            }
+
+            $id++;
+            $input_time = $now->addHour(); //one record per hour
+            $dataType = NewsPost::firstOrNew([
+                'id'     => $id,
+                'author' => '蘇文彬',
+                'title'  => 'Android Wear 2.0正式問世，內建Google助手',
+            ]);
+            if (!$dataType->exists) {
+                $dataType->fill([
+                    'author_id'        => 1,
+                    'news_category_id' => 9,
+                    'seo_title'        => 'Android Wear 2.0正式問世，內建Google助手',
+                    'excerpt'          => 'Android Wear 2.0強調更個人化訊息的錶面設計，讓使用者抬起手腕就能隨時檢示天氣、個人活動及行事曆等資訊，並首次內建Google Play，方便使用者尋找手錶專用的App，此外，Google Assistant也首次進入智慧手錶。',
+                    'body'             => '<p>原本該在去年秋天問世的Google下一代穿戴裝置平台Android Wear 2.0在本周正式登場，這個新的平台可讓智慧手錶更個人化，而且內建了Google Assistant助手功能，可透過語音命令讓助手幫你處理各種事務。</p>
+<p>Android Wear 2.0允許使用者個人化自己的錶面，用戶可隨時從錶面看到簡單的天氣資訊、股市表現、個人的活動紀錄或是約會提醒，或是透過手錶向Uber叫車，撥電話給重要的人等等。（下圖，來源：Google）</p>
+<p><img src="/storage/news-posts/February2017/Ijle0xJfgW9XshnQgQOH.gif" alt="" width="300" height="300" /></p>
+<p>在Android Wear平台上預載了Google Fit，這是一個運動健身專用App，可透過智慧手錶幫你紀錄外出散步、跑步或是其他運動時的心跳、步數、消耗的卡路里數等。如果使用的智慧手錶具備行動上網功能，運動時不需要攜帶手機，可以收發訊息、撥接電話。</p>
+<p>呼應使用者的需求，新的穿戴平台也內建了Google Play，方便使用者下載各種智慧手錶專用App，例如Android Pay、AccuWeather等。</p>
+<p>過去使用者在手錶上收到訊息，礙於智慧手錶在螢幕上先天較小的限制，回覆訊息可能比較困難，現在使用者可以在錶面上手寫文字或畫出表情符號回覆，也可以直接用說的回覆。</p>
+<p>此外，Android Wear 2.0也加入了Google Assistant助手功能，Google Assistant先前只在智慧喇叭Google Home、通訊程式Allo及Google Pixel，現在則將登上Android智慧手錶，用戶按下手錶的電源鈕並說「Ok Google」，就能以語音要求Google Assistant查詢天氣、寫下購物清單等等。目前Google Assistant僅支援英語、德語，未來幾個月將支援更多語言。</p>
+<p>Google也介紹了首款將採用Android Wear 2.0的智慧手錶LG Watch Style，該款智慧手錶可更換使用18mm錶帶。具備NFC以支援行動支付，並有GPS、心律感測等功能，協助使用者紀錄活動時的身體數據，手錶預計2月10日先在美國地區上市，後續幾週會在加拿大、台灣、俄羅斯推出。</p>
+<p>至於市場上既有的Android智慧手錶，包含華碩ZenWatch 2及3、華為的Huawei Watch，還有LG的G Watch R、Urbane及LTE版本，以及第二代Moto 360等等，未來幾週將可升級至新版本。</p>
+<p><iframe title="Android Wear: Make the most of every step" src="https://www.youtube.com/embed/qlTGwPIOz0Y?wmode=opaque&amp;theme=dark" width="560" height="315" frameborder="0" allowfullscreen=""></iframe></p>',
+                    'image'            => 'news-posts/February2017/1XIzduvAYE2JNp7DxnkD.jpg',
+                    'meta_description' => 'Android Wear 2.0強調更個人化訊息的錶面設計，讓使用者抬起手腕就能隨時檢示天氣、個人活動及行事曆等資訊，並首次內建Google Play，方便使用者尋找手錶專用的App，此外，Google Assistant也首次進入智慧手錶。',
+                    'meta_keywords'    => 'Android Wear 2.0',
+                    'status'           => 'PUBLISHED',
+                    'active'           => 1,
+                    'created_at'       => $input_time,
+                    'updated_at'       => $input_time,
+                ])->save();
+            }
+
+            $id++;
+            $input_time = $now->addHour(); //one record per hour
+            $dataType = NewsPost::firstOrNew([
+                'id'     => $id,
+                'author' => '張家玲',
+                'title'  => '宋智孝就愛這墨鏡　機場look輕鬆添星味',
+            ]);
+            if (!$dataType->exists) {
+                $dataType->fill([
+                    'author_id'        => 1,
+                    'news_category_id' => 11,
+                    'seo_title'        => '宋智孝就愛這墨鏡機場look輕鬆添星味 | 即時新聞 | 20170211 | 蘋果日報',
+                    'excerpt'          => '',
+                    'body'             => '<p>韓國人氣綜藝節目《Running Man》昨晚在台舉辦見面會，唯一的女性成員宋智孝昨上午現身仁川機場搭乘專機時，身穿軍綠色外套搭配帥氣墨鏡，一路上親切和粉絲打招呼，而她用來增添明星味的墨鏡正是出自許多韓星追捧、她也曾多次在公眾場合配戴的眼鏡品牌Fakeme，此次她選搭的Lemming Merged款式外型雖簡單但充滿個性，共有4款不同顏色可選，每款售價8800元。（張家玲／台北報導）</p>
+<figure class="image"><img title="宋智孝是Fakeme的粉絲，過去也曾選擇該牌墨鏡現身公眾場合。品牌提供" src="/storage/news-posts/February2017/igTt6ienuyGmgdaGokun.jpg" alt="宋智孝是Fakeme的粉絲，過去也曾選擇該牌墨鏡現身公眾場合。品牌提供" />
+<figcaption>宋智孝是Fakeme的粉絲，過去也曾選擇該牌墨鏡現身公眾場合。品牌提供</figcaption>
+</figure>
+<p>&nbsp;</p>',
+                    'image'            => 'news-posts/February2017/MJ5ZP63F3Slv176ROX4x.jpg',
+                    'meta_description' => '韓國人氣綜藝節目《Running Man》昨晚在台舉辦見面會，唯一的女性成員宋智孝昨上午現身仁川機場搭乘專機時，身穿軍綠色外套搭配帥氣墨鏡，一路上親切和粉絲打招呼，而她用來增添明星味的墨鏡正是出自許多',
+                    'meta_keywords'    => '宋智孝,墨鏡',
+                    'status'           => 'PUBLISHED',
+                    'active'           => 1,
+                    'created_at'       => $input_time,
+                    'updated_at'       => $input_time,
+                ])->save();
+            }
+
+            $id++;
+            $input_time = $now->addHour(); //one record per hour
+            $dataType = NewsPost::firstOrNew([
+                'id'     => $id,
+                'author' => '許文貞',
+                'title'  => '台北書展裡擺市集 創意「Zine」大玩小誌',
+            ]);
+            if (!$dataType->exists) {
+                $dataType->fill([
+                    'author_id'        => 1,
+                    'news_category_id' => 12,
+                    'seo_title'        => '台北書展裡擺市集 創意「Zine」大玩小誌 - 中時電子報',
+                    'excerpt'          => '',
+                    'body'             => '<p>書展裡也可以逛市集？今年台北國際書展世貿一館角落的「青年創意出版區」的，有一群年輕人帶著自己的「Zine」（小誌）在擺攤，販售個人出版創作品。現場也展示孔版印刷機、活版印刷機，也提供許多不同類型的Zine讓民眾翻閱。甚至還有一台專售Zine的自動販賣機，看到喜歡的小誌，投幾個銅板就能輕鬆買到。</p>
+<figure class="image"><img title="角落有一台專售Zine的自動販賣機。（許文貞攝）" src="/storage/news-posts/February2017/hU4u8v4gRksObzzPOtc8.jpg" alt="角落有一台專售Zine的自動販賣機。（許文貞攝）" />
+<figcaption>角落有一台專售Zine的自動販賣機。（許文貞攝）</figcaption>
+</figure>
+<p>&nbsp;</p>
+<p>相較於內容面向廣泛的雜誌，Zine小誌的「小」，不只是因為主題偏向小眾，也因為採用與傳統出版印刷不同的方式，例如孔版印刷（Risograph）或活版印刷，可以小量出版作品，讓創作者能在短時間內實驗不同的創作方式，近年來十分受到歡迎。</p>
+<p>策展人江家華和田田圈文創工作群成員龔維德，去年就曾合作舉辦Zine的市集活動。「這次公開徵選約45組攤位，分成三梯次在書展擺攤，鼓勵更多獨立創作者參與。另外也邀請15組藝術家創作Zine，放到自動販賣機販售。」</p>
+<p>受邀為自動販賣機創作Zine的藝術家，有平面設計師、漫畫家、刺青藝術師等。「Zine專門販賣機光是書展頭兩天就賣出超過100本的Zine。」像是設計師蔡南昇和印刻主編丁名慶跨界合作的兩本Zine《一日》、《一刻》在第二天就銷售一空。金漫獎得主阮光民、米奇鰻，法國安古蘭漫畫節新秀獎入圍漫畫家覃偉的漫畫也都限量在販賣機販售。</p>
+<p>「Zine最主要是降低出版門檻，讓創作者簡單印製作品，甚至能當名片用。」江家華表示，Zine源自歐美國家，最早在2001年瑞士就誕生了第一家專門出版Zine的獨立出版社「Nieves」。她2010年在歐洲唸書時，注意到有的書店開始會騰出角落來販售Zine，後來逐漸在歐美藝術圈流行。不只年輕創作者把作品做成Zine，藝術家也會用Zine來做實驗性高的作品。</p>
+<p>Zine的內容也相當多元，有的以文字或攝影創作為主，有的是漫畫、插畫。源自日本的同人誌也可說是Zine的一種。如今Zine也不再只是實驗之作，像是參與擺攤的「小本書」、「三貓俱樂部」等創作者，都只以Zine的形式出版。</p>
+<p>相較於傳統印刷，出版Zine常用的孔版印刷技術價格十分低廉，又能少量印製，還帶有特殊的手工質感。龔維德解釋，孔版印刷印製的方式類似傳統的影印機，但用的是油墨而非碳粉，同一張紙經過兩個顏色以上的油墨印刷，能產生特別的「疊色」效果。「紙張在重複印刷時，位置有時候會跑掉，反而形成一種特殊的手製粗糙感，十分受到創作者的喜愛。」</p>',
+                    'image'            => 'news-posts/February2017/n5J091Ma6NGwmpqJQAVs.jpg',
+                    'meta_description' => '書展裡也可以逛市集？今年台北國際書展世貿一館角落的「青年創意出版區」的，有一群年輕人帶著自己的「Zine」（小誌）在擺攤，販售個人出版創作品。現場也展示孔版印刷機、活版印刷機，也提供許多不同類型的Zine讓民眾翻閱。甚至還有一台專售Zine的自動販賣機，看到喜歡的小誌，投幾個銅板就能輕鬆買到。　相較於內容面向廣泛的雜誌，Zine小誌的「小」，不只是因為主題偏向小眾，也因為採用與傳統出版印刷不同的方式，例如孔版印…',
+                    'meta_keywords'    => '台北書展',
+                    'status'           => 'PUBLISHED',
+                    'active'           => 1,
+                    'created_at'       => $input_time,
+                    'updated_at'       => $input_time,
+                ])->save();
+            }
+
+            $id++;
+            $input_time = $now->addHour(); //one record per hour
+            $dataType = NewsPost::firstOrNew([
+                'id'     => $id,
+                'author' => '吳永佳',
+                'title'  => '邰智源：小心，吃飯露本性！你一定要注意的３件事',
+            ]);
+            if (!$dataType->exists) {
+                $dataType->fill([
+                    'author_id'        => 1,
+                    'news_category_id' => 13,
+                    'seo_title'        => '邰智源：小心，吃飯露本性！你一定要注意的３件事 - 專訪集 - 人物 - Cheers快樂工作人雜誌',
+                    'excerpt'          => '縱橫演藝圈數十年，從昔日的選秀新人，到今時成為綜藝界呼風喚雨的大哥級人物，邰智源談到他的交友哲學，沒有複雜的方法，倒是劈頭冒出一句：「我的朋友，都是吃飯吃來的！」',
+                    'body'             => '<p><span style="color: #000000; font-family: Arial, 微軟正黑體, 繁黑體, \'Microsoft JhengHei\', \'Microsoft YaHei\', \'Heiti TC\', \'LiHei Pro\', sans-serif, 新細明體, PMingLiU; font-size: 15px;">餐桌，「物以類聚」的識人之處 </span></p>
+<p><span style="color: #000000; font-family: Arial, 微軟正黑體, 繁黑體, \'Microsoft JhengHei\', \'Microsoft YaHei\', \'Heiti TC\', \'LiHei Pro\', sans-serif, 新細明體, PMingLiU; font-size: 15px;">怎麼說呢？從小一家人都愛吃的邰智源，家學淵源加上耳濡目染，自己也成了熱愛美食的饕客。就連要出書，談的不是表演生涯，都是介紹各地的美食。 </span></p>
+<p><span style="color: #000000; font-family: Arial, 微軟正黑體, 繁黑體, \'Microsoft JhengHei\', \'Microsoft YaHei\', \'Heiti TC\', \'LiHei Pro\', sans-serif, 新細明體, PMingLiU; font-size: 15px;">雖自認朋友不特別多，但只要是好兄弟，邰智源絕對不忘常以美食相召。例如他多年的莫逆之交莫凡，每個月非得聚上一、兩次不可；圈內的「徒子徒孫」如小蝦等新秀，每月也一定要吃上一頓飯；包括與他交情深厚的幾位健身房教練，彼此一樣常相召「飯團」。 </span></p>
+<p><span style="color: #000000; font-family: Arial, 微軟正黑體, 繁黑體, \'Microsoft JhengHei\', \'Microsoft YaHei\', \'Heiti TC\', \'LiHei Pro\', sans-serif, 新細明體, PMingLiU; font-size: 15px;">對邰智源來說，與老友、麻吉是靠吃飯維繫情感，結交新朋友，更要靠吃飯。因為，「吃飯是最容易『識人』的場所，」他指出。 </span></p>
+<p><span style="color: #000000; font-family: Arial, 微軟正黑體, 繁黑體, \'Microsoft JhengHei\', \'Microsoft YaHei\', \'Heiti TC\', \'LiHei Pro\', sans-serif, 新細明體, PMingLiU; font-size: 15px;">所謂「識人」，有雙重涵義，一是指透過飯局認識、知道「朋友的朋友」；另一層則是藉由吃飯的場合了解、認清一個人。 雖然在螢光幕前或是老友相聚時，好笑、有趣的邰智源多半是眾人目光包圍的中心，但到了有新朋友的場子，他就會調整自己，變成低調、冷靜的旁觀者。 </span></p>
+<p><span style="color: #000000; font-family: Arial, 微軟正黑體, 繁黑體, \'Microsoft JhengHei\', \'Microsoft YaHei\', \'Heiti TC\', \'LiHei Pro\', sans-serif, 新細明體, PMingLiU; font-size: 15px;">「只要用心，可以在飯桌上觀察到的事太多了！」邰智源說，一個人的家教、修養、對朋友的態度，常在一頓飯中表露無遺。舉凡是不是會為大家分筷子、遞餐巾，或是否謙讓別人先用菜等極微小的細節，都可一窺端倪。 </span></p>
+<p><span style="color: #000000; font-family: Arial, 微軟正黑體, 繁黑體, \'Microsoft JhengHei\', \'Microsoft YaHei\', \'Heiti TC\', \'LiHei Pro\', sans-serif, 新細明體, PMingLiU; font-size: 15px;">此外，酒攤是另一個「識人」的重要場所，從一個人的「酒品」，往往可看出他真正的「人品」。自謂不很愛喝酒的邰智源，樂得在酒局中冷眼判讀人性。也就在這些細微的觀察中，讓他明瞭哪些人未來可能值得深交，哪些人可敬而遠之。</span></p>
+<p><span><span style="color: #000000; font-family: Arial, 微軟正黑體, 繁黑體, \'Microsoft JhengHei\', \'Microsoft YaHei\', \'Heiti TC\', \'LiHei Pro\', sans-serif, 新細明體, PMingLiU;"><span style="font-size: 15px;">交朋友，要捨得花錢花心思</span></span></span></p>
+<p><span><span style="color: #000000; font-family: Arial, 微軟正黑體, 繁黑體, \'Microsoft JhengHei\', \'Microsoft YaHei\', \'Heiti TC\', \'LiHei Pro\', sans-serif, 新細明體, PMingLiU;"><span style="font-size: 15px;">至於餐桌待客之道，邰智源認為好餐廳和好料理固然重要，但最重要的卻是4個字：「捨得、熱情」！</span></span></span></p>
+<p><span><span style="color: #000000; font-family: Arial, 微軟正黑體, 繁黑體, \'Microsoft JhengHei\', \'Microsoft YaHei\', \'Heiti TC\', \'LiHei Pro\', sans-serif, 新細明體, PMingLiU;"><span style="font-size: 15px;">從小，作為軍人的父親就告誡邰智源：「交朋友是要花錢的！」送禮、請客、招待朋友，無一不必花錢。所以邰智源深信，交朋友要捨得花錢、花心思，該請客時，就絕不能手軟：「有些人一到買單時就藉故遁逃，這種愛佔他人便宜的人，絕對交不到長久的朋友，」他說。當然，也肯定會被邰智源列為「拒絕往來戶」。</span></span></span></p>
+<p><span><span style="color: #000000; font-family: Arial, 微軟正黑體, 繁黑體, \'Microsoft JhengHei\', \'Microsoft YaHei\', \'Heiti TC\', \'LiHei Pro\', sans-serif, 新細明體, PMingLiU;"><span style="font-size: 15px;">讓邰智源印象最深刻的差勁主人，就是小氣的主人。他回憶，曾有一位上市公司老闆邀他代言商品，先請他吃飯。結果一到場，邰智源赫然看見這位老闆請的是──蛋炒飯！</span></span></span></p>
+<p><span><span style="color: #000000; font-family: Arial, 微軟正黑體, 繁黑體, \'Microsoft JhengHei\', \'Microsoft YaHei\', \'Heiti TC\', \'LiHei Pro\', sans-serif, 新細明體, PMingLiU;"><span style="font-size: 15px;">一頓飯的花費再高，也比不上請邰智源代言的酬勞。但這位老闆「捨大錢，省小錢」的做法，不但反映了個人格局有限，也在當下令邰智源大為不悅，心想：「你這是在羞辱自己，還是在羞辱我？」果然，餐後雙方的合作關係，也因此泡湯。</span></span></span></p>
+<p><span><span style="color: #000000; font-family: Arial, 微軟正黑體, 繁黑體, \'Microsoft JhengHei\', \'Microsoft YaHei\', \'Heiti TC\', \'LiHei Pro\', sans-serif, 新細明體, PMingLiU;"><span style="font-size: 15px;">邰智源引用《論語‧公冶長》的典故，孔子教學生們談談各自的志向時，子路回答：「願車馬，衣輕裘，與朋友共，敝之而無憾。」這段話所描述的慷慨待人心態，正好可為邰智源的待友之道做註解。</span></span></span></p>
+<p><span><span style="color: #000000; font-family: Arial, 微軟正黑體, 繁黑體, \'Microsoft JhengHei\', \'Microsoft YaHei\', \'Heiti TC\', \'LiHei Pro\', sans-serif, 新細明體, PMingLiU;"><span style="font-size: 15px;">邰智源創造餐桌好人緣３心法</span></span></span></p>
+<p><span><span style="color: #000000; font-family: Arial, 微軟正黑體, 繁黑體, \'Microsoft JhengHei\', \'Microsoft YaHei\', \'Heiti TC\', \'LiHei Pro\', sans-serif, 新細明體, PMingLiU;"><span style="font-size: 15px;">1. 老朋友勤聯絡，以美食會友。</span></span></span></p>
+<p><span><span style="color: #000000; font-family: Arial, 微軟正黑體, 繁黑體, \'Microsoft JhengHei\', \'Microsoft YaHei\', \'Heiti TC\', \'LiHei Pro\', sans-serif, 新細明體, PMingLiU;"><span style="font-size: 15px;"> 新朋友多接觸，藉餐桌識人。</span></span></span></p>
+<p><span><span style="color: #000000; font-family: Arial, 微軟正黑體, 繁黑體, \'Microsoft JhengHei\', \'Microsoft YaHei\', \'Heiti TC\', \'LiHei Pro\', sans-serif, 新細明體, PMingLiU;"><span style="font-size: 15px;">2. 交朋友要捨得花錢、投注心思。 </span></span></span></p>
+<p><span><span style="color: #000000; font-family: Arial, 微軟正黑體, 繁黑體, \'Microsoft JhengHei\', \'Microsoft YaHei\', \'Heiti TC\', \'LiHei Pro\', sans-serif, 新細明體, PMingLiU;"><span style="font-size: 15px;">要用多大的手筆，可量力而為，但該請的客一定要請，更要透過各種細節，讓客人感受到你的真心、熱情。</span></span></span></p>
+<p><span><span style="color: #000000; font-family: Arial, 微軟正黑體, 繁黑體, \'Microsoft JhengHei\', \'Microsoft YaHei\', \'Heiti TC\', \'LiHei Pro\', sans-serif, 新細明體, PMingLiU;"><span style="font-size: 15px;">&nbsp;3. 餐桌上有親疏遠近，但無富貴貧賤。 </span></span></span></p>
+<p><span><span style="color: #000000; font-family: Arial, 微軟正黑體, 繁黑體, \'Microsoft JhengHei\', \'Microsoft YaHei\', \'Heiti TC\', \'LiHei Pro\', sans-serif, 新細明體, PMingLiU;"><span style="font-size: 15px;">先摒棄以大小眼衡量別人的心態，朋友自然會來。</span></span></span></p>
+<p><span><span style="color: #000000; font-family: Arial, 微軟正黑體, 繁黑體, \'Microsoft JhengHei\', \'Microsoft YaHei\', \'Heiti TC\', \'LiHei Pro\', sans-serif, 新細明體, PMingLiU;"><span style="font-size: 15px;"><iframe title="【60秒, Cheers!】邰智源的飯友哲學：如何在飯桌上交朋友?" src="https://www.youtube.com/embed/abDy4ljx82s?wmode=opaque&amp;theme=dark" width="560" height="315" frameborder="0" allowfullscreen=""></iframe></span></span></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>',
+                    'image'            => 'news-posts/February2017/2p8JV9khYhTibPS37tdg.jpg',
+                    'meta_description' => '出過暢銷書《邰客好吃》，邰智源不只懂吃，更懂吃飯時的主客、做人、交友之道。且看他如何在餐桌上「不卑不亢，進退得宜」，識人、待人也帶人，飯友滿天下！',
+                    'meta_keywords'    => '吃飯,社交,人際,識人,交朋友',
+                    'status'           => 'PUBLISHED',
+                    'active'           => 1,
+                    'created_at'       => $input_time,
+                    'updated_at'       => $input_time,
+                ])->save();
+            }
+
+            $id++;
+            $input_time = $now->addHour(); //one record per hour
+            $dataType = NewsPost::firstOrNew([
+                'id'     => $id,
+                'author' => '關鍵評論網',
+                'title'  => '再見歐盟！英國的脫歐之路',
+            ]);
+            if (!$dataType->exists) {
+                $dataType->fill([
+                    'author_id'        => 1,
+                    'news_category_id' => 14,
+                    'seo_title'        => '再見歐盟！英國的脫歐之路 - The News Lens 關鍵評論網',
+                    'excerpt'          => '在台灣時間2016年6月24日下午一點，全球矚目的英國脫歐公投的結果出爐，「脫歐派」以52%的得票率，勝過48%的「留歐派」，英國民意已正式向世界宣告將與歐盟分手。一對曾經相愛的情侶如何走向分歧之路？在「再見歐盟」的宣告之後，英國又將何去何從？請看關鍵評論網為你準備的第一手精選分析。',
+                    'body'             => '<h2 class="article-title" style="font-family: \'Microsoft JhengHei\', sans-serif; box-sizing: border-box; margin: 10px 0px 15px; padding: 0px; border: 0px; font-variant-numeric: inherit; font-stretch: inherit; line-height: 1.4em; font-size: 24px; vertical-align: baseline; color: #000000; text-align: center;">「英國脫歐」公投開票達98%，脫歐得票率52%大局已定</h2>
+<p><span style="color: #4d4d4d; font-family: \'Microsoft JhengHei\', sans-serif; font-size: 16px; letter-spacing: 0.5px;">台北時間23日下午2點展開的脫歐公投，根據</span><a style="font-family: \'Microsoft JhengHei\', sans-serif; box-sizing: border-box; margin: 0px; padding: 0px; border: 0px; font-variant-numeric: inherit; font-stretch: inherit; line-height: inherit; font-size: 16px; vertical-align: baseline; color: #009fdb; text-decoration: none; letter-spacing: 0.5px;" title="EURONEWS的即時報導" href="http://www.euronews.com/news/streaming-live/">EURONEWS的即時報導</a><span style="color: #4d4d4d; font-family: \'Microsoft JhengHei\', sans-serif; font-size: 16px; letter-spacing: 0.5px;">，剛剛在西敏寺宣布的最新結果，脫歐派得票率達到52%，留歐派以4個百分點的差距為48%，開票率達98.9%，即使剩下的票數投給留歐，依舊無法逆轉情勢，英國脫離歐盟結果確立。</span></p>
+<p style="font-family: \'Microsoft JhengHei\', sans-serif; box-sizing: border-box; margin: 0px; padding: 0.825em 0px; border: 0px; font-variant-numeric: inherit; font-stretch: inherit; line-height: inherit; font-size: 16px; vertical-align: baseline; color: #4d4d4d; letter-spacing: 0.5px;">在這場公投展開前，<a style="font-family: inherit; box-sizing: border-box; margin: 0px; padding: 0px; border: 0px; font-style: inherit; font-variant: inherit; font-weight: inherit; font-stretch: inherit; line-height: inherit; vertical-align: baseline; color: #009fdb; text-decoration: none;" title="「脫歐派」表示" href="http://www.thenewslens.com/article/42600" target="_blank"><span id="docs-internal-guid-7cb8dbd9-8035-cd74-4e6c-5b8b5f8b765f" style="font-family: inherit; box-sizing: border-box; margin: 0px; padding: 0px; border: 0px; font-style: inherit; font-variant: inherit; font-weight: bold; font-stretch: inherit; line-height: inherit; vertical-align: baseline;">「</span>脫歐派<span style="font-family: inherit; box-sizing: border-box; margin: 0px; padding: 0px; border: 0px; font-style: inherit; font-variant: inherit; font-weight: bold; font-stretch: inherit; line-height: inherit; vertical-align: baseline;">」</span>表示</a><span style="font-family: inherit; box-sizing: border-box; margin: 0px; padding: 0px; border: 0px; font-style: inherit; font-variant: inherit; font-weight: bold; font-stretch: inherit; line-height: inherit; vertical-align: baseline;">，</span>歐盟已威脅到英國主權，尤其隨歐盟法規已逐漸覆蓋英國本國律法，除此之外，<span id="docs-internal-guid-7cb8dbd9-8035-cd74-4e6c-5b8b5f8b765f" style="font-family: inherit; box-sizing: border-box; margin: 0px; padding: 0px; border: 0px; font-style: inherit; font-variant: inherit; font-weight: bold; font-stretch: inherit; line-height: inherit; vertical-align: baseline;">「</span>脫歐派<span style="font-family: inherit; box-sizing: border-box; margin: 0px; padding: 0px; border: 0px; font-style: inherit; font-variant: inherit; font-weight: bold; font-stretch: inherit; line-height: inherit; vertical-align: baseline;">」</span>支持者認為，歐盟委員會無法對英國的選民負責，更別說歐元是一場災難。對於移民政策，<span id="docs-internal-guid-7cb8dbd9-8035-cd74-4e6c-5b8b5f8b765f" style="font-family: inherit; box-sizing: border-box; margin: 0px; padding: 0px; border: 0px; font-style: inherit; font-variant: inherit; font-weight: bold; font-stretch: inherit; line-height: inherit; vertical-align: baseline;">「</span>脫歐派<span style="font-family: inherit; box-sizing: border-box; margin: 0px; padding: 0px; border: 0px; font-style: inherit; font-variant: inherit; font-weight: bold; font-stretch: inherit; line-height: inherit; vertical-align: baseline;">」</span>認為歐盟允許太多移民，但英國若不隸屬歐盟，就能有更合理的移民制度。</p>
+<p style="font-family: \'Microsoft JhengHei\', sans-serif; box-sizing: border-box; margin: 0px; padding: 0.825em 0px; border: 0px; font-variant-numeric: inherit; font-stretch: inherit; line-height: inherit; font-size: 16px; vertical-align: baseline; color: #4d4d4d; letter-spacing: 0.5px;">而「留歐派」則認為，英國離開歐盟將產生嚴重後果，例如英國在歐洲市場的影響力將不再，而公司也擔憂無法僱用好的人才，而假如英國當真「脫歐」，會影響歐洲議會內的權力平衡，進而對高科技公司產生影響，現任倫敦市長Khan同樣表示，英國脫歐會降低工業水準，此外也質疑英國脫歐後的移民政策，是否將不再友善？蘇格蘭保守黨領袖Ruth Davidson則在日前辯論時表示，離開歐盟會對英國人民的安全有所影響（恐怖攻擊）。</p>
+<p style="font-family: \'Microsoft JhengHei\', sans-serif; box-sizing: border-box; margin: 0px; padding: 0.825em 0px; border: 0px; font-variant-numeric: inherit; font-stretch: inherit; line-height: inherit; font-size: 16px; vertical-align: baseline; color: #4d4d4d; letter-spacing: 0.5px;"><a style="font-family: inherit; box-sizing: border-box; margin: 0px; padding: 0px; border: 0px; font-style: inherit; font-variant: inherit; font-weight: inherit; font-stretch: inherit; line-height: inherit; vertical-align: baseline; color: #009fdb; text-decoration: none;" title="蘋果報導" href="http://www.appledaily.com.tw/realtimenews/article/new/20160624/893010/" target="_blank">蘋果報導</a>，英國脫歐公投計票與開票作業，從台灣時間今日早上5時開始進行，這次公投，有效投票人數共有4650萬人，也是英國史上第3次全國性公投。這次公投選區共382個，包括英國本土以及海外領土直布羅陀（Gibraltar），初步投票率為70%。根據BBC報導，目前已開出195區，而英國ITV分析員指稱，英國脫歐派獲勝機率達80%。</p>
+<p style="font-family: \'Microsoft JhengHei\', sans-serif; box-sizing: border-box; margin: 0px; padding: 0.825em 0px; border: 0px; font-variant-numeric: inherit; font-stretch: inherit; line-height: inherit; font-size: 16px; vertical-align: baseline; color: #4d4d4d; letter-spacing: 0.5px;"><a style="font-family: inherit; box-sizing: border-box; margin: 0px; padding: 0px; border: 0px; font-style: inherit; font-variant: inherit; font-weight: inherit; font-stretch: inherit; line-height: inherit; vertical-align: baseline; color: #009fdb; text-decoration: none;" title="端傳媒報導" href="https://theinitium.com/article/20160623-dailynews-uk-referendum/" target="_blank">端傳媒報導</a>，據BBC報導，威爾斯地區顯示脫毆派暫居上風，蘇格蘭和北愛爾蘭則表現為留歐派票數更高。有分析認為，恰好於投票日在德國一家電影院發生的槍擊事件，可能會對英國公投造成向脫毆方向移動的影響。</p>
+<p style="font-family: \'Microsoft JhengHei\', sans-serif; box-sizing: border-box; margin: 0px; padding: 0.825em 0px; border: 0px; font-variant-numeric: inherit; font-stretch: inherit; line-height: inherit; font-size: 16px; vertical-align: baseline; color: #4d4d4d; letter-spacing: 0.5px;">此外，不同選區的投票結果也大不相同。在直布羅陀，公投結果以1萬9322票對823票壓倒性支持留歐，而桑德蘭（Sunderland）的13萬多投票者中，61%的人支持脱歐。民調公司YouGov通過在網上調查5000名投票者得出數據顯示，支持留在歐盟的意見略佔上風，達52%，支持脱歐的投票者佔48%。另一家民調公司Ipsos Mori的調查也顯示，支持留歐者佔54%，支持脱歐佔46%。</p>',
+                    'image'            => 'news-posts/February2017/s9HK8a8WMzKwmCKG2x1c.jpg',
+                    'meta_description' => '台灣時間2016年6月24日下午一點，全球矚目的英國脫歐公投的結果出爐，「脫歐派」以52%的得票率，勝過48%的「留歐派」，英國民意已正式向世界宣告將與歐盟分手。一對曾經相愛的情侶如何走向分歧之路？在「再見歐盟」的宣告之後，英國又將何去何從？請看關鍵評論網為你準備的第一手精選分析。',
+                    'meta_keywords'    => '英國,脫歐,公投',
                     'status'           => 'PUBLISHED',
                     'active'           => 1,
                     'created_at'       => $input_time,
