@@ -39,7 +39,7 @@ class IndexMenu extends Model
             if ($children_menu_items->count() > 0) {
                 $output .= '<li class="dropdown">';
                 $output .= '<a href="'.$item->url.'" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">'.$item->title.'<span class="caret"></span></a>';
-                $children_output = static::buildSubmenu($menuItems, $item->id);
+                $children_output = static::buildSubmenu($menuItems, $item->id, $item->url);
                 $output .= $children_output;
                 $output .= '</li>';
             } else {
@@ -56,18 +56,19 @@ class IndexMenu extends Model
      * Create submenu.
      *
      * @param \Illuminate\Support\Collection|array $menuItems
-     * @param int                                  $parent_id
+     * @param int                                  $parentId
+     * @param string                               $parentUrl
      *
      * @return string
      */
-    public static function buildSubmenu($menuItems, $parentId)
-	{
+    public static function buildSubmenu($menuItems, $parentId, $parentUrl = null)
+    {
         $parentItems = $menuItems->filter(function($value, $key) use ($parentId) {
             return $value->parent_id == $parentId;
         });
         
         $parentItems = $parentItems->sortBy('order');
-		
+
         $output = '<ul class="dropdown-menu">';
         
         foreach ($parentItems as $item) {
@@ -83,6 +84,10 @@ class IndexMenu extends Model
                 $output .= '</li>';
             } else {
                 $output .= '<li><a href="'.$item->url.'">'.$item->title.'</a></li>';
+                if (!strcmp($parentUrl, $item->url) && !empty($parentUrl)) {
+                    // same url, add divider
+                    $output .= '<li class="divider"></li>';
+                }
             }
         }
         
