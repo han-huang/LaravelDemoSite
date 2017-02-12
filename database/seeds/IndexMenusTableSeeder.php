@@ -23,7 +23,7 @@ class IndexMenusTableSeeder extends Seeder
                 'active'    => 1,
             ])->save();
         }
-        
+
         $dataType = IndexMenu::firstOrNew([
             'title' => '新聞',
             'url'   => '/news',
@@ -35,7 +35,7 @@ class IndexMenusTableSeeder extends Seeder
                 'active'    => 1,
             ])->save();
         }
-        
+
         $dataType = IndexMenu::firstOrNew([
             'title' => '運動',
             'url'   => '/sport',
@@ -47,7 +47,7 @@ class IndexMenusTableSeeder extends Seeder
                 'active'    => 1,
             ])->save();
         }
-        
+
         $dataType = IndexMenu::firstOrNew([
             'title' => '籃球',
             'url'   => '/sport/basketball',
@@ -59,7 +59,7 @@ class IndexMenusTableSeeder extends Seeder
                 'active'    => 1,
             ])->save();
         }
-        
+
         $dataType = IndexMenu::firstOrNew([
             'title' => '電影',
             'url'   => '/movie',
@@ -71,7 +71,7 @@ class IndexMenusTableSeeder extends Seeder
                 'active'    => 1,
             ])->save();
         }
-        
+
         $dataType = IndexMenu::firstOrNew([
             'title' => '音樂',
             'url'   => '/music',
@@ -83,7 +83,7 @@ class IndexMenusTableSeeder extends Seeder
                 'active'    => 1,
             ])->save();
         }
-        
+
         $dataType = IndexMenu::firstOrNew([
             'title' => 'Dropdown',
             'url'   => '/dropdown',
@@ -95,7 +95,7 @@ class IndexMenusTableSeeder extends Seeder
                 'active'    => 1,
             ])->save();
         }
-        
+
         $dataType = IndexMenu::firstOrNew([
             'title' => 'One',
             'url'   => '/dropdown/one',
@@ -107,7 +107,7 @@ class IndexMenusTableSeeder extends Seeder
                 'active'    => 1,
             ])->save();
         }
-        
+
         $dataType = IndexMenu::firstOrNew([
             'title' => 'Two',
             'url'   => '/dropdown/two',
@@ -119,7 +119,7 @@ class IndexMenusTableSeeder extends Seeder
                 'active'    => 1,
             ])->save();
         }
-        
+
         $dataType = IndexMenu::firstOrNew([
             'title' => 'Three',
             'url'   => '/dropdown/three',
@@ -131,7 +131,7 @@ class IndexMenusTableSeeder extends Seeder
                 'active'    => 1,
             ])->save();
         }
-        
+
         $dataType = IndexMenu::firstOrNew([
             'title' => 'Four',
             'url'   => '/dropdown/four',
@@ -143,7 +143,7 @@ class IndexMenusTableSeeder extends Seeder
                 'active'    => 1,
             ])->save();
         }
-        
+
         $dataType = IndexMenu::firstOrNew([
             'title' => 'Five',
             'url'   => '/dropdown/five',
@@ -155,7 +155,7 @@ class IndexMenusTableSeeder extends Seeder
                 'active'    => 1,
             ])->save();
         }
-        
+
         $dataType = IndexMenu::firstOrNew([
             'title' => 'One',
             'url'   => '/dropdown/two/one',
@@ -167,7 +167,7 @@ class IndexMenusTableSeeder extends Seeder
                 'active'    => 1,
             ])->save();
         }
-        
+
         $dataType = IndexMenu::firstOrNew([
             'title' => 'Two',
             'url'   => '/dropdown/two/two',
@@ -179,7 +179,7 @@ class IndexMenusTableSeeder extends Seeder
                 'active'    => 1,
             ])->save();
         }
-        
+
         $dataType = IndexMenu::firstOrNew([
             'title' => 'Three',
             'url'   => '/dropdown/two/three',
@@ -191,7 +191,7 @@ class IndexMenusTableSeeder extends Seeder
                 'active'    => 1,
             ])->save();
         }
-        
+
         $dataType = IndexMenu::firstOrNew([
             'title' => 'Four',
             'url'   => '/dropdown/two/four',
@@ -203,7 +203,7 @@ class IndexMenusTableSeeder extends Seeder
                 'active'    => 1,
             ])->save();
         }
-        
+
         $dataType = IndexMenu::firstOrNew([
             'title' => 'Five',
             'url'   => '/dropdown/two/five',
@@ -215,7 +215,7 @@ class IndexMenusTableSeeder extends Seeder
                 'active'    => 1,
             ])->save();
         }
-        
+
         $dataType = IndexMenu::firstOrNew([
             'title' => 'One',
             'url'   => '/dropdown/five/one',
@@ -227,7 +227,7 @@ class IndexMenusTableSeeder extends Seeder
                 'active'    => 1,
             ])->save();
         }
-        
+
         $dataType = IndexMenu::firstOrNew([
             'title' => 'Two',
             'url'   => '/dropdown/five/two',
@@ -239,7 +239,7 @@ class IndexMenusTableSeeder extends Seeder
                 'active'    => 1,
             ])->save();
         }
-        
+
         $dataType = IndexMenu::firstOrNew([
             'title' => 'One',
             'url'   => '/dropdown/five/one/one',
@@ -251,7 +251,7 @@ class IndexMenusTableSeeder extends Seeder
                 'active'    => 1,
             ])->save();
         }
-        
+
         $dataType = IndexMenu::firstOrNew([
             'title' => 'One',
             'url'   => '/dropdown/two/three/one',
@@ -263,7 +263,7 @@ class IndexMenusTableSeeder extends Seeder
                 'active'    => 1,
             ])->save();
         }
-        
+
         $dataType = IndexMenu::firstOrNew([
             'title' => 'Two',
             'url'   => '/dropdown/two/three/two',
@@ -272,6 +272,187 @@ class IndexMenusTableSeeder extends Seeder
             $dataType->fill([
                 'parent_id' => 15,
                 'order'     => 22,
+                'active'    => 1,
+            ])->save();
+        }
+
+        //add link for news index
+        $dataType = IndexMenu::firstOrNew([
+            'title'     => '新聞',
+            'url'       => '/news',
+            'parent_id' => 2,
+        ]);
+        if (!$dataType->exists) {
+            $dataType->fill([
+                'order'     => 23,
+                'active'    => 1,
+            ])->save();
+        }
+
+        $dataType = IndexMenu::firstOrNew([
+            'title' => '體育',
+            'url'   => '/news/sports',
+        ]);
+        if (!$dataType->exists) {
+            $dataType->fill([
+                'parent_id' => 2,
+                'order'     => 24,
+                'active'    => 1,
+            ])->save();
+        }
+
+        $dataType = IndexMenu::firstOrNew([
+            'title' => '生活',
+            'url'   => '/news/life',
+        ]);
+        if (!$dataType->exists) {
+            $dataType->fill([
+                'parent_id' => 2,
+                'order'     => 25,
+                'active'    => 1,
+            ])->save();
+        }
+
+        $dataType = IndexMenu::firstOrNew([
+            'title' => '社會',
+            'url'   => '/news/social',
+        ]);
+        if (!$dataType->exists) {
+            $dataType->fill([
+                'parent_id' => 2,
+                'order'     => 26,
+                'active'    => 1,
+            ])->save();
+        }
+
+        $dataType = IndexMenu::firstOrNew([
+            'title' => '地方',
+            'url'   => '/news/regional',
+        ]);
+        if (!$dataType->exists) {
+            $dataType->fill([
+                'parent_id' => 2,
+                'order'     => 27,
+                'active'    => 1,
+            ])->save();
+        }
+
+        $dataType = IndexMenu::firstOrNew([
+            'title' => '娛樂',
+            'url'   => '/news/entertainment',
+        ]);
+        if (!$dataType->exists) {
+            $dataType->fill([
+                'parent_id' => 2,
+                'order'     => 28,
+                'active'    => 1,
+            ])->save();
+        }
+
+        $dataType = IndexMenu::firstOrNew([
+            'title' => '國際',
+            'url'   => '/news/international',
+        ]);
+        if (!$dataType->exists) {
+            $dataType->fill([
+                'parent_id' => 2,
+                'order'     => 29,
+                'active'    => 1,
+            ])->save();
+        }
+
+        $dataType = IndexMenu::firstOrNew([
+            'title' => '財經',
+            'url'   => '/news/fin_econ',
+        ]);
+        if (!$dataType->exists) {
+            $dataType->fill([
+                'parent_id' => 2,
+                'order'     => 30,
+                'active'    => 1,
+            ])->save();
+        }
+
+        $dataType = IndexMenu::firstOrNew([
+            'title' => '政治',
+            'url'   => '/news/politics',
+        ]);
+        if (!$dataType->exists) {
+            $dataType->fill([
+                'parent_id' => 2,
+                'order'     => 31,
+                'active'    => 1,
+            ])->save();
+        }
+
+        $dataType = IndexMenu::firstOrNew([
+            'title' => '科技',
+            'url'   => '/news/tech',
+        ]);
+        if (!$dataType->exists) {
+            $dataType->fill([
+                'parent_id' => 2,
+                'order'     => 32,
+                'active'    => 1,
+            ])->save();
+        }
+
+        $dataType = IndexMenu::firstOrNew([
+            'title' => '健康',
+            'url'   => '/news/health',
+        ]);
+        if (!$dataType->exists) {
+            $dataType->fill([
+                'parent_id' => 2,
+                'order'     => 33,
+                'active'    => 1,
+            ])->save();
+        }
+
+        $dataType = IndexMenu::firstOrNew([
+            'title' => '時尚',
+            'url'   => '/news/fashion',
+        ]);
+        if (!$dataType->exists) {
+            $dataType->fill([
+                'parent_id' => 2,
+                'order'     => 34,
+                'active'    => 1,
+            ])->save();
+        }
+
+        $dataType = IndexMenu::firstOrNew([
+            'title' => '文化',
+            'url'   => '/news/culture',
+        ]);
+        if (!$dataType->exists) {
+            $dataType->fill([
+                'parent_id' => 2,
+                'order'     => 35,
+                'active'    => 1,
+            ])->save();
+        }
+
+        $dataType = IndexMenu::firstOrNew([
+            'title' => '人物',
+            'url'   => '/news/people',
+        ]);
+        if (!$dataType->exists) {
+            $dataType->fill([
+                'parent_id' => 2,
+                'order'     => 36,
+                'active'    => 1,
+            ])->save();
+        }
+
+        $dataType = IndexMenu::firstOrNew([
+            'title' => '專欄',
+            'url'   => '/news/specolumn',
+        ]);
+        if (!$dataType->exists) {
+            $dataType->fill([
+                'parent_id' => 2,
+                'order'     => 37,
                 'active'    => 1,
             ])->save();
         }
