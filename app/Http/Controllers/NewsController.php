@@ -5,11 +5,24 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\NewsCategory;
 use App\NewsPost;
+use App\ClickCounter;
 use DB;
 use Log;
 
 class NewsController extends Controller
 {
+    /**
+     * Constructor
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('clicktrack', ['only' => [
+            'newsArticle',
+        ]]);
+    }
+
     public function getStr(Request $request)
     {
         if (isset($this->str)) {

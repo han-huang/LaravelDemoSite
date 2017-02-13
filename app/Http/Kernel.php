@@ -48,6 +48,7 @@ class Kernel extends HttpKernel
     protected $routeMiddleware = [
         'client' => \App\Http\Middleware\RedirectIfNotClient::class,
         'client.guest' => \App\Http\Middleware\RedirectIfClient::class,
+        'clicktrack' => \App\Http\Middleware\ClickTrack::class,
         'auth' => \Illuminate\Auth\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
