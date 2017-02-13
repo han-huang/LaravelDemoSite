@@ -345,7 +345,7 @@ $(document).ready(function() {
         showLabel: false,
         showCount: true,
         shareIn: "popup",
-        url: "http://192.168.10.10:8028/news_index",
+        url: "{{ Request::url() }}",
         text: "text to share",
         //shares: ["email", "twitter", "facebook", "googleplus", "linkedin", "pinterest", "stumbleupon", "whatsapp"]
         shares: ["twitter", "googleplus", "linkedin", "pinterest", "whatsapp"]
@@ -488,7 +488,7 @@ $(document).ready(function() {
                 </li>
                 <li class="list-group-item">
                     <!-- fb-like -->
-                    <div class="fb-like" data-href="http://192.168.10.10:8028/news_index" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
+                    <div class="fb-like" data-href="{{ Request::url() }}" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
                 </li>
                 </ul>
             </div>
@@ -501,14 +501,24 @@ $(document).ready(function() {
                         <h4><time>{{ $date[0] }} / {{ $date[1] }} / {{ $date[2] }}</time></h4>
                         <ul class="list-group">
                             @foreach($newsposts as $post)
-                                @if(!strcmp($criterionDate, substr($post->updated_at, 0, 10)))
-                                    <li class="list-group-item"><a href="{{ url("news/article/".$post->id) }}" target="_blank"><time>{{ substr($post->updated_at, 11, 5) }}</time><span class="label {{ $post->label_class }} categories-label">{{ $post->cate_title }}</span><span class="color_black">{{ $post->id }} {{ $post->title }}</span></a></li>                                                                                              
+                                @if (!strcmp($criterionDate, substr($post->updated_at, 0, 10)))
+                                    <li class="list-group-item">
+                                        <a href="{{ url("news/article/".$post->id) }}" target="_blank"><time>{{ substr($post->updated_at, 11, 5) }}</time>
+                                        <span class="label {{ $post->label_class }} categories-label">{{ $post->cate_title }}</span>
+                                        <span class="color_black">{{ $post->id }} {{ mb_strlen($post->title, 'UTF-8') > 26 ? mb_substr($post->title, 0, 26, 'UTF-8')."..." : $post->title }}</span>
+                                        </a>
+                                    </li>
                                 @else
                                     <?php $criterionDate = substr($post->updated_at, 0, 10);$date = explode("-", $criterionDate);//echo $date[0]." ".$date[1]." ".$date[2]; ?>
                                     </ul>
                                     <h4><time>{{ $date[0] }} / {{ $date[1] }} / {{ $date[2] }}</time></h4>
                                     <ul class="list-group">
-                                    <li class="list-group-item"><a href="{{ url("news/article/".$post->id) }}" target="_blank"><time>{{ substr($post->updated_at, 11, 5) }}</time><span class="label {{ $post->label_class }} categories-label">{{ $post->cate_title }}</span><span class="color_black">{{ $post->id }} {{ $post->title }}</span></a></li>                                                                           
+                                    <li class="list-group-item">
+                                        <a href="{{ url("news/article/".$post->id) }}" target="_blank"><time>{{ substr($post->updated_at, 11, 5) }}</time>
+                                        <span class="label {{ $post->label_class }} categories-label">{{ $post->cate_title }}</span>
+                                        <span class="color_black">{{ $post->id }} {{ mb_strlen($post->title, 'UTF-8') > 26 ? mb_substr($post->title, 0, 26, 'UTF-8')."..." : $post->title }}</span>
+                                        </a>
+                                    </li>
                                 @endif
                             @endforeach
                         </ul>
@@ -536,7 +546,7 @@ $(document).ready(function() {
             </div> <!-- panel -->
 
             <!-- fb-comments -->
-            <div class="fb-comments" data-href="http://192.168.10.10:8028/news_index" data-numposts="5"></div>
+            <div class="fb-comments" data-href="{{ Request::url() }}" data-numposts="5" data-width="700"></div>
 
         </div> <!-- Left -->
 
