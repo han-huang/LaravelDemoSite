@@ -129,7 +129,20 @@ class NewsPost extends Model
     public function scopeNewsarticle(Builder $query, $id)
     {
         // Log::info('get news article, $id: '.$id." ".__FILE__." ".__FUNCTION__." ".__LINE__);
-        return $query->findid($id)->active()->published();
+        // return $query->findid($id)->active()->published();
+        return $query->joinnewscategories()->where('news_posts.id', '=', $id)->active()->published()->articleselectjoined();
+    }
+
+    /**
+     * Scope a query to select joined columns for article.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @return integer
+     */
+    public function scopeArticleselectjoined(Builder $query)
+    {
+        // Log::info('Selectjoined '.__FILE__." ".__FUNCTION__." ".__LINE__);
+        return $query->select('news_posts.*', 'news_categories.title as cate_title', 'news_categories.label_class', 'news_categories.color');
     }
 
     /**

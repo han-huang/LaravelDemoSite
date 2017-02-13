@@ -46,8 +46,9 @@ class NewsController extends Controller
         // return $newsposts;
         
         $page = 1;
-        $limit = 5;
-        return $this->newsPage($request, $page, $limit);
+        // $limit = 5;
+        // return $this->newsPage($request, $page, $limit);
+        return $this->newsPage($request, $page);
     }
 
     /**
@@ -242,15 +243,22 @@ class NewsController extends Controller
         // $newspost = $newspostsModel->findid($id)
                          // ->active()->published()->get();
 
-        $newspost = $newspostsModel->newsarticle($id)->get();
+        // $newspost = $newspostsModel->newsarticle($id)->get();
+        // Log::info('$newspost = $newspostsModel->newsarticle($id)->get(); get_class($newspost) :'.get_class($newspost)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        $newspost = $newspostsModel->newsarticle($id)->first();
+        // Log::info('$newspost = $newspostsModel->newsarticle($id)->first(); get_class($newspost) :'.get_class($newspost)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
 
         if (!count($newspost)) {
             // Log::info('!count($newspost): '.count($newspost)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
             return redirect()->route('news');
         }
-        // $view = 'site.news.news_article';
-        // return view($view, compact('newspost'));
-        return $newspost;
+
+        $newscategoryModel = new NewsCategory();
+        $newscategories = $newscategoryModel->excludenullcolor()->get();
+
+        $view = 'site.news.news_article';
+        return view($view, compact('newspost', 'newscategories'));
+        // return compact('newspost', 'newscategories');
     }
 
     /**
