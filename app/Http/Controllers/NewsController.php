@@ -269,9 +269,13 @@ class NewsController extends Controller
         $newscategoryModel = new NewsCategory();
         $newscategories = $newscategoryModel->excludenullcolor()->get();
 
+        $clickcounterModel = new ClickCounter();
+        $urlcount = $clickcounterModel->getURLcount($request->path());
+        // Log::info('$urlcount:'.$urlcount." ".'$request->path(): '.$request->path()." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+
         $view = 'site.news.news_article';
-        return view($view, compact('newspost', 'newscategories'));
-        // return compact('newspost', 'newscategories');
+        return view($view, compact('newspost', 'newscategories', 'urlcount'));
+        // return compact('newspost', 'newscategories', 'urlcount');
     }
 
     /**
