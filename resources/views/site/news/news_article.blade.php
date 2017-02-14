@@ -129,6 +129,14 @@
 .listbox li a img{ float:left; margin-right:10px;}
 .listbox li .tab{display:inline-block; background-color:#06b8ea; padding:1px 10px 2px; margin:0px 0px 3px; color:#fff; font-size:0.9em;}/*分類標籤*/
 
+/*
+.nav-tabs a{ color:#06a4d1 !important;}
+.nav-tabs .active a{ color:#8c8c8c !important;}
+*/
+
+.nav-tabs a{ background-color:#8c8c8c !important; color:#fff !important;}
+.nav-tabs .active a{ background-color:#06b8ea !important;color:#fff !important;}
+
 .article-container {
   padding: 0px 15px 10px 15px;
 }
@@ -179,7 +187,7 @@
 
 /* label color */
 
-@foreach($newscategories as $newscategory)
+@foreach ($newscategories as $newscategory)
 .{{ $newscategory->label_class }} {
   background-color: {{ $newscategory->color }}
 }
@@ -310,7 +318,7 @@ $(document).ready(function() {
                     <h3>{{ $newspost->title }}</h3>
                     <div class="row">
                         <div class="col-md-9 author">
-						    <?php $updated_at = substr($newspost->updated_at, 0, 10);$date = explode("-", $updated_at);//echo $date[0]." ".$date[1]." ".$date[2];//echo $criterionDate;//echo " ".$newsposts[0]->id;?>
+                            <?php $updated_at = substr($newspost->updated_at, 0, 10);$date = explode("-", $updated_at);//echo $date[0]." ".$date[1]." ".$date[2];//echo $criterionDate;//echo " ".$newsposts[0]->id;?>
                             <h4><time datetime="{{ $date[0] }}/{{ $date[1] }}/{{ $date[2] }}/" class="">{{ substr($newspost->updated_at, 0, 16) }}</time>&nbsp;<span>{{ $newspost->author }}</span>&nbsp;<span class="label {{ $newspost->label_class }}">{{ $newspost->cate_title }}</span></h4>
                         </div>
                         <div class="col-md-3 text-right">
@@ -347,36 +355,34 @@ $(document).ready(function() {
 
         <!-- Right -->
         <div class="col-md-3 div-margin-top" id="" style="border: 0px solid red;">
-
-            <div class="listbox-title text-left" data-desc=""><a href="new_news">最新文章</a></div>
-            <div class="listbox text-left">
-
-                <ul class="boxTitle" data-desc="最新文章">
-                    <li>
-                        <a href="m/news/28562">Galaxy S8 將是三星集大成之作？5 大亮點等你敗！</a>
-                    </li>
-                    <li>
-                        <a href="m/news/28572">小米 5C 可望本月發表，小米自製處理器也要登場？</a>
-                    </li>
-                    <li>
-                        <a href="m/news/28571">iOS 10.2.1.讓問題更大？iPhone 用戶抱怨 Touch ID 被弄死！</a>
-                    </li>
-                    <li>
-                        <a href="m/news/28564">LINE 也該學學了？WhatsApp 將加入「訊息收回」功能！</a>
-                    </li>
-                    <li>
-                        <a href="m/news/28563">神似 HTC U Ultra 的機背？LG G6 清晰諜照曝光！</a>
-                    </li>
-                    <li>
-                        <a href="m/news/28561">Pixel 專屬功能，Google 可望下放給這 2 款手機！</a>
-                    </li>
-                    <li>
-                        <a href="m/news/28567">絕對不再重蹈覆轍！三星 Galaxy S8 電池將找「它」合作！</a>
-                    </li>
-                    <li>
-                        <a href="m/news/28560">小容量 Android 機救星？Google 開始測試超輕量 App！</a>
-                    </li>
+            <div class="">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#new">最新</a></li>
+                    <li><a data-toggle="tab" href="#hot">熱門</a></li>
                 </ul>
+
+                <div class="tab-content">
+                    <div id="new" class="tab-pane fade in active listbox text-left">
+                        <ul class="" data-desc="最新報導">
+                            @foreach($latestnews as $latest)
+                            <li>
+                                <a href="{{ url('news/article/'.$latest->id) }}">{{ $latest->id }} {{ mb_strlen($latest->title, 'UTF-8') > 22 ? mb_substr($latest->title, 0, 22, 'UTF-8')."&nbsp;..." : $latest->title }}</a>
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
+
+                    <div id="hot" class="tab-pane fade listbox text-left">
+                        <ul class="" data-desc="熱門新聞">
+                            @foreach($hitnews as $hit)
+                            <li>
+                                <a href="{{ url('news/article/'.$hit->id) }}">{{ $hit->id }} {{ mb_strlen($hit->title, 'UTF-8') > 22 ? mb_substr($hit->title, 0, 22, 'UTF-8')."&nbsp;..." : $hit->title }}</a>
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
+
+                </div><!-- tab-content -->
             </div>
 
         </div><!-- Right -->
