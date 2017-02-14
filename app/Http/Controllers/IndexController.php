@@ -34,7 +34,7 @@ class IndexController extends Controller
     public function getIndexView(Request $request)
     {
         $carouselActiveItems = $this->indexCarouselRepository->getActiveItems();
-        ClickCounterController::trackRecord($request);
+        // ClickCounterController::trackRecord($request);
         return view('site.index_view', compact('carouselActiveItems'));
     }
 }

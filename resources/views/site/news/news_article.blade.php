@@ -314,7 +314,7 @@ $(document).ready(function() {
                             <h4><time datetime="{{ $date[0] }}/{{ $date[1] }}/{{ $date[2] }}/" class="">{{ substr($newspost->updated_at, 0, 16) }}</time>&nbsp;<span>{{ $newspost->author }}</span>&nbsp;<span class="label {{ $newspost->label_class }}">{{ $newspost->cate_title }}</span></h4>
                         </div>
                         <div class="col-md-3 text-right">
-                            瀏覽數：<strong>305</strong>&nbsp;&nbsp;
+                            瀏覽數：<strong>{{ $urlcount }}</strong>&nbsp;&nbsp;
                         </div>
                     </div>
 
