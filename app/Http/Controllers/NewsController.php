@@ -260,11 +260,12 @@ class NewsController extends Controller
         // Log::info('$newspost = $newspostsModel->newsarticle($id)->get(); get_class($newspost) :'.get_class($newspost)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
         $newspost = $newspostsModel->newsarticle($id)->first();
         // Log::info('$newspost = $newspostsModel->newsarticle($id)->first(); get_class($newspost) :'.get_class($newspost)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
-
         if (!count($newspost)) {
             // Log::info('!count($newspost): '.count($newspost)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
             return redirect()->route('news');
         }
+
+        $latestnews = $newspostsModel->latestnews()->get();
 
         $newscategoryModel = new NewsCategory();
         $newscategories = $newscategoryModel->excludenullcolor()->get();
@@ -273,9 +274,18 @@ class NewsController extends Controller
         $urlcount = $clickcounterModel->getURLcount($request->path());
         // Log::info('$urlcount:'.$urlcount." ".'$request->path(): '.$request->path()." ".__FILE__." ".__FUNCTION__." ".__LINE__);
 
+        $hotnews = $clickcounterModel->getHotNews()->get();
+        $ids = array();
+        foreach ($hotnews as $hot) {
+            $url = explode("/", $hot->url);
+            $ids[] = $url[2];
+        }
+        // Log::info('$ids: '.collect($ids)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        $hitnews = $newspostsModel->getIDsnews($ids)->get();
+
         $view = 'site.news.news_article';
-        return view($view, compact('newspost', 'newscategories', 'urlcount'));
-        // return compact('newspost', 'newscategories', 'urlcount');
+        return view($view, compact('newspost', 'newscategories', 'urlcount', 'latestnews', 'hitnews'));
+        // return compact('newspost', 'newscategories', 'urlcount', 'latestnews', 'hitnews');
     }
 
     /**
