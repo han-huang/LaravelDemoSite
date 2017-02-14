@@ -129,6 +129,14 @@
 .listbox li a img{ float:left; margin-right:10px;}
 .listbox li .tab{display:inline-block; background-color:#06b8ea; padding:1px 10px 2px; margin:0px 0px 3px; color:#fff; font-size:0.9em;}/*分類標籤*/
 
+/*
+.nav-tabs a{ color:#06a4d1 !important;}
+.nav-tabs .active a{ color:#8c8c8c !important;}
+*/
+
+.nav-tabs a{ background-color:#8c8c8c !important; color:#fff !important;}
+.nav-tabs .active a{ background-color:#06b8ea !important;color:#fff !important;}
+
 .article-container {
   padding: 0px 15px 10px 15px;
 }
@@ -399,41 +407,102 @@ $(document).ready(function() {
 
         </div><!-- Left -->
 
-        <!-- Right -->
-        <div class="col-md-3 div-margin-top" id="" style="border: 0px solid red;">
+      <!-- Right -->
+      <div class="col-md-3 div-margin-top" id="" style="border: 0px solid red;">
+          <div class="">
+              <ul class="nav nav-tabs">
+                  <li class="active"><a data-toggle="tab" href="#new">最新</a></li>
+                  <li><a data-toggle="tab" href="#home">成立</a></li>
+                  <li class=""><a data-toggle="tab" href="#menu2">聯絡</a></li>
+              </ul>
 
-            <div class="listbox-title text-left" data-desc=""><a href="new_news">最新文章</a></div>
-            <div class="listbox text-left">
+              <div class="tab-content">
 
-                <ul class="boxTitle" data-desc="最新文章">
-                    <li>
-                        <a href="m/news/28562">Galaxy S8 將是三星集大成之作？5 大亮點等你敗！</a>
-                    </li>
-                    <li>
-                        <a href="m/news/28572">小米 5C 可望本月發表，小米自製處理器也要登場？</a>
-                    </li>
-                    <li>
-                        <a href="m/news/28571">iOS 10.2.1.讓問題更大？iPhone 用戶抱怨 Touch ID 被弄死！</a>
-                    </li>
-                    <li>
-                        <a href="m/news/28564">LINE 也該學學了？WhatsApp 將加入「訊息收回」功能！</a>
-                    </li>
-                    <li>
-                        <a href="m/news/28563">神似 HTC U Ultra 的機背？LG G6 清晰諜照曝光！</a>
-                    </li>
-                    <li>
-                        <a href="m/news/28561">Pixel 專屬功能，Google 可望下放給這 2 款手機！</a>
-                    </li>
-                    <li>
-                        <a href="m/news/28567">絕對不再重蹈覆轍！三星 Galaxy S8 電池將找「它」合作！</a>
-                    </li>
-                    <li>
-                        <a href="m/news/28560">小容量 Android 機救星？Google 開始測試超輕量 App！</a>
-                    </li>
-                </ul>
-            </div>
+                  <div id="new" class="tab-pane fade in active listbox text-left">
+                      <ul class="boxTitle" data-desc="最新文章">
+                          <li>
+                              <a href="m/news/28562">Galaxy S8 將是三星集大成之作？5 大亮點等你敗！</a>
+                          </li>
+                          <li>
+                              <a href="m/news/28572">小米 5C 可望本月發表，小米自製處理器也要登場？</a>
+                          </li>
+                          <li>
+                              <a href="m/news/28571">iOS 10.2.1.讓問題更大？iPhone 用戶抱怨 Touch ID 被弄死！</a>
+                          </li>
+                          <li>
+                              <a href="m/news/28564">LINE 也該學學了？WhatsApp 將加入「訊息收回」功能！</a>
+                          </li>
+                          <li>
+                              <a href="m/news/28563">神似 HTC U Ultra 的機背？LG G6 清晰諜照曝光！</a>
+                          </li>
+                          <li>
+                              <a href="m/news/28561">Pixel 專屬功能，Google 可望下放給這 2 款手機！</a>
+                          </li>
+                          <li>
+                              <a href="m/news/28567">絕對不再重蹈覆轍！三星 Galaxy S8 電池將找「它」合作！</a>
+                          </li>
+                          <li>
+                              <a href="m/news/28560">小容量 Android 機救星？Google 開始測試超輕量 App！</a>
+                          </li>
+                      </ul>
+                  </div>
 
-        </div><!-- Right -->
+                  <div id="home" class="tab-pane fade listbox text-left">
+                      <ul class="boxTitle" data-desc="">
+                      <li>
+                      <h3>成立</h3>
+                      <p>於2016年12月成立。</p>
+                      </li>
+                      </ul>
+                  </div>
+
+                  <div id="menu2" class="tab-pane fade listbox text-left">
+                      <ul class="boxTitle" data-desc="">
+                          <li>
+                          <h3>聯絡資訊</h3>
+                          <p>704台南市北區文賢路720號</p>
+                          <p>mail@mail.com</p>
+                          </li>
+                      </ul>
+                  </div>
+
+              </div><!-- tab-content -->
+          </div>
+
+          <div class="">
+              <div class="listbox-title text-left" data-desc=""><a href="new_news">最新文章</a></div>
+              <div class="listbox text-left">
+
+                  <ul class="boxTitle" data-desc="最新文章">
+                      <li>
+                          <a href="m/news/28562">Galaxy S8 將是三星集大成之作？5 大亮點等你敗！</a>
+                      </li>
+                      <li>
+                          <a href="m/news/28572">小米 5C 可望本月發表，小米自製處理器也要登場？</a>
+                      </li>
+                      <li>
+                          <a href="m/news/28571">iOS 10.2.1.讓問題更大？iPhone 用戶抱怨 Touch ID 被弄死！</a>
+                      </li>
+                      <li>
+                          <a href="m/news/28564">LINE 也該學學了？WhatsApp 將加入「訊息收回」功能！</a>
+                      </li>
+                      <li>
+                          <a href="m/news/28563">神似 HTC U Ultra 的機背？LG G6 清晰諜照曝光！</a>
+                      </li>
+                      <li>
+                          <a href="m/news/28561">Pixel 專屬功能，Google 可望下放給這 2 款手機！</a>
+                      </li>
+                      <li>
+                          <a href="m/news/28567">絕對不再重蹈覆轍！三星 Galaxy S8 電池將找「它」合作！</a>
+                      </li>
+                      <li>
+                          <a href="m/news/28560">小容量 Android 機救星？Google 開始測試超輕量 App！</a>
+                      </li>
+                  </ul>
+              </div><!-- listbox -->
+          </div>
+
+      </div><!-- Right -->
 
     </div><!-- news -->
 

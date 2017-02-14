@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use DB;
 use Log;
 
 class NewsPost extends Model
@@ -134,6 +135,21 @@ class NewsPost extends Model
     }
 
     /**
+     * Scope a query to get latest news.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param  $offset
+     * @param  $limit
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeLatestnews(Builder $query, $offset = 0, $limit = 8)
+    {
+        // Log::info('get Latestnews '." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        return $query->selectbrief()->active()->published()
+                   ->updatedtimedesc()->getlimit($offset, $limit);
+    }
+
+    /**
      * Scope a query to select joined columns for article.
      *
      * @param  \Illuminate\Database\Eloquent\Builder $query
@@ -206,5 +222,18 @@ class NewsPost extends Model
                    ->active()->published()->updatedtimedesc()
                    ->selectjoined()
                    ->getlimit($offset, $limit);
+    }
+
+    /**
+     * Get news of ids.
+     *
+     * @param  array $ids
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function getIDsnews($ids)
+    {
+        $ids_str = implode(",", $ids);
+        return $this->selectbrief()->whereIn('id', $ids)->active()
+                   ->published()->orderByRaw(DB::raw("FIELD(id, $ids_str)"));
     }
 }
