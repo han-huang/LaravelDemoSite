@@ -106,11 +106,11 @@
   border: 0px;
 }
 
-.sharing-btn a:hover {
+.sharing-btn a:hover, .sharing-btn a {
   text-decoration: none;
 }
 
-.decoration-none a:hover {
+.decoration-none a:hover, .decoration-none a {
   text-decoration: none;
 }
 
@@ -359,10 +359,14 @@ $(document).ready(function() {
                 <ul class="nav nav-tabs">
                     <li class="active"><a data-toggle="tab" href="#new">最新</a></li>
                     <li><a data-toggle="tab" href="#hot">熱門</a></li>
+                    <?php $browsedrecords = Cookie::get('browsed'); ?>
+                    @if (!empty($browsedrecords))
+                    <li><a data-toggle="tab" href="#browsed">瀏覽紀錄</a></li>
+                    @endif
                 </ul>
 
                 <div class="tab-content">
-                    <div id="new" class="tab-pane fade in active listbox text-left">
+                    <div id="new" class="tab-pane fade in active listbox text-left decoration-none">
                         <ul class="" data-desc="最新報導">
                             @foreach($latestnews as $latest)
                             <li>
@@ -372,15 +376,27 @@ $(document).ready(function() {
                         </ul>
                     </div>
 
-                    <div id="hot" class="tab-pane fade listbox text-left">
+                    <div id="hot" class="tab-pane fade listbox text-left decoration-none">
                         <ul class="" data-desc="熱門新聞">
-                            @foreach($hitnews as $hit)
+                            @foreach($hotnews as $hot)
                             <li>
-                                <a href="{{ url('news/article/'.$hit->id) }}">{{ $hit->id }} {{ mb_strlen($hit->title, 'UTF-8') > 22 ? mb_substr($hit->title, 0, 22, 'UTF-8')."&nbsp;..." : $hit->title }}</a>
+                                <a href="{{ url('news/article/'.$hot->id) }}">{{ $hot->id }} {{ mb_strlen($hot->title, 'UTF-8') > 22 ? mb_substr($hot->title, 0, 22, 'UTF-8')."&nbsp;..." : $hot->title }}</a>
                             </li>
                             @endforeach
                         </ul>
                     </div>
+
+                    @if (!empty($browsedrecords))
+                    <div id="browsed" class="tab-pane fade listbox text-left decoration-none">
+                        <ul class="" data-desc="瀏覽紀錄">
+                            @foreach($browsedrecords as $browsed)
+                            <li>
+                                <a href="{{ url('news/article/'.$browsed['id']) }}">{{ $browsed["id"] }} {{ mb_strlen($browsed["title"], 'UTF-8') > 22 ? mb_substr($browsed["title"], 0, 22, 'UTF-8')."&nbsp;..." : $browsed["title"] }}</a>
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
 
                 </div><!-- tab-content -->
             </div>

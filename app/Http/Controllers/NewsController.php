@@ -247,15 +247,7 @@ class NewsController extends Controller
             return redirect()->route('news');
         }
 
-        // $newspost = NewsPost::where('id', '=', $id)->first();
         $newspostsModel = new NewsPost();
-        // $newsposts = $newspostsModel->selectbrief()
-                         // ->active()->published()
-                         // ->updatedtimedesc()->getlimit($offset, $limit)->get();
-
-        // $newspost = $newspostsModel->findid($id)
-                         // ->active()->published()->get();
-
         // $newspost = $newspostsModel->newsarticle($id)->get();
         // Log::info('$newspost = $newspostsModel->newsarticle($id)->get(); get_class($newspost) :'.get_class($newspost)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
         $newspost = $newspostsModel->newsarticle($id)->first();
@@ -267,6 +259,15 @@ class NewsController extends Controller
 
         $latestnews = $newspostsModel->latestnews()->get();
 
+        $brief = $newspostsModel->newsarticlebrief($id)->first();
+        // Log::info('newsarticlebrief($id) '.$id." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        $current = array(
+                       "id" => $brief->id,
+                       "title" => $brief->title
+                   );
+
+        $browsed = $this->getBrowsedCookie($request, $brief->id, $current);
+
         $newscategoryModel = new NewsCategory();
         $newscategories = $newscategoryModel->excludenullcolor()->get();
 
@@ -274,6 +275,26 @@ class NewsController extends Controller
         $urlcount = $clickcounterModel->getURLcount($request->path());
         // Log::info('$urlcount:'.$urlcount." ".'$request->path(): '.$request->path()." ".__FILE__." ".__FUNCTION__." ".__LINE__);
 
+        $hotnews = $this->getHotNews();
+
+        $view = 'site.news.news_article';
+        // $cookie = cookie()->forever('browsed', $browsed);
+        // return view($view, compact('newspost', 'newscategories', 'urlcount', 'latestnews', 'hotnews'));
+        // return compact('newspost', 'newscategories', 'urlcount', 'latestnews', 'hotnews');
+        // return response()->view($view, compact('newspost', 'newscategories', 'urlcount', 'latestnews', 'hotnews'))
+                   // ->cookie($cookie);
+        return response()->view($view, compact('newspost', 'newscategories', 'urlcount', 'latestnews', 'hotnews'))
+                   ->withCookie(cookie()->forever('browsed', $browsed));
+    }
+
+    /**
+     * Get Hot News
+     *
+     * @return Illuminate\Database\Eloquent\Collection
+     */
+    public function getHotNews()
+    {
+        $clickcounterModel = new ClickCounter();
         $hotnews = $clickcounterModel->getHotNews()->get();
         $ids = array();
         foreach ($hotnews as $hot) {
@@ -281,11 +302,57 @@ class NewsController extends Controller
             $ids[] = $url[2];
         }
         // Log::info('$ids: '.collect($ids)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
-        $hitnews = $newspostsModel->getIDsnews($ids)->get();
+        $newspostsModel = new NewsPost();
+        $hit = $newspostsModel->getIDsnews($ids)->get();
+        return $hit;
+    }
 
-        $view = 'site.news.news_article';
-        return view($view, compact('newspost', 'newscategories', 'urlcount', 'latestnews', 'hitnews'));
-        // return compact('newspost', 'newscategories', 'urlcount', 'latestnews', 'hitnews');
+    /**
+     * Get Cookie of Browsed record
+     *
+     * @param  Request $request
+     * @param  integer $id
+     * @param  array   $current
+     * @param  integer $remain - remaining count
+     * @return array   $browsed
+     */
+    public function getBrowsedCookie(Request $request, $id, $current, $remain = 8)
+    {
+        $browsed = [];
+        if ($cookie_data = $request->cookie('browsed')) {
+
+            // if(!is_array($cookie_data))
+            // {
+                // Log::info('!is_array'." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+                // $browsed = [];
+                // $browsed[] = $cookie_data;
+            // } else {
+                // Log::info('is_array: $cookie_data '.collect($cookie_data)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+                // $browsed = $cookie_data;
+            // }
+
+            $browsed = $cookie_data;
+            $repeat = false;
+            foreach ($cookie_data as $data) {
+                if(in_array($id, $data)) {
+                    $repeat = true;
+                    // Log::info('in_array '.__FILE__." ".__FUNCTION__." ".__LINE__);
+                }
+            }
+            // if it's greater or equal to remaining count and no repeated record, remove the first record
+            if (count($browsed) >= $remain && !$repeat) {
+                // Log::info('before array_shift($browsed) '.'count($browsed): '.count($browsed).__FILE__." ".__FUNCTION__." ".__LINE__);
+                array_shift($browsed);
+                // Log::info('array_shift($browsed) '.'count($browsed): '.count($browsed).__FILE__." ".__FUNCTION__." ".__LINE__);
+            }
+            if (!$repeat) $browsed[] = $current;
+
+        } else {
+            $browsed[] = $current;
+            // Log::info('else '." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        }
+        // Log::info('$current: '.collect($current)." ".'count($browsed): '.count($browsed).' $browsed: '.collect($browsed)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        return $browsed;
     }
 
     /**
