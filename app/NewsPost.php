@@ -135,6 +135,22 @@ class NewsPost extends Model
     }
 
     /**
+     * Scope a query to get brief news.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param  $id
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeNewsarticlebrief(Builder $query, $id)
+    {
+        // Log::info('get news article, $id: '.$id." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        // return $query->findid($id)->active()->published();
+        // return $query->selectbrief()->where('id', '=', $id)->active()->published();
+        return $query->selectbrief()->findid($id)->active()->published();
+        // return $query->selectbrief()->find($id)->active()->published(); //fail
+    }
+
+    /**
      * Scope a query to get latest news.
      *
      * @param  \Illuminate\Database\Eloquent\Builder $query
