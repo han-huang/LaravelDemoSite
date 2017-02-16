@@ -55,7 +55,7 @@ class NewDataRowsTableSeeder extends Seeder
                 'details'      => '',
             ])->save();
         }
-        
+
         $dataRow = DataRow::firstOrNew([
             'data_type_id' => $indexMenusDataType->id,
             'field'        => 'title',
@@ -1085,6 +1085,24 @@ class NewDataRowsTableSeeder extends Seeder
             $dataRow->fill([
                 'type'         => 'checkbox',
                 'display_name' => 'Active',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $newsPostsDataType->id,
+            'field'        => 'breaking_news',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'checkbox',
+                'display_name' => 'Breaking news',
                 'required'     => 1,
                 'browse'       => 1,
                 'read'         => 1,

@@ -51,6 +51,7 @@ class NewsPostsTableSeeder extends Seeder
                     'meta_keywords'    => 'NBA》馬刺客場踢館　七六人吞5連敗 - 麗台運動報',
                     'status'           => 'PUBLISHED',
                     'active'           => 1,
+                    'breaking_news'    => 1,
                     'created_at'       => $input_time,
                     'updated_at'       => $input_time,
                 ])->save();
@@ -302,6 +303,7 @@ class NewsPostsTableSeeder extends Seeder
                     'meta_keywords'    => '財經,新台幣,台股,理財,美元,日圓',
                     'status'           => 'PUBLISHED',
                     'active'           => 1,
+                    'breaking_news'    => 1,
                     'created_at'       => $input_time,
                     'updated_at'       => $input_time,
                 ])->save();
