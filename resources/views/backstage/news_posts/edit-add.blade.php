@@ -198,12 +198,24 @@
                                 <label for="name">Active</label>
                                 <br>
                                 <?php $checked = (isset($dataTypeContent->active) && !is_null(old('active', $dataTypeContent->active))) ? old('active', $dataTypeContent->active) : old('active'); ?>
-                                <?php 
+                                <?php
                                 // if $errors happen when update data (redirect()->back()), use old('active')
-                                if (count($errors) > 0)$checked = old('active'); 
+                                if (count($errors) > 0)$checked = old('active');
                                 ?>
                                 <?php //echo "active: ".$checked; ?>
                                 <input type="checkbox" name="active" class="toggleswitch"
+                                       @if($checked) checked @endif>
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Breaking news</label>
+                                <br>
+                                <?php $checked = (isset($dataTypeContent->breaking_news) && !is_null(old('breaking_news', $dataTypeContent->breaking_news))) ? old('breaking_news', $dataTypeContent->breaking_news) : old('breaking_news'); ?>
+                                <?php
+                                // if $errors happen when update data (redirect()->back()), use old('breaking_news')
+                                if (count($errors) > 0)$checked = old('breaking_news');
+                                ?>
+                                <?php //echo "breaking_news: ".$checked; ?>
+                                <input type="checkbox" name="breaking_news" class="toggleswitch"
                                        @if($checked) checked @endif>
                             </div>
                         </div>

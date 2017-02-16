@@ -55,10 +55,22 @@ class NewsPost extends Model
     }
 
     /**
+     * Scope a query to only breaking_news=1 scopes.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeBreakingnews(Builder $query)
+    {
+        // Log::info('active '.__FILE__." ".__FUNCTION__." ".__LINE__);
+        return $query->where('breaking_news', 1);
+    }
+
+    /**
      * Scope a query to find id.
      *
      * @param  \Illuminate\Database\Eloquent\Builder $query
-     * @param  $id
+     * @param  integer $id
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeFindid(Builder $query, $id)
@@ -95,8 +107,8 @@ class NewsPost extends Model
      * Scope a query to get limited rows.
      *
      * @param  \Illuminate\Database\Eloquent\Builder $query
-     * @param  $offset
-     * @param  $limit
+     * @param  integer $offset
+     * @param  integer $limit
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeGetlimit(Builder $query, $offset = 0, $limit = 10)
@@ -109,8 +121,8 @@ class NewsPost extends Model
      * Scope a query to get news page.
      *
      * @param  \Illuminate\Database\Eloquent\Builder $query
-     * @param  $offset
-     * @param  $limit
+     * @param  integer $offset
+     * @param  integer $limit
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeNewspage(Builder $query, $offset = 0, $limit = 10)
@@ -124,7 +136,7 @@ class NewsPost extends Model
      * Scope a query to get news article.
      *
      * @param  \Illuminate\Database\Eloquent\Builder $query
-     * @param  $id
+     * @param  integer $id
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeNewsarticle(Builder $query, $id)
@@ -138,7 +150,7 @@ class NewsPost extends Model
      * Scope a query to get brief news.
      *
      * @param  \Illuminate\Database\Eloquent\Builder $query
-     * @param  $id
+     * @param  integer $id
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeNewsarticlebrief(Builder $query, $id)
@@ -154,8 +166,8 @@ class NewsPost extends Model
      * Scope a query to get latest news.
      *
      * @param  \Illuminate\Database\Eloquent\Builder $query
-     * @param  $offset
-     * @param  $limit
+     * @param  integer $offset
+     * @param  integer $limit
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeLatestnews(Builder $query, $offset = 0, $limit = 8)
@@ -226,6 +238,8 @@ class NewsPost extends Model
     /**
      * NewsPost Join NewsCategory.
      *
+     * @param  integer $offset
+     * @param  integer $limit
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function newsPostJoinNewsCategory($offset = 0, $limit = 10)
@@ -251,5 +265,19 @@ class NewsPost extends Model
         $ids_str = implode(",", $ids);
         return $this->selectbrief()->whereIn('id', $ids)->active()
                    ->published()->orderByRaw(DB::raw("FIELD(id, $ids_str)"));
+    }
+
+    /**
+     * Get breaking news.
+     *
+     * @param  integer $limit
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function getBreakingnews($limit = 10)
+    {
+        // Log::info('getBreakingnews '.__FILE__." ".__FUNCTION__." ".__LINE__);
+        return $this->selectbrief()->breakingnews()
+                   ->active()->published()
+                   ->updatedtimedesc()->offset(0)->limit($limit);
     }
 }

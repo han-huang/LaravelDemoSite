@@ -395,9 +395,9 @@ $(document).ready(function() {
                     <div class="" id="breakingnews" style="border: 0px solid green;">          
                         <div class="slideText">
                             <ul>
-                                <li><a href="#"><i class="fa fa-bolt fa-fw" aria-hidden="true"></i><span> 1【創新拿鐵】辦公室變社群網站！</span></a></li>                            
-                                <li><a href="#"><i class="fa fa-bolt fa-fw" aria-hidden="true"></i><span> 2【創新拿鐵】辦公室變社群網站！</span></a></li>                            
-                                <li><a href="#"><i class="fa fa-bolt fa-fw" aria-hidden="true"></i><span> 3【創新拿鐵】辦公室變社群網站！</span></a></li>                            
+                                @foreach($breakingnews as $breaking)
+                                <li><a href="{{ url('news/article/'.$breaking->id) }}" target="_blank"><i class="fa fa-bolt fa-fw" aria-hidden="true"></i><span>{{ mb_strlen($breaking->title, 'UTF-8') > 24 ? mb_substr($breaking->title, 0, 24, 'UTF-8')."&nbsp;..." : $breaking->title }}</span></a></li>
+                                @endforeach
                             </ul>
                         </div>
                     </div>
