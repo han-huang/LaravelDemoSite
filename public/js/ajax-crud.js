@@ -4,7 +4,9 @@ $(document).ready(function(){
     var url = "tasks";
 
     //display modal form for task editing
-    $('.open-modal').click(function(){
+    $('#tasks-list').on('click', '.open-modal', function(e){
+        console.log("open-modal");
+        e.preventDefault();
         var task_id = $(this).val();
         console.log("task_id: "+ task_id);
         $.get(url + '/' + task_id, function (data) {
@@ -16,7 +18,7 @@ $(document).ready(function(){
             $('#btn-save').val("update");
 
             $('#myModal').modal('show');
-        }) 
+        })
     });
 
     //display modal form for creating new task
@@ -27,13 +29,23 @@ $(document).ready(function(){
     });
 
     //delete task and remove it from list
-    $('.delete-task').click(function(){
+    $("#tasks-list").on('click', '.delete-task', function(e){
+        e.preventDefault();
         var task_id = $(this).val();
+        console.log("delete-task task_id: "+ task_id);
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        })
 
         $.ajax({
 
             type: "DELETE",
             url: url + '/' + task_id,
+            data: {
+               // "_token": $('#token').val(), //do not need it, <input type="hidden" name="_token" value="jUGwtcDP4OOFHa35ytRHbinwHG84K8FGu97IYdqw">, no id
+            },
             success: function (data) {
                 console.log(data);
 
@@ -54,11 +66,12 @@ $(document).ready(function(){
             }
         })
 
-        e.preventDefault(); 
+        e.preventDefault();
 
         var formData = {
             task: $('#task').val(),
             description: $('#description').val(),
+            // "_token": $('#token').val(), //do not need it, <input type="hidden" name="_token" value="jUGwtcDP4OOFHa35ytRHbinwHG84K8FGu97IYdqw">, no id
         }
 
         //used to determine the http verb to use [add=POST], [update=PUT]
