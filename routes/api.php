@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Log;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,9 @@ use Illuminate\Http\Request;
 */
 
 Route::get('/user', function (Request $request) {
+	$user = Auth::guard('api')->user();
+    Log::info('$user: '.$user.__FILE__." ".__FUNCTION__." ".__LINE__);
+    Log::info('api_token: '.$request->input('api_token').__FILE__." ".__FUNCTION__." ".__LINE__);
     return $request->user();
 })->middleware('auth:api');
 
