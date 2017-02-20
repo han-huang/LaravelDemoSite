@@ -104,6 +104,18 @@ class NewsPost extends Model
     }
 
     /**
+     * Scope a query to order by updated_at asc.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeUpdatedtimeasc(Builder $query)
+    {
+        // Log::info('order by updated_at desc '.__FILE__." ".__FUNCTION__." ".__LINE__);
+        return $query->orderBy('updated_at', 'asc');
+    }
+
+    /**
      * Scope a query to get limited rows.
      *
      * @param  \Illuminate\Database\Eloquent\Builder $query
@@ -279,5 +291,29 @@ class NewsPost extends Model
         return $this->selectbrief()->breakingnews()
                    ->active()->published()
                    ->updatedtimedesc()->offset(0)->limit($limit);
+    }
+
+    /**
+     * Get next id of news.
+     *
+     * @param  $updated_at
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function getNext($updated_at)
+    {
+        return $this->selectbrief()->where('updated_at', '>', $updated_at)->active()
+                   ->published()->updatedtimeasc()->offset(0)->limit(1);
+    }
+
+    /**
+     * Get previous id of news.
+     *
+     * @param  $updated_at
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function getPrevious($updated_at)
+    {
+        return $this->selectbrief()->where('updated_at', '<', $updated_at)->active()
+                   ->published()->updatedtimedesc()->offset(0)->limit(1);
     }
 }
