@@ -170,6 +170,7 @@ return [
         Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Mews\Captcha\CaptchaServiceProvider::class,
+        EllipseSynergie\ApiResponse\Laravel\ResponseServiceProvider::class,
         //
 
         /*
