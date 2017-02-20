@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\ClickCounter;
 use DB;
-//use Log;
+use Log;
 
 class ClickCounterController extends Controller
 {
@@ -23,8 +23,14 @@ class ClickCounterController extends Controller
         
         DB::transaction(function () use ($url, $session_id, $client_ip)
         {
+            $prefix = explode("/", $url)[0];
+            // Log::info('$prefix: '.$prefix." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+            if (!strcmp("api", $prefix)) {
+                $url = str_replace("api", "news", $url);
+            }
+            // Log::info('$url: '.$url." ".__FILE__." ".__FUNCTION__." ".__LINE__);
             $url_records = ClickCounter::where('url', $url)->get();
-            
+
             if ($url_records->count()) {
                 //if url & session_id already exist, count + 1 and add new record
                 if (!in_array($session_id, $url_records->pluck('session_id')->toArray())) {

@@ -16,7 +16,9 @@ class ClickTrack
      */
     public function handle($request, Closure $next)
     {
+        $response = $next($request);
         ClickCounterController::trackRecord($request);
-        return $next($request);
+        return $response;
+        // return $next($request);
     }
 }

@@ -19,172 +19,12 @@
 <!-- jssocials -->
 <link rel="stylesheet" type="text/css" href="{{ asset('css/jssocials.css') }}" />
 <link rel="stylesheet" type="text/css" href="{{ asset('css/jssocials-theme-classic.css') }}" />
+
+<link href="{{ asset('css/news_article.css') }}" rel="stylesheet" type="text/css">
 @stop
 
 @section('content')
 <style>
-.div-top {
-  padding-top: 50px;
-}
-
-#div_left {
-  margin-top: 10px;
-  padding-top: 0px;
-  padding-left: 0px;
-}
-
-.div-margin-top {
-  margin-top: 10px;
-}
-
-#float-div-left {
-  position: fixed;
-  bottom: 100px;
-  left: 0;
-}
-
-#float-div-left-top {
-  position: fixed;
-  top: 50px;
-  left: 0;
-}
-
-#float-div-left-top-2 {
-  position: fixed;
-  top: 50px;
-  left: 150px;
-}
-
-#float-div-left-top-3 {
-  position: fixed;
-  top: 50px;
-  left: 300px;
-}  
-
-.ad-width {
-  width: 150px;
-}
-
-#float-div-right {
-  position: fixed;
-  bottom: 100px;
-  right: 0;
-}
-
-#float-div-right-top {
-  position: fixed;
-  top: 50px;
-  right: 0;
-}
-
-.pos-relative {
-  position: relative;
-}
-
-.close-item {
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  cursor: pointer;
-  display: none;
-}
-
-.jssocials {
-  /* font-size: 1em; */
-  font-size: 10px;;
-}
-
-.jssocials-share-link {
-  border-radius: 50%;
-  /*font-size: 10px;*/
-}
-
-/* inline for sharing buttons */
-.sharing-btn * {
-  display: inline;
-  /*margin-bottom: 20px;*/
-  border: 0px;
-}
-
-.sharing-btn a:hover, .sharing-btn a {
-  text-decoration: none;
-}
-
-.decoration-none a:hover, .decoration-none a {
-  text-decoration: none;
-}
-
-/* news_content */
-.listbox-title{ background-color:#06b8ea; color:#fff; padding:6px 8px; margin:0px; clear:both; border-radius: 2px 2px 0px 0px;}/*大標*/
-.listbox-title a{color:#FFFFFF;}
-.listbox-title a:hover{color:#000000;}
-.listbox{ padding:0px; border:1px solid #c3c3c3; border-top:none; margin-bottom:20px; overflow:hidden; border-radius: 0px 0px 2px 2px;}/*大標+框*/
-
-.listbox ul{padding:0px;}/*文章列表、內文相關文章*/
-.listbox li{ list-style:none; border-bottom:1px dotted #c3c3c3; padding:8px 10px; overflow:hidden;}
-.listbox li:nth-last-of-type(1){border-bottom:none;}/*最後1個li沒border-bottom*/
-.listbox li span{ display:block; padding:5px 0px; color:#777; font-size:0.95em;}
-.listbox li a{display:block; color:#000; font-size:1em; line-height:1.6em; }
-.listbox li a:hover{color:#06a4d1;}
-.listbox li a img{ float:left; margin-right:10px;}
-.listbox li .tab{display:inline-block; background-color:#06b8ea; padding:1px 10px 2px; margin:0px 0px 3px; color:#fff; font-size:0.9em;}/*分類標籤*/
-
-/*
-.nav-tabs a{ color:#06a4d1 !important;}
-.nav-tabs .active a{ color:#8c8c8c !important;}
-*/
-
-.nav-tabs a{ background-color:#8c8c8c !important; color:#fff !important;}
-.nav-tabs .active a{ background-color:#06b8ea !important;color:#fff !important;}
-
-.article-container {
-  padding: 0px 15px 10px 15px;
-}
-
-.article-pic {
-  
-}
-
-.excerpt { padding: 15px; border: solid 2px #555555; margin-top: 10px; margin-bottom: 20px; }
-.excerpt p { font-size: 1em; color: #777777; line-height: 1.4em; letter-spacing: 0.3px; } 
-
-@media screen and (min-width: 1281px) {
-  .article-pic img {
-    max-width: 825px;
-    max-height: 420px;
-    /* width: 100%; */
-    width: auto;
-    height: auto;
-  }
-}
-
-@media screen and (max-width: 1280px) {
-  .article-pic img {
-    max-width: 675px;
-    max-height: 350px;
-    /* width: 100%; */
-    width: auto;
-    height: auto;
-  }
-}
-
-@media screen and (max-width: 1024px) {
-  .article-pic img {
-    max-height: 280px;
-    /* width: 100%; */
-    width: auto;
-    height: auto;
-  }
-}
-
-@media screen and (max-width: 800px) {
-  .article-pic img {
-    max-height: 200px;
-    width: auto;
-    height: auto;
-  }
-}
-
 /* label color */
 
 @foreach ($newscategories as $newscategory)
@@ -220,18 +60,6 @@ function close_div(div, xitem)
 }
 
 $(document).ready(function() {
-    /*
-    $('.slideText').textslider({
-        direction : 'scrollUp', // 捲動方向: scrollUp向上, scrollDown向下
-        //direction : 'scrollDown', // 捲動方向: scrollUp向上, scrollDown向下
-        scrollNum : 1, // 一次捲動幾個元素
-        scrollSpeed : 500, // 捲動速度(ms)
-        pause : 500 // 停頓時間(ms)
-    });
-    */
-
-    //$('#newslist li:nth-child(odd)').addClass('alert-info');
-
     /* control_panel */
     $('#myCarousel').mouseover(function() {
       $('#control_panel').css("display", "block");
@@ -239,26 +67,8 @@ $(document).ready(function() {
       $("#control_panel").css("display", "none");
     });
 
-    //$("#float-div-left").floatdiv({bottom: "200px", left: "0", width: "150px"});
-
-    /* #float-div-left .close-item */
-    /*
-    $('#float-div-left').mouseover(function(){
-      $('#float-div-left .close-item').css("display", "block");
-      console.log("mouseover");
-    }).mouseout(function(){    
-      $("#float-div-left .close-item").css("display", "none");
-      console.log("mouseout");
-    });
-
-    $("#float-div-left .close-item").click(function(){
-      $('#float-div-left').css("display", "none");
-    });
-    */
     close_div("#float-div-left",".close-item");
     close_div("#float-div-left-top",".close-item");
-    //close_div("#float-div-left-top-2",".close-item");
-    //close_div("#float-div-left-top-3",".close-item");
     close_div("#float-div-right",".close-item");
     close_div("#float-div-right-top",".close-item");
 
@@ -275,24 +85,149 @@ $(document).ready(function() {
 
     // Add smooth scrolling to all links in navbar + footer link
     $("a[href='#pagebody']").on('click', function(event) {
-
         // Prevent default anchor click behavior
         event.preventDefault();
-
         // Store hash
         var hash = this.hash;
         //console.log("this.hash " + this.hash);
         // Using jQuery's animate() method to add smooth page scroll
         // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
         $('html, body').animate({
-          scrollTop: $(hash).offset().top
-        }, 900, function(){
-
-          // Add hash (#) to URL when done scrolling (default click behavior)
-          window.location.hash = hash;
+            scrollTop: $(hash).offset().top
+        }, 900, function() {
+            // Add hash (#) to URL when done scrolling (default click behavior)
+            window.location.hash = hash;
         });
     });
+});
 
+var url = "{{ url('api/article/') }}";
+var shareurl = "{{ url('news/article/') }}";
+var previous = {{ ($previous) ? $previous->id : 0 }};
+var next = {{ ($next) ? $next->id : 0 }};
+var loading = false;
+var divideid = "divide" + {{ $newspost->id }} ;
+if (!next) {
+    target = previous;
+    direction = 0;
+} else {
+    target = next;
+    direction = 1;
+}
+
+$(window).scroll(function() {
+    if ((($(window).scrollTop() + $(window).height()) + 250) >= $(document).height()) {
+        if (loading == false) {
+            loading = true;
+
+            $.get(url + "/" + target, function (data) {
+                //success data
+                loading = false;
+                urlcount = (!data.urlcount) ? 0 : data.urlcount;
+                date = data.newspost.updated_at.substr(0, 10);
+                date = date.replace(/-/g, "/");
+
+                var loaded = '\
+    <div class="container " style="border: 0px solid red;">\
+        <div id="" class="col-md-9  div-margin-top article-container" style="border : 0px solid blue;">\
+            <div class="article-pic text-center" style="border : 0px solid black;"><img src=';
+
+                if (data.newspost.image) {
+                    loaded += '/storage/' + data.newspost.image;
+                }
+
+                loaded += '></div>\
+            <div class="article-header-container" style="border : 0px solid blue;">\
+                <div class="text-left" style="border : 0px solid red;">\
+                    <h3>' + data.newspost.title + '</h3>\
+                    <div class="row">\
+                        <div class="col-md-9 author">\
+                            <h4><time datetime="' + date  + '" class="">' + data.newspost.updated_at.substr(0, 16) + '</time>&nbsp;<span>'+ data.newspost.author + '</span>&nbsp;<span class="label '+ data.newspost.label_class + '">' + data.newspost.cate_title + '</span></h4>\
+                        </div>\
+                        <div class="col-md-3 text-right">\
+                            瀏覽數：<strong>'+ urlcount + '</strong>&nbsp;&nbsp;\
+                        </div>\
+                    </div>\
+                </div>\
+            </div>\
+            <div class="sharing-btn text-left" style="border : 0px solid green;">\
+                <ul class="list-group list-inline">\
+                    <li class="list-group-item">\
+                        <div id="';
+                shareid = data.newspost.id;
+                loaded += "share" + shareid;
+                loaded += '"  style=""></div>\
+                    </li>\
+                    <li class="list-group-item">\
+                        <div class="fb-like" data-href="' + shareurl + "/" + target + '" data-layout="standard" data-action="like" data-show-faces="false" data-share="true"></div>\
+                    </li>\
+                </ul>\
+            </div>';
+
+            if (data.newspost.excerpt) {
+                loaded += '<header class="excerpt"><p class="">' + data.newspost.excerpt + '</p> </header>';
+            }
+
+            loaded += '\
+            <div class="article-body">\
+                <div class="article-content">\
+                    <p>' + data.newspost.body + '</p>\
+                </div>\
+            </div>\
+            <div class="fb-comments" data-href="' + shareurl + "/" + target + '" data-numposts="5" data-width="800"></div>\
+        </div>\
+    </div>';
+                /* direction: previous or next, assign target id */
+                if (data.previous) previous_record = data.previous.id;
+                if (data.next) next_record = data.next.id;
+                if (direction) {
+                    if (!data.next) {
+                        // next_record null
+                        target = previous;
+                        // change direction to previous (new news)
+                        direction = 0;
+                    } else {
+                        // keep down (old news)
+                        target = data.next.id;
+                    }
+                } else {
+                    if (!data.previous) {
+                        //previous_record null, No data, stop
+                        loading = true;
+                    } else {
+                        target = data.previous.id;
+                    }
+                }
+
+                loaded += '<div id="divide' + data.newspost.id + '" class="container-fluid"><hr></div>';
+                $("#" + divideid).after(loaded);
+                // next divideid
+                divideid = "divide" + data.newspost.id;
+                // facebook button refresh
+                try{
+                    FB.XFBML.parse();
+                }catch(ex){};
+
+                // jsSocials
+                // console.log("#share" + shareid);
+                $("#share" + shareid).jsSocials({
+                    showLabel: false,
+                    showCount: true,
+                    shareIn: "popup",
+                    url: shareurl + "/" + shareid,
+                    text: "text to share",
+                    //shares: ["email", "twitter", "facebook", "googleplus", "linkedin", "pinterest", "stumbleupon", "whatsapp"]
+                    shares: ["twitter", "googleplus", "linkedin", "pinterest", "whatsapp"]
+                });
+            });
+        }
+    }
+
+    if ($(this).scrollTop() > 600) {
+        $('.scrollup').fadeIn();
+    } else {
+        $('.scrollup').fadeOut();
+    }
 });
 </script>
 
@@ -318,11 +253,11 @@ $(document).ready(function() {
                     <h3>{{ $newspost->title }}</h3>
                     <div class="row">
                         <div class="col-md-9 author">
-                            <?php $updated_at = substr($newspost->updated_at, 0, 10);$date = explode("-", $updated_at);//echo $date[0]." ".$date[1]." ".$date[2];//echo $criterionDate;//echo " ".$newsposts[0]->id;?>
-                            <h4><time datetime="{{ $date[0] }}/{{ $date[1] }}/{{ $date[2] }}/" class="">{{ substr($newspost->updated_at, 0, 16) }}</time>&nbsp;<span>{{ $newspost->author }}</span>&nbsp;<span class="label {{ $newspost->label_class }}">{{ $newspost->cate_title }}</span></h4>
+                            <?php //$updated_at = substr($newspost->updated_at, 0, 10);$date = explode("-", $updated_at);//echo $date[0]." ".$date[1]." ".$date[2];//echo $criterionDate;//echo " ".$newsposts[0]->id;?>
+                            <h4><time datetime="{{ substr($newspost->updated_at, 0, 16) }}" class="">{{ substr($newspost->updated_at, 0, 16) }}</time>&nbsp;<span>{{ $newspost->author }}</span>&nbsp;<span class="label {{ $newspost->label_class }}">{{ $newspost->cate_title }}</span></h4>
                         </div>
                         <div class="col-md-3 text-right">
-                            瀏覽數：<strong>{{ $urlcount }}</strong>&nbsp;&nbsp;
+                            瀏覽數：<strong>@if (is_null($urlcount)){{ "0" }} @else {{ $urlcount }} @endif</strong>&nbsp;&nbsp;
                         </div>
                     </div>
 
@@ -332,13 +267,13 @@ $(document).ready(function() {
             <div class="sharing-btn text-left" style="border : 0px solid green;">
                 <ul class="list-group list-inline">
                     <li class="list-group-item">
-                    <!-- jsSocials -->
-                    <div id="share"  style=""></div>
-                </li>
-                <li class="list-group-item">
-                    <!-- fb-like -->
-                    <div class="fb-like" data-href="{{ Request::url() }}" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
-                </li>
+                        <!-- jsSocials -->
+                        <div id="share" style=""></div>
+                    </li>
+                    <li class="list-group-item">
+                        <!-- fb-like -->
+                        <div class="fb-like" data-href="{{ Request::url() }}" data-layout="standard" data-action="like" data-show-faces="false" data-share="true"></div>
+                    </li>
                 </ul>
             </div>
             @if (!empty($newspost->excerpt))
@@ -358,7 +293,9 @@ $(document).ready(function() {
             <div class="">
                 <ul class="nav nav-tabs">
                     <li class="active"><a data-toggle="tab" href="#new">最新</a></li>
+                    @if (!empty($hotnews))
                     <li><a data-toggle="tab" href="#hot">熱門</a></li>
+                    @endif
                     <?php $browsedrecords = Cookie::get('browsed'); ?>
                     @if (!empty($browsedrecords))
                     <li><a data-toggle="tab" href="#browsed">瀏覽紀錄</a></li>
@@ -376,6 +313,7 @@ $(document).ready(function() {
                         </ul>
                     </div>
 
+                    @if (!empty($hotnews))
                     <div id="hot" class="tab-pane fade listbox text-left decoration-none">
                         <ul class="" data-desc="熱門新聞">
                             @foreach($hotnews as $hot)
@@ -385,6 +323,7 @@ $(document).ready(function() {
                             @endforeach
                         </ul>
                     </div>
+                    @endif
 
                     @if (!empty($browsedrecords))
                     <div id="browsed" class="tab-pane fade listbox text-left decoration-none">
@@ -405,7 +344,7 @@ $(document).ready(function() {
 
     </div><!-- news -->
 
-    <div id="divide" class="container-fluid">
+    <div id="divide{{ $newspost->id }}" class="container-fluid">
     <hr>
     </div>
 
@@ -453,9 +392,9 @@ $(document).ready(function() {
         </div>
     </div>
 
-    <div class="container text-center">
+    <div class="scrollup">
         <a href="#pagebody" title="To Top">
-        <span class="glyphicon glyphicon-chevron-up"></span>
+        <span class="glyphicon glyphicon-circle-arrow-up"></span>
         </a>
     </div>
 

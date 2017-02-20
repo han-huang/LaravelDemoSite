@@ -8,19 +8,25 @@ use App\NewsPost;
 use App\ClickCounter;
 use DB;
 use Log;
+use EllipseSynergie\ApiResponse\Contracts\Response;
 
 class NewsController extends Controller
 {
+    protected $response;
+
     /**
      * Constructor
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Response $response)
     {
         $this->middleware('clicktrack', ['only' => [
             'newsArticle',
+            // 'newsArticleApi',
         ]]);
+
+        $this->response = $response;
     }
 
     public function getStr(Request $request)
@@ -238,10 +244,14 @@ class NewsController extends Controller
      *
      * @param  Request $request
      * @param  $id
-     * @return 
+     * @return
      */
     public function newsArticle(Request $request, $id)
     {
+        //look where the request come from
+        // $prefix = explode("/",$request->path())[0];
+        // Log::info('$prefix: '.$prefix." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+
         //verify $id
         $match = preg_match("/^[1-9][0-9]*$/", $id); ;
         if (!$match) {
@@ -258,6 +268,9 @@ class NewsController extends Controller
             // Log::info('!count($newspost): '.count($newspost)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
             return redirect()->route('news');
         }
+
+        $previous = $newspostsModel->getPrevious($newspost->updated_at)->first();
+        $next = $newspostsModel->getNext($newspost->updated_at)->first();
 
         $latestnews = $newspostsModel->latestnews()->get();
 
@@ -285,8 +298,46 @@ class NewsController extends Controller
         // return compact('newspost', 'newscategories', 'urlcount', 'latestnews', 'hotnews');
         // return response()->view($view, compact('newspost', 'newscategories', 'urlcount', 'latestnews', 'hotnews'))
                    // ->cookie($cookie);
-        return response()->view($view, compact('newspost', 'newscategories', 'urlcount', 'latestnews', 'hotnews'))
+        return response()->view($view, compact('newspost', 'newscategories', 'urlcount', 'latestnews', 'hotnews', 'previous', 'next'))
                    ->withCookie(cookie()->forever('browsed', $browsed));
+    }
+
+    /**
+     * display individual article for API
+     * URI     'api/article/{id}'
+     *
+     * @param  Request $request
+     * @param  $id
+     * @return
+     */
+    public function newsArticleApi(Request $request, $id)
+    {
+        //look where the request come from
+        // $prefix = explode("/",$request->path())[0];
+        // Log::info('$prefix: '.$prefix." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+
+        /* api/article/{id} */
+        $match = preg_match("/^[1-9][0-9]*$/", $id); ;
+        if (!$match) {
+            // Log::info('!$match: $id: '.$id." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+            return $this->response->errorNotFound('News Not Found');
+        }
+
+        $newspostsModel = new NewsPost();
+        $newspost = $newspostsModel->newsarticle($id)->first();
+        if (!count($newspost)) {
+            // Log::info('!count($newspost): '.count($newspost)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+            return $this->response->errorNotFound('News Not Found');
+        }
+
+        $previous = $newspostsModel->getPrevious($newspost->updated_at)->first();
+        $next = $newspostsModel->getNext($newspost->updated_at)->first();
+
+        $clickcounterModel = new ClickCounter();
+        $url = str_replace("api", "news", $request->path());
+        $urlcount = $clickcounterModel->getURLcount($url);
+
+        return compact('newspost', 'urlcount', 'previous', 'next');
     }
 
     /**
@@ -297,7 +348,11 @@ class NewsController extends Controller
     public function getHotNews()
     {
         $clickcounterModel = new ClickCounter();
-        $hotnews = $clickcounterModel->getHotNews()->get();
+        if ($clickcounterModel->count())
+            $hotnews = $clickcounterModel->getHotNews()->get();
+        else
+            return null;
+
         $ids = array();
         foreach ($hotnews as $hot) {
             $url = explode("/", $hot->url);
@@ -335,6 +390,7 @@ class NewsController extends Controller
 
             $browsed = $cookie_data;
             $repeat = false;
+            // Log::info('$cookie_data '.collect($cookie_data)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
             foreach ($cookie_data as $data) {
                 if(in_array($id, $data)) {
                     $repeat = true;

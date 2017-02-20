@@ -36,7 +36,7 @@ class NewsPostsTableSeeder extends Seeder
                     'news_category_id' => 1,
                     'seo_title'        => '聖安東尼奧馬刺',
                     'excerpt'          => '',
-                    'body'             => '<figure class="image"><img title="馬刺今天擊敗七六人，讓七六人苦吞五連敗。" src="/storage/news-posts/February2017/Df2RcQoYN7cHj65FCLQE.jpg" alt="" />
+                    'body'             => '<figure class="image"><img title="馬刺今天擊敗七六人，讓七六人苦吞五連敗。" src="/storage/news-posts/February2017/Df2RcQoYN7cHj65FCLQE.jpg" alt="馬刺今天擊敗七六人" width="800" />
 <figcaption><span style="color: #666666; font-family: Roboto, sans-serif; font-size: 15px; text-align: start; background-color: #fefefe;">馬刺今天擊敗七六人，讓七六人苦吞五連敗。圖/翻攝自馬刺隊推特</span></figcaption>
 </figure>
 <p style="box-sizing: border-box; border: 0px; margin: 0px 0px 21px; outline: 0px; padding: 0px; vertical-align: baseline; line-height: 27px; color: #333333; font-family: 微軟正黑體; font-size: 18px;">&nbsp;</p>
