@@ -139,7 +139,7 @@ $(window).scroll(function() {
                 loaded += '></div>\
             <div class="article-header-container" style="border : 0px solid blue;">\
                 <div class="text-left" style="border : 0px solid red;">\
-                    <h3>' + data.newspost.title + '</h3>\
+                    <h3>' + data.newspost.id + '&nbsp;' + data.newspost.title + '</h3>\
                     <div class="row">\
                         <div class="col-md-9 author">\
                             <h4><time datetime="' + date  + '" class="">' + data.newspost.updated_at.substr(0, 16) + '</time>&nbsp;<span>'+ data.newspost.author + '</span>&nbsp;<span class="label '+ data.newspost.label_class + '">' + data.newspost.cate_title + '</span></h4>\
@@ -250,7 +250,7 @@ $(window).scroll(function() {
 
             <div class="article-header-container" style="border : 0px solid blue;">
                 <div class="text-left" style="border : 0px solid red;">
-                    <h3>{{ $newspost->title }}</h3>
+                    <h3>{{ $newspost->id }}&nbsp;{{ $newspost->title }}</h3>
                     <div class="row">
                         <div class="col-md-9 author">
                             <?php //$updated_at = substr($newspost->updated_at, 0, 10);$date = explode("-", $updated_at);//echo $date[0]." ".$date[1]." ".$date[2];//echo $criterionDate;//echo " ".$newsposts[0]->id;?>

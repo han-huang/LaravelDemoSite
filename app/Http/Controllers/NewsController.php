@@ -274,7 +274,7 @@ class NewsController extends Controller
 
         $latestnews = $newspostsModel->latestnews()->get();
 
-        $brief = $newspostsModel->newsarticlebrief($id)->first();
+        $brief = $newspostsModel->newsarticlebrief($id);
         // Log::info('newsarticlebrief($id) '.$id." ".__FILE__." ".__FUNCTION__." ".__LINE__);
         $current = array(
                        "id" => $brief->id,
