@@ -170,8 +170,8 @@ class NewsPost extends Model
         // Log::info('get news article, $id: '.$id." ".__FILE__." ".__FUNCTION__." ".__LINE__);
         // return $query->findid($id)->active()->published();
         // return $query->selectbrief()->where('id', '=', $id)->active()->published();
-        return $query->selectbrief()->findid($id)->active()->published();
-        // return $query->selectbrief()->find($id)->active()->published(); //fail
+        // return $query->selectbrief()->findid($id)->active()->published()->first();
+        return $query->selectbrief()->active()->published()->find($id);
     }
 
     /**
