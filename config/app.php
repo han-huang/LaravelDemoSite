@@ -171,6 +171,8 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Mews\Captcha\CaptchaServiceProvider::class,
         EllipseSynergie\ApiResponse\Laravel\ResponseServiceProvider::class,
+        Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
+        Dingo\Api\Provider\LaravelServiceProvider::class,
         //
 
         /*
@@ -232,6 +234,12 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'Captcha' => Mews\Captcha\Facades\Captcha::class,
+
+        /*
+         * Package Facades...
+         */
+        'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
+        'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
 
     ],
 
