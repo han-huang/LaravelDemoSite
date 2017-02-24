@@ -19,6 +19,25 @@ class NewDataRowsTableSeeder extends Seeder
         $newsCategoriesDataType = DataType::where('slug', 'news-categories')->firstOrFail();
         $newsArticlesDataType = DataType::where('slug', 'news-articles')->firstOrFail();
         $newsPostsDataType = DataType::where('slug', 'news-posts')->firstOrFail();
+        $userDataType = DataType::where('slug', 'users')->firstOrFail();
+
+        $dataRow = DataRow::firstOrNew([
+                    'data_type_id' => $userDataType->id,
+                    'field'        => 'api_token',
+            ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'api_token',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'details'      => '',
+            ])->save();
+        }
 
         $dataRow = DataRow::firstOrNew([
             'data_type_id' => $indexMenusDataType->id,
@@ -700,7 +719,9 @@ class NewDataRowsTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 1,
-                'details'      => '',
+                'details'      => '{
+"details": "empty"
+}',
             ])->save();
         }
 
@@ -821,7 +842,7 @@ class NewDataRowsTableSeeder extends Seeder
                 'type'         => 'text',
                 'display_name' => 'Author Id',
                 'required'     => 1,
-                'browse'       => 1,
+                'browse'       => 0,
                 'read'         => 1,
                 'edit'         => 1,
                 'add'          => 1,
@@ -862,7 +883,9 @@ class NewDataRowsTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 1,
-                'details'      => '',
+                'details'      => '{
+"details": "empty"
+}',
             ])->save();
         }
 
@@ -1115,6 +1138,24 @@ class NewDataRowsTableSeeder extends Seeder
 
         $dataRow = DataRow::firstOrNew([
             'data_type_id' => $newsPostsDataType->id,
+            'field'        => 'carousel',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'checkbox',
+                'display_name' => 'Carousel',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $newsPostsDataType->id,
             'field'        => 'featured',
         ]);
         if (!$dataRow->exists) {
@@ -1140,7 +1181,7 @@ class NewDataRowsTableSeeder extends Seeder
                 'type'         => 'timestamp',
                 'display_name' => 'Created At',
                 'required'     => 0,
-                'browse'       => 1,
+                'browse'       => 0,
                 'read'         => 1,
                 'edit'         => 1,
                 'add'          => 0,

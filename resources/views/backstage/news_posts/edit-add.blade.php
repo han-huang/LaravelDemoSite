@@ -203,8 +203,7 @@
                                 if (count($errors) > 0)$checked = old('active');
                                 ?>
                                 <?php //echo "active: ".$checked; ?>
-                                <input type="checkbox" name="active" class="toggleswitch"
-                                       @if($checked) checked @endif>
+                                <input type="checkbox" name="active" class="toggleswitch" @if($checked) checked @endif>
                             </div>
                             <div class="form-group">
                                 <label for="name">Breaking news</label>
@@ -215,8 +214,18 @@
                                 if (count($errors) > 0)$checked = old('breaking_news');
                                 ?>
                                 <?php //echo "breaking_news: ".$checked; ?>
-                                <input type="checkbox" name="breaking_news" class="toggleswitch"
-                                       @if($checked) checked @endif>
+                                <input type="checkbox" name="breaking_news" class="toggleswitch" @if($checked) checked @endif>
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Carousel</label>
+                                <br>
+                                <?php $checked = (isset($dataTypeContent->carousel) && !is_null(old('carousel', $dataTypeContent->carousel))) ? old('carousel', $dataTypeContent->carousel) : old('carousel'); ?>
+                                <?php
+                                // if $errors happen when update data (redirect()->back()), use old('carousel')
+                                if (count($errors) > 0)$checked = old('carousel');
+                                ?>
+                                <?php //echo "carousel: ".$checked; ?>
+                                <input type="checkbox" name="carousel" class="toggleswitch" @if($checked) checked @endif>
                             </div>
                         </div>
                     </div>
