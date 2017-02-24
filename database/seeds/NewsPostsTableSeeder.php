@@ -530,6 +530,7 @@ class NewsPostsTableSeeder extends Seeder
                     'meta_keywords'    => '鄧肯,馬刺,格林,鵜鶘',
                     'status'           => 'PUBLISHED',
                     'active'           => 1,
+                    'carousel'         => 1,
                     'created_at'       => $input_time,
                     'updated_at'       => $input_time,
                 ])->save();
@@ -598,6 +599,7 @@ class NewsPostsTableSeeder extends Seeder
                     'meta_keywords'    => '台灣燈會,自由時報, 自由電子報',
                     'status'           => 'PUBLISHED',
                     'active'           => 1,
+                    'carousel'         => 1,
                     'created_at'       => $input_time,
                     'updated_at'       => $input_time,
                 ])->save();
@@ -697,6 +699,7 @@ class NewsPostsTableSeeder extends Seeder
                     'meta_keywords'    => '盧廣仲,張學友,演唱會',
                     'status'           => 'PUBLISHED',
                     'active'           => 1,
+                    'carousel'         => 1,
                     'created_at'       => $input_time,
                     'updated_at'       => $input_time,
                 ])->save();
@@ -730,6 +733,7 @@ class NewsPostsTableSeeder extends Seeder
                     'meta_keywords'    => '柯文哲,捷運萬大線',
                     'status'           => 'PUBLISHED',
                     'active'           => 1,
+                    'carousel'         => 1,
                     'created_at'       => $input_time,
                     'updated_at'       => $input_time,
                 ])->save();
@@ -871,6 +875,7 @@ class NewsPostsTableSeeder extends Seeder
                     'meta_keywords'    => '吃飯,社交,人際,識人,交朋友',
                     'status'           => 'PUBLISHED',
                     'active'           => 1,
+                    'carousel'         => 1,
                     'created_at'       => $input_time,
                     'updated_at'       => $input_time,
                 ])->save();
@@ -901,6 +906,7 @@ class NewsPostsTableSeeder extends Seeder
                     'meta_keywords'    => '英國,脫歐,公投',
                     'status'           => 'PUBLISHED',
                     'active'           => 1,
+                    'carousel'         => 1,
                     'created_at'       => $input_time,
                     'updated_at'       => $input_time,
                 ])->save();
