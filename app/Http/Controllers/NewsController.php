@@ -214,6 +214,9 @@ class NewsController extends Controller
             return redirect()->route('news');
         }
 
+        $newspostsModel = new NewsPost();
+        $breakingnews = $newspostsModel->getBreakingnews()->get();
+
         $count = $newsCategory->countNewsPostActivePublished();
         $pages = ($count % $limit) > 0 ? (intval($count / $limit) + 1)
                     : ($count / $limit);
@@ -234,7 +237,7 @@ class NewsController extends Controller
 
         $view = 'site.news.news_index';
         // return compact('newsposts', 'newscategories', 'pages', 'page', 'start', 'end', 'str');
-        return view($view, compact('newsposts', 'newscategories', 'pages', 'page', 'start', 'end', 'str'));
+        return view($view, compact('newsposts', 'newscategories', 'pages', 'page', 'start', 'end', 'str', 'breakingnews'));
     }
 
     /**
