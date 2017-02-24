@@ -699,7 +699,6 @@ class NewsPostsTableSeeder extends Seeder
                     'meta_keywords'    => '盧廣仲,張學友,演唱會',
                     'status'           => 'PUBLISHED',
                     'active'           => 1,
-                    'carousel'         => 1,
                     'created_at'       => $input_time,
                     'updated_at'       => $input_time,
                 ])->save();

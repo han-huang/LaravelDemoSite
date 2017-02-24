@@ -109,6 +109,7 @@ class NewsController extends Controller
         }
 
         $breakingnews = $newspostsModel->getBreakingnews()->get();
+        $carousel = $newspostsModel->getCarousel()->get();
 
         $count = $newspostsModel->newscount();
         $pages = ($count % $limit) > 0 ? (intval($count / $limit) + 1)
@@ -125,8 +126,9 @@ class NewsController extends Controller
         // Log::info('$newscategoryModel->excludenullcolor '.__FILE__." ".__FUNCTION__." ".__LINE__);
 
         $view = 'site.news.news_index';
-        // return compact('newsposts', 'newscategories', 'pages', 'page', 'start', 'end', 'breakingnews');
-        return view($view, compact('newsposts', 'newscategories', 'pages', 'page', 'start', 'end', 'breakingnews'));
+        // return compact('newsposts', 'newscategories', 'pages', 'page', 'start', 'end', 'breakingnews', 'carousel');
+        return view($view, compact('newsposts', 'newscategories', 'pages',
+                   'page', 'start', 'end', 'breakingnews', 'carousel'));
     }
 
     /**
@@ -216,6 +218,7 @@ class NewsController extends Controller
 
         $newspostsModel = new NewsPost();
         $breakingnews = $newspostsModel->getBreakingnews()->get();
+        $carousel = $newspostsModel->getCarousel()->get();
 
         $count = $newsCategory->countNewsPostActivePublished();
         $pages = ($count % $limit) > 0 ? (intval($count / $limit) + 1)
@@ -237,7 +240,8 @@ class NewsController extends Controller
 
         $view = 'site.news.news_index';
         // return compact('newsposts', 'newscategories', 'pages', 'page', 'start', 'end', 'str');
-        return view($view, compact('newsposts', 'newscategories', 'pages', 'page', 'start', 'end', 'str', 'breakingnews'));
+        return view($view, compact('newsposts', 'newscategories', 'pages',
+                   'page', 'start', 'end', 'str', 'breakingnews', 'carousel'));
     }
 
     /**

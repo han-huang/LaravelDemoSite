@@ -9,6 +9,7 @@
 <script type="text/javascript" src="{{ asset('js/jquery.textslider.min.js') }}"></script>
 <!-- jssocials -->
 <script src="{{ asset('js/jssocials.min.js') }}"></script>
+<script src="{{ asset('js/common.js') }}"></script>
 @stop
 
 @section('css')
@@ -19,250 +20,12 @@
 <!-- jssocials -->
 <link rel="stylesheet" type="text/css" href="{{ asset('css/jssocials.css') }}" />
 <link rel="stylesheet" type="text/css" href="{{ asset('css/jssocials-theme-classic.css') }}" />
+
+<link href="{{ asset('css/news_index.css') }}" rel="stylesheet" type="text/css">
 @stop
 
 @section('content')
 <style>
-.div-top {
-  padding-top: 50px;
-}
-
-#div_left {
-  margin-top: 10px;
-  padding-top: 0px;
-  padding-left: 0px;
-}
-
-.div-margin-top {
-  margin-top: 10px;
-}
-
-#float-div-left {
-  position: fixed;
-  bottom: 100px;
-  left: 0;
-}
-
-#float-div-left-top {
-  position: fixed;
-  top: 50px;
-  left: 0;
-}
-
-#float-div-left-top-2 {
-  position: fixed;
-  top: 50px;
-  left: 150px;
-}
-
-#float-div-left-top-3 {
-  position: fixed;
-  top: 50px;
-  left: 300px;
-}  
-
-.ad-width {
-  width: 150px;
-}
-
-#float-div-right {
-  position: fixed;
-  bottom: 100px;
-  right: 0;
-}
-
-#float-div-right-top {
-  position: fixed;
-  top: 50px;
-  right: 0;
-}
-
-.pos-relative {
-  position: relative;
-}
-
-.close-item {
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  cursor: pointer;
-  display: none;
-}
-
-.jssocials {
-  /* font-size: 1em; */
-  font-size: 10px;;
-}
-
-.jssocials-share-link {
-  border-radius: 50%;
-  /*font-size: 10px;*/
-}
-
-/* inline for sharing buttons */
-.sharing-btn * {
-  display: inline;
-  /*margin-bottom: 20px;*/
-  border: 0px;
-}
-
-.sharing-btn a:hover {
-  text-decoration: none;
-}
-
-.decoration-none a:hover {
-  text-decoration: none;
-}
-
-/* news_index */
-.info-categories {
-  text-decoration: none;
-  color: #e7eaec;
-}
-
-.info-categories::before, .info-categories::after {
-  content: "\25cf";
-  color: #e7eaec;
-}
-
-.div-fixed-height {
-  min-height: 350px;
-  /*width: auto;
-  height: auto;*/
-}
-
-.panel-carousel {
-  padding: 1px 1px 1px 1px ;
-}
-
-/* textslider */
-.slideText {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    /*height: 3em;*/
-    height: 1.5em;
-}
-
-.slideText ul, .slideText li {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    width: 100%;
-}
-
-.slideText ul {
-    position: absolute;
-}
-
-.slideText li {
-    /* text-align: center; */
-}
-
-.slideText li a {
-  display: block;
-  overflow: hidden;
-  font-size: 1em;
-  height: 1.5em;
-  line-height: 1.5em;
-  text-decoration: none;
-}
-
-.slideText li a:hover {
-    text-decoration: underline;
-}
-
-#breakingnews {
-  text-align: left;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-
-  opacity: 1;
-  /* height: 45px; */
-  /* padding-top: 10px; */
-}
-
-#breakingnews span {
-  color: black;
-}
-
-#breakingnews i {
-  color: #ffff4d;
-}
-
-#newslist ul {
-  padding-left: 0px;
-}
-
-#newslist li {
-  padding-left: 40px;
-}
-
-#newslist time, #newslist span {
-  /* padding: 0px 10px 0px 0px; */
-  margin: 0px 10px 0px 0px;
-}
-
-#newslist li a {
-  text-decoration: none;
-}
-
-#newslist ul, #newslist li {
-  list-style: none;
-  text-align: left;
-}
-
-#newslist li:nth-child(odd) {
-  /* background-color: #bce8f1; */
-  background-color: #e7eaec;
-}
-
-#newslist li:hover {
-  background-color: #bddbc6;
-  /* background-color: #E3F0E7; */
-}
-
-#newslist_panel-body {
-  padding-bottom: 0px;
-}
-
-.pagination-panel-footer {
-  text-align: center; 
-  padding: 0px 0px 0px 0px;
-  background-color: #ffffff;
-  border-top: 0px solid #ddd;
-}
-
-.pagination-panel-footer ul {
-  margin: 0px;
-}
-
-#control_panel {
-  display: none;
-}
-
-.sp-margin {
-  margin: 70px 120px 50px 120px;
-  padding: 0px ;
-  border-bottom: 1px solid #e7eaec;
-}
-
-.info-box a:hover {
-  text-decoration: none;
-}
-
-.article-title {
-  color: black;
-}
-
-.article-title:hover {
-  opacity: 0.6;
-}
-
-.categories-label {
-  font-size: 1em;
-}
-
 /* label color */
 
 @foreach($newscategories as $newscategory)
@@ -273,30 +36,6 @@
 </style>
 
 <script type="text/javascript">
-/**
- * display close icon and close div
- *
- * @param  string div - div #id selector (e.g. #float-div-left)
- * @param  string xitem - span .class selector (e.g. .close-item)
- * @return void
- */
-function close_div(div, xitem)
-{
-    // display close icon or not
-    $(div).mouseover(function() {
-        $(div + " " + xitem).css("display", "block");
-        //console.log("mouseover");
-    }).mouseout(function() {
-        $(div + " " + xitem).css("display", "none");
-        //console.log("mouseout");
-    });
-
-    // close div
-    $(div + " " + xitem).click(function() {
-        $(div).css("display", "none");
-    });
-}
-
 $(document).ready(function() {
 
     $('.slideText').textslider({
@@ -306,8 +45,6 @@ $(document).ready(function() {
         scrollSpeed : 500, // 捲動速度(ms)
         pause : 2000 // 停頓時間(ms)
     });
-
-
     //$('#newslist li:nth-child(odd)').addClass('alert-info');
 
     /* control_panel */
@@ -317,26 +54,8 @@ $(document).ready(function() {
       $("#control_panel").css("display", "none");
     });
 
-    //$("#float-div-left").floatdiv({bottom: "200px", left: "0", width: "150px"});
-
-    /* #float-div-left .close-item */
-    /*
-    $('#float-div-left').mouseover(function(){
-      $('#float-div-left .close-item').css("display", "block");
-      console.log("mouseover");
-    }).mouseout(function(){    
-      $("#float-div-left .close-item").css("display", "none");
-      console.log("mouseout");
-    });
-
-    $("#float-div-left .close-item").click(function(){
-      $('#float-div-left').css("display", "none");
-    });
-    */
     close_div("#float-div-left",".close-item");
     close_div("#float-div-left-top",".close-item");
-    //close_div("#float-div-left-top-2",".close-item");
-    //close_div("#float-div-left-top-3",".close-item");
     close_div("#float-div-right",".close-item");
     close_div("#float-div-right-top",".close-item");
 
@@ -365,12 +84,10 @@ $(document).ready(function() {
         $('html, body').animate({
           scrollTop: $(hash).offset().top
         }, 900, function(){
-
-          // Add hash (#) to URL when done scrolling (default click behavior)
-          window.location.hash = hash;
+            // Add hash (#) to URL when done scrolling (default click behavior)
+            window.location.hash = hash;
         });
     });
-
 });
 </script>
 
@@ -406,64 +123,28 @@ $(document).ready(function() {
                 </div> <!-- panel-heading -->
 
                 <div class="panel-body panel-carousel">
+                    @if ($carousel)
                     <!-- carousel -->
                     <div id="myCarousel" class="carousel slide" data-ride="carousel"  data-interval="2000" style="border : 0px solid blue;">
-
                         <!-- Wrapper for slides -->
                         <div class="carousel-inner" role="listbox" style="border : 0px solid black;">
-                    
-                            <div class="item active">
-                                <a href="#">
-                                    <img src="{{ Voyager::image('index-carousels/January2017/5o7nTc5dBtOGTGWy1JE9.jpg') }}" alt="bookstore" style="height: 400px;width: 743.4px;">
-                                    <div class="carousel-caption">
-                                        <h3>書店</h3>
-                                        <p>輕鬆打造質感生活，提供齊全中外文書籍</p>
-                                    </div>
-                                </a>
-                            </div>
-                    
-                            <div class="item">
-                                <a href="#">
-                                    <img src="{{ Voyager::image('index-carousels/January2017/ztP8tEkdJeaOtiBhMh18.jpg') }}" alt="news" style="height: 400px;width: 743.4px;">
-                                    <div class="carousel-caption">
-                                        <h3>新聞</h3>
-                                        <p>頭條新聞及即時新聞，讓你隨時隨地掌握最新消息和熱門話題</p>
-                                    </div>
-                                </a>
-                            </div>
-                    
-                            <div class="item">
-                                <a href="#">
-                                    <img src="{{ Voyager::image('index-carousels/January2017/x0boUEd8Om1PSSzeGpHo.jpg') }}" alt="sports" style="height: 400px;width: 743.4px;">
-                                    <div class="carousel-caption">
-                                        <h3>運動</h3>
-                                        <p>所有體育賽事相關報導</p>
-                                    </div>
-                                </a>
-                            </div>
-                    
-                            <div class="item">
-                                <a href="#">
-                                    <img src="{{ Voyager::image('index-carousels/January2017/HHk1ReHXaMe9RYEwgjDw.jpg') }}" alt="movie" style="height: 400px;width: 743.4px;">
-                                    <div class="carousel-caption">
-                                        <h3>電影</h3>
-                                        <p>電影介紹,電影時刻表,電影預告,最新電影</p>
-                                    </div>
-                                </a>
-                            </div>
-                    
-                            <div class="item">
-                                <a href="#">
-                                    <img src="{{ Voyager::image('index-carousels/January2017/eH0jY1dQ3lEyoh6Xq3hD.jpg') }}" alt="music" style="height: 400px;width: 743.4px;">
-                                    <div class="carousel-caption">
-                                        <h3>音樂</h3>
-                                        <p>所有音樂類型的相關資訊</p>
-                                    </div>
-                                </a>
-                            </div>
-                        
+                            @foreach ($carousel as $key => $item)
+                                @if ($key)
+                                    <div class="item">
+                                @else
+                                    <div class="item active">
+                                @endif
+                                    <a href="{{ url("news/article/".$item->id) }}" target="_blank">
+                                        <img src="{{ Voyager::image($item->image) }}" alt="{{ $item->title }}" style="height: 400px;width: 743.4px;">
+                                        <div class="carousel-caption">
+                                            <!-- <h3>{{ $item->id }}</h3> -->
+                                            <h3><p>{{ $item->id }}&nbsp;{{ $item->title }}</p></h3>
+                                        </div>
+                                    </a>
+                                </div>
+                            @endforeach
                         </div>
-                        
+
                         <!-- Left and right controls -->
                         <div id="control_panel">
                             <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
@@ -477,7 +158,7 @@ $(document).ready(function() {
                         </div>
                     </div>
                     <!-- carousel -->
-
+                    @endif
                 </div> <!-- panel-body -->
 
             </div> <!-- panel -->
@@ -486,7 +167,7 @@ $(document).ready(function() {
                 <ul class="list-group list-inline">
                     <li class="list-group-item">
                     <!-- jsSocials -->
-                    <div id="share"  style=""></div>
+                    <div id="share" style=""></div>
                 </li>
                 <li class="list-group-item">
                     <!-- fb-like -->
