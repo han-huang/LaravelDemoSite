@@ -52,9 +52,10 @@ $api->version('v1', function ($api) {
         return 'It is ok';
     });
 
-    $api->get('/user', ['middleware' => 'auth:api', function (Request $request) {
-        return $request->user();
-    }]);
+    // https://github.com/dingo/api/issues/1212 If you still have that $request->user in your api routes you should delete that.
+    // $api->get('/user', ['middleware' => 'auth:api', function (Request $request) {
+        // return $request->user();
+    // }]);
 
     $api->get('article/{id}', ['uses' => 'App\\Http\\Controllers\\NewsController@newsArticleApi', 'as' => 'article']);
 
