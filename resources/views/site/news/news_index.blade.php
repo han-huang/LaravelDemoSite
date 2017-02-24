@@ -395,9 +395,11 @@ $(document).ready(function() {
                     <div class="" id="breakingnews" style="border: 0px solid green;">          
                         <div class="slideText">
                             <ul>
-                                @foreach($breakingnews as $breaking)
-                                <li><a href="{{ url('news/article/'.$breaking->id) }}" target="_blank"><i class="fa fa-bolt fa-fw" aria-hidden="true"></i><span>{{ $breaking->id }}&nbsp;{{ mb_strlen($breaking->title, 'UTF-8') > 24 ? mb_substr($breaking->title, 0, 24, 'UTF-8')."&nbsp;..." : $breaking->title }}</span></a></li>
-                                @endforeach
+                                @if($breakingnews)
+                                    @foreach($breakingnews as $breaking)
+                                    <li><a href="{{ url('news/article/'.$breaking->id) }}" target="_blank"><i class="fa fa-bolt fa-fw" aria-hidden="true"></i><span>{{ $breaking->id }}&nbsp;{{ mb_strlen($breaking->title, 'UTF-8') > 24 ? mb_substr($breaking->title, 0, 24, 'UTF-8')."&nbsp;..." : $breaking->title }}</span></a></li>
+                                    @endforeach
+                                @endif
                             </ul>
                         </div>
                     </div>
