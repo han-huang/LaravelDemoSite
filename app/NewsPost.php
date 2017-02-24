@@ -67,6 +67,18 @@ class NewsPost extends Model
     }
 
     /**
+     * Scope a query to only carousel=1 scopes.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeCarousel(Builder $query)
+    {
+        // Log::info('active '.__FILE__." ".__FUNCTION__." ".__LINE__);
+        return $query->where('carousel', 1);
+    }
+
+    /**
      * Scope a query to find id.
      *
      * @param  \Illuminate\Database\Eloquent\Builder $query
@@ -89,6 +101,18 @@ class NewsPost extends Model
     {
         // Log::info('select brief index '.__FILE__." ".__FUNCTION__." ".__LINE__);
         return $query->select('id', 'news_category_id', 'title', 'updated_at');
+    }
+
+    /**
+     * Scope a query to select image.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSelectimage(Builder $query)
+    {
+        // Log::info('select brief index '.__FILE__." ".__FUNCTION__." ".__LINE__);
+        return $query->select('id', 'image', 'title', 'updated_at');
     }
 
     /**
@@ -289,6 +313,20 @@ class NewsPost extends Model
     {
         // Log::info('getBreakingnews '.__FILE__." ".__FUNCTION__." ".__LINE__);
         return $this->selectbrief()->breakingnews()
+                   ->active()->published()
+                   ->updatedtimedesc()->offset(0)->limit($limit);
+    }
+
+    /**
+     * Get carousel.
+     *
+     * @param  integer $limit
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function getCarousel($limit = 10)
+    {
+        // Log::info('getBreakingnews '.__FILE__." ".__FUNCTION__." ".__LINE__);
+        return $this->selectimage()->carousel()
                    ->active()->published()
                    ->updatedtimedesc()->offset(0)->limit($limit);
     }
