@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Ajax CORS</title>
+<!-- 
+<script src="jquery-1.12.4.min.js" type="text/javascript"></script>
+<script src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css"> 
+-->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+//var data;
+var formData = {
+    'email' : 'han@email.com',
+    'password' : 'secret'
+}
+var type = "GET"; //for creating new resource
+var my_url = 'http://domain.app:8035/api/auth/login';
+var token;
+var loading = false;
+//var ajaxLoading = false;
+
+function ajax_request(type, my_url, token, Loading) {
+    $.ajax({
+
+        type: type,
+        url: my_url,
+        // data: formData,
+        dataType: 'json',
+        beforeSend: function (xhr) {
+            if (token) {
+                return xhr.setRequestHeader('Authorization', token);
+            }
+        },
+        success: function (data) {
+            console.log(JSON.stringify(data, undefined, 2));
+            //$('body').append('<pre id="display">' + JSON.stringify(data, undefined, 2) + '</pre>');
+            $('.container').append('<pre id="display"></pre>');
+            //$('#display').html(JSON.stringify(data, undefined, 2));
+            $('#display').text(JSON.stringify(data, undefined, 2));
+            //$('#display').text('abc');
+            //token = data.token;
+            //console.log(token);
+        },
+        complete: function(){
+		    /*
+            ajaxLoading = Loading;
+            loading = Loading;
+            console.log('complete ajaxLoading = ' + Loading);
+            console.log('complete loading = ' + Loading);
+			*/
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            //console.log('Error:', data);
+            $('.container').append('<pre id="display"></pre>');
+            //$('#display').text(JSON.stringify(jqXHR.responseText, undefined, 2));
+            //$('#display').html(jqXHR.status + "<br>" + jqXHR.responseText);
+            $('#display').html(jqXHR.responseText);
+            //console.log('Error:', JSON.stringify(jqXHR.responseText, undefined, 2));
+            //console.log('Error:', jqXHR.responseText);
+            console.log('jqXHR.responseText: ' + jqXHR.responseText);
+            console.log('jqXHR.status: ' + jqXHR.status);
+        }
+    });
+}
+
+$(document).ready(function() {
+    $('#query').on('click', function() {
+        my_url = $('#url').val() + '/' + $('#news').val();
+        console.log($('#url').val());
+        console.log($('#news').val());
+        console.log(my_url);
+        $('#display').remove();
+        ajax_request(type, my_url, token, loading);
+    });
+});
+
+</script>
+<style type="text/css" title="text/css">
+
+</style>
+</head>
+<!--
+-->
+<body>
+<div class="container">
+    <h4>新聞查詢</h4>
+    <div class="form-group">
+        <div class="row">
+            <label for="url" class="control-label col-sm-1 text-right">URL</label>
+            <div class="col-sm-3">
+                <input class="form-control" type="text" id="url" name="url" value="http://domain.app:8029/api/article">
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <label for="news" class="control-label col-sm-1 text-right">新聞 ID</label>
+            <div class="col-sm-3">
+                <input  class="form-control col-sm-2" type="text" id="news" name="news" value="1">
+            </div>
+        <button id="query" type="button" class="btn btn-default">查詢</button>
+        </div>
+    </div>
+
+    <!-- <pre id="display"></pre> -->
+</div>
+
+</body>
+</html>
+

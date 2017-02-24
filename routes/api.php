@@ -57,7 +57,9 @@ $api->version('v1', function ($api) {
         // return $request->user();
     // }]);
 
-    $api->get('article/{id}', ['uses' => 'App\\Http\\Controllers\\NewsController@newsArticleApi', 'as' => 'article']);
+    $api->get('/user', ['middleware' => 'auth:api', 'uses' => 'App\\Http\\Controllers\\UserController@showProfile']);
+
+    $api->get('article/{id}', ['middleware' => 'cors', 'uses' => 'App\\Http\\Controllers\\NewsController@newsArticleApi', 'as' => 'article']);
 
     $api->group(['prefix' => 'auth', 'as' => 'auth.'], function(Router $api) {
         $api->post('signup', 'App\\Api\\V1\\Controllers\\SignUpController@signUp');
