@@ -49,6 +49,8 @@ $(document).ready(function() {
     close_div("#float-div-right",".close-item");
     close_div("#float-div-right-top",".close-item");
 
+    $('#loding_spinner').hide();
+
     //jsSocials
     $("#share").jsSocials({
         showLabel: false,
@@ -96,6 +98,7 @@ $(window).scroll(function() {
     if ((($(window).scrollTop() + $(window).height()) + 250) >= $(document).height()) {
         if (loading == false) {
             loading = true;
+            $('#loding_spinner').fadeIn();
 
             $.get(url + "/" + target, function (data) {
                 //success data
@@ -196,6 +199,8 @@ $(window).scroll(function() {
                     //shares: ["email", "twitter", "facebook", "googleplus", "linkedin", "pinterest", "stumbleupon", "whatsapp"]
                     shares: ["twitter", "googleplus", "linkedin", "pinterest", "whatsapp"]
                 });
+
+                $('#loding_spinner').fadeOut();
             });
         }
     }
@@ -375,4 +380,8 @@ $(window).scroll(function() {
         </a>
     </div>
 
+    <div id="loding_spinner">
+      <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+      <span class="sr-only">Loading...</span>
+    </div>
 @stop

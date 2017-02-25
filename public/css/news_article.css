@@ -165,3 +165,11 @@
 .glyphicon.glyphicon-circle-arrow-up {
     font-size: 2em;
 }
+
+#loding_spinner{
+    position:fixed;
+    _position:absolute;
+    top:50%;              /* center */
+    left:50%;
+    z-index:9999;         /* in front */
+}
