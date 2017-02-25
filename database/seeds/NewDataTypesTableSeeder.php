@@ -23,6 +23,7 @@ class NewDataTypesTableSeeder extends Seeder
                 'icon'                  => 'voyager-params',
                 'model_name'            => '\\App\\IndexMenu',
                 'generate_permissions'  => 1,
+                'server_side'           => 1,
                 'description'           => '',
             ])->save();
         }
@@ -98,6 +99,7 @@ class NewDataTypesTableSeeder extends Seeder
                 'icon'                  => 'voyager-hammer',
                 'model_name'            => '\\App\\NewsPost',
                 'generate_permissions'  => 1,
+                'server_side'           => 1,
                 'description'           => '',
             ])->save();
         }
