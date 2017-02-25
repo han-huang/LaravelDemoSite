@@ -14,7 +14,7 @@ class AddBreakingNewsToNewsPostsTable extends Migration
     public function up()
     {
         Schema::table('news_posts', function (Blueprint $table) {
-            $table->unsignedInteger('breaking_news')->default(0);
+            $table->unsignedInteger('breaking_news')->default(0)->after('active');
         });
     }
 
