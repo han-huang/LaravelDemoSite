@@ -14,7 +14,7 @@ class AddCarouselToNewsPostsTable extends Migration
     public function up()
     {
         Schema::table('news_posts', function (Blueprint $table) {
-            $table->unsignedInteger('carousel')->default(0);
+            $table->unsignedInteger('carousel')->default(0)->after('breaking_news');
         });
     }
 
