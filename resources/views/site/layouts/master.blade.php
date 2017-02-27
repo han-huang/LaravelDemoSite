@@ -5,13 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="Han Huang">
     <meta name="csrf_token" content="{{ csrf_token() }}" />
+    @yield('meta')
+
     <!-- Favicon -->
     <link rel="icon" href="{{ asset('favicon.ico') }}">
 
-    @yield('title')
+    @yield('pageTitle')
 
     <!-- Bootstrap core JavaScript -->
     <script type="text/javascript" src="{{ asset('js/jquery-3.1.0.min.js') }}"></script>
@@ -25,19 +25,17 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-    
+
     @yield('javascript')
-    
+
     <!-- Bootstrap core CSS -->
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="{{ asset('css/ie10-viewport-bug-workaround.css') }}" rel="stylesheet" type="text/css">
     <!-- Custom styles for this template -->
     <link href="{{ asset('css/master.css') }}" rel="stylesheet" type="text/css">
-    
-    @yield('css')
 
-    @yield('head')
+    @yield('css')
   </head>
   <body id="pagebody">
 

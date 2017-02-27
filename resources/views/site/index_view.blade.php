@@ -1,5 +1,17 @@
 @extends('site.layouts.master')
 
+@section('meta')
+<meta name="description" content="">
+<meta name="author" content="Han Huang">
+<!-- Open Graph Protocol  -->
+<meta property="og:url"         content="{{ Request::url() }}" />
+<meta property="og:type"        content="website" />
+<meta property="og:title"       content="LaravelDemoSite" />
+<meta property="og:description" content="LaravelDemoSite" />
+<meta property="og:image"       content="" />
+<meta property="og:site_name"   content="LaravelDemoSite" />
+@stop
+
 @section('pageTitle')
 <title>LaravelDemoSite</title>
 @stop
