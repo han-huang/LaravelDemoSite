@@ -32,7 +32,7 @@
 <!-- jssocials -->
 <link rel="stylesheet" type="text/css" href="{{ asset('css/jssocials.css') }}" />
 <link rel="stylesheet" type="text/css" href="{{ asset('css/jssocials-theme-classic.css') }}" />
-
+<link href="{{ asset('css/style.css') }}" rel="stylesheet" type="text/css">
 <link href="{{ asset('css/news_article.css') }}" rel="stylesheet" type="text/css">
 @stop
 
