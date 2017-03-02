@@ -17,7 +17,7 @@
 @stop
 
 @section('javascript')
-<script type="text/javascript" src=""></script>
+<!-- script type="text/javascript" src="{{ asset('js/bootstrap-hover-tabs.js') }}"></script> -->
 
 @stop
 
@@ -49,20 +49,20 @@
   color: #FFA500;
 }
 
-.salebox-title{ background-color:#06b8ea;border: 0px solid #06b8ea; color:#fff; padding:6px 8px; margin:0px; clear:both; border-radius: 2px 2px 0px 0px;}/*大標*/
+.salebox-title{ background-color:#06b8ea;border: 1px solid #06b8ea; color:#fff; padding:6px 8px; margin:0px; clear:both; border-radius: 2px 2px 0px 0px;}
 .salebox-title a{color:#FFFFFF;}
 .salebox-title a:hover{color:#000000;}
 
 .salebox ul{padding:0px;border: 1px solid #22272b;}
 .salebox li{ list-style:none; border-bottom:0px dotted #c3c3c3; padding:2px 2px ; overflow:hidden;font-size:15px;}
-.salebox li:nth-last-of-type(1){border-bottom:none;}/*最後1個li沒border-bottom*/
+.salebox li:nth-last-of-type(1){border-bottom:none;}
 /*
 .salebox li span{ display:block; padding:0px; color:#777; font-size:0.95em;}
 .salebox li a{display:block; color:#000; font-size:1em; line-height:1.6em; }
 .salebox li a:hover{color:#06a4d1;}
 .salebox li a img{ margin-left:20px;}
 */
-.salebox li .tab{display:inline-block; background-color:#06b8ea; padding:1px 10px 2px; margin:0px 0px 3px; color:#fff; font-size:0.9em;}/*分類標籤*/
+.salebox li .tab{display:inline-block; background-color:#06b8ea; padding:1px 10px 2px; margin:0px 0px 3px; color:#fff; font-size:0.9em;}
 
 .salebox a:hover, .salebox img:hover  {
   color: #FF6347;
@@ -164,19 +164,75 @@ li.theme-color{text-indent:16px;font-weight:bold;color:orange;font-size:1em;}
   margin-left:10px;
   margin-top:10px;
 }
+
+#book_categories {
+  font-size:14px;
+  margin:15px 5px 10px 5px;
+}
+
+#book_categories .list-group.panel > .list-group-item {
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px
+}
+
+#book_categories .list-group-submenu a {
+  /*margin-left:20px;*/
+  padding-left:30px;
+}
+
+#book_categories .list-group-submenu-1 a {
+  /*margin-left:20px;*/
+  padding-left:40px;
+}
+
+.book-categories-box {
+  border: 1px solid #22272b;
+}
+
+.text-darkred {
+  color: #900 !important;
+}
 </style>
 <script type="text/javascript">
 $(document).ready(function(){
     //$(".nav-tabs a").click(function(){
-    $(".tab-hover .nav-tabs a").mouseover(function(){
+    $(".tab-hover .nav-tabs a").mouseover(function() {
         $(this).tab('show');
+        //id = $(this).attr('href');
+        //$(id).siblings().removeClass('in').removeClass('active');
     });
+
+    /*
+    $(".tab-hover .nav-tabs a").mouseleave(function(){
+        id = $(this).attr('href');
+        //fix tab display sometimes
+        if($(id).siblings().hasClass('in')) {
+            $(id).removeClass('in').removeClass('active');
+            //console.log($(this).attr('href') + " mouseleave");
+        }
+    });
+    */
 
     /* img display */
     $('#billboard .w3-ul li').mouseover(function(event) {
-      $(this).find("img").css("display", "block");
-      $(this).siblings().find("img").css("display", "none");
+        $(this).find("img").css("display", "block");
+        $(this).siblings().find("img").css("display", "none");
     });
+
+    $("#book_categories div").on("hide.bs.collapse", function(event) {
+        if ($(this).is(event.target)) {
+            $(this).prev("a").find("i").removeClass('fa-caret-up').addClass('fa-caret-down');
+            //console.log(this.id);
+        }
+    });
+
+    $("#book_categories div").on("show.bs.collapse", function(event) {
+        if ($(this).is(event.target)) {
+            $(this).prev("a").find("i").removeClass('fa-caret-down').addClass('fa-caret-up');
+            //console.log(this.id);
+        }
+    });
+
 });
 </script>
     <!-- facebook-jssdk -->
@@ -225,19 +281,53 @@ $(document).ready(function(){
         </div><!-- bookstore-bar -->
         <!-- left -->
         <div class="col-md-2 div-margin-top" style="">
-            <div class="salebox-title text-left" data-desc=""><a href="#">今日66折</a></div>
+            <div id="today_discount">
+                <div class="salebox-title text-left" data-desc=""><a href="#">今日66折</a></div>
+                <div class="salebox" data-desc="">
+                    <ul class="">
+                        <a href="http://www.cite.com.tw/76a4e?#book">
+                        <li class="text-center img-padding" style="">
+                            <img src="{{ asset('img/bookstore/BW0614.jpg') }}" alt="2016" style="" alt="虛擬實境狂潮：從購物、教育到醫療，VR/AR商機即將顛覆未來的十大產業！" title="虛擬實境狂潮：從購物、教育到醫療，VR/AR商機即將顛覆未來的十大產業！">
+                        </li>
+                        <li class="text-center">《虛擬實境狂潮：從購物、教育到醫療，V...》</li>
+                        <li class="text-center"><span class="" style="color:red">66折價 $ 251 元</span></li>
+                        </a>
+                        <li class="text-center"><a class="w3-button w3-dark-grey w3-round-large" href="http://www.cite.com.tw/shopping_cart?action=add_cart&amp;products_id=69936">放入購物車</a></li>
+                    </ul>
+                </div>
+            </div>
 
-            <div class="salebox" data-desc="">
-                <ul class="">
-                    <a href="http://www.cite.com.tw/76a4e?#book">
-                    <li class="text-center img-padding" style="">
-                        <img src="{{ asset('img/bookstore/BW0614.jpg') }}" alt="2016" style="" alt="虛擬實境狂潮：從購物、教育到醫療，VR/AR商機即將顛覆未來的十大產業！" title="虛擬實境狂潮：從購物、教育到醫療，VR/AR商機即將顛覆未來的十大產業！">
-                    </li>
-                    <li class="text-center">《虛擬實境狂潮：從購物、教育到醫療，V...》</li>
-                    <li class="text-center"><span class="" style="color:red">66折價 $ 251 元</span></li>
-                    </a>
-                    <li class="text-center"><a class="w3-button w3-dark-grey w3-round-large" href="http://www.cite.com.tw/shopping_cart?action=add_cart&amp;products_id=69936">放入購物車</a></li>
-                </ul>
+            <div>
+                <div class="salebox-title text-left" data-desc=""><a href="#">書目分類</a></div>
+                <div class="book-categories-box" data-desc="" style="border: 1px solid #22272b;">
+
+                    <div id="book_categories" class="list-group panel">
+                      <a href="#" class="list-group-item text-darkred" data-parent="#MainMenu">商管理財</a>
+                      <a href="#" class="list-group-item text-darkred" data-parent="#MainMenu">文學小說</a>
+                      <a href="#demo3" class="list-group-item text-darkred" data-toggle="collapse" data-parent="#MainMenu">心靈健康&nbsp;<i class="fa fa-caret-down"></i></a>
+                      <div class="collapse" id="demo3">
+                        <a href="#SubMenu1" class="list-group-item" data-toggle="collapse" data-parent="#SubMenu1">心理勵志 <i class="fa fa-caret-down"></i></a>
+                        <div class="collapse list-group-submenu" id="SubMenu1">
+                          <a href="#" class="list-group-item" data-parent="#SubMenu1">心靈成長</a>
+                          <a href="#" class="list-group-item" data-parent="#SubMenu1">人際關係</a>
+                          <a href="#SubSubMenu1" class="list-group-item" data-toggle="collapse" data-parent="#SubSubMenu1">心理學&nbsp;<i class="fa fa-caret-down"></i></a>
+                          <div class="collapse list-group-submenu list-group-submenu-1" id="SubSubMenu1">
+                            <a href="#" class="list-group-item" data-parent="#SubSubMenu1">心理學理論</a>
+                            <a href="#" class="list-group-item" data-parent="#SubSubMenu1">心理學案例</a>
+                          </div>
+                          <a href="#" class="list-group-item" data-parent="#SubMenu1">勵志故事</a>
+                        </div>
+                        <a href="javascript:;" class="list-group-item">潛能開發</a>
+                        <a href="javascript:;" class="list-group-item">兩性關係</a>
+                      </div>
+                      <a href="#demo4" class="list-group-item text-darkred" data-toggle="collapse" data-parent="#MainMenu">生活休閒&nbsp;<i class="fa fa-caret-down"></i></a>
+                      <div class="collapse" id="demo4">
+                        <a href="" class="list-group-item">旅遊</a>
+                        <a href="" class="list-group-item">居家嗜好</a>
+                        <a href="" class="list-group-item">美食休閒</a>
+                      </div>
+                    </div><!-- book_categories -->
+                </div><!-- book-categories-box -->
             </div>
         </div><!-- left -->
 
@@ -250,11 +340,11 @@ $(document).ready(function(){
                 <div style="border: 0px solid Purple;">
                     <ul class="nav nav-tabs nav-justified">
                         <li class="theme-color" class="hvr-box-shadow-inset">近期新品</li>
-                        <li class="active"><a href="#suggest-new" class="hvr-box-shadow-inset">新書推薦</a></li>
+                        <li class="active"><a data-toggle="tab" href="#suggest-new" class="hvr-box-shadow-inset">新書推薦</a></li>
                         <!-- <li><a data-toggle="tab" href="#menu1">Chandler</a></li> -->
-                        <li><a href="#suggest-hits" class="hvr-box-shadow-inset">熱門推薦</a></li>
-                        <li><a href="#editor" class="hvr-box-shadow-inset">編輯精選</a></li>
-                        <li><a href="#activity" class="hvr-box-shadow-inset">活動套書</a></li>
+                        <li><a data-toggle="tab" href="#suggest-hits" class="hvr-box-shadow-inset">熱門推薦</a></li>
+                        <li><a data-toggle="tab" href="#editor" class="hvr-box-shadow-inset">編輯精選</a></li>
+                        <li><a data-toggle="tab" href="#activity" class="hvr-box-shadow-inset">活動套書</a></li>
                     </ul>
                 </div>
                 <div class="tab-content" style="border: 1px solid #ddd;">
@@ -501,9 +591,9 @@ $(document).ready(function(){
         <div id="" class="col-md-2 div-margin-top">
             <div id="billboard" class="tab-hover">
                 <ul class="nav nav-tabs nav-justified">
-                    <li class="active"><a href="#newbooks" class="hvr-box-shadow-inset">新書排行</a></li>
+                    <li class="active"><a data-toggle="tab" href="#newbooks" class="hvr-box-shadow-inset">新書排行</a></li>
                     <!-- <li><a data-toggle="tab" href="#menu1">Chandler</a></li> -->
-                    <li><a href="#hits" class="hvr-box-shadow-inset">熱銷排行</a></li>
+                    <li><a data-toggle="tab" href="#hits" class="hvr-box-shadow-inset">熱銷排行</a></li>
                 </ul>
 
                 <div class="tab-content">
