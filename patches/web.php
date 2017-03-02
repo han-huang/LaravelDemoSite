@@ -94,6 +94,10 @@ Route::get('/news_index', function () {
     return view('site.news.temp.news_index_static');
 });
 
+Route::get('/bookstore_index', function () {
+    return view('site.bookstore.temp.bookstore_index_static');
+});
+
 Route::group(['prefix' => 'admin'], function () {
 
     Voyager::routes();
