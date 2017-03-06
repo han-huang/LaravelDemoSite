@@ -98,6 +98,10 @@ Route::get('/bookstore_index', function () {
     return view('site.bookstore.temp.bookstore_index_static');
 });
 
+Route::get('/bookstore_book', function () {
+    return view('site.bookstore.temp.bookstore_book_static');
+});
+
 Route::group(['prefix' => 'admin'], function () {
 
     Voyager::routes();
