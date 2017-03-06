@@ -1,6 +1,6 @@
---- ../news_bracch_temp/routes/web.php	2017-03-02 21:17:05.790915300 +0800
-+++ routes/web.php	2017-02-28 14:27:48.936995400 +0800
-@@ -86,7 +86,54 @@
+--- ../news_bracch_temp/routes/web.php	2017-03-07 01:49:59.918050700 +0800
++++ routes/web.php	2017-03-03 20:17:38.569307900 +0800
+@@ -86,7 +86,58 @@
  
  Route::get('/', 'IndexController@getIndexView');
  
@@ -14,6 +14,10 @@
 +
 +Route::get('/bookstore_index', function () {
 +    return view('site.bookstore.temp.bookstore_index_static');
++});
++
++Route::get('/bookstore_book', function () {
++    return view('site.bookstore.temp.bookstore_book_static');
 +});
  
  Route::group(['prefix' => 'admin'], function () {
