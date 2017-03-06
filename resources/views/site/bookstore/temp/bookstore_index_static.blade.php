@@ -49,9 +49,9 @@
   color: #FFA500;
 }
 
-.salebox-title{ background-color:#06b8ea;border: 1px solid #06b8ea; color:#fff; padding:6px 8px; margin:0px; clear:both; border-radius: 2px 2px 0px 0px;}
-.salebox-title a{color:#FFFFFF;}
-.salebox-title a:hover{color:#000000;}
+.box-title{ background-color:#06b8ea;border: 1px solid #06b8ea; color:#fff; padding:6px 8px; margin:0px; clear:both; border-radius: 2px 2px 0px 0px;}
+.box-title a{color:#FFFFFF;}
+.box-title a:hover{color:#000000;}
 
 .salebox ul{padding:0px;border: 1px solid #22272b;}
 .salebox li{ list-style:none; border-bottom:0px dotted #c3c3c3; padding:2px 2px ; overflow:hidden;font-size:15px;}
@@ -119,7 +119,7 @@ ul.w3-ul li {
 #billboard img {
   width: auto;
   height: 80px;
-  /*center*/
+  /*center for display: block;*/
   margin-left: auto;
   margin-right: auto;
 }
@@ -142,20 +142,20 @@ li.theme-color{text-indent:16px;font-weight:bold;color:orange;font-size:1em;}
   background-color: #ffffff;
 }
 
-.tab-li {
+.li-book {
   width: 182px;
 }
 
-.tab-li img {
+.li-book img {
   width: 100px;
 }
 
-.tab-li p {
+.li-book p {
   margin-top: 10px;
   font-size: 14px;
 }
 
-.tab-li a:hover {
+.li-book a:hover {
   color: #FF6347;
   opacity: 0.6;
 }
@@ -282,7 +282,7 @@ $(document).ready(function(){
         <!-- left -->
         <div class="col-md-2 div-margin-top" style="">
             <div id="today_discount">
-                <div class="salebox-title text-left" data-desc=""><a href="#">今日66折</a></div>
+                <div class="box-title text-left" data-desc=""><a href="#">今日66折</a></div>
                 <div class="salebox" data-desc="">
                     <ul class="">
                         <a href="http://www.cite.com.tw/76a4e?#book">
@@ -298,7 +298,7 @@ $(document).ready(function(){
             </div>
 
             <div>
-                <div class="salebox-title text-left" data-desc=""><a href="#">書目分類</a></div>
+                <div class="box-title text-left" data-desc=""><a href="#">書目分類</a></div>
                 <div class="book-categories-box" data-desc="" style="border: 1px solid #22272b;">
 
                     <div id="book_categories" class="list-group panel">
@@ -351,25 +351,25 @@ $(document).ready(function(){
                     <div id="suggest-new" class="tab-pane fade in active"  style="border: 0px solid Magenta;">
                         <div class="row text-center">
                         <ul class="list-inline text-center tab-ul" style="border: 0px solid blue;">
-                            <li class="col-md-2 tab-li" style="">
+                            <li class="col-md-2 li-book" style="">
                                 <a href="#">
                                 <img class="img-thumbnail" src="{{ asset('img/bookstore/BW0614.jpg') }}" alt="VR" style="">
                                 <p><span class=""></span>《虛擬實境狂潮：從購物、教育到醫療，V...》</p>
                                 </a>
                             </li>
-                            <li class="col-md-2 tab-li" style="">
+                            <li class="col-md-2 li-book" style="">
                                 <a href="#">
                                 <img class="img-thumbnail" src="{{ asset('img/bookstore/BW0614.jpg') }}" alt="VR" style="">
                                 <p><span class=""></span>《虛擬實境狂潮：從購物、教育到醫療，V...》</p>
                                 </a>
                             </li>
-                            <li class="col-md-2 tab-li" style="">
+                            <li class="col-md-2 li-book" style="">
                                 <a href="#">
                                 <img class="img-thumbnail" src="{{ asset('img/bookstore/BW0614.jpg') }}" alt="VR" style="">
                                 <p><span class=""></span>《虛擬實境狂潮：從購物、教育到醫療，V...》</p>
                                 </a>
                             </li>
-                            <li class="col-md-2 tab-li" style="">
+                            <li class="col-md-2 li-book" style="">
                                 <a href="#">
                                 <img class="img-thumbnail" src="{{ asset('img/bookstore/BW0614.jpg') }}" alt="VR" style="">
                                 <p><span class=""></span>《虛擬實境狂潮：從購物、教育到醫療，V...》</p>
@@ -379,25 +379,25 @@ $(document).ready(function(){
                         </div>
                         <div class="row text-center">
                         <ul class="list-inline text-center tab-ul" style="border: 0px solid red;">
-                            <li class="col-md-2 tab-li" style="">
+                            <li class="col-md-2 li-book" style="">
                                 <a href="#">
                                 <img class="img-thumbnail" src="{{ asset('img/bookstore/1HB093.jpg') }}" alt="VR" style="">
                                 <p><span class=""></span>軍團：布蘭登．山德森精選集II</p>
                                 </a>
                             </li>
-                            <li class="col-md-2 tab-li" style="">
+                            <li class="col-md-2 li-book" style="">
                                 <a href="#">
                                 <img class="img-thumbnail" src="{{ asset('img/bookstore/1HB093.jpg') }}" alt="VR" style="">
                                 <p><span class=""></span>軍團：布蘭登．山德森精選集II</p>
                                 </a>
                             </li>
-                            <li class="col-md-2 tab-li" style="">
+                            <li class="col-md-2 li-book" style="">
                                 <a href="#">
                                 <img class="img-thumbnail" src="{{ asset('img/bookstore/1HB093.jpg') }}" alt="VR" style="">
                                 <p><span class=""></span>軍團：布蘭登．山德森精選集II</p>
                                 </a>
                             </li>
-                            <li class="col-md-2 tab-li" style="">
+                            <li class="col-md-2 li-book" style="">
                                 <a href="#">
                                 <img class="img-thumbnail" src="{{ asset('img/bookstore/1HB093.jpg') }}" alt="VR" style="">
                                 <p><span class=""></span>軍團：布蘭登．山德森精選集II</p>
@@ -410,25 +410,25 @@ $(document).ready(function(){
                     <div id="suggest-hits" class="tab-pane fade">
                         <div class="row text-center">
                         <ul class="list-inline text-center tab-ul" style="margin-left:10px">
-                            <li class="col-md-2 tab-li" style="">
+                            <li class="col-md-2 li-book" style="">
                                 <a href="#">
                                 <img class="img-thumbnail" src="{{ asset('img/bookstore/QB1134.jpg') }}" alt="VR" >
                                 <p><span class=""></span>低谷到重生，轉型為全球企業的秘密</p>
                                 </a>
                             </li>
-                            <li class="col-md-2 tab-li" style="">
+                            <li class="col-md-2 li-book" style="">
                                 <a href="#">
                                 <img class="img-thumbnail" src="{{ asset('img/bookstore/QB1134.jpg') }}" alt="VR" style="">
                                 <p><span class=""></span>低谷到重生，轉型為全球企業的秘密</p>
                                 </a>
                             </li>
-                            <li class="col-md-2 tab-li" style="">
+                            <li class="col-md-2 li-book" style="">
                                 <a href="#">
                                 <img class="img-thumbnail" src="{{ asset('img/bookstore/QB1134.jpg') }}" alt="VR" style="">
                                 <p><span class=""></span>低谷到重生，轉型為全球企業的秘密</p>
                                 </a>
                             </li>
-                            <li class="col-md-2 tab-li" style="">
+                            <li class="col-md-2 li-book" style="">
                                 <a href="#">
                                 <img class="img-thumbnail" src="{{ asset('img/bookstore/QB1134.jpg') }}" alt="VR" style="">
                                 <p><span class=""></span>低谷到重生，轉型為全球企業的秘密</p>
@@ -438,25 +438,25 @@ $(document).ready(function(){
                         </div>
                         <div class="row text-center">
                         <ul class="list-inline text-center tab-ul" style="margin-left:10px">
-                            <li class="col-md-2 tab-li" style="">
+                            <li class="col-md-2 li-book" style="">
                                 <a href="#">
                                 <img class="img-thumbnail" src="{{ asset('img/bookstore/QB1134.jpg') }}" alt="VR" >
                                 <p><span class=""></span>低谷到重生，轉型為全球企業的秘密</p>
                                 </a>
                             </li>
-                            <li class="col-md-2 tab-li" style="">
+                            <li class="col-md-2 li-book" style="">
                                 <a href="#">
                                 <img class="img-thumbnail" src="{{ asset('img/bookstore/QB1134.jpg') }}" alt="VR" style="">
                                 <p><span class=""></span>低谷到重生，轉型為全球企業的秘密</p>
                                 </a>
                             </li>
-                            <li class="col-md-2 tab-li" style="">
+                            <li class="col-md-2 li-book" style="">
                                 <a href="#">
                                 <img class="img-thumbnail" src="{{ asset('img/bookstore/QB1134.jpg') }}" alt="VR" style="">
                                 <p><span class=""></span>低谷到重生，轉型為全球企業的秘密</p>
                                 </a>
                             </li>
-                            <li class="col-md-2 tab-li" style="">
+                            <li class="col-md-2 li-book" style="">
                                 <a href="#">
                                 <img class="img-thumbnail" src="{{ asset('img/bookstore/QB1134.jpg') }}" alt="VR" style="">
                                 <p><span class=""></span>低谷到重生，轉型為全球企業的秘密</p>
@@ -469,25 +469,25 @@ $(document).ready(function(){
                     <div id="editor" class="tab-pane fade">
                         <div class="row text-center">
                         <ul class="list-inline text-center tab-ul" style="margin-left:10px">
-                            <li class="col-md-2 tab-li" style="">
+                            <li class="col-md-2 li-book" style="">
                                 <a href="#">
                                 <img class="img-thumbnail" src="{{ asset('img/bookstore/210067513000101.jpg') }}" alt="VR" style="">
                                 <p><span class=""></span>自古英雄多魯蛇！呂捷教你歷史和人性</p>
                                 </a>
                             </li>
-                            <li class="col-md-2 tab-li" style="">
+                            <li class="col-md-2 li-book" style="">
                                 <a href="#">
                                 <img class="img-thumbnail" src="{{ asset('img/bookstore/210067513000101.jpg') }}" alt="VR" style="">
                                 <p><span class=""></span>自古英雄多魯蛇！呂捷教你歷史和人性</p>
                                 </a>
                             </li>
-                            <li class="col-md-2 tab-li" style="">
+                            <li class="col-md-2 li-book" style="">
                                 <a href="#">
                                 <img class="img-thumbnail" src="{{ asset('img/bookstore/210067513000101.jpg') }}" alt="VR" style="">
                                 <p><span class=""></span>自古英雄多魯蛇！呂捷教你歷史和人性</p>
                                 </a>
                             </li>
-                            <li class="col-md-2 tab-li" style="">
+                            <li class="col-md-2 li-book" style="">
                                 <a href="#">
                                 <img class="img-thumbnail" src="{{ asset('img/bookstore/210067513000101.jpg') }}" alt="VR" style="">
                                 <p><span class=""></span>自古英雄多魯蛇！呂捷教你歷史和人性</p>
@@ -497,25 +497,25 @@ $(document).ready(function(){
                         </div>
                         <div class="row text-center">
                         <ul class="list-inline text-center tab-ul" style="margin-left:10px">
-                            <li class="col-md-2 tab-li" style="">
+                            <li class="col-md-2 li-book" style="">
                                 <a href="#">
                                 <img class="img-thumbnail" src="{{ asset('img/bookstore/210067513000101.jpg') }}" alt="VR" >
                                 <p><span class=""></span>自古英雄多魯蛇！呂捷教你歷史和人性</p>
                                 </a>
                             </li>
-                            <li class="col-md-2 tab-li" style="">
+                            <li class="col-md-2 li-book" style="">
                                 <a href="#">
                                 <img class="img-thumbnail" src="{{ asset('img/bookstore/210067513000101.jpg') }}" alt="VR" style="">
                                 <p><span class=""></span>自古英雄多魯蛇！呂捷教你歷史和人性</p>
                                 </a>
                             </li>
-                            <li class="col-md-2 tab-li" style="">
+                            <li class="col-md-2 li-book" style="">
                                 <a href="#">
                                 <img class="img-thumbnail" src="{{ asset('img/bookstore/210067513000101.jpg') }}" alt="VR" style="">
                                 <p><span class=""></span>自古英雄多魯蛇！呂捷教你歷史和人性</p>
                                 </a>
                             </li>
-                            <li class="col-md-2 tab-li" style="">
+                            <li class="col-md-2 li-book" style="">
                                 <a href="#">
                                 <img class="img-thumbnail" src="{{ asset('img/bookstore/210067513000101.jpg') }}" alt="VR" style="">
                                 <p><span class=""></span>自古英雄多魯蛇！呂捷教你歷史和人性</p>
@@ -528,25 +528,25 @@ $(document).ready(function(){
                     <div id="activity" class="tab-pane fade">
                         <div class="row text-center">
                         <ul class="list-inline text-center tab-ul" style="margin-left:10px">
-                            <li class="col-md-2 tab-li" style="">
+                            <li class="col-md-2 li-book" style="">
                                 <a href="#">
                                 <img class="img-thumbnail" src="{{ asset('img/bookstore/1HB093.jpg') }}" alt="VR" style="">
                                 <p><span class=""></span>軍團：布蘭登．山德森精選集II</p>
                                 </a>
                             </li>
-                            <li class="col-md-2 tab-li" style="">
+                            <li class="col-md-2 li-book" style="">
                                 <a href="#">
                                 <img class="img-thumbnail" src="{{ asset('img/bookstore/1HB093.jpg') }}" alt="VR" style="">
                                 <p><span class=""></span>軍團：布蘭登．山德森精選集II</p>
                                 </a>
                             </li>
-                            <li class="col-md-2 tab-li" style="">
+                            <li class="col-md-2 li-book" style="">
                                 <a href="#">
                                 <img class="img-thumbnail" src="{{ asset('img/bookstore/1HB093.jpg') }}" alt="VR" style="">
                                 <p><span class=""></span>軍團：布蘭登．山德森精選集II</p>
                                 </a>
                             </li>
-                            <li class="col-md-2 tab-li" style="">
+                            <li class="col-md-2 li-book" style="">
                                 <a href="#">
                                 <img class="img-thumbnail" src="{{ asset('img/bookstore/1HB093.jpg') }}" alt="VR" style="">
                                 <p><span class=""></span>軍團：布蘭登．山德森精選集II</p>
@@ -556,25 +556,25 @@ $(document).ready(function(){
                         </div>
                         <div class="row text-center">
                         <ul class="list-inline text-center tab-ul" style="margin-left:10px">
-                            <li class="col-md-2 tab-li" style="">
+                            <li class="col-md-2 li-book" style="">
                                 <a href="#">
                                 <img class="img-thumbnail" src="{{ asset('img/bookstore/1HB093.jpg') }}" alt="VR" >
                                 <p><span class=""></span>軍團：布蘭登．山德森精選集II</p>
                                 </a>
                             </li>
-                            <li class="col-md-2 tab-li" style="">
+                            <li class="col-md-2 li-book" style="">
                                 <a href="#">
                                 <img class="img-thumbnail" src="{{ asset('img/bookstore/1HB093.jpg') }}" alt="VR" style="">
                                 <p><span class=""></span>軍團：布蘭登．山德森精選集II</p>
                                 </a>
                             </li>
-                            <li class="col-md-2 tab-li" style="">
+                            <li class="col-md-2 li-book" style="">
                                 <a href="#">
                                 <img class="img-thumbnail" src="{{ asset('img/bookstore/1HB093.jpg') }}" alt="VR" style="">
                                 <p><span class=""></span>軍團：布蘭登．山德森精選集II</p>
                                 </a>
                             </li>
-                            <li class="col-md-2 tab-li" style="">
+                            <li class="col-md-2 li-book" style="">
                                 <a href="#">
                                 <img class="img-thumbnail" src="{{ asset('img/bookstore/1HB093.jpg') }}" alt="VR" style="">
                                 <p><span class=""></span>軍團：布蘭登．山德森精選集II</p>
