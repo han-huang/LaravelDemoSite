@@ -16,7 +16,8 @@
         "ellipsesynergie/api-response": "^0.12.3",
         "tymon/jwt-auth": "0.5.*",
         "dingo/api": "1.0.x@dev",
-        "barryvdh/laravel-cors": "^0.8.6"
+        "barryvdh/laravel-cors": "^0.8.6",
+        "caouecs/laravel-lang": "~3.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
