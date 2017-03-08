@@ -271,7 +271,7 @@ $(document).ready(function(){
                         </form>
                     </li>
 
-                    <li class=""><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;結帳</a></li>
+                    <li class=""><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;購物車</a></li>
                     <li class=""><a href="#"><span class="glyphicon glyphicon-log-in"></span>&nbsp;登入</a></li>
                     <li class=""><a href="#"><span class="glyphicon glyphicon-user"></span>&nbsp;加入會員</a></li>
                     <li class=""><a href="#"><span class="glyphicon glyphicon-question-sign"></span>&nbsp;FAQ</a></li>
