@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Hesto\MultiAuth\Traits\LogsoutGuard;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -29,7 +30,19 @@ class LoginController extends Controller
      *
      * @var string
      */
-    public $redirectTo = '/client/home';
+    // public $redirectTo = '/client/home';
+
+    /**
+     * Messages for Validator.
+     *
+     * @var array
+     */
+    private $messages = [
+        'required' => ':attribute 的欄位是必要的。',
+        'email.required' => '電子郵件的欄位是必要的。',
+        'password.required' => '密碼的欄位是必要的。',
+        'g-recaptcha-response.required' => '請勾選驗證服務',
+    ];
 
     /**
      * Create a new controller instance.
@@ -48,7 +61,22 @@ class LoginController extends Controller
      */
     public function showLoginForm()
     {
-        return view('client.auth.login');
+        // return view('client.auth.login');
+        return view('site.auth.login');
+    }
+
+    /**
+     * Validate the user login request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return void
+     */
+    protected function validateLogin(Request $request)
+    {
+        $this->validate($request, [
+            $this->username() => 'required', 'password' => 'required',
+            'g-recaptcha-response' => 'required|captcha',
+        ], $this->messages);
     }
 
     /**

@@ -15,7 +15,7 @@ Route::get('/welcome', function () {
     return view('welcome');
 });
 
-Route::group(['prefix' => 'client'], function () {
+Route::group(['prefix' => 'client', 'as' => 'client.'], function () {
   //Route::get('/login', 'ClientAuth\LoginController@showLoginForm');
   Route::get('/login', 'ClientAuth\LoginController@showLoginForm')->name('login');
   Route::post('/login', 'ClientAuth\LoginController@login');
@@ -28,8 +28,8 @@ Route::group(['prefix' => 'client'], function () {
 
   Route::post('/password/email', 'ClientAuth\ForgotPasswordController@sendResetLinkEmail');
   Route::post('/password/reset', 'ClientAuth\ResetPasswordController@reset');
-  Route::get('/password/reset', 'ClientAuth\ForgotPasswordController@showLinkRequestForm');
-  Route::get('/password/reset/{token}', 'ClientAuth\ResetPasswordController@showResetForm');
+  Route::get('/password/reset', 'ClientAuth\ForgotPasswordController@showLinkRequestForm')->name('resetRequest');
+  Route::get('/password/reset/{token}', 'ClientAuth\ResetPasswordController@showResetForm')->name('resetPassword');
 });
 
 Route::get('contact', function() {
@@ -101,6 +101,18 @@ Route::get('/bookstore_index', function () {
 Route::get('/bookstore_book', function () {
     return view('site.bookstore.temp.bookstore_book_static');
 });
+
+Route::get('/login', 'ClientAuth\LoginController@showLoginForm')->name('login');
+Route::post('/login', 'ClientAuth\LoginController@login');
+Route::post('/logout', 'ClientAuth\LoginController@logout')->name('logout');
+
+Route::get('/register', 'ClientAuth\RegisterController@showRegistrationForm')->name('register');
+Route::post('/register', 'ClientAuth\RegisterController@register');
+
+Route::post('/password/email', 'ClientAuth\ForgotPasswordController@sendResetLinkEmail');
+Route::post('/password/reset', 'ClientAuth\ResetPasswordController@reset');
+Route::get('/password/reset', 'ClientAuth\ForgotPasswordController@showLinkRequestForm')->name('resetRequest');
+Route::get('/password/reset/{token}', 'ClientAuth\ResetPasswordController@showResetForm')->name('resetPassword');
 
 Route::group(['prefix' => 'admin'], function () {
 

@@ -1,6 +1,26 @@
---- ../news_bracch_temp/routes/web.php	2017-03-07 01:49:59.918050700 +0800
-+++ routes/web.php	2017-03-03 20:17:38.569307900 +0800
-@@ -86,7 +86,58 @@
+--- ../newsposts_bracch_temp/routes/web.php	2017-02-16 23:18:38.258177800 +0800
++++ routes/web.php	2017-03-08 20:10:41.563553600 +0800
+@@ -15,7 +15,7 @@
+     return view('welcome');
+ });
+ 
+-Route::group(['prefix' => 'client'], function () {
++Route::group(['prefix' => 'client', 'as' => 'client.'], function () {
+   //Route::get('/login', 'ClientAuth\LoginController@showLoginForm');
+   Route::get('/login', 'ClientAuth\LoginController@showLoginForm')->name('login');
+   Route::post('/login', 'ClientAuth\LoginController@login');
+@@ -28,8 +28,8 @@
+ 
+   Route::post('/password/email', 'ClientAuth\ForgotPasswordController@sendResetLinkEmail');
+   Route::post('/password/reset', 'ClientAuth\ResetPasswordController@reset');
+-  Route::get('/password/reset', 'ClientAuth\ForgotPasswordController@showLinkRequestForm');
+-  Route::get('/password/reset/{token}', 'ClientAuth\ResetPasswordController@showResetForm');
++  Route::get('/password/reset', 'ClientAuth\ForgotPasswordController@showLinkRequestForm')->name('resetRequest');
++  Route::get('/password/reset/{token}', 'ClientAuth\ResetPasswordController@showResetForm')->name('resetPassword');
+ });
+ 
+ Route::get('contact', function() {
+@@ -86,7 +86,70 @@
  
  Route::get('/', 'IndexController@getIndexView');
  
@@ -19,6 +39,18 @@
 +Route::get('/bookstore_book', function () {
 +    return view('site.bookstore.temp.bookstore_book_static');
 +});
++
++Route::get('/login', 'ClientAuth\LoginController@showLoginForm')->name('login');
++Route::post('/login', 'ClientAuth\LoginController@login');
++Route::post('/logout', 'ClientAuth\LoginController@logout')->name('logout');
++
++Route::get('/register', 'ClientAuth\RegisterController@showRegistrationForm')->name('register');
++Route::post('/register', 'ClientAuth\RegisterController@register');
++
++Route::post('/password/email', 'ClientAuth\ForgotPasswordController@sendResetLinkEmail');
++Route::post('/password/reset', 'ClientAuth\ResetPasswordController@reset');
++Route::get('/password/reset', 'ClientAuth\ForgotPasswordController@showLinkRequestForm')->name('resetRequest');
++Route::get('/password/reset/{token}', 'ClientAuth\ResetPasswordController@showResetForm')->name('resetPassword');
  
  Route::group(['prefix' => 'admin'], function () {
 +
