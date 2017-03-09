@@ -35,7 +35,7 @@
 
 .remember-font {
   font-weight: normal;
-  font-size: 15px;
+  font-size: 16px;
 }
 </style>
 
@@ -60,8 +60,8 @@ $('document').ready(function () {
                   {{ csrf_field() }}
                   <div class="form-group div-margin-top{{ $errors->has('email') ? ' has-error' : '' }}">
                       <div class="input-group col-md-8 col-md-offset-2">
-                          <span class="input-group-addon"><i class="fa fa-envelope" aria-hidden="true"></i></span>
-                          <input type="text" class="form-control" name="email" id="email" placeholder="請輸入您的電子郵件" value="{{ old('email') }}" autofocus required />
+                          <span class="input-group-addon"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></span>
+                          <input type="text" class="form-control input-lg" name="email" id="email" placeholder="請輸入您的電子郵件" value="{{ old('email') }}" autofocus required />
                       </div>
                       @if ($errors->has('email'))
                       <div class="col-md-8 col-md-offset-2">      
@@ -74,8 +74,8 @@ $('document').ready(function () {
 
                   <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                       <div class="input-group col-md-8 col-md-offset-2">
-                          <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-                          <input type="password" class="form-control" name="password" id="password" placeholder="請輸入您的密碼" required />
+                          <span class="input-group-addon"><i class="fa fa-lock fa-2x" aria-hidden="true"></i></span>
+                          <input type="password" class="form-control input-lg" name="password" id="password" placeholder="請輸入您的密碼" required />
                       </div>
                       @if ($errors->has('password'))
                       <div class="col-md-8 col-md-offset-2">      
@@ -104,7 +104,7 @@ $('document').ready(function () {
                       <div class="col-md-offset-2 ">
                           <div class="">
                               <label class="remember-font">
-                                  <input type="checkbox" name="remember"> 記住我
+                                  <input type="checkbox" name="remember">&nbsp;記住我
                               </label>
                           </div>
                       </div>
@@ -112,8 +112,8 @@ $('document').ready(function () {
 
                   <div class="form-group">
                       <div class="col-md-offset-4 col-sm-offset-5 col-xs-offset-4">
-                          <button type="submit" class="btn btn-primary">登入</button>
-                          <a class="btn btn-default" href="{{ url('/password/reset') }}">忘記密碼&#63;</a>                                                       
+                          <button type="submit" class="btn btn-primary btn-lg">登入</button>
+                          <a class="btn btn-default btn-lg" href="{{ url('/password/reset') }}">忘記密碼&#63;</a>
                       </div>
                   </div>
 
