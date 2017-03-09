@@ -21,6 +21,22 @@ class RegisterController extends Controller
     |
     */
 
+    /**
+     * Messages for Validator.
+     *
+     * @var array
+     */
+    private $messages = [
+        'required' => ':attribute 的欄位不能留空。',
+        'name.required' => '姓名的欄位不能留空。',
+        'email.required' => '電子郵件的欄位不能留空。',
+        'password.required' => '密碼的欄位不能留空。',
+        'birthday.required' => '生日的欄位不能留空。',
+        'gender.required' => '性別的欄位不能留空。',
+        'agree_edm.required' => '請勾選是否同意獲得本站提供之相關活動訊息',
+        'g-recaptcha-response.required' => '請勾選驗證服務',
+    ];
+
     use RegistersUsers;
 
     /**
@@ -28,7 +44,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/client/home';
+    // protected $redirectTo = '/client/home';
 
     /**
      * Create a new controller instance.
@@ -52,7 +68,11 @@ class RegisterController extends Controller
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:clients',
             'password' => 'required|min:6|confirmed',
-        ]);
+            'birthday' => 'required|date',
+            'gender' => array('required', 'regex:/^(M|F)$/'),
+            'agree_edm' => 'required|boolean',
+            'g-recaptcha-response' => 'required|captcha',
+        ], $this->messages);
     }
 
     /**
@@ -67,6 +87,9 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'birthday' => $data['birthday'],
+            'gender' => $data['gender'],
+            'agree_edm' => (int)$data['agree_edm'],
         ]);
     }
 
@@ -77,7 +100,8 @@ class RegisterController extends Controller
      */
     public function showRegistrationForm()
     {
-        return view('client.auth.register');
+        // return view('client.auth.register');
+        return view('site.auth.register');
     }
 
     /**
