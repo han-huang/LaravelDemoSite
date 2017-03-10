@@ -33,7 +33,7 @@
 
 @section('content')
 <style>
-.login-margin-top {
+.container-margin-top {
   margin-top: 100px;
 }
 
@@ -78,7 +78,7 @@ $('document').ready(function () {
 });
 </script>
 
-<div class="container login-margin-top">
+<div class="container container-margin-top">
     <div class="col-md-6 col-md-offset-3">
         <div class="panel panel-primary">
           <div class="panel-heading">LaravelDemoSite 註冊會員</div>
