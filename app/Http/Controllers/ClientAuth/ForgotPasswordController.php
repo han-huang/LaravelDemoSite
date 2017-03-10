@@ -5,6 +5,7 @@ namespace App\Http\Controllers\ClientAuth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Http\Request;
 
 class ForgotPasswordController extends Controller
 {
@@ -20,6 +21,17 @@ class ForgotPasswordController extends Controller
     */
 
     use SendsPasswordResetEmails;
+
+    /**
+     * Messages for Validator.
+     *
+     * @var array
+     */
+    private $messages = [
+        'required' => ':attribute 的欄位不能留空。',
+        'email.required' => '電子郵件的欄位不能留空。',
+        'g-recaptcha-response.required' => '請勾選驗證服務',
+    ];
 
     /**
      * Create a new controller instance.
@@ -38,7 +50,32 @@ class ForgotPasswordController extends Controller
      */
     public function showLinkRequestForm()
     {
-        return view('client.auth.passwords.email');
+        // return view('client.auth.passwords.email');
+        return view('site.auth.passwords.email');
+    }
+
+    /**
+     * Send a reset link to the given user.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function sendResetLinkEmail(Request $request)
+    {
+        $this->validate($request, ['email' => 'required|email',
+            'g-recaptcha-response' => 'required|captcha'
+        ], $this->messages);
+
+        // We will send the password reset link to this user. Once we have attempted
+        // to send the link, we will examine the response then see the message we
+        // need to show to the user. Finally, we'll send out a proper response.
+        $response = $this->broker()->sendResetLink(
+            $request->only('email')
+        );
+
+        return $response == Password::RESET_LINK_SENT
+                    ? $this->sendResetLinkResponse($response)
+                    : $this->sendResetLinkFailedResponse($request, $response);
     }
 
     /**
