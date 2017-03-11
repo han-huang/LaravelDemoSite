@@ -72,7 +72,7 @@ $('document').ready(function () {
                           <input type="text" class="form-control input-lg" name="email" id="email" placeholder="請輸入您的電子郵件" value="{{ old('email') }}" autofocus required />
                       </div>
                       @if ($errors->has('email'))
-                      <div class="col-md-8 col-md-offset-2">      
+                      <div class="col-md-8 col-md-offset-2">
                           <span class="help-block">
                               <strong>{{ $errors->first('email') }}</strong>
                           </span>
