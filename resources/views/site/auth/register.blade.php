@@ -92,7 +92,7 @@ $('document').ready(function () {
                           <input type="text" class="form-control input-lg" name="name" id="name" placeholder="請輸入您的姓名" value="{{ old('name') }}" autofocus required />
                       </div>
                       @if ($errors->has('name'))
-                      <div class="col-md-8 col-md-offset-2">      
+                      <div class="col-md-8 col-md-offset-2">
                           <span class="help-block">
                               <strong>{{ $errors->first('name') }}</strong>
                           </span>
@@ -106,7 +106,7 @@ $('document').ready(function () {
                           <input type="text" class="form-control input-lg" name="email" id="email" placeholder="請輸入您的電子郵件" value="{{ old('email') }}" autofocus required />
                       </div>
                       @if ($errors->has('email'))
-                      <div class="col-md-8 col-md-offset-2">      
+                      <div class="col-md-8 col-md-offset-2">
                           <span class="help-block">
                               <strong>{{ $errors->first('email') }}</strong>
                           </span>
@@ -120,7 +120,7 @@ $('document').ready(function () {
                           <input type="password" class="form-control input-lg" name="password" id="password" placeholder="請輸入至少6個字元的密碼" required />
                       </div>
                       @if ($errors->has('password'))
-                      <div class="col-md-8 col-md-offset-2">      
+                      <div class="col-md-8 col-md-offset-2">
                           <span class="help-block">
                               <strong>{{ $errors->first('password') }}</strong>
                           </span>
@@ -141,7 +141,7 @@ $('document').ready(function () {
                           <input type="text" class="form-control input-lg" name="birthday" id="birthday" placeholder="請輸入您的生日" value="{{ old('birthday') }}" required />
                       </div>
                       @if ($errors->has('birthday'))
-                      <div class="col-md-8 col-md-offset-2">      
+                      <div class="col-md-8 col-md-offset-2">
                           <span class="help-block">
                               <strong>{{ $errors->first('birthday') }}</strong>
                           </span>
@@ -161,7 +161,7 @@ $('document').ready(function () {
                           </label>
                       </div>
                       @if ($errors->has('gender'))
-                      <div class="col-md-8 col-md-offset-2">      
+                      <div class="col-md-8 col-md-offset-2">
                           <span class="help-block">
                               <strong>{{ $errors->first('gender') }}</strong>
                           </span>
@@ -181,7 +181,7 @@ $('document').ready(function () {
                           </label>
                       </div>
                       @if ($errors->has('agree_edm'))
-                      <div class="col-md-8 col-md-offset-2">      
+                      <div class="col-md-8 col-md-offset-2">
                           <span class="help-block">
                               <strong>{{ $errors->first('agree_edm') }}</strong>
                           </span>

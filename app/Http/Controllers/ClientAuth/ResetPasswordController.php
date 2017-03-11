@@ -28,7 +28,7 @@ class ResetPasswordController extends Controller
      *
      * @var string
      */
-    public $redirectTo = '/client/home';
+    // public $redirectTo = '/client/home';
 
 
     /**
@@ -52,9 +52,41 @@ class ResetPasswordController extends Controller
      */
     public function showResetForm(Request $request, $token = null)
     {
-        return view('client.auth.passwords.reset')->with(
+        // return view('client.auth.passwords.reset')->with(
+        return view('site.auth.passwords.reset')->with(
             ['token' => $token, 'email' => $request->email]
         );
+    }
+
+    /**
+     * Get the password reset validation rules.
+     *
+     * @return array
+     */
+    protected function rules()
+    {
+        return [
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|confirmed|min:6',
+            'g-recaptcha-response' => 'required|captcha',
+        ];
+    }
+
+    /**
+     * Get the password reset validation error messages.
+     *
+     * @return array
+     */
+    protected function validationErrorMessages()
+    {
+        // return [];
+        return [
+            'required' => ':attribute 的欄位不能留空。',
+            'email.required' => '電子郵件的欄位不能留空。',
+            'password.required' => '密碼的欄位不能留空。',
+            'g-recaptcha-response.required' => '請勾選驗證服務',
+        ];
     }
 
     /**
