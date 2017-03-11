@@ -32,32 +32,42 @@
 .container-margin-top {
   margin-top: 100px;
 }
-
-.remember-font {
-  font-weight: normal;
-  font-size: 16px;
-}
 </style>
 
 <script type="text/javascript">
 $('document').ready(function () {
+
     @if (count($errors) > 0)
         @foreach ($errors->all() as $error)
             toastr.error('{{ $error }}');
         @endforeach
+        {{-- 
+        @foreach ($errors->keys() as $key)
+            toastr.error('{{ $key }}');
+        @endforeach
+        --}}
     @endif
 
-    {!! $errors->has('g-recaptcha-response') ? 'alert("請勾選驗證服務!");' : '' !!}
+    {{-- {!! $errors->has('g-recaptcha-response') ? 'alert("請勾選驗證服務!");' : '' !!} --}}
 });
 </script>
 
 <div class="container container-margin-top">
     <div class="col-md-6 col-md-offset-3">
         <div class="panel panel-primary">
-          <div class="panel-heading">LaravelDemoSite 會員登入</div>
+          <div class="panel-heading">LaravelDemoSite 重設密碼</div>
           <div class="panel-body">
-              <form role="form" action="{{ url('/login') }}" method="POST">
+              @if (session('status'))
+                  <div class="alert alert-success">
+                      {{ session('status') }}
+                  </div>
+              @endif
+
+              <form role="form" action="{{ url('/password/reset') }}" method="POST">
                   {{ csrf_field() }}
+
+                  <input type="hidden" name="token" value="{{ $token }}">
+
                   <div class="form-group div-margin-top{{ $errors->has('email') ? ' has-error' : '' }}">
                       <div class="input-group col-md-8 col-md-offset-2">
                           <span class="input-group-addon"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></span>
@@ -75,7 +85,7 @@ $('document').ready(function () {
                   <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                       <div class="input-group col-md-8 col-md-offset-2">
                           <span class="input-group-addon"><i class="fa fa-lock fa-2x" aria-hidden="true"></i></span>
-                          <input type="password" class="form-control input-lg" name="password" id="password" placeholder="請輸入您的密碼" required />
+                          <input type="password" class="form-control input-lg" name="password" id="password" placeholder="請輸入至少6個字元的密碼" required />
                       </div>
                       @if ($errors->has('password'))
                       <div class="col-md-8 col-md-offset-2">
@@ -86,13 +96,28 @@ $('document').ready(function () {
                       @endif
                   </div>
 
-                  <div class="row form-group col-md-offset-2{{ $errors->has('g-recaptcha-response') ? ' has-error' : '' }}">
+                  <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
+                      <div class="input-group col-md-8 col-md-offset-2">
+                          <span class="input-group-addon"><i class="fa fa-lock fa-2x" aria-hidden="true"></i></span>
+                          <input type="password" class="form-control input-lg" name="password_confirmation" id="password-confirm" placeholder="請再次確認您的密碼" required />
+                      </div>
+
+                      @if ($errors->has('password_confirmation'))
+                      <div class="col-md-8 col-md-offset-2">
+                          <span class="help-block">
+                              <strong>{{ $errors->first('password_confirmation') }}</strong>
+                          </span>
+                      </div>
+                      @endif
+                  </div>
+
+                  <div class="row form-group col-md-offset-2 col-sm-offset-3 col-xs-offset-2{{ $errors->has('g-recaptcha-response') ? ' has-error' : '' }}">
                       <label class=""></label>
                       <div class="col-md-8">
                           {!! app('captcha')->display(); !!}
                       </div>
                       @if ($errors->has('g-recaptcha-response'))
-                      <div class="col-md-8 col-md-offset-2">
+                      <div class="col-md-8 ">      
                           <span class="help-block">
                               <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
                           </span>
@@ -101,25 +126,14 @@ $('document').ready(function () {
                   </div>
 
                   <div class="form-group">
-                      <div class="col-md-offset-2 ">
-                          <div class="">
-                              <label class="remember-font">
-                                  <input type="checkbox" name="remember">&nbsp;記住我
-                              </label>
-                          </div>
-                      </div>
-                  </div>
-
-                  <div class="form-group">
-                      <div class="col-md-offset-4 col-sm-offset-5 col-xs-offset-4">
-                          <button type="submit" class="btn btn-primary btn-lg">登入</button>
-                          <a class="btn btn-default btn-lg" href="{{ url('/password/reset') }}">忘記密碼&#63;</a>
+                      <div class="row col-md-offset-5 col-sm-offset-5 col-xs-offset-5">
+                          <button type="submit" class="btn btn-primary btn-lg">重設密碼</button>
                       </div>
                   </div>
 
               </form>
           </div>
-          <div class="panel-footer decoration-none text-center">還不是會員&#63;&nbsp;<a href="{{ url('/register') }}">加入會員</a></div>
+
         </div>
     </div>
 </div>
