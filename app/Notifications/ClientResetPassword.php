@@ -43,9 +43,15 @@ class ClientResetPassword extends Notification
      */
     public function toMail($notifiable)
     {
+        // return (new MailMessage)
+            // ->line('You are receiving this email because we received a password reset request for your account.')
+            // ->action('Reset Password', url('client/password/reset', $this->token))
+            // ->line('If you did not request a password reset, no further action is required.');
         return (new MailMessage)
-            ->line('You are receiving this email because we received a password reset request for your account.')
-            ->action('Reset Password', url('client/password/reset', $this->token))
-            ->line('If you did not request a password reset, no further action is required.');
+            ->view('vendor.notifications.email')
+            ->subject('LaravelDemoSite 重新設定密碼')
+            ->line('您收到這封電子郵件是因為我們收到了您帳戶的密碼重設要求&#x3002;')
+            ->action('重設密碼', url('password/reset', $this->token))
+            ->line('如果您未請求重設密碼，則無需進一步操作&#x3002;');
     }
 }
