@@ -18,7 +18,7 @@ class TestMailController extends Controller
         $to_email = env('MAIL_TO');
         $mytestmail = new MyTestMail();
         $mytestmail->subject("Hello! This is a test mail.");
-        Mail::to($to_email)->send($mytestmail);
+        Mail::to($to_email)->queue($mytestmail);
 
         // dd("Mail Send Successfully");
         return "E-mail has been sent Successfully";  
