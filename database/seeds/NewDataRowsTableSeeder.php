@@ -21,6 +21,10 @@ class NewDataRowsTableSeeder extends Seeder
         $newsPostsDataType = DataType::where('slug', 'news-posts')->firstOrFail();
         $userDataType = DataType::where('slug', 'users')->firstOrFail();
 
+        $bookauthorsPostsDataType = DataType::where('slug', 'bookauthors')->firstOrFail();
+        $booktranslatorsPostsDataType = DataType::where('slug', 'booktranslators')->firstOrFail();
+        $booksPostsDataType = DataType::where('slug', 'books')->firstOrFail();
+
         $dataRow = DataRow::firstOrNew([
                     'data_type_id' => $userDataType->id,
                     'field'        => 'api_token',
@@ -1207,5 +1211,618 @@ class NewDataRowsTableSeeder extends Seeder
                 'details'      => '',
             ])->save();
         }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $bookauthorsPostsDataType->id,
+            'field'        => 'id',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'PRI',
+                'display_name' => 'ID',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $bookauthorsPostsDataType->id,
+            'field'        => 'name',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Name',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $bookauthorsPostsDataType->id,
+            'field'        => 'information',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text_area',
+                'display_name' => 'Information',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $bookauthorsPostsDataType->id,
+            'field'        => 'created_at',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => 'Created At',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 0,
+                'delete'       => 1,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $bookauthorsPostsDataType->id,
+            'field'        => 'updated_at',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => 'Updated At',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $booktranslatorsPostsDataType->id,
+            'field'        => 'id',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'PRI',
+                'display_name' => 'ID',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $booktranslatorsPostsDataType->id,
+            'field'        => 'name',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Name',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $booktranslatorsPostsDataType->id,
+            'field'        => 'information',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text_area',
+                'display_name' => 'Information',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $booktranslatorsPostsDataType->id,
+            'field'        => 'created_at',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => 'Created At',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 0,
+                'delete'       => 1,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $booktranslatorsPostsDataType->id,
+            'field'        => 'updated_at',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => 'Updated At',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $booksPostsDataType->id,
+            'field'        => 'id',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'PRI',
+                'display_name' => 'Id',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $booksPostsDataType->id,
+            'field'        => 'title',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Title',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $booksPostsDataType->id,
+            'field'        => 'pulbisher_name',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Pulbisher Name',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $booksPostsDataType->id,
+            'field'        => 'series',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Series',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $booksPostsDataType->id,
+            'field'        => 'image',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'image',
+                'display_name' => 'Image',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $booksPostsDataType->id,
+            'field'        => 'list_price',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'List Price',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $booksPostsDataType->id,
+            'field'        => 'discount',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Discount',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $booksPostsDataType->id,
+            'field'        => 'stocks',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Stocks',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $booksPostsDataType->id,
+            'field'        => 'sold',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Sold',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $booksPostsDataType->id,
+            'field'        => 'page_numbers',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Page Numbers',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $booksPostsDataType->id,
+            'field'        => 'isbn-10',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'ISBN-10',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $booksPostsDataType->id,
+            'field'        => 'isbn-13',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'ISBN-13',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $booksPostsDataType->id,
+            'field'        => 'publishing_date',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'date',
+                'display_name' => 'Pulbishing Date',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $booksPostsDataType->id,
+            'field'        => 'briefcontent',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'rich_text_box',
+                'display_name' => 'Brief Content',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $booksPostsDataType->id,
+            'field'        => 'index',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text_area',
+                'display_name' => 'Index',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $booksPostsDataType->id,
+            'field'        => 'promote',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'rich_text_box',
+                'display_name' => 'Promote',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $booksPostsDataType->id,
+            'field'        => 'probation',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'rich_text_box',
+                'display_name' => 'Probation',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $booksPostsDataType->id,
+            'field'        => 'suggest_new',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'checkbox',
+                'display_name' => 'Suggest New',
+                'required'     => 1,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $booksPostsDataType->id,
+            'field'        => 'suggest_hits',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'checkbox',
+                'display_name' => 'Suggest Hits',
+                'required'     => 1,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $booksPostsDataType->id,
+            'field'        => 'editor_promotion',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'checkbox',
+                'display_name' => 'Editor Promotion',
+                'required'     => 1,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $booksPostsDataType->id,
+            'field'        => 'marketing_promotion',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'checkbox',
+                'display_name' => 'Marketing Promotion',
+                'required'     => 1,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $booksPostsDataType->id,
+            'field'        => 'active',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'checkbox',
+                'display_name' => 'Active',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $booksPostsDataType->id,
+            'field'        => 'created_at',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => 'Created At',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 0,
+                'delete'       => 1,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $booksPostsDataType->id,
+            'field'        => 'updated_at',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => 'Updated At',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'details'      => '',
+            ])->save();
+        }
+
     }
 }

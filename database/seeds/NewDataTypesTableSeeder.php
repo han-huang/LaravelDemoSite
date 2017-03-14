@@ -103,5 +103,53 @@ class NewDataTypesTableSeeder extends Seeder
                 'description'           => '',
             ])->save();
         }
+
+        $dataType = DataType::firstOrNew([
+            'slug'                  => 'bookauthors',
+        ]);
+        if (!$dataType->exists) {
+            $dataType->fill([
+                'name'                  => 'bookauthors',
+                'display_name_singular' => 'BookAuthor',
+                'display_name_plural'   => 'BookAuthors',
+                'icon'                  => 'voyager-person',
+                'model_name'            => '\\App\\BookAuthor',
+                'generate_permissions'  => 1,
+                'server_side'           => 1,
+                'description'           => '',
+            ])->save();
+        }
+
+        $dataType = DataType::firstOrNew([
+            'slug'                  => 'booktranslators',
+        ]);
+        if (!$dataType->exists) {
+            $dataType->fill([
+                'name'                  => 'booktranslators',
+                'display_name_singular' => 'BookTranslator',
+                'display_name_plural'   => 'BookTranslators',
+                'icon'                  => 'voyager-person',
+                'model_name'            => '\\App\\BookTranslator',
+                'generate_permissions'  => 1,
+                'server_side'           => 1,
+                'description'           => '',
+            ])->save();
+        }
+
+        $dataType = DataType::firstOrNew([
+            'slug'                  => 'books',
+        ]);
+        if (!$dataType->exists) {
+            $dataType->fill([
+                'name'                  => 'books',
+                'display_name_singular' => 'Book',
+                'display_name_plural'   => 'Books',
+                'icon'                  => 'voyager-book',
+                'model_name'            => '\\App\\Book',
+                'generate_permissions'  => 1,
+                'server_side'           => 1,
+                'description'           => '',
+            ])->save();
+        }
     }
 }
