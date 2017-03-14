@@ -195,23 +195,14 @@ li.theme-color{text-indent:16px;font-weight:bold;color:orange;font-size:1em;}
 </style>
 <script type="text/javascript">
 $(document).ready(function(){
-    //$(".nav-tabs a").click(function(){
-    $(".tab-hover .nav-tabs a").mouseover(function() {
-        $(this).tab('show');
-        //id = $(this).attr('href');
-        //$(id).siblings().removeClass('in').removeClass('active');
-    });
-
-    /*
-    $(".tab-hover .nav-tabs a").mouseleave(function(){
+    //Dynamic tab on mouseenter
+    $(".tab-hover .nav-tabs a").mouseenter(function() {
+        $(this).parent('li').siblings('.active').removeClass('active');
+        $(this).parent('li').addClass('active');
         id = $(this).attr('href');
-        //fix tab display sometimes
-        if($(id).siblings().hasClass('in')) {
-            $(id).removeClass('in').removeClass('active');
-            //console.log($(this).attr('href') + " mouseleave");
-        }
+        $(id).siblings().removeClass('in').removeClass('active');
+        $(id).addClass('active').addClass('in');
     });
-    */
 
     /* img display */
     $('#billboard .w3-ul li').mouseover(function(event) {
@@ -623,19 +614,19 @@ $(document).ready(function(){
                         <ul class="w3-ul ">
                             <li class="">
                                     <a href="#">
-                                    <p><span class="">1.</span>《虛擬實境狂潮：從購物、教育到醫療，V...》</p>
+                                    <p><span class="">01.</span>《虛擬實境狂潮：從購物、教育到醫療，V...》</p>
                                     <img class="img-thumbnail" src="{{ asset('img/bookstore/BW0614.jpg') }}" alt="VR"  style="">
                                     </a>
                             </li>
                             <li class="">
                                     <a href="#">
-                                    <p><span class="">2.</span>《虛擬實境狂潮：從購物、教育到醫療，V...》</p>
+                                    <p><span class="">02.</span>《虛擬實境狂潮：從購物、教育到醫療，V...》</p>
                                     <img class="img-thumbnail" src="{{ asset('img/bookstore/BW0614.jpg') }}" alt="VR"  style="">
                                     </a>
                             </li>
                             <li class="">
                                     <a href="#">
-                                    <p><span class="">3.</span>《虛擬實境狂潮：從購物、教育到醫療，V...》</p>
+                                    <p><span class="">03.</span>《虛擬實境狂潮：從購物、教育到醫療，V...》</p>
                                     <img class="img-thumbnail" src="{{ asset('img/bookstore/BW0614.jpg') }}" alt="VR"  style="">
                                     </a>
                             </li>
