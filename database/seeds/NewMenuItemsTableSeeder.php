@@ -138,5 +138,51 @@ class NewMenuItemsTableSeeder extends Seeder
                 'order'      => 17,
             ])->save();
         }
+
+        $menuItem = MenuItem::firstOrNew([
+            'menu_id'    => $menu->id,
+            'title'      => 'BookAuthors',
+            'url'        => '/admin/bookauthors',
+        ]);
+        if (!$menuItem->exists) {
+            $menuItem->fill([
+                'target'     => '_self',
+                'icon_class' => 'voyager-person',
+                'color'      => null,
+                'parent_id'  => null,
+                'order'      => 18,
+            ])->save();
+        }
+
+        $menuItem = MenuItem::firstOrNew([
+            'menu_id'    => $menu->id,
+            'title'      => 'BookTranslators',
+            'url'        => '/admin/booktranslators',
+        ]);
+        if (!$menuItem->exists) {
+            $menuItem->fill([
+                'target'     => '_self',
+                'icon_class' => 'voyager-person',
+                'color'      => null,
+                'parent_id'  => null,
+                'order'      => 19,
+            ])->save();
+        }
+
+        $menuItem = MenuItem::firstOrNew([
+            'menu_id'    => $menu->id,
+            'title'      => 'Books',
+            'url'        => '/admin/books',
+        ]);
+        if (!$menuItem->exists) {
+            $menuItem->fill([
+                'target'     => '_self',
+                'icon_class' => 'voyager-book',
+                'color'      => null,
+                'parent_id'  => null,
+                'order'      => 20,
+            ])->save();
+        }
+
     }
 }

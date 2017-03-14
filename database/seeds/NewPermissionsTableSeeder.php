@@ -18,5 +18,8 @@ class NewPermissionsTableSeeder extends Seeder
         Permission::generateFor('news_categories');
         Permission::generateFor('news_articles');
         Permission::generateFor('news_posts');
+        Permission::generateFor('bookauthors');
+        Permission::generateFor('booktranslators');
+        Permission::generateFor('books');
     }
 }

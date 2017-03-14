@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use TCG\Voyager\Http\Controllers\Controller as VoyagerController;
 use Illuminate\Support\Facades\DB;
 use TCG\Voyager\Models\DataType;
-use TCG\Voyager\Voyager;
+use TCG\Voyager\Facades\Voyager;
 use Log;
 
 class NewsArticleController extends VoyagerController
@@ -25,7 +25,7 @@ class NewsArticleController extends VoyagerController
         $dataType = DataType::where('slug', '=', $slug)->first();
 
         // Check permission
-        Voyager::can('add_'.$dataType->name);
+        Voyager::canOrFail('add_'.$dataType->name);
 
         $view = 'backstage.news.edit-add';
         // $view = 'voyager::bread.edit-add';
@@ -54,7 +54,7 @@ class NewsArticleController extends VoyagerController
         $dataType = DataType::where('slug', '=', $slug)->first();
 
         // Check permission
-        Voyager::can('edit_'.$dataType->name);
+        Voyager::canOrFail('edit_'.$dataType->name);
 
         $dataTypeContent = (strlen($dataType->model_name) != 0)
             ? call_user_func([$dataType->model_name, 'findOrFail'], $id)
