@@ -7,7 +7,7 @@ use TCG\Voyager\Http\Controllers\Controller as VoyagerController;
 use Illuminate\Support\Facades\DB;
 use TCG\Voyager\Models\DataType;
 use TCG\Voyager\Models\DataRow;
-use TCG\Voyager\Voyager;
+use TCG\Voyager\Facades\Voyager;
 use App\NewsCategory;
 use Log;
 use Validator;
@@ -55,7 +55,7 @@ class NewsPostController extends VoyagerController
         $dataType = DataType::where('slug', '=', $slug)->first();
 
         // Check permission
-        Voyager::can('add_'.$dataType->name);
+        Voyager::canOrFail('add_'.$dataType->name);
 
         $view = 'backstage.news_posts.edit-add';
         // $view = 'voyager::bread.edit-add';
@@ -87,7 +87,7 @@ class NewsPostController extends VoyagerController
         $dataType = DataType::where('slug', '=', $slug)->first();
 
         // Check permission
-        Voyager::can('edit_'.$dataType->name);
+        Voyager::canOrFail('edit_'.$dataType->name);
 
         $dataTypeContent = (strlen($dataType->model_name) != 0)
             ? call_user_func([$dataType->model_name, 'findOrFail'], $id)
@@ -133,7 +133,7 @@ class NewsPostController extends VoyagerController
         $dataType = DataType::where('slug', '=', $slug)->first();
 
         // Check permission
-        Voyager::can('add_'.$dataType->name);
+        Voyager::canOrFail('add_'.$dataType->name);
 
         if (function_exists('voyager_add_post')) {
             $url = $request->url();
@@ -176,7 +176,7 @@ class NewsPostController extends VoyagerController
         $dataType = DataType::where('slug', '=', $slug)->first();
 
         // Check permission
-        Voyager::can('edit_'.$dataType->name);
+        Voyager::canOrFail('edit_'.$dataType->name);
 
         $data = call_user_func([$dataType->model_name, 'findOrFail'], $id);
         $this->insertUpdateData($request, $slug, $dataType->editRows, $data);

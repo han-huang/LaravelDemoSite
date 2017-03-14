@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use TCG\Voyager\Voyager;
+use TCG\Voyager\Facades\Voyager;
 
 class IndexCarousel extends Model
 {
