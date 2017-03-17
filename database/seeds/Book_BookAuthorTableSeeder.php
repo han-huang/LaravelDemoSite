@@ -15,9 +15,7 @@ class Book_BookAuthorTableSeeder extends Seeder
     {
         $book = Book::where('isbn-13', 9789864771875)->firstOrFail();
         $author = BookAuthor::where('name', '約瑟夫．尤金．史迪格里茲(Joseph Eugene Stiglitz)')->firstOrFail();
-
-        $book->bookauthors()->sync(
-            $author->pluck('id')->toArray()
-        );
+        $array[] = $author->id;
+        $book->bookauthors()->sync($array);
     }
 }
