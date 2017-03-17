@@ -150,6 +150,8 @@ Route::group(['prefix' => 'admin'], function () {
             Route::resource('news-posts', 'NewsPostController', ['only' => [
                 'create', 'edit', 'store', 'update'
             ]]);
+
+            Route::resource('books', 'BookController');
         });
     });
 });
