@@ -21,9 +21,9 @@ class NewDataRowsTableSeeder extends Seeder
         $newsPostsDataType = DataType::where('slug', 'news-posts')->firstOrFail();
         $userDataType = DataType::where('slug', 'users')->firstOrFail();
 
-        $bookauthorsPostsDataType = DataType::where('slug', 'bookauthors')->firstOrFail();
-        $booktranslatorsPostsDataType = DataType::where('slug', 'booktranslators')->firstOrFail();
-        $booksPostsDataType = DataType::where('slug', 'books')->firstOrFail();
+        $bookauthorsDataType = DataType::where('slug', 'bookauthors')->firstOrFail();
+        $booktranslatorsDataType = DataType::where('slug', 'booktranslators')->firstOrFail();
+        $booksDataType = DataType::where('slug', 'books')->firstOrFail();
 
         $dataRow = DataRow::firstOrNew([
                     'data_type_id' => $userDataType->id,
@@ -162,9 +162,9 @@ class NewDataRowsTableSeeder extends Seeder
                 'required'     => 0,
                 'browse'       => 1,
                 'read'         => 1,
-                'edit'         => 1,
+                'edit'         => 0,
                 'add'          => 0,
-                'delete'       => 1,
+                'delete'       => 0,
                 'details'      => '',
             ])->save();
         }
@@ -179,7 +179,7 @@ class NewDataRowsTableSeeder extends Seeder
                 'display_name' => 'Updated At',
                 'required'     => 0,
                 'browse'       => 0,
-                'read'         => 0,
+                'read'         => 1,
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
@@ -360,7 +360,7 @@ class NewDataRowsTableSeeder extends Seeder
                 'required'     => 0,
                 'browse'       => 1,
                 'read'         => 1,
-                'edit'         => 1,
+                'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
                 'details'      => '',
@@ -377,7 +377,7 @@ class NewDataRowsTableSeeder extends Seeder
                 'display_name' => 'Updated At',
                 'required'     => 0,
                 'browse'       => 0,
-                'read'         => 0,
+                'read'         => 1,
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
@@ -522,9 +522,9 @@ class NewDataRowsTableSeeder extends Seeder
                 'required'     => 0,
                 'browse'       => 1,
                 'read'         => 1,
-                'edit'         => 1,
+                'edit'         => 0,
                 'add'          => 0,
-                'delete'       => 1,
+                'delete'       => 0,
                 'details'      => '',
             ])->save();
         }       
@@ -539,7 +539,7 @@ class NewDataRowsTableSeeder extends Seeder
                 'display_name' => 'Updated At',
                 'required'     => 0,
                 'browse'       => 0,
-                'read'         => 0,
+                'read'         => 1,
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
@@ -648,9 +648,9 @@ class NewDataRowsTableSeeder extends Seeder
                 'required'     => 0,
                 'browse'       => 1,
                 'read'         => 1,
-                'edit'         => 1,
+                'edit'         => 0,
                 'add'          => 0,
-                'delete'       => 1,
+                'delete'       => 0,
                 'details'      => '',
             ])->save();
         }
@@ -665,7 +665,7 @@ class NewDataRowsTableSeeder extends Seeder
                 'display_name' => 'Updated At',
                 'required'     => 0,
                 'browse'       => 0,
-                'read'         => 0,
+                'read'         => 1,
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
@@ -792,11 +792,11 @@ class NewDataRowsTableSeeder extends Seeder
                 'type'         => 'timestamp',
                 'display_name' => 'Created At',
                 'required'     => 0,
-                'browse'       => 1,
+                'browse'       => 0,
                 'read'         => 1,
-                'edit'         => 1,
+                'edit'         => 0,
                 'add'          => 0,
-                'delete'       => 1,
+                'delete'       => 0,
                 'details'      => '',
             ])->save();
         }
@@ -811,7 +811,7 @@ class NewDataRowsTableSeeder extends Seeder
                 'display_name' => 'Updated At',
                 'required'     => 0,
                 'browse'       => 0,
-                'read'         => 0,
+                'read'         => 1,
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
@@ -1187,9 +1187,9 @@ class NewDataRowsTableSeeder extends Seeder
                 'required'     => 0,
                 'browse'       => 0,
                 'read'         => 1,
-                'edit'         => 1,
+                'edit'         => 0,
                 'add'          => 0,
-                'delete'       => 1,
+                'delete'       => 0,
                 'details'      => '',
             ])->save();
         }
@@ -1204,7 +1204,7 @@ class NewDataRowsTableSeeder extends Seeder
                 'display_name' => 'Updated At',
                 'required'     => 0,
                 'browse'       => 0,
-                'read'         => 0,
+                'read'         => 1,
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
@@ -1213,7 +1213,7 @@ class NewDataRowsTableSeeder extends Seeder
         }
 
         $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $bookauthorsPostsDataType->id,
+            'data_type_id' => $bookauthorsDataType->id,
             'field'        => 'id',
         ]);
         if (!$dataRow->exists) {
@@ -1231,7 +1231,7 @@ class NewDataRowsTableSeeder extends Seeder
         }
 
         $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $bookauthorsPostsDataType->id,
+            'data_type_id' => $bookauthorsDataType->id,
             'field'        => 'name',
         ]);
         if (!$dataRow->exists) {
@@ -1249,7 +1249,7 @@ class NewDataRowsTableSeeder extends Seeder
         }
 
         $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $bookauthorsPostsDataType->id,
+            'data_type_id' => $bookauthorsDataType->id,
             'field'        => 'information',
         ]);
         if (!$dataRow->exists) {
@@ -1267,7 +1267,7 @@ class NewDataRowsTableSeeder extends Seeder
         }
 
         $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $bookauthorsPostsDataType->id,
+            'data_type_id' => $bookauthorsDataType->id,
             'field'        => 'created_at',
         ]);
         if (!$dataRow->exists) {
@@ -1275,26 +1275,8 @@ class NewDataRowsTableSeeder extends Seeder
                 'type'         => 'timestamp',
                 'display_name' => 'Created At',
                 'required'     => 0,
-                'browse'       => 0,
+                'browse'       => 1,
                 'read'         => 1,
-                'edit'         => 1,
-                'add'          => 0,
-                'delete'       => 1,
-                'details'      => '',
-            ])->save();
-        }
-
-        $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $bookauthorsPostsDataType->id,
-            'field'        => 'updated_at',
-        ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'timestamp',
-                'display_name' => 'Updated At',
-                'required'     => 0,
-                'browse'       => 0,
-                'read'         => 0,
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
@@ -1303,7 +1285,25 @@ class NewDataRowsTableSeeder extends Seeder
         }
 
         $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $booktranslatorsPostsDataType->id,
+            'data_type_id' => $bookauthorsDataType->id,
+            'field'        => 'updated_at',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => 'Updated At',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $booktranslatorsDataType->id,
             'field'        => 'id',
         ]);
         if (!$dataRow->exists) {
@@ -1321,7 +1321,7 @@ class NewDataRowsTableSeeder extends Seeder
         }
 
         $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $booktranslatorsPostsDataType->id,
+            'data_type_id' => $booktranslatorsDataType->id,
             'field'        => 'name',
         ]);
         if (!$dataRow->exists) {
@@ -1339,7 +1339,7 @@ class NewDataRowsTableSeeder extends Seeder
         }
 
         $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $booktranslatorsPostsDataType->id,
+            'data_type_id' => $booktranslatorsDataType->id,
             'field'        => 'information',
         ]);
         if (!$dataRow->exists) {
@@ -1357,7 +1357,7 @@ class NewDataRowsTableSeeder extends Seeder
         }
 
         $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $booktranslatorsPostsDataType->id,
+            'data_type_id' => $booktranslatorsDataType->id,
             'field'        => 'created_at',
         ]);
         if (!$dataRow->exists) {
@@ -1365,26 +1365,8 @@ class NewDataRowsTableSeeder extends Seeder
                 'type'         => 'timestamp',
                 'display_name' => 'Created At',
                 'required'     => 0,
-                'browse'       => 0,
+                'browse'       => 1,
                 'read'         => 1,
-                'edit'         => 1,
-                'add'          => 0,
-                'delete'       => 1,
-                'details'      => '',
-            ])->save();
-        }
-
-        $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $booktranslatorsPostsDataType->id,
-            'field'        => 'updated_at',
-        ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'timestamp',
-                'display_name' => 'Updated At',
-                'required'     => 0,
-                'browse'       => 0,
-                'read'         => 0,
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
@@ -1393,7 +1375,25 @@ class NewDataRowsTableSeeder extends Seeder
         }
 
         $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $booksPostsDataType->id,
+            'data_type_id' => $booktranslatorsDataType->id,
+            'field'        => 'updated_at',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => 'Updated At',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $booksDataType->id,
             'field'        => 'id',
         ]);
         if (!$dataRow->exists) {
@@ -1411,7 +1411,7 @@ class NewDataRowsTableSeeder extends Seeder
         }
 
         $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $booksPostsDataType->id,
+            'data_type_id' => $booksDataType->id,
             'field'        => 'title',
         ]);
         if (!$dataRow->exists) {
@@ -1429,7 +1429,7 @@ class NewDataRowsTableSeeder extends Seeder
         }
 
         $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $booksPostsDataType->id,
+            'data_type_id' => $booksDataType->id,
             'field'        => 'pulbisher_name',
         ]);
         if (!$dataRow->exists) {
@@ -1447,7 +1447,7 @@ class NewDataRowsTableSeeder extends Seeder
         }
 
         $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $booksPostsDataType->id,
+            'data_type_id' => $booksDataType->id,
             'field'        => 'series',
         ]);
         if (!$dataRow->exists) {
@@ -1465,7 +1465,7 @@ class NewDataRowsTableSeeder extends Seeder
         }
 
         $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $booksPostsDataType->id,
+            'data_type_id' => $booksDataType->id,
             'field'        => 'image',
         ]);
         if (!$dataRow->exists) {
@@ -1483,7 +1483,7 @@ class NewDataRowsTableSeeder extends Seeder
         }
 
         $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $booksPostsDataType->id,
+            'data_type_id' => $booksDataType->id,
             'field'        => 'list_price',
         ]);
         if (!$dataRow->exists) {
@@ -1501,7 +1501,7 @@ class NewDataRowsTableSeeder extends Seeder
         }
 
         $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $booksPostsDataType->id,
+            'data_type_id' => $booksDataType->id,
             'field'        => 'discount',
         ]);
         if (!$dataRow->exists) {
@@ -1519,7 +1519,7 @@ class NewDataRowsTableSeeder extends Seeder
         }
 
         $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $booksPostsDataType->id,
+            'data_type_id' => $booksDataType->id,
             'field'        => 'stocks',
         ]);
         if (!$dataRow->exists) {
@@ -1537,7 +1537,7 @@ class NewDataRowsTableSeeder extends Seeder
         }
 
         $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $booksPostsDataType->id,
+            'data_type_id' => $booksDataType->id,
             'field'        => 'sold',
         ]);
         if (!$dataRow->exists) {
@@ -1555,7 +1555,7 @@ class NewDataRowsTableSeeder extends Seeder
         }
 
         $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $booksPostsDataType->id,
+            'data_type_id' => $booksDataType->id,
             'field'        => 'page_numbers',
         ]);
         if (!$dataRow->exists) {
@@ -1573,7 +1573,7 @@ class NewDataRowsTableSeeder extends Seeder
         }
 
         $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $booksPostsDataType->id,
+            'data_type_id' => $booksDataType->id,
             'field'        => 'isbn-10',
         ]);
         if (!$dataRow->exists) {
@@ -1591,7 +1591,7 @@ class NewDataRowsTableSeeder extends Seeder
         }
 
         $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $booksPostsDataType->id,
+            'data_type_id' => $booksDataType->id,
             'field'        => 'isbn-13',
         ]);
         if (!$dataRow->exists) {
@@ -1609,7 +1609,7 @@ class NewDataRowsTableSeeder extends Seeder
         }
 
         $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $booksPostsDataType->id,
+            'data_type_id' => $booksDataType->id,
             'field'        => 'publishing_date',
         ]);
         if (!$dataRow->exists) {
@@ -1627,7 +1627,7 @@ class NewDataRowsTableSeeder extends Seeder
         }
 
         $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $booksPostsDataType->id,
+            'data_type_id' => $booksDataType->id,
             'field'        => 'briefcontent',
         ]);
         if (!$dataRow->exists) {
@@ -1645,7 +1645,7 @@ class NewDataRowsTableSeeder extends Seeder
         }
 
         $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $booksPostsDataType->id,
+            'data_type_id' => $booksDataType->id,
             'field'        => 'index',
         ]);
         if (!$dataRow->exists) {
@@ -1663,7 +1663,7 @@ class NewDataRowsTableSeeder extends Seeder
         }
 
         $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $booksPostsDataType->id,
+            'data_type_id' => $booksDataType->id,
             'field'        => 'promote',
         ]);
         if (!$dataRow->exists) {
@@ -1681,7 +1681,7 @@ class NewDataRowsTableSeeder extends Seeder
         }
 
         $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $booksPostsDataType->id,
+            'data_type_id' => $booksDataType->id,
             'field'        => 'probation',
         ]);
         if (!$dataRow->exists) {
@@ -1699,7 +1699,7 @@ class NewDataRowsTableSeeder extends Seeder
         }
 
         $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $booksPostsDataType->id,
+            'data_type_id' => $booksDataType->id,
             'field'        => 'suggest_new',
         ]);
         if (!$dataRow->exists) {
@@ -1717,7 +1717,7 @@ class NewDataRowsTableSeeder extends Seeder
         }
 
         $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $booksPostsDataType->id,
+            'data_type_id' => $booksDataType->id,
             'field'        => 'suggest_hits',
         ]);
         if (!$dataRow->exists) {
@@ -1735,7 +1735,7 @@ class NewDataRowsTableSeeder extends Seeder
         }
 
         $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $booksPostsDataType->id,
+            'data_type_id' => $booksDataType->id,
             'field'        => 'editor_promotion',
         ]);
         if (!$dataRow->exists) {
@@ -1753,7 +1753,7 @@ class NewDataRowsTableSeeder extends Seeder
         }
 
         $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $booksPostsDataType->id,
+            'data_type_id' => $booksDataType->id,
             'field'        => 'marketing_promotion',
         ]);
         if (!$dataRow->exists) {
@@ -1771,7 +1771,7 @@ class NewDataRowsTableSeeder extends Seeder
         }
 
         $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $booksPostsDataType->id,
+            'data_type_id' => $booksDataType->id,
             'field'        => 'active',
         ]);
         if (!$dataRow->exists) {
@@ -1789,7 +1789,7 @@ class NewDataRowsTableSeeder extends Seeder
         }
 
         $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $booksPostsDataType->id,
+            'data_type_id' => $booksDataType->id,
             'field'        => 'created_at',
         ]);
         if (!$dataRow->exists) {
@@ -1797,17 +1797,17 @@ class NewDataRowsTableSeeder extends Seeder
                 'type'         => 'timestamp',
                 'display_name' => 'Created At',
                 'required'     => 0,
-                'browse'       => 1,
+                'browse'       => 0,
                 'read'         => 1,
-                'edit'         => 1,
+                'edit'         => 0,
                 'add'          => 0,
-                'delete'       => 1,
+                'delete'       => 0,
                 'details'      => '',
             ])->save();
         }
 
         $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $booksPostsDataType->id,
+            'data_type_id' => $booksDataType->id,
             'field'        => 'updated_at',
         ]);
         if (!$dataRow->exists) {
@@ -1816,7 +1816,7 @@ class NewDataRowsTableSeeder extends Seeder
                 'display_name' => 'Updated At',
                 'required'     => 0,
                 'browse'       => 0,
-                'read'         => 0,
+                'read'         => 1,
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
