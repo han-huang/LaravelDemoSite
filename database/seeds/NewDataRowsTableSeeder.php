@@ -1664,6 +1664,24 @@ class NewDataRowsTableSeeder extends Seeder
 
         $dataRow = DataRow::firstOrNew([
             'data_type_id' => $booksDataType->id,
+            'field'        => 'preface',
+        ]);
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'rich_text_box',
+                'display_name' => 'Preface',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '',
+            ])->save();
+        }
+
+        $dataRow = DataRow::firstOrNew([
+            'data_type_id' => $booksDataType->id,
             'field'        => 'promote',
         ]);
         if (!$dataRow->exists) {
