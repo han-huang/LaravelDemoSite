@@ -15,9 +15,7 @@ class Book_BookTranslatorTableSeeder extends Seeder
     {
         $book = Book::where('isbn-13', 9789864771875)->firstOrFail();
         $translator = BookTranslator::where('name', '葉咨佑')->firstOrFail();
-
-        $book->booktranslators()->sync(
-            $translator->pluck('id')->toArray()
-        );
+        $array[] = $translator->id;
+        $book->booktranslators()->sync($array);
     }
 }
