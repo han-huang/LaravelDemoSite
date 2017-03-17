@@ -23,5 +23,7 @@ class NewDatabaseSeeder extends Seeder
         $this->call(BookAuthorsTableSeeder::class);
         $this->call(BookTranslatorsTableSeeder::class);
         $this->call(BooksTableSeeder::class);
+        $this->call(Book_BookAuthorTableSeeder::class);
+        $this->call(Book_BookTranslatorTableSeeder::class);
     }
 }
