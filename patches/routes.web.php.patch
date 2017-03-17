@@ -1,5 +1,5 @@
 --- ../newsposts_bracch_temp/routes/web.php	2017-02-16 23:18:38.258177800 +0800
-+++ routes/web.php	2017-03-08 20:10:41.563553600 +0800
++++ routes/web.php	2017-03-16 00:26:55.845530500 +0800
 @@ -15,7 +15,7 @@
      return view('welcome');
  });
@@ -20,7 +20,7 @@
  });
  
  Route::get('contact', function() {
-@@ -86,7 +86,70 @@
+@@ -86,7 +86,72 @@
  
  Route::get('/', 'IndexController@getIndexView');
  
@@ -88,6 +88,8 @@
 +            Route::resource('news-posts', 'NewsPostController', ['only' => [
 +                'create', 'edit', 'store', 'update'
 +            ]]);
++
++            Route::resource('books', 'BookController');
 +        });
 +    });
  });
