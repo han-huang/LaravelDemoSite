@@ -17,6 +17,12 @@ class BookController extends VoyagerBreadController
     private $rules = [
         'title' => 'required',
         'pulbisher_name' => 'required',
+        'stocks' => 'required|integer|numeric',
+        'sold' => 'required|integer|numeric',
+        'isbn-10' => 'required|integer|numeric',
+        'isbn-13' => 'required|integer|numeric',
+        'page_numbers' => 'required|integer|numeric',
+        'discount' => 'required|integer|numeric|max:100',
         'list_price' => 'required|integer|numeric',
         'publishing_date' => 'required|date',
         'bookauthor_id.*' => 'required|integer|numeric',
