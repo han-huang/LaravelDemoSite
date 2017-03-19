@@ -457,7 +457,7 @@ class BooksTableSeeder extends Seeder
         if (!$dataType->exists) {
             $dataType->fill([
                 'series'              => 'Best嚴選',
-                'image'               => 'books/March2017/ENvDtl2smB2XWtCPxI40.jpg',
+                'image'               => 'books/March2017/ENvDtl2smB2XWtCPxI41.jpg',
                 'list_price'          => 380,
                 'discount'            => 79,
                 'stocks'              => 700,
