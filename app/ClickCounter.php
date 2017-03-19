@@ -48,6 +48,7 @@ class ClickCounter extends Model
     public function getHotNews()
     {
         return $this->select(DB::raw('url, MAX(count) as max_count'))
+                   ->where('url', 'like', 'news/article/%')
                    ->groupBy('url')->orderBy('max_count', 'desc')->getlimit(0, 8);
     }
 }
