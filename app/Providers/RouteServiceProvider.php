@@ -43,7 +43,24 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapNewsRoutes();
 
-        //
+        $this->mapBookstoreRoutes();
+    }
+
+    /**
+     * Define the "bookstore" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapBookstoreRoutes()
+    {
+        Route::group([
+            'middleware' => 'web',
+            'namespace' => $this->namespace,
+        ], function ($router) {
+            require base_path('routes/bookstore.php');
+        });
     }
 
     /**
