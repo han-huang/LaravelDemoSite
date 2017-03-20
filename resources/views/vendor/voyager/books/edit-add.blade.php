@@ -262,6 +262,7 @@ $(function() {
         });
     </script>
     <script src="{{ config('voyager.assets_path') }}/lib/js/tinymce/tinymce.min.js"></script>
-    <script src="{{ config('voyager.assets_path') }}/js/voyager_tinymce.js"></script>
+    <!-- <script src="{{ config('voyager.assets_path') }}/js/voyager_tinymce.js"></script> -->
+    <script src="{{ asset('js/custom_tinymce.js') }}"></script>
     <script src="{{ config('voyager.assets_path') }}/js/slugify.js"></script>
 @stop
