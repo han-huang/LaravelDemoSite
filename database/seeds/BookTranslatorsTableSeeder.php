@@ -53,7 +53,11 @@ class BookTranslatorsTableSeeder extends Seeder
         ]);
         if (!$dataType->exists) {
             $dataType->fill([
-                'information' => '巴黎美國大學比較文學／企業傳播系畢業，加州柏克萊大學資訊管理與系統碩士。熱愛文學、旅行與舞蹈，現為美國Red Lotus舞團舞者，資深翻譯工作者，目前任職於矽谷高科技公司。\r\n\r\n譯作：「地海」六部曲之《地海孤雛》、《地海故事集》、《地海奇風》、「迷霧之子」系列、「颶光典籍」系列《王者之路》及《燦軍箴言》、《皇帝魂》、《北方大道》。\r\n\r\n審訂：《諸神之城：伊嵐翠》',
+                'information' => '巴黎美國大學比較文學／企業傳播系畢業，加州柏克萊大學資訊管理與系統碩士。熱愛文學、旅行與舞蹈，現為美國Red Lotus舞團舞者，資深翻譯工作者，目前任職於矽谷高科技公司。
+
+譯作：「地海」六部曲之《地海孤雛》、《地海故事集》、《地海奇風》、「迷霧之子」系列、「颶光典籍」系列《王者之路》及《燦軍箴言》、《皇帝魂》、《北方大道》。
+
+審訂：《諸神之城：伊嵐翠》',
             ])->save();
         }
 
@@ -62,7 +66,11 @@ class BookTranslatorsTableSeeder extends Seeder
         ]);
         if (!$dataType->exists) {
             $dataType->fill([
-                'information' => '東吳大學日文系畢業，曾於京都同志社大學交換留學一年。\r\n\r\n因意外而開始接觸日語，也因意外而展開翻譯生涯，現為專職翻譯之小菜鳥一枚。\r\n\r\n興趣五花八門，認為生活也是旅行的一部分。',
+                'information' => '東吳大學日文系畢業，曾於京都同志社大學交換留學一年。
+
+因意外而開始接觸日語，也因意外而展開翻譯生涯，現為專職翻譯之小菜鳥一枚。
+
+興趣五花八門，認為生活也是旅行的一部分。',
             ])->save();
         }
 
@@ -98,7 +106,10 @@ class BookTranslatorsTableSeeder extends Seeder
         ]);
         if (!$dataType->exists) {
             $dataType->fill([
-                'information' => '在翻譯領域打滾十幾年，曾經譯介山崎豐子、小川洋子、白石一文等多位文壇重量級作家的著作，用心對待經手的每一部作品。譯有《不毛地帶》、《博士熱愛的算式》、《洗錢》等，翻譯的文學作品數量已超越體重。\r\n臉書交流頁：綿羊的譯心譯意\r\nhttps://www.facebook.com/sheepheart',
+                'information' => '在日本留學期間，曾經寄宿在日本家庭，對深奧的日本文化產生了很大的興趣，現為專職翻譯。喜歡閱讀，藉由閱讀日文著作，了解另一種文化。期許自己忠實扮演好文字媒介的角色，讓更多讀者貼近了解原味的日本。
+在翻譯領域打滾十幾年，曾經譯介山崎豐子、小川洋子、白石一文等多位文壇重量級作家的著作，用心對待經手的每一部作品。譯有《不毛地帶》、《博士熱愛的算式》、《洗錢》等，翻譯的文學作品數量已超越體重。
+臉書交流頁：綿羊的譯心譯意
+https://www.facebook.com/sheepheart',
             ])->save();
         }
 
@@ -116,7 +127,11 @@ class BookTranslatorsTableSeeder extends Seeder
         ]);
         if (!$dataType->exists) {
             $dataType->fill([
-                'information' => '北京人，一九七八年生，畢業於北京大學化學系。撰寫並出版小說《復秦記》。至今為止出版的翻譯作品已有千餘萬字。代表譯作：「時光之輪」系列、《魔戒武器聖戰》、《幻想生物事典》、「血歌」系列、「審判者傳奇」系列《熾焰》及《禍星》等。\r\n\r\n翻譯遊戲「魔法門：英雄無敵4」等，主持大陸版「戰錘Online」的翻譯工作。\r\n\r\n聯絡信箱：l_i_l_ei@hotmail.com',
+                'information' => '北京人，一九七八年生，畢業於北京大學化學系。撰寫並出版小說《復秦記》。至今為止出版的翻譯作品已有千餘萬字。代表譯作：「時光之輪」系列、《魔戒武器聖戰》、《幻想生物事典》、「血歌」系列、「審判者傳奇」系列《熾焰》及《禍星》等。
+
+翻譯遊戲「魔法門：英雄無敵4」等，主持大陸版「戰錘Online」的翻譯工作。
+
+聯絡信箱：l_i_l_ei@hotmail.com',
             ])->save();
         }
 
@@ -134,7 +149,9 @@ class BookTranslatorsTableSeeder extends Seeder
         ]);
         if (!$dataType->exists) {
             $dataType->fill([
-                'information' => '加拿大Simon Fraser University教育碩士。曾任平面媒體記者十餘年，現為自由譯者。譯作：《山之魔》、《骨時鐘》、《製造音樂》等二十餘冊。\r\n\r\n賜教信箱：c.jinhui@hotmail.com',
+                'information' => '加拿大Simon Fraser University教育碩士。曾任平面媒體記者十餘年，現為自由譯者。譯作：《山之魔》、《骨時鐘》、《製造音樂》等二十餘冊。
+
+賜教信箱：c.jinhui@hotmail.com',
             ])->save();
         }
 

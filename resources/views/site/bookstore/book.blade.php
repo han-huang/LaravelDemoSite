@@ -547,7 +547,7 @@ $(document).ready(function(){
             <div id="book_briefinfo" class="col-md-5" >
                 <ul >
                     <div itemscope itemtype="http://schema.org/Book">
-                        <li class="" ><h4><span class="" itemprop="name">{{ $book->title }}</span></h4></li>
+                        <li class="" ><h4><span class="" itemprop="name" style="line-height:140%">{{ $book->title }}</span></h4></li>
                         <li class="" >作者&nbsp;&#58;&nbsp;@foreach ($authors as $key => $author)<a href="#" itemprop="url"><span class="" itemprop="author">{{ $author->name }}</span></a><?php if($key < (count($authors) - 1)) echo '&#x3001;'; ?>@endforeach</li>
                         <li class="" >出版社&nbsp;&#58;&nbsp;<a href="#" itemprop="url"><span class="" itemprop="publisher">{{ $book->pulbisher_name }}</span></a></li>
                         <li class="" >出版日期&nbsp;&#58;&nbsp;<span class="" itemprop="datePublished">{{ $book->publishing_date }}</span></li>
@@ -640,7 +640,7 @@ $(document).ready(function(){
                 </div>
             </div><!-- suggested-book -->
         </div><!-- suggested-books-box -->
-        
+
         <div id="book_info" class="col-md-10 underside-div" >
             <div class="box-title" >
                 @if(!empty($book->briefcontent))<a href="#briefcontent">內容簡介</a>&nbsp;&#124;@endif
@@ -671,7 +671,7 @@ $(document).ready(function(){
                 <div class="book-info-detail limitHeight" style="border: 0px solid green;">
                     <div class="detail">
                     <h4 class="tangerine-color">目錄</h4><hr>
-                    <p><?= $book->index ?></p>
+                    <p>{!! nl2br(e($book->index)) !!}</p>
                     </div>
                 </div>
                 <div id="" class="open-btn open-close-div" style="border: 0px solid orange;"><a class="btn btn-info">展開<i class="fa fa-arrow-circle-down" aria-hidden="true"></i></a>
@@ -731,8 +731,8 @@ $(document).ready(function(){
                     <div class="detail">
                     <h4 class="tangerine-color">作者資料</h4><hr>
                     @foreach ($authors as $key => $author)
-                    <p><?= $author->name ?></p>
-                    <p><?= $author->information ?></p><br>                  
+                    <p><?= $author->name; ?></p>
+                    <p>{!! nl2br(e($author->information)) !!}</p><br>
                     @endforeach
                     </div>
                 </div>
