@@ -6,10 +6,10 @@
 <!-- Open Graph Protocol  -->
 <meta property="og:url"         content="{{ Request::url() }}" />
 <meta property="og:type"        content="website" />
-<meta property="og:title"       content="LaravelDemoSite" />
-<meta property="og:description" content="LaravelDemoSite" />
-<meta property="og:image"       content="" />
-<meta property="og:site_name"   content="LaravelDemoSite" />
+<meta property="og:title"       content="LaravelDemoSite 書店" />
+<meta property="og:description" content="{{ $todaysale->title }}" />
+<meta property="og:image"       content="{{ Voyager::image($todaysale->image) }}" />
+<meta property="og:site_name"   content="LaravelDemoSite 書店" />
 @stop
 
 @section('pageTitle')
@@ -67,6 +67,10 @@
 .salebox a:hover, .salebox img:hover  {
   color: #FF6347;
   opacity: 0.6;
+}
+
+.salebox img {
+  width: 130px;
 }
 
 .img-padding {
@@ -142,26 +146,27 @@ li.theme-color{text-indent:16px;font-weight:bold;color:orange;font-size:1em;}
   background-color: #ffffff;
 }
 
-.li-book {
+.single-book {
   width: 182px;
 }
 
-.li-book img {
+.single-book img {
   width: 100px;
+  height: 145px;
 }
 
-.li-book p {
+.single-book p {
   margin-top: 10px;
   font-size: 14px;
 }
 
-.li-book a:hover {
+.single-book a:hover {
   color: #FF6347;
   opacity: 0.6;
 }
 
-.tab-ul {
-  margin-left:10px;
+.div-row {
+  margin-left:0px;
   margin-top:10px;
 }
 
@@ -226,16 +231,6 @@ $(document).ready(function(){
 
 });
 </script>
-    <!-- facebook-jssdk -->
-    <div id="fb-root"></div>
-    <script>(function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v2.8";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script>
-
     <div class="container div-top decoration-none" style="border: 0px solid red;">
         <!-- bookstore-bar -->
         <div class="col-md-12" style="">
@@ -263,8 +258,8 @@ $(document).ready(function(){
                     </li>
 
                     <li class=""><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;購物車</a></li>
-                    <li class=""><a href="#"><span class="glyphicon glyphicon-log-in"></span>&nbsp;登入</a></li>
-                    <li class=""><a href="#"><span class="glyphicon glyphicon-user"></span>&nbsp;加入會員</a></li>
+                    <li class=""><a href="{{ url('login') }}"><span class="glyphicon glyphicon-log-in"></span>&nbsp;登入</a></li>
+                    <li class=""><a href="{{ url('register') }}"><span class="glyphicon glyphicon-user"></span>&nbsp;加入會員</a></li>
                     <li class=""><a href="#"><span class="glyphicon glyphicon-question-sign"></span>&nbsp;FAQ</a></li>
                     <li class=""><a href="#"><i class="fa fa-users" aria-hidden="true"></i>&nbsp;會員專區</a></li>
                 </ul>
@@ -276,14 +271,14 @@ $(document).ready(function(){
                 <div class="box-title text-left" data-desc=""><a href="#">今日66折</a></div>
                 <div class="salebox" data-desc="">
                     <ul class="">
-                        <a href="http://www.cite.com.tw/76a4e?#book">
+                        <a href="{{ url('bookstore/book/'.$todaysale->id) }}">
                         <li class="text-center img-padding" style="">
-                            <img src="{{ asset('img/bookstore/BW0614.jpg') }}" alt="2016" style="" alt="虛擬實境狂潮：從購物、教育到醫療，VR/AR商機即將顛覆未來的十大產業！" title="虛擬實境狂潮：從購物、教育到醫療，VR/AR商機即將顛覆未來的十大產業！">
+                            <img src="{{ Voyager::image($todaysale->image) }}" alt="{{ $todaysale->title }}" title="{{ $todaysale->title }}">
                         </li>
-                        <li class="text-center">《虛擬實境狂潮：從購物、教育到醫療，V...》</li>
-                        <li class="text-center"><span class="" style="color:red">66折價 $ 251 元</span></li>
+                        <li class="text-center">{{ mb_strlen($todaysale->title, 'UTF-8') > 20 ? mb_substr($todaysale->title, 0, 20, 'UTF-8')."&nbsp;..." : $todaysale->title }}</li>
+                        <li class="text-center"><span class="" style="color:red">66折價 $ {{ round($todaysale->discount * $todaysale->list_price / 100) }} 元</span></li>
                         </a>
-                        <li class="text-center"><a class="w3-button w3-dark-grey w3-round-large" href="http://www.cite.com.tw/shopping_cart?action=add_cart&amp;products_id=69936">放入購物車</a></li>
+                        <li class="text-center"><a class="w3-button w3-dark-grey w3-round-large" href="#">放入購物車</a></li>
                     </ul>
                 </div>
             </div>
@@ -309,7 +304,6 @@ $(document).ready(function(){
                           <a href="#" class="list-group-item" data-parent="#SubMenu1">勵志故事</a>
                         </div>
                         <a href="javascript:;" class="list-group-item">潛能開發</a>
-                        <a href="javascript:;" class="list-group-item">兩性關係</a>
                       </div>
                       <a href="#demo4" class="list-group-item text-darkred" data-toggle="collapse" data-parent="#MainMenu">生活休閒&nbsp;<i class="fa fa-caret-down"></i></a>
                       <div class="collapse" id="demo4">
@@ -335,244 +329,76 @@ $(document).ready(function(){
                         <!-- <li><a data-toggle="tab" href="#menu1">Chandler</a></li> -->
                         <li><a data-toggle="tab" href="#suggest-hits" class="hvr-box-shadow-inset">熱門推薦</a></li>
                         <li><a data-toggle="tab" href="#editor" class="hvr-box-shadow-inset">編輯精選</a></li>
-                        <li><a data-toggle="tab" href="#activity" class="hvr-box-shadow-inset">活動套書</a></li>
+                        <li><a data-toggle="tab" href="#activity" class="hvr-box-shadow-inset">活動優惠</a></li>
                     </ul>
                 </div>
                 <div class="tab-content" style="border: 1px solid #ddd;">
                     <div id="suggest-new" class="tab-pane fade in active"  style="border: 0px solid Magenta;">
-                        <div class="row text-center">
-                        <ul class="list-inline text-center tab-ul" style="border: 0px solid blue;">
-                            <li class="col-md-2 li-book" style="">
-                                <a href="#">
-                                <img class="img-thumbnail" src="{{ asset('img/bookstore/BW0614.jpg') }}" alt="VR" style="">
-                                <p><span class=""></span>《虛擬實境狂潮：從購物、教育到醫療，V...》</p>
+					    @foreach($newarrivals as $key => $newarrival)
+						@if(($key % 4) == 0)
+                        <div class="row text-center div-row">
+						@endif
+                            <div class="col-md-2 single-book" style="">
+                                <a href="{{ url('bookstore/book/'.$newarrival->id) }}">
+                                <img class="img-thumbnail" src="{{ Voyager::image($newarrival->image) }}" alt="{{ $newarrival->title }}" style="">
+                                <p><span class=""></span>{{ mb_strlen($newarrival->title, 'UTF-8') > 15 ? mb_substr($newarrival->title, 0, 15, 'UTF-8')."&nbsp;..." : $newarrival->title }}</p>
                                 </a>
-                            </li>
-                            <li class="col-md-2 li-book" style="">
-                                <a href="#">
-                                <img class="img-thumbnail" src="{{ asset('img/bookstore/BW0614.jpg') }}" alt="VR" style="">
-                                <p><span class=""></span>《虛擬實境狂潮：從購物、教育到醫療，V...》</p>
-                                </a>
-                            </li>
-                            <li class="col-md-2 li-book" style="">
-                                <a href="#">
-                                <img class="img-thumbnail" src="{{ asset('img/bookstore/BW0614.jpg') }}" alt="VR" style="">
-                                <p><span class=""></span>《虛擬實境狂潮：從購物、教育到醫療，V...》</p>
-                                </a>
-                            </li>
-                            <li class="col-md-2 li-book" style="">
-                                <a href="#">
-                                <img class="img-thumbnail" src="{{ asset('img/bookstore/BW0614.jpg') }}" alt="VR" style="">
-                                <p><span class=""></span>《虛擬實境狂潮：從購物、教育到醫療，V...》</p>
-                                </a>
-                            </li>
-                        </ul>
+                            </div>
+						@if((($key + 1) % 4) == 0)
                         </div>
-                        <div class="row text-center">
-                        <ul class="list-inline text-center tab-ul" style="border: 0px solid red;">
-                            <li class="col-md-2 li-book" style="">
-                                <a href="#">
-                                <img class="img-thumbnail" src="{{ asset('img/bookstore/1HB093.jpg') }}" alt="VR" style="">
-                                <p><span class=""></span>軍團：布蘭登．山德森精選集II</p>
-                                </a>
-                            </li>
-                            <li class="col-md-2 li-book" style="">
-                                <a href="#">
-                                <img class="img-thumbnail" src="{{ asset('img/bookstore/1HB093.jpg') }}" alt="VR" style="">
-                                <p><span class=""></span>軍團：布蘭登．山德森精選集II</p>
-                                </a>
-                            </li>
-                            <li class="col-md-2 li-book" style="">
-                                <a href="#">
-                                <img class="img-thumbnail" src="{{ asset('img/bookstore/1HB093.jpg') }}" alt="VR" style="">
-                                <p><span class=""></span>軍團：布蘭登．山德森精選集II</p>
-                                </a>
-                            </li>
-                            <li class="col-md-2 li-book" style="">
-                                <a href="#">
-                                <img class="img-thumbnail" src="{{ asset('img/bookstore/1HB093.jpg') }}" alt="VR" style="">
-                                <p><span class=""></span>軍團：布蘭登．山德森精選集II</p>
-                                </a>
-                            </li>
-                        </ul>
-                        </div>
+						@endif
+						@endforeach
                     </div><!-- suggest-new -->
 
                     <div id="suggest-hits" class="tab-pane fade">
-                        <div class="row text-center">
-                        <ul class="list-inline text-center tab-ul" style="margin-left:10px">
-                            <li class="col-md-2 li-book" style="">
-                                <a href="#">
-                                <img class="img-thumbnail" src="{{ asset('img/bookstore/QB1134.jpg') }}" alt="VR" >
-                                <p><span class=""></span>低谷到重生，轉型為全球企業的秘密</p>
+					    @foreach($hits as $key => $hit)
+						@if(($key % 4) == 0)
+                        <div class="row text-center div-row">
+						@endif
+                            <div class="col-md-2 single-book" style="">
+                                <a href="{{ url('bookstore/book/'.$hit->id) }}">
+                                <img class="img-thumbnail" src="{{ Voyager::image($hit->image) }}" alt="{{ $hit->title }}" style="">
+                                <p><span class=""></span>{{ mb_strlen($hit->title, 'UTF-8') > 15 ? mb_substr($hit->title, 0, 15, 'UTF-8')."&nbsp;..." : $hit->title }}</p>
                                 </a>
-                            </li>
-                            <li class="col-md-2 li-book" style="">
-                                <a href="#">
-                                <img class="img-thumbnail" src="{{ asset('img/bookstore/QB1134.jpg') }}" alt="VR" style="">
-                                <p><span class=""></span>低谷到重生，轉型為全球企業的秘密</p>
-                                </a>
-                            </li>
-                            <li class="col-md-2 li-book" style="">
-                                <a href="#">
-                                <img class="img-thumbnail" src="{{ asset('img/bookstore/QB1134.jpg') }}" alt="VR" style="">
-                                <p><span class=""></span>低谷到重生，轉型為全球企業的秘密</p>
-                                </a>
-                            </li>
-                            <li class="col-md-2 li-book" style="">
-                                <a href="#">
-                                <img class="img-thumbnail" src="{{ asset('img/bookstore/QB1134.jpg') }}" alt="VR" style="">
-                                <p><span class=""></span>低谷到重生，轉型為全球企業的秘密</p>
-                                </a>
-                            </li>
-                        </ul>
+                            </div>
+						@if((($key + 1) % 4) == 0)
                         </div>
-                        <div class="row text-center">
-                        <ul class="list-inline text-center tab-ul" style="margin-left:10px">
-                            <li class="col-md-2 li-book" style="">
-                                <a href="#">
-                                <img class="img-thumbnail" src="{{ asset('img/bookstore/QB1134.jpg') }}" alt="VR" >
-                                <p><span class=""></span>低谷到重生，轉型為全球企業的秘密</p>
-                                </a>
-                            </li>
-                            <li class="col-md-2 li-book" style="">
-                                <a href="#">
-                                <img class="img-thumbnail" src="{{ asset('img/bookstore/QB1134.jpg') }}" alt="VR" style="">
-                                <p><span class=""></span>低谷到重生，轉型為全球企業的秘密</p>
-                                </a>
-                            </li>
-                            <li class="col-md-2 li-book" style="">
-                                <a href="#">
-                                <img class="img-thumbnail" src="{{ asset('img/bookstore/QB1134.jpg') }}" alt="VR" style="">
-                                <p><span class=""></span>低谷到重生，轉型為全球企業的秘密</p>
-                                </a>
-                            </li>
-                            <li class="col-md-2 li-book" style="">
-                                <a href="#">
-                                <img class="img-thumbnail" src="{{ asset('img/bookstore/QB1134.jpg') }}" alt="VR" style="">
-                                <p><span class=""></span>低谷到重生，轉型為全球企業的秘密</p>
-                                </a>
-                            </li>
-                        </ul>
-                        </div>
+						@endif
+						@endforeach
                     </div><!-- suggest-hits -->
 
                     <div id="editor" class="tab-pane fade">
-                        <div class="row text-center">
-                        <ul class="list-inline text-center tab-ul" style="margin-left:10px">
-                            <li class="col-md-2 li-book" style="">
-                                <a href="#">
-                                <img class="img-thumbnail" src="{{ asset('img/bookstore/210067513000101.jpg') }}" alt="VR" style="">
-                                <p><span class=""></span>自古英雄多魯蛇！呂捷教你歷史和人性</p>
+					    @foreach($editors as $key => $editor)
+						@if(($key % 4) == 0)
+                        <div class="row text-center div-row">
+						@endif
+                            <div class="col-md-2 single-book" style="">
+                                <a href="{{ url('bookstore/book/'.$editor->id) }}">
+                                <img class="img-thumbnail" src="{{ Voyager::image($editor->image) }}" alt="{{ $editor->title }}" style="">
+                                <p><span class=""></span>{{ mb_strlen($editor->title, 'UTF-8') > 15 ? mb_substr($editor->title, 0, 15, 'UTF-8')."&nbsp;..." : $editor->title }}</p>
                                 </a>
-                            </li>
-                            <li class="col-md-2 li-book" style="">
-                                <a href="#">
-                                <img class="img-thumbnail" src="{{ asset('img/bookstore/210067513000101.jpg') }}" alt="VR" style="">
-                                <p><span class=""></span>自古英雄多魯蛇！呂捷教你歷史和人性</p>
-                                </a>
-                            </li>
-                            <li class="col-md-2 li-book" style="">
-                                <a href="#">
-                                <img class="img-thumbnail" src="{{ asset('img/bookstore/210067513000101.jpg') }}" alt="VR" style="">
-                                <p><span class=""></span>自古英雄多魯蛇！呂捷教你歷史和人性</p>
-                                </a>
-                            </li>
-                            <li class="col-md-2 li-book" style="">
-                                <a href="#">
-                                <img class="img-thumbnail" src="{{ asset('img/bookstore/210067513000101.jpg') }}" alt="VR" style="">
-                                <p><span class=""></span>自古英雄多魯蛇！呂捷教你歷史和人性</p>
-                                </a>
-                            </li>
-                        </ul>
+                            </div>
+						@if((($key + 1) % 4) == 0)
                         </div>
-                        <div class="row text-center">
-                        <ul class="list-inline text-center tab-ul" style="margin-left:10px">
-                            <li class="col-md-2 li-book" style="">
-                                <a href="#">
-                                <img class="img-thumbnail" src="{{ asset('img/bookstore/210067513000101.jpg') }}" alt="VR" >
-                                <p><span class=""></span>自古英雄多魯蛇！呂捷教你歷史和人性</p>
-                                </a>
-                            </li>
-                            <li class="col-md-2 li-book" style="">
-                                <a href="#">
-                                <img class="img-thumbnail" src="{{ asset('img/bookstore/210067513000101.jpg') }}" alt="VR" style="">
-                                <p><span class=""></span>自古英雄多魯蛇！呂捷教你歷史和人性</p>
-                                </a>
-                            </li>
-                            <li class="col-md-2 li-book" style="">
-                                <a href="#">
-                                <img class="img-thumbnail" src="{{ asset('img/bookstore/210067513000101.jpg') }}" alt="VR" style="">
-                                <p><span class=""></span>自古英雄多魯蛇！呂捷教你歷史和人性</p>
-                                </a>
-                            </li>
-                            <li class="col-md-2 li-book" style="">
-                                <a href="#">
-                                <img class="img-thumbnail" src="{{ asset('img/bookstore/210067513000101.jpg') }}" alt="VR" style="">
-                                <p><span class=""></span>自古英雄多魯蛇！呂捷教你歷史和人性</p>
-                                </a>
-                            </li>
-                        </ul>
-                        </div>
+						@endif
+						@endforeach
                     </div><!-- editor -->
 
                     <div id="activity" class="tab-pane fade">
-                        <div class="row text-center">
-                        <ul class="list-inline text-center tab-ul" style="margin-left:10px">
-                            <li class="col-md-2 li-book" style="">
-                                <a href="#">
-                                <img class="img-thumbnail" src="{{ asset('img/bookstore/1HB093.jpg') }}" alt="VR" style="">
-                                <p><span class=""></span>軍團：布蘭登．山德森精選集II</p>
+					    @foreach($marketings as $key => $marketing)
+						@if(($key % 4) == 0)
+                        <div class="row text-center div-row">
+						@endif
+                            <div class="col-md-2 single-book" style="">
+                                <a href="{{ url('bookstore/book/'.$marketing->id) }}">
+                                <img class="img-thumbnail" src="{{ Voyager::image($marketing->image) }}" alt="{{ $marketing->title }}" style="">
+                                <p><span class=""></span>{{ mb_strlen($marketing->title, 'UTF-8') > 15 ? mb_substr($marketing->title, 0, 15, 'UTF-8')."&nbsp;..." : $marketing->title }}</p>
                                 </a>
-                            </li>
-                            <li class="col-md-2 li-book" style="">
-                                <a href="#">
-                                <img class="img-thumbnail" src="{{ asset('img/bookstore/1HB093.jpg') }}" alt="VR" style="">
-                                <p><span class=""></span>軍團：布蘭登．山德森精選集II</p>
-                                </a>
-                            </li>
-                            <li class="col-md-2 li-book" style="">
-                                <a href="#">
-                                <img class="img-thumbnail" src="{{ asset('img/bookstore/1HB093.jpg') }}" alt="VR" style="">
-                                <p><span class=""></span>軍團：布蘭登．山德森精選集II</p>
-                                </a>
-                            </li>
-                            <li class="col-md-2 li-book" style="">
-                                <a href="#">
-                                <img class="img-thumbnail" src="{{ asset('img/bookstore/1HB093.jpg') }}" alt="VR" style="">
-                                <p><span class=""></span>軍團：布蘭登．山德森精選集II</p>
-                                </a>
-                            </li>
-                        </ul>
+                            </div>
+						@if((($key + 1) % 4) == 0)
                         </div>
-                        <div class="row text-center">
-                        <ul class="list-inline text-center tab-ul" style="margin-left:10px">
-                            <li class="col-md-2 li-book" style="">
-                                <a href="#">
-                                <img class="img-thumbnail" src="{{ asset('img/bookstore/1HB093.jpg') }}" alt="VR" >
-                                <p><span class=""></span>軍團：布蘭登．山德森精選集II</p>
-                                </a>
-                            </li>
-                            <li class="col-md-2 li-book" style="">
-                                <a href="#">
-                                <img class="img-thumbnail" src="{{ asset('img/bookstore/1HB093.jpg') }}" alt="VR" style="">
-                                <p><span class=""></span>軍團：布蘭登．山德森精選集II</p>
-                                </a>
-                            </li>
-                            <li class="col-md-2 li-book" style="">
-                                <a href="#">
-                                <img class="img-thumbnail" src="{{ asset('img/bookstore/1HB093.jpg') }}" alt="VR" style="">
-                                <p><span class=""></span>軍團：布蘭登．山德森精選集II</p>
-                                </a>
-                            </li>
-                            <li class="col-md-2 li-book" style="">
-                                <a href="#">
-                                <img class="img-thumbnail" src="{{ asset('img/bookstore/1HB093.jpg') }}" alt="VR" style="">
-                                <p><span class=""></span>軍團：布蘭登．山德森精選集II</p>
-                                </a>
-                            </li>
-                        </ul>
-                        </div>
+						@endif
+						@endforeach
                     </div><!-- activity -->
                 </div><!-- tab-content -->
             </div><!-- new_coming -->
@@ -590,46 +416,26 @@ $(document).ready(function(){
                 <div class="tab-content">
                     <div id="newbooks" class="tab-pane fade in active">
                         <ul class="w3-ul ">
+						    @foreach($rankingnew as $key => $new)
                             <li class="">
-                                <a href="#">
-                                <p><span class="">1.</span>《虛擬實境狂潮：從購物、教育到醫療，V...》</p>
-                                <img class="img-thumbnail" src="{{ asset('img/bookstore/BW0614.jpg') }}" alt="VR"  style="">
+                                <a href="{{ url('bookstore/book/'.$new->id) }}">
+                                <p><span class="">{{ $key + 1 }}&period;&nbsp;</span>{{ mb_strlen($new->title, 'UTF-8') > 15 ? mb_substr($new->title, 0, 15, 'UTF-8')."&nbsp;..." : $new->title }}</p>
+                                <img class="img-thumbnail" src="{{ Voyager::image($new->image) }}" alt="{{ $new->title }}"  style="">
                                 </a>
                             </li>
-                            <li class="">
-                                <a href="#">
-                                <p><span class="">2.</span>《虛擬實境狂潮：從購物、教育到醫療，V...》</p>
-                                <img class="img-thumbnail" src="{{ asset('img/bookstore/BW0614.jpg') }}" alt="VR"  style="">
-                                </a>
-                            </li>
-                            <li class="">
-                                <a href="#">
-                                <p><span class="">3.</span>《虛擬實境狂潮：從購物、教育到醫療，V...》</p>
-                                <img class="img-thumbnail" src="{{ asset('img/bookstore/BW0614.jpg') }}" alt="VR"  style="">
-                                </a>
-                            </li>
+							@endforeach
                         </ul>
                     </div><!-- newbooks -->
                     <div id="hits" class="tab-pane fade">
                         <ul class="w3-ul ">
+						    @foreach($rankingsold as $key => $sold)
                             <li class="">
-                                    <a href="#">
-                                    <p><span class="">01.</span>《虛擬實境狂潮：從購物、教育到醫療，V...》</p>
-                                    <img class="img-thumbnail" src="{{ asset('img/bookstore/BW0614.jpg') }}" alt="VR"  style="">
-                                    </a>
+                                <a href="{{ url('bookstore/book/'.$sold->id) }}">
+                                <p><span class="">{{ $key + 1 }}&period;&nbsp;</span>{{ mb_strlen($sold->title, 'UTF-8') > 15 ? mb_substr($sold->title, 0, 15, 'UTF-8')."&nbsp;..." : $sold->title }}</p>
+                                <img class="img-thumbnail" src="{{ Voyager::image($sold->image) }}" alt="{{ $sold->title }}"  style="">
+                                </a>
                             </li>
-                            <li class="">
-                                    <a href="#">
-                                    <p><span class="">02.</span>《虛擬實境狂潮：從購物、教育到醫療，V...》</p>
-                                    <img class="img-thumbnail" src="{{ asset('img/bookstore/BW0614.jpg') }}" alt="VR"  style="">
-                                    </a>
-                            </li>
-                            <li class="">
-                                    <a href="#">
-                                    <p><span class="">03.</span>《虛擬實境狂潮：從購物、教育到醫療，V...》</p>
-                                    <img class="img-thumbnail" src="{{ asset('img/bookstore/BW0614.jpg') }}" alt="VR"  style="">
-                                    </a>
-                            </li>
+							@endforeach
                         </ul>
                     </div><!-- hits -->
                 </div><!-- tab-content -->
