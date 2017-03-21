@@ -124,27 +124,8 @@ li.theme-color{text-indent:16px;font-weight:bold;color:orange;font-size:1em;}
   background-color: #ffffff;
 }
 
-.li-book {
-  width: 182px;
-}
-
-.li-book img {
-  width: 100px;
-}
-
-.li-book p {
-  margin-top: 10px;
-  font-size: 14px;
-}
-
-.li-book a:hover {
-  color: #FF6347;
-  opacity: 0.6;
-}
-
-.tab-ul {
-  margin-left:10px;
-  margin-top:10px;
+.like-table{
+  display:table-cell;
 }
 
 #book_categories {
@@ -235,11 +216,34 @@ li.theme-color{text-indent:16px;font-weight:bold;color:orange;font-size:1em;}
   padding: 20px 0px 10px 0px;
 }
 
-#suggested-books ul li {
-  border-right: 2px dotted #999999;
-}
-#suggested-books ul li:nth-last-of-type(1) {
+.single-book:nth-last-of-type(1) {
   border-right: none;
+}
+
+.single-book {
+  display: inline-block;
+  border-right: 2px dotted #999999;
+  vertical-align: middle;
+  width: 182px;
+  height: 210px;
+  text-align: center;
+  padding-right: 5px;
+}
+
+.single-book img {
+  width: 100px;
+  height: 145px;
+}
+
+.single-book p {
+  margin-top: 10px;
+  font-size: 14px;
+  height: 36px;
+}
+
+.single-book a:hover {
+  color: #FF6347;
+  opacity: 0.6;
 }
 
 .box-title{ background-color:#06b8ea;border: 1px solid #06b8ea; color:#fff; padding:6px 8px; margin:0px; clear:both; border-radius: 2px 2px 0px 0px;}
@@ -342,6 +346,12 @@ li.theme-color{text-indent:16px;font-weight:bold;color:orange;font-size:1em;}
 .listed-box li a:hover {
   color: #FF6347;
   opacity: 0.6;
+}
+
+.modal-body p:nth-child(1) {
+  color: blue;
+  font-size: 18px;
+  font-weight: bold;
 }
 </style>
 <script type="text/javascript">
@@ -513,8 +523,8 @@ $(document).ready(function(){
                     </li>
 
                     <li class=""><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;購物車</a></li>
-                    <li class=""><a href="#"><span class="glyphicon glyphicon-log-in"></span>&nbsp;登入</a></li>
-                    <li class=""><a href="#"><span class="glyphicon glyphicon-user"></span>&nbsp;加入會員</a></li>
+                    <li class=""><a href="{{ url('login') }}"><span class="glyphicon glyphicon-log-in"></span>&nbsp;登入</a></li>
+                    <li class=""><a href="{{ url('register') }}"><span class="glyphicon glyphicon-user"></span>&nbsp;加入會員</a></li>
                     <li class=""><a href="#"><span class="glyphicon glyphicon-question-sign"></span>&nbsp;FAQ</a></li>
                     <li class=""><a href="#"><i class="fa fa-users" aria-hidden="true"></i>&nbsp;會員專區</a></li>
                 </ul>
@@ -548,7 +558,7 @@ $(document).ready(function(){
                 <ul >
                     <div itemscope itemtype="http://schema.org/Book">
                         <li class="" ><h4><span class="" itemprop="name" style="line-height:140%">{{ $book->title }}</span></h4></li>
-                        <li class="" >作者&nbsp;&#58;&nbsp;@foreach ($authors as $key => $author)<a href="#" itemprop="url"><span class="" itemprop="author">{{ $author->name }}</span></a><?php if($key < (count($authors) - 1)) echo '&#x3001;'; ?>@endforeach</li>
+                        <li class="" >作者&nbsp;&#58;&nbsp;@foreach ($authors as $key => $author)<a style="cursor:pointer" data-toggle="modal" data-target="#author{{ $author->id }}" itemprop="url"><span class="" itemprop="author">{{ $author->name }}</span></a><?php if($key < (count($authors) - 1)) echo '&#x3001;'; ?>@endforeach</li>
                         <li class="" >出版社&nbsp;&#58;&nbsp;<a href="#" itemprop="url"><span class="" itemprop="publisher">{{ $book->pulbisher_name }}</span></a></li>
                         <li class="" >出版日期&nbsp;&#58;&nbsp;<span class="" itemprop="datePublished">{{ $book->publishing_date }}</span></li>
                         <li class="" >頁數&nbsp;&#58;&nbsp;<span class="" itemprop="numberOfPages">{{ $book->page_numbers }}</span></li>
@@ -556,7 +566,7 @@ $(document).ready(function(){
                     </div>
                     <li class="" >定價&nbsp;&#58;&nbsp;<span class="" >{{ $book->list_price }}元</span></li>
                     <div itemscope itemtype="http://schema.org/Offer">
-                        <li class=""  >優惠價&nbsp;&#58;&nbsp;<span class="deeporange-color" >{{ $book->discount }}折&nbsp;</span><span class="deeporange-color" itemprop="price">{{ round($book->discount * $book->list_price / 100) }}元</span></li>
+                        <li class=""  >優惠價&nbsp;&#58;&nbsp;<span class="deeporange-color" >@if(($book->discount % 10) == 0){{ $book->discount/10 }}@else{{ $book->discount }}@endif折&nbsp;</span><span class="deeporange-color" itemprop="price">{{ round($book->discount * $book->list_price / 100) }}元</span></li>
                     </div>
                 </ul>
             </div>
@@ -597,47 +607,15 @@ $(document).ready(function(){
         
         <div id="suggested-books-box" class=" " style="border: 0px solid blue;">
             <h4 class="tangerine-color">推薦瀏覽</h4>
-            <div id="suggested-books" class="col-md-12 text-center" >             
-                <div class="row text-center">
-                <ul class="list-inline text-center" style="border: 0px solid blue;">
-                    <li class=" li-book" >
-                        <a href="#">
-                        <img class="img-thumbnail" src="{{ asset('img/bookstore/BW0614.jpg') }}" alt="VR" >
-                        <p><span class=""></span>《虛擬實境狂潮：從購物、教育到醫療，V...》</p>
+            <div id="suggested-books" class="col-md-12 text-center row">
+                    @foreach($randoms as $key => $random)
+                    <div class="single-book" >
+                        <a href="{{ url('bookstore/book/'.$random->id) }}">
+                        <img class="img-thumbnail" src="{{ Voyager::image($random->image) }}" alt="{{ $random->title }}" >
+                        <p><span class=""></span>{{ mb_strlen($random->title, 'UTF-8') > 20 ? mb_substr($random->title, 0, 20, 'UTF-8')."&nbsp;..." : $random->title }}</p>
                         </a>
-                    </li>
-                    <li class=" li-book" >
-                        <a href="#">
-                        <img class="img-thumbnail" src="{{ asset('img/bookstore/BW0614.jpg') }}" alt="VR" >
-                        <p><span class=""></span>《虛擬實境狂潮：從購物、教育到醫療，V...》</p>
-                        </a>
-                    </li>
-                    <li class=" li-book" >
-                        <a href="#">
-                        <img class="img-thumbnail" src="{{ asset('img/bookstore/BW0614.jpg') }}" alt="VR" >
-                        <p><span class=""></span>《虛擬實境狂潮：從購物、教育到醫療，V...》</p>
-                        </a>
-                    </li>
-                    <li class=" li-book" >
-                        <a href="#">
-                        <img class="img-thumbnail" src="{{ asset('img/bookstore/BW0614.jpg') }}" alt="VR" >
-                        <p><span class=""></span>《虛擬實境狂潮：從購物、教育到醫療，V...》</p>
-                        </a>
-                    </li>
-                    <li class=" li-book" >
-                        <a href="#">
-                        <img class="img-thumbnail" src="{{ asset('img/bookstore/BW0614.jpg') }}" alt="VR" >
-                        <p><span class=""></span>《虛擬實境狂潮：從購物、教育到醫療，V...》</p>
-                        </a>
-                    </li>
-                    <li class=" li-book" >
-                        <a href="#">
-                        <img class="img-thumbnail" src="{{ asset('img/bookstore/BW0614.jpg') }}" alt="VR" >
-                        <p><span class=""></span>《虛擬實境狂潮：從購物、教育到醫療，V...》</p>
-                        </a>
-                    </li>
-                </ul>
-                </div>
+                    </div>
+                    @endforeach
             </div><!-- suggested-book -->
         </div><!-- suggested-books-box -->
 
@@ -746,9 +724,9 @@ $(document).ready(function(){
                 <div class="book-info-detail limitHeight" >
                     <div class="detail">
                     <h4 class="tangerine-color">基本資料</h4><hr>
-作者：@foreach ($authors as $key => $author)<a href="#" ><span class="" >{{ $author->name }}</span></a><?php if($key < (count($authors) - 1)) echo '&#x3001;'; ?>@endforeach<br>
+作者：@foreach ($authors as $key => $author)<a style="cursor:pointer" data-toggle="modal" data-target="#author{{ $author->id }}"><span class="" >{{ $author->name }}</span></a><?php if($key < (count($authors) - 1)) echo '&#x3001;'; ?>@endforeach<br>
 @if(count($translators))
-譯者：@foreach ($translators as $key => $translator)<a href="#" ><span class="" >{{ $translator->name }}</span></a><?php if($key < (count($translators) - 1)) echo '&#x3001;'; ?>@endforeach<br>
+譯者：@foreach ($translators as $key => $translator)<a style="cursor:pointer" data-toggle="modal" data-target="#translator{{ $translator->id }}" ><span class="" >{{ $translator->name }}</span></a><?php if($key < (count($translators) - 1)) echo '&#x3001;'; ?>@endforeach<br>
 @endif
 出版社：{{ $book->pulbisher_name }}<br>
 @if(!empty($book->series))書系：{{ $book->series }}<br>@endif
@@ -789,31 +767,67 @@ ISBN：@if($book->{'isbn-13'}){{ $book->{'isbn-13'} }}@else{{ $book->{'isbn-10'}
                     </li>
                 </ul>
             </div><!-- listed-box -->
-            
+            <?php $browsedrecords = Cookie::get($name); ?>
+            @if (!empty($browsedrecords))
             <div id="" class="listed-box">
                 <h4 class="tangerine-color">最近瀏覽</h4><hr>
                 <ul class=" ">
+                    @foreach($browsedrecords as $key => $browsed)
                     <li class="">
-                        <a href="#">
-                        <p><span class="">1.</span>《虛擬實境狂潮：從購物、教育到醫療，V...》</p>
-                        <img class="img-thumbnail" src="{{ asset('img/bookstore/BW0614.jpg') }}" alt="VR"  style="">
+                        <a href="{{ url('bookstore/book/'.$browsed['id']) }}">
+                        <p class="text-left"><span>{{ $key + 1 }}&period;&nbsp;</span>{{ mb_strlen($browsed["title"], 'UTF-8') > 22 ? mb_substr($browsed["title"], 0, 22, 'UTF-8')."&nbsp;..." : $browsed["title"] }}</p>
+                        <img class="img-thumbnail" src="{{ Voyager::image($browsed['image']) }}" alt="{{ $browsed['title'] }}"  style="">
                         </a>
                     </li>
-                    <li class="">
-                        <a href="#">
-                        <p><span class="">2.</span>《虛擬實境狂潮：從購物、教育到醫療，V...》</p>
-                        <img class="img-thumbnail" src="{{ asset('img/bookstore/BW0614.jpg') }}" alt="VR"  style="">
-                        </a>
-                    </li>
-                    <li class="">
-                        <a href="#">
-                        <p><span class="">3.</span>《虛擬實境狂潮：從購物、教育到醫療，V...》</p>
-                        <img class="img-thumbnail" src="{{ asset('img/bookstore/BW0614.jpg') }}" alt="VR"  style="">
-                        </a>
-                    </li>
+                    @endforeach
                 </ul>
             </div><!-- listed-box -->
-            
+            @endif
         </div>
+
+        @foreach ($authors as $author)
+        <!-- Author Modal -->
+        <div class="modal fade" id="author{{ $author->id }}" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title text-center">作者</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>{{ $author->name }}</p>
+                        <p>{!! nl2br(e($author->information)) !!}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary btn-lg" data-dismiss="modal">關閉</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endforeach
+
+        @foreach ($translators as $translator)
+        <!-- Translator Modal -->
+        <div class="modal fade" id="translator{{ $translator->id }}" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title text-center">譯者</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>{{ $translator->name }}</p>
+                        <p>{!! nl2br(e($translator->information)) !!}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary btn-lg" data-dismiss="modal">關閉</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endforeach
+
     </div>
 @stop
