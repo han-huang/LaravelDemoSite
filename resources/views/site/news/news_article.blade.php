@@ -301,7 +301,7 @@ $(window).scroll(function() {
                         <ul class="" data-desc="最新報導">
                             @foreach($latestnews as $latest)
                             <li>
-                                <a href="{{ url('news/article/'.$latest->id) }}">{{ $latest->id }} {{ mb_strlen($latest->title, 'UTF-8') > 22 ? mb_substr($latest->title, 0, 22, 'UTF-8')."&nbsp;..." : $latest->title }}</a>
+                                <a href="{{ url('news/article/'.$latest->id) }}">{{ $latest->id }} {{ Presenter::truncate($latest->title, 22) }}</a>
                             </li>
                             @endforeach
                         </ul>
@@ -312,7 +312,7 @@ $(window).scroll(function() {
                         <ul class="" data-desc="熱門新聞">
                             @foreach($hotnews as $hot)
                             <li>
-                                <a href="{{ url('news/article/'.$hot->id) }}">{{ $hot->id }} {{ mb_strlen($hot->title, 'UTF-8') > 22 ? mb_substr($hot->title, 0, 22, 'UTF-8')."&nbsp;..." : $hot->title }}</a>
+                                <a href="{{ url('news/article/'.$hot->id) }}">{{ $hot->id }} {{ Presenter::truncate($hot->title, 22) }}</a>
                             </li>
                             @endforeach
                         </ul>
@@ -324,7 +324,7 @@ $(window).scroll(function() {
                         <ul class="" data-desc="瀏覽紀錄">
                             @foreach($browsedrecords as $browsed)
                             <li>
-                                <a href="{{ url('news/article/'.$browsed['id']) }}">{{ $browsed["id"] }} {{ mb_strlen($browsed["title"], 'UTF-8') > 22 ? mb_substr($browsed["title"], 0, 22, 'UTF-8')."&nbsp;..." : $browsed["title"] }}</a>
+                                <a href="{{ url('news/article/'.$browsed['id']) }}">{{ $browsed["id"] }} {{ Presenter::truncate($browsed["title"], 22) }}</a>
                             </li>
                             @endforeach
                         </ul>

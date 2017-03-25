@@ -8,7 +8,7 @@
 <meta property="og:type"        content="website" />
 <meta property="og:title"       content="{{ $book->title }}" />
 <?php $briefcontent = html_entity_decode(strip_tags($book->briefcontent)); ?>
-<meta property="og:description" content="{{ mb_strlen($briefcontent, 'UTF-8') > 200 ? mb_substr($briefcontent, 0, 200, 'UTF-8').'...' : $briefcontent }}" />
+<meta property="og:description" content="{{ Presenter::truncate($briefcontent, 200) }}" />
 <meta property="og:image"       content="{{ Voyager::image($book->image) }}" />
 <meta property="og:site_name"   content="LaravelDemoSite 書店" />
 @stop
@@ -616,7 +616,7 @@ $(document).ready(function(){
                     <div class="single-book" >
                         <a href="{{ url('bookstore/book/'.$random->id) }}">
                         <img class="img-thumbnail" src="{{ Voyager::image($random->image) }}" alt="{{ $random->title }}" >
-                        <p><span class=""></span>{{ mb_strlen($random->title, 'UTF-8') > 20 ? mb_substr($random->title, 0, 20, 'UTF-8')."&nbsp;..." : $random->title }}</p>
+                        <p><span class=""></span>{{ Presenter::truncate($random->title, 20) }}</p>
                         </a>
                     </div>
                     @endforeach
@@ -779,7 +779,7 @@ ISBN：@if($book->{'isbn-13'}){{ $book->{'isbn-13'} }}@else{{ $book->{'isbn-10'}
                     @foreach($browsedrecords as $key => $browsed)
                     <li class="">
                         <a href="{{ url('bookstore/book/'.$browsed['id']) }}">
-                        <p class="text-left"><span>{{ $key + 1 }}&period;&nbsp;</span>{{ mb_strlen($browsed["title"], 'UTF-8') > 22 ? mb_substr($browsed["title"], 0, 22, 'UTF-8')."&nbsp;..." : $browsed["title"] }}</p>
+                        <p class="text-left"><span>{{ $key + 1 }}&period;&nbsp;</span>{{ Presenter::truncate($browsed["title"], 22) }}</p>
                         <img class="img-thumbnail" src="{{ Voyager::image($browsed['image']) }}" alt="{{ $browsed['title'] }}"  style="">
                         </a>
                     </li>

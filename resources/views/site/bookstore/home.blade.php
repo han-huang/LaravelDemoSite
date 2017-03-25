@@ -279,7 +279,7 @@ $(document).ready(function(){
                         <li class="text-center img-padding" style="">
                             <img src="{{ Voyager::image($todaysale->image) }}" alt="{{ $todaysale->title }}" title="{{ $todaysale->title }}">
                         </li>
-                        <li class="text-center">{{ mb_strlen($todaysale->title, 'UTF-8') > 20 ? mb_substr($todaysale->title, 0, 20, 'UTF-8')."&nbsp;..." : $todaysale->title }}</li>
+                        <li class="text-center">{{ Presenter::truncate($todaysale->title, 20) }}</li>
                         <li class="text-center"><span class="" style="color:red">66折價 $ {{ round($todaysale->discount * $todaysale->list_price / 100) }} 元</span></li>
                         </a>
                         <li class="text-center"><a class="w3-button w3-dark-grey w3-round-large" href="#">放入購物車</a></li>
@@ -345,7 +345,7 @@ $(document).ready(function(){
                             <div class="col-md-2 single-book" style="">
                                 <a href="{{ url('bookstore/book/'.$newarrival->id) }}">
                                 <img class="img-thumbnail" src="{{ Voyager::image($newarrival->image) }}" alt="{{ $newarrival->title }}" style="">
-                                <p><span class=""></span>{{ mb_strlen($newarrival->title, 'UTF-8') > 15 ? mb_substr($newarrival->title, 0, 15, 'UTF-8')."&nbsp;..." : $newarrival->title }}</p>
+                                <p><span class=""></span>{{ Presenter::truncate($newarrival->title, 15) }}</p>
                                 </a>
                             </div>
                         @if((($key + 1) % 4) == 0)
@@ -362,7 +362,7 @@ $(document).ready(function(){
                             <div class="col-md-2 single-book" style="">
                                 <a href="{{ url('bookstore/book/'.$hit->id) }}">
                                 <img class="img-thumbnail" src="{{ Voyager::image($hit->image) }}" alt="{{ $hit->title }}" style="">
-                                <p><span class=""></span>{{ mb_strlen($hit->title, 'UTF-8') > 15 ? mb_substr($hit->title, 0, 15, 'UTF-8')."&nbsp;..." : $hit->title }}</p>
+                                <p><span class=""></span>{{ Presenter::truncate($hit->title, 15) }}</p>
                                 </a>
                             </div>
                         @if((($key + 1) % 4) == 0)
@@ -379,7 +379,7 @@ $(document).ready(function(){
                             <div class="col-md-2 single-book" style="">
                                 <a href="{{ url('bookstore/book/'.$editor->id) }}">
                                 <img class="img-thumbnail" src="{{ Voyager::image($editor->image) }}" alt="{{ $editor->title }}" style="">
-                                <p><span class=""></span>{{ mb_strlen($editor->title, 'UTF-8') > 15 ? mb_substr($editor->title, 0, 15, 'UTF-8')."&nbsp;..." : $editor->title }}</p>
+                                <p><span class=""></span>{{ Presenter::truncate($editor->title, 15) }}</p>
                                 </a>
                             </div>
                         @if((($key + 1) % 4) == 0)
@@ -396,7 +396,7 @@ $(document).ready(function(){
                             <div class="col-md-2 single-book" style="">
                                 <a href="{{ url('bookstore/book/'.$marketing->id) }}">
                                 <img class="img-thumbnail" src="{{ Voyager::image($marketing->image) }}" alt="{{ $marketing->title }}" style="">
-                                <p><span class=""></span>{{ mb_strlen($marketing->title, 'UTF-8') > 15 ? mb_substr($marketing->title, 0, 15, 'UTF-8')."&nbsp;..." : $marketing->title }}</p>
+                                <p><span class=""></span>{{ Presenter::truncate($marketing->title, 15) }}</p>
                                 </a>
                             </div>
                         @if((($key + 1) % 4) == 0)
@@ -423,7 +423,7 @@ $(document).ready(function(){
                             @foreach($rankingnew as $key => $new)
                             <li class="">
                                 <a href="{{ url('bookstore/book/'.$new->id) }}">
-                                <p><span class="">{{ $key + 1 }}&period;&nbsp;</span>{{ mb_strlen($new->title, 'UTF-8') > 15 ? mb_substr($new->title, 0, 15, 'UTF-8')."&nbsp;..." : $new->title }}</p>
+                                <p><span class="">{{ $key + 1 }}&period;&nbsp;</span>{{ Presenter::truncate($new->title) }}</p>
                                 <img class="img-thumbnail" src="{{ Voyager::image($new->image) }}" alt="{{ $new->title }}"  style="">
                                 </a>
                             </li>
@@ -435,7 +435,7 @@ $(document).ready(function(){
                             @foreach($rankingsold as $key => $sold)
                             <li class="">
                                 <a href="{{ url('bookstore/book/'.$sold->id) }}">
-                                <p><span class="">{{ $key + 1 }}&period;&nbsp;</span>{{ mb_strlen($sold->title, 'UTF-8') > 15 ? mb_substr($sold->title, 0, 15, 'UTF-8')."&nbsp;..." : $sold->title }}</p>
+                                <p><span class="">{{ $key + 1 }}&period;&nbsp;</span>{{ Presenter::truncate($sold->title) }}</p>
                                 <img class="img-thumbnail" src="{{ Voyager::image($sold->image) }}" alt="{{ $sold->title }}"  style="">
                                 </a>
                             </li>
