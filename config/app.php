@@ -184,6 +184,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\PresenterServiceProvider::class,
 
     ],
 
@@ -241,6 +242,11 @@ return [
          */
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
+
+        /*
+         * Custom Facades...
+         */
+        'Presenter' => App\Facades\Presenter::class,
 
     ],
 
