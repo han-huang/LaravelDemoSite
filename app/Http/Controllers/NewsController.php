@@ -360,12 +360,16 @@ class NewsController extends Controller
         else
             return null;
 
+        //return null to fix Syntax error when click_counter has no news record but has book records
+        if(empty($hotnews->count())) return null;
+
         $ids = array();
         foreach ($hotnews as $hot) {
             $url = explode("/", $hot->url);
             $ids[] = $url[2];
         }
-        // Log::info('$ids: '.collect($ids)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        // Log::info('empty($hotnews->count()): '.empty($hotnews->count())." ".'var_dump($hotnews): '.var_dump($hotnews)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        // Log::info('$ids: '.collect($ids)." ".'empty($ids): '.empty($ids)." ".'var_dump($ids): '.var_dump($ids)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
         $newspostsModel = new NewsPost();
         $hit = $newspostsModel->getIDsnews($ids)->get();
         return $hit;
