@@ -126,7 +126,7 @@ $(document).ready(function() {
                             <ul>
                                 @if($breakingnews)
                                     @foreach($breakingnews as $breaking)
-                                    <li><a href="{{ url('news/article/'.$breaking->id) }}" target="_blank"><i class="fa fa-bolt fa-fw" aria-hidden="true"></i><span>{{ $breaking->id }}&nbsp;{{ mb_strlen($breaking->title, 'UTF-8') > 24 ? mb_substr($breaking->title, 0, 24, 'UTF-8')."&nbsp;..." : $breaking->title }}</span></a></li>
+                                    <li><a href="{{ url('news/article/'.$breaking->id) }}" target="_blank"><i class="fa fa-bolt fa-fw" aria-hidden="true"></i><span>{{ $breaking->id }}&nbsp;{{ Presenter::truncate($breaking->title, 24) }}</span></a></li>
                                     @endforeach
                                 @endif
                             </ul>
@@ -200,7 +200,7 @@ $(document).ready(function() {
                                     <li class="list-group-item">
                                         <a href="{{ url("news/article/".$post->id) }}" target="_blank"><time>{{ substr($post->updated_at, 11, 5) }}</time>
                                         <span class="label {{ $post->label_class }} categories-label">{{ $post->cate_title }}</span>
-                                        <span class="color_black">{{ $post->id }} {{ mb_strlen($post->title, 'UTF-8') > 22 ? mb_substr($post->title, 0, 22, 'UTF-8')."&nbsp;..." : $post->title }}</span>
+                                        <span class="color_black">{{ $post->id }} {{ Presenter::truncate($post->title, 22) }}</span>
                                         </a>
                                     </li>
                                 @else
@@ -211,7 +211,7 @@ $(document).ready(function() {
                                     <li class="list-group-item">
                                         <a href="{{ url("news/article/".$post->id) }}" target="_blank"><time>{{ substr($post->updated_at, 11, 5) }}</time>
                                         <span class="label {{ $post->label_class }} categories-label">{{ $post->cate_title }}</span>
-                                        <span class="color_black">{{ $post->id }} {{ mb_strlen($post->title, 'UTF-8') > 22 ? mb_substr($post->title, 0, 22, 'UTF-8')."&nbsp;..." : $post->title }}</span>
+                                        <span class="color_black">{{ $post->id }} {{ Presenter::truncate($post->title, 22) }}</span>
                                         </a>
                                     </li>
                                 @endif
