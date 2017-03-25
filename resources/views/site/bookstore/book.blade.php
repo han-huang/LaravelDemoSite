@@ -10,7 +10,7 @@
 <?php $briefcontent = html_entity_decode(strip_tags($book->briefcontent)); ?>
 <meta property="og:description" content="{{ mb_strlen($briefcontent, 'UTF-8') > 200 ? mb_substr($briefcontent, 0, 200, 'UTF-8').'...' : $briefcontent }}" />
 <meta property="og:image"       content="{{ Voyager::image($book->image) }}" />
-<meta property="og:site_name"   content="LaravelDemoSite" />
+<meta property="og:site_name"   content="LaravelDemoSite 書店" />
 @stop
 
 @section('pageTitle')
@@ -523,8 +523,12 @@ $(document).ready(function(){
                     </li>
 
                     <li class=""><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;購物車</a></li>
-                    <li class=""><a href="{{ url('login') }}"><span class="glyphicon glyphicon-log-in"></span>&nbsp;登入</a></li>
-                    <li class=""><a href="{{ url('register') }}"><span class="glyphicon glyphicon-user"></span>&nbsp;加入會員</a></li>
+                    @if (Auth::guard('client')->guest())
+                        <li class=""><a href="{{ url('/login') }}"><span class="glyphicon glyphicon-log-in"></span>&nbsp;登入</a></li>
+                        <li class=""><a href="{{ url('/register') }}"><span class="glyphicon glyphicon-user"></span>&nbsp;加入會員</a></li>
+                    @else
+                        <li class=""><a href="{{ url('/logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();"><span class="glyphicon glyphicon-log-out"></span>&nbsp;登出</a></li>
+                    @endif
                     <li class=""><a href="#"><span class="glyphicon glyphicon-question-sign"></span>&nbsp;FAQ</a></li>
                     <li class=""><a href="#"><i class="fa fa-users" aria-hidden="true"></i>&nbsp;會員專區</a></li>
                 </ul>

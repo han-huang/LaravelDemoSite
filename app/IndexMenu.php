@@ -46,9 +46,9 @@ class IndexMenu extends Model
                 $output .= '<li><a href="'.$item->url.'">'.$item->title.'</a></li>';
             }
         }
-        
-        $output .= '</ul>';
-        $output .= '</div>';
+
+        // $output .= '</ul>';
+        // $output .= '</div>';
         return $output;
     }
     
