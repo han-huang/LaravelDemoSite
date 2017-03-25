@@ -258,8 +258,12 @@ $(document).ready(function(){
                     </li>
 
                     <li class=""><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;購物車</a></li>
-                    <li class=""><a href="{{ url('login') }}"><span class="glyphicon glyphicon-log-in"></span>&nbsp;登入</a></li>
-                    <li class=""><a href="{{ url('register') }}"><span class="glyphicon glyphicon-user"></span>&nbsp;加入會員</a></li>
+                    @if (Auth::guard('client')->guest())
+                        <li class=""><a href="{{ url('/login') }}"><span class="glyphicon glyphicon-log-in"></span>&nbsp;登入</a></li>
+                        <li class=""><a href="{{ url('/register') }}"><span class="glyphicon glyphicon-user"></span>&nbsp;加入會員</a></li>
+                    @else
+                        <li class=""><a href="{{ url('/logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();"><span class="glyphicon glyphicon-log-out"></span>&nbsp;登出</a></li>
+                    @endif
                     <li class=""><a href="#"><span class="glyphicon glyphicon-question-sign"></span>&nbsp;FAQ</a></li>
                     <li class=""><a href="#"><i class="fa fa-users" aria-hidden="true"></i>&nbsp;會員專區</a></li>
                 </ul>
@@ -334,71 +338,71 @@ $(document).ready(function(){
                 </div>
                 <div class="tab-content" style="border: 1px solid #ddd;">
                     <div id="suggest-new" class="tab-pane fade in active"  style="border: 0px solid Magenta;">
-					    @foreach($newarrivals as $key => $newarrival)
-						@if(($key % 4) == 0)
+                        @foreach($newarrivals as $key => $newarrival)
+                        @if(($key % 4) == 0)
                         <div class="row text-center div-row">
-						@endif
+                        @endif
                             <div class="col-md-2 single-book" style="">
                                 <a href="{{ url('bookstore/book/'.$newarrival->id) }}">
                                 <img class="img-thumbnail" src="{{ Voyager::image($newarrival->image) }}" alt="{{ $newarrival->title }}" style="">
                                 <p><span class=""></span>{{ mb_strlen($newarrival->title, 'UTF-8') > 15 ? mb_substr($newarrival->title, 0, 15, 'UTF-8')."&nbsp;..." : $newarrival->title }}</p>
                                 </a>
                             </div>
-						@if((($key + 1) % 4) == 0)
+                        @if((($key + 1) % 4) == 0)
                         </div>
-						@endif
-						@endforeach
+                        @endif
+                        @endforeach
                     </div><!-- suggest-new -->
 
                     <div id="suggest-hits" class="tab-pane fade">
-					    @foreach($hits as $key => $hit)
-						@if(($key % 4) == 0)
+                        @foreach($hits as $key => $hit)
+                        @if(($key % 4) == 0)
                         <div class="row text-center div-row">
-						@endif
+                        @endif
                             <div class="col-md-2 single-book" style="">
                                 <a href="{{ url('bookstore/book/'.$hit->id) }}">
                                 <img class="img-thumbnail" src="{{ Voyager::image($hit->image) }}" alt="{{ $hit->title }}" style="">
                                 <p><span class=""></span>{{ mb_strlen($hit->title, 'UTF-8') > 15 ? mb_substr($hit->title, 0, 15, 'UTF-8')."&nbsp;..." : $hit->title }}</p>
                                 </a>
                             </div>
-						@if((($key + 1) % 4) == 0)
+                        @if((($key + 1) % 4) == 0)
                         </div>
-						@endif
-						@endforeach
+                        @endif
+                        @endforeach
                     </div><!-- suggest-hits -->
 
                     <div id="editor" class="tab-pane fade">
-					    @foreach($editors as $key => $editor)
-						@if(($key % 4) == 0)
+                        @foreach($editors as $key => $editor)
+                        @if(($key % 4) == 0)
                         <div class="row text-center div-row">
-						@endif
+                        @endif
                             <div class="col-md-2 single-book" style="">
                                 <a href="{{ url('bookstore/book/'.$editor->id) }}">
                                 <img class="img-thumbnail" src="{{ Voyager::image($editor->image) }}" alt="{{ $editor->title }}" style="">
                                 <p><span class=""></span>{{ mb_strlen($editor->title, 'UTF-8') > 15 ? mb_substr($editor->title, 0, 15, 'UTF-8')."&nbsp;..." : $editor->title }}</p>
                                 </a>
                             </div>
-						@if((($key + 1) % 4) == 0)
+                        @if((($key + 1) % 4) == 0)
                         </div>
-						@endif
-						@endforeach
+                        @endif
+                        @endforeach
                     </div><!-- editor -->
 
                     <div id="activity" class="tab-pane fade">
-					    @foreach($marketings as $key => $marketing)
-						@if(($key % 4) == 0)
+                        @foreach($marketings as $key => $marketing)
+                        @if(($key % 4) == 0)
                         <div class="row text-center div-row">
-						@endif
+                        @endif
                             <div class="col-md-2 single-book" style="">
                                 <a href="{{ url('bookstore/book/'.$marketing->id) }}">
                                 <img class="img-thumbnail" src="{{ Voyager::image($marketing->image) }}" alt="{{ $marketing->title }}" style="">
                                 <p><span class=""></span>{{ mb_strlen($marketing->title, 'UTF-8') > 15 ? mb_substr($marketing->title, 0, 15, 'UTF-8')."&nbsp;..." : $marketing->title }}</p>
                                 </a>
                             </div>
-						@if((($key + 1) % 4) == 0)
+                        @if((($key + 1) % 4) == 0)
                         </div>
-						@endif
-						@endforeach
+                        @endif
+                        @endforeach
                     </div><!-- activity -->
                 </div><!-- tab-content -->
             </div><!-- new_coming -->
@@ -416,26 +420,26 @@ $(document).ready(function(){
                 <div class="tab-content">
                     <div id="newbooks" class="tab-pane fade in active">
                         <ul class="w3-ul ">
-						    @foreach($rankingnew as $key => $new)
+                            @foreach($rankingnew as $key => $new)
                             <li class="">
                                 <a href="{{ url('bookstore/book/'.$new->id) }}">
                                 <p><span class="">{{ $key + 1 }}&period;&nbsp;</span>{{ mb_strlen($new->title, 'UTF-8') > 15 ? mb_substr($new->title, 0, 15, 'UTF-8')."&nbsp;..." : $new->title }}</p>
                                 <img class="img-thumbnail" src="{{ Voyager::image($new->image) }}" alt="{{ $new->title }}"  style="">
                                 </a>
                             </li>
-							@endforeach
+                            @endforeach
                         </ul>
                     </div><!-- newbooks -->
                     <div id="hits" class="tab-pane fade">
                         <ul class="w3-ul ">
-						    @foreach($rankingsold as $key => $sold)
+                            @foreach($rankingsold as $key => $sold)
                             <li class="">
                                 <a href="{{ url('bookstore/book/'.$sold->id) }}">
                                 <p><span class="">{{ $key + 1 }}&period;&nbsp;</span>{{ mb_strlen($sold->title, 'UTF-8') > 15 ? mb_substr($sold->title, 0, 15, 'UTF-8')."&nbsp;..." : $sold->title }}</p>
                                 <img class="img-thumbnail" src="{{ Voyager::image($sold->image) }}" alt="{{ $sold->title }}"  style="">
                                 </a>
                             </li>
-							@endforeach
+                            @endforeach
                         </ul>
                     </div><!-- hits -->
                 </div><!-- tab-content -->
