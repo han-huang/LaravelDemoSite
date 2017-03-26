@@ -277,7 +277,7 @@ $(document).ready(function(){
                     <ul class="">
                         <a href="{{ url('bookstore/book/'.$todaysale->id) }}">
                         <li class="text-center img-padding" style="">
-                            <img src="{{ Voyager::image($todaysale->image) }}" alt="{{ $todaysale->title }}" title="{{ $todaysale->title }}">
+                            <img src="{{ Presenter::mediumimg(Voyager::image($todaysale->image)) }}" alt="{{ $todaysale->title }}" title="{{ $todaysale->title }}">
                         </li>
                         <li class="text-center">{{ Presenter::truncate($todaysale->title, 20) }}</li>
                         <li class="text-center"><span class="" style="color:red">66折價 $ {{ round($todaysale->discount * $todaysale->list_price / 100) }} 元</span></li>
@@ -344,7 +344,7 @@ $(document).ready(function(){
                         @endif
                             <div class="col-md-2 single-book" style="">
                                 <a href="{{ url('bookstore/book/'.$newarrival->id) }}">
-                                <img class="img-thumbnail" src="{{ Voyager::image($newarrival->image) }}" alt="{{ $newarrival->title }}" style="">
+                                <img class="img-thumbnail" src="{{ Presenter::smallimg(Voyager::image($newarrival->image)) }}" alt="{{ $newarrival->title }}" style="">
                                 <p><span class=""></span>{{ Presenter::truncate($newarrival->title, 15) }}</p>
                                 </a>
                             </div>
@@ -361,7 +361,7 @@ $(document).ready(function(){
                         @endif
                             <div class="col-md-2 single-book" style="">
                                 <a href="{{ url('bookstore/book/'.$hit->id) }}">
-                                <img class="img-thumbnail" src="{{ Voyager::image($hit->image) }}" alt="{{ $hit->title }}" style="">
+                                <img class="img-thumbnail" src="{{ Presenter::smallimg(Voyager::image($hit->image)) }}" alt="{{ $hit->title }}" style="">
                                 <p><span class=""></span>{{ Presenter::truncate($hit->title, 15) }}</p>
                                 </a>
                             </div>
@@ -378,7 +378,7 @@ $(document).ready(function(){
                         @endif
                             <div class="col-md-2 single-book" style="">
                                 <a href="{{ url('bookstore/book/'.$editor->id) }}">
-                                <img class="img-thumbnail" src="{{ Voyager::image($editor->image) }}" alt="{{ $editor->title }}" style="">
+                                <img class="img-thumbnail" src="{{ Presenter::smallimg(Voyager::image($editor->image)) }}" alt="{{ $editor->title }}" style="">
                                 <p><span class=""></span>{{ Presenter::truncate($editor->title, 15) }}</p>
                                 </a>
                             </div>
@@ -395,7 +395,7 @@ $(document).ready(function(){
                         @endif
                             <div class="col-md-2 single-book" style="">
                                 <a href="{{ url('bookstore/book/'.$marketing->id) }}">
-                                <img class="img-thumbnail" src="{{ Voyager::image($marketing->image) }}" alt="{{ $marketing->title }}" style="">
+                                <img class="img-thumbnail" src="{{ Presenter::smallimg(Voyager::image($marketing->image)) }}" alt="{{ $marketing->title }}" style="">
                                 <p><span class=""></span>{{ Presenter::truncate($marketing->title, 15) }}</p>
                                 </a>
                             </div>
@@ -424,7 +424,7 @@ $(document).ready(function(){
                             <li class="">
                                 <a href="{{ url('bookstore/book/'.$new->id) }}">
                                 <p><span class="">{{ $key + 1 }}&period;&nbsp;</span>{{ Presenter::truncate($new->title) }}</p>
-                                <img class="img-thumbnail" src="{{ Voyager::image($new->image) }}" alt="{{ $new->title }}"  style="">
+                                <img class="img-thumbnail" src="{{ Presenter::smallimg(Voyager::image($new->image)) }}" alt="{{ $new->title }}"  style="">
                                 </a>
                             </li>
                             @endforeach
@@ -436,7 +436,7 @@ $(document).ready(function(){
                             <li class="">
                                 <a href="{{ url('bookstore/book/'.$sold->id) }}">
                                 <p><span class="">{{ $key + 1 }}&period;&nbsp;</span>{{ Presenter::truncate($sold->title) }}</p>
-                                <img class="img-thumbnail" src="{{ Voyager::image($sold->image) }}" alt="{{ $sold->title }}"  style="">
+                                <img class="img-thumbnail" src="{{ Presenter::smallimg(Voyager::image($sold->image)) }}" alt="{{ $sold->title }}"  style="">
                                 </a>
                             </li>
                             @endforeach

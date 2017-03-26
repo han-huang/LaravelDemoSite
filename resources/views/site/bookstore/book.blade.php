@@ -615,7 +615,7 @@ $(document).ready(function(){
                     @foreach($randoms as $key => $random)
                     <div class="single-book" >
                         <a href="{{ url('bookstore/book/'.$random->id) }}">
-                        <img class="img-thumbnail" src="{{ Voyager::image($random->image) }}" alt="{{ $random->title }}" >
+                        <img class="img-thumbnail" src="{{ Presenter::smallimg(Voyager::image($random->image)) }}" alt="{{ $random->title }}" >
                         <p><span class=""></span>{{ Presenter::truncate($random->title, 20) }}</p>
                         </a>
                     </div>
@@ -780,7 +780,7 @@ ISBN：@if($book->{'isbn-13'}){{ $book->{'isbn-13'} }}@else{{ $book->{'isbn-10'}
                     <li class="">
                         <a href="{{ url('bookstore/book/'.$browsed['id']) }}">
                         <p class="text-left"><span>{{ $key + 1 }}&period;&nbsp;</span>{{ Presenter::truncate($browsed["title"], 22) }}</p>
-                        <img class="img-thumbnail" src="{{ Voyager::image($browsed['image']) }}" alt="{{ $browsed['title'] }}"  style="">
+                        <img class="img-thumbnail" src="{{ Presenter::smallimg(Voyager::image($browsed['image'])) }}" alt="{{ $browsed['title'] }}"  style="">
                         </a>
                     </li>
                     @endforeach

@@ -1478,7 +1478,24 @@ class NewDataRowsTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 1,
-                'details'      => '',
+                'details'      => '{
+"resize": {
+"width": "250",
+"height": "null"
+},
+"quality": "70%",
+"upsize": true,
+"thumbnails": [
+{
+"name": "medium",
+"scale": "52%"
+},
+{
+"name": "small",
+"scale": "40%"
+}
+]
+}',
             ])->save();
         }
 
