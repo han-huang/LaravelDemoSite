@@ -33,7 +33,7 @@ class IndexCarouselRepository
     {
         return $this->indexCarousel->where('active', 1)->get();
     }
-    
+
     // public static function getActiveItems()
     // {
         // return IndexCarousel::where('active', 1)->get();

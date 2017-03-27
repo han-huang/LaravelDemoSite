@@ -22,6 +22,11 @@ class Book extends Model
         return $this->belongsToMany(BookTranslator::class, 'book_booktranslator');
     }
 
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class, 'book_order');
+    }
+
     /**
      * Scope a query to only active scopes.
      *
