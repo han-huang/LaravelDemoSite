@@ -28,6 +28,16 @@ class Client extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function receivers()
+    {
+        return $this->hasMany('App\Receiver');
+    }
+
     /**
      * Send the password reset notification.
      *
