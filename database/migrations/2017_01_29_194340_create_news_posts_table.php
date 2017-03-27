@@ -17,7 +17,7 @@ class CreateNewsPostsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('author_id');
             $table->string('author');
-            $table->unsignedInteger('news_category_id');
+            $table->unsignedInteger('news_category_id')->nullable();
             $table->string('tag')->nullable();
             $table->string('title');
             $table->string('seo_title')->nullable();
@@ -32,7 +32,7 @@ class CreateNewsPostsTable extends Migration
             $table->boolean('featured')->default(0);
             $table->timestamps();
             $table->foreign('news_category_id')->references('id')->on('news_categories')
-                ->onUpdate('cascade')->onDelete('cascade');
+                ->onUpdate('cascade')->onDelete('set null');
         });
     }
 
