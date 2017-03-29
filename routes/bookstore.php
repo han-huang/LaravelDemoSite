@@ -8,4 +8,13 @@ Route::group([
 
     // Book Page
     Route::get('book/{id}', ['uses' => 'BookstoreController@book', 'as' => 'book']);
+
+    Route::get('tempcart', function () {
+        return view('site.bookstore.temp.bookstore_cart_static');
+    });
+
+    Route::get('template', function () {
+        return view('site.bookstore.temp.bookstore_template_static');
+    });
+
 });

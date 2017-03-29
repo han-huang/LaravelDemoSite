@@ -24,8 +24,6 @@
 @section('css')
 <!-- font-awesome -->
 <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
-<!-- textslider -->
-<link href="{{ asset('css/textslider.css') }}" rel="stylesheet" type="text/css">
 <!-- jssocials -->
 <link rel="stylesheet" type="text/css" href="{{ asset('css/jssocials.css') }}" />
 <link rel="stylesheet" type="text/css" href="{{ asset('css/jssocials-theme-classic.css') }}" />
