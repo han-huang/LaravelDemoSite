@@ -17,7 +17,7 @@
 @stop
 
 @section('javascript')
-<!-- script type="text/javascript" src="{{ asset('js/bootstrap-hover-tabs.js') }}"></script> -->
+<!-- <script type="text/javascript" src="{{ asset('js/bootstrap-hover-tabs.js') }}"></script> -->
 
 @stop
 

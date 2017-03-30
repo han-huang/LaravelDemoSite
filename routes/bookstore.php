@@ -17,4 +17,8 @@ Route::group([
         return view('site.bookstore.temp.bookstore_template_static');
     });
 
+    Route::get('tempdeliver', function () {
+        return view('site.bookstore.temp.bookstore_deliver_static');
+    });
+
 });
