@@ -202,25 +202,28 @@ $(document).ready(function(){
 
                 <div>
                     <ul class="list-inline">
-                    <li>
-                    <div class=""><button type="button" class="btn btn-md" onclick="">刪除勾選項目</button></div>
-                    </li>
-                    <li class="pull-right">
-                    <div><p>共&nbsp;<span class="deeporange-color">3</span>&nbsp;項商品&#xFF0C;總金額&nbsp;NT$&nbsp;<span class="deeporange-color">1000</span>&nbsp;元<p></div>
-                    </li>
+                        <li>
+                        <div class="">
+                            <button type="button" class="btn btn-md" onclick="">刪除勾選項目</button>
+                        </div>
+                        </li>
+
+                        <li class="pull-right">
+                        <div>
+                            <p>共&nbsp;<span class="deeporange-color">3</span>&nbsp;項商品&#xFF0C;總金額&nbsp;NT$&nbsp;<span class="deeporange-color">1000</span>&nbsp;元</p>
+                        </div>
+                        </li>
                     </ul>
                 </div>
 
             </div><!-- tab-content -->
+
             <div class="text-right" style="margin:20px">
             <button type="button" class="btn btn-primary btn-lg" onclick="location.href='/bookstore'">繼續購物</button>
             <button type="button" class="btn btn-primary btn-lg" onclick="location.href='#'">結帳</button>
             </div>
-        </div>
+        </div><!-- shopping-cart -->
         
     </div>
-    
 
-    
-    
 @stop
