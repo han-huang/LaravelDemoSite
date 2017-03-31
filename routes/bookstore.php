@@ -21,4 +21,7 @@ Route::group([
         return view('site.bookstore.temp.bookstore_deliver_static');
     });
 
+    Route::get('tempconfirm', function () {
+        return view('site.bookstore.temp.bookstore_confirm_static');
+    });
 });
