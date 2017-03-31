@@ -133,36 +133,41 @@ $(document).ready(function(){
             <form id="deliver-form" class="form-horizontal" role="form" action="" method="POST">
             {{ csrf_field() }}
             <div class=" panel panel-primary">
-              <div class="panel-heading">配送方式</div>
-              <div class="panel-body"><input type="radio" name="deliver" value="Home_Delivery" checked required>&nbsp;宅配</div>
+                <div class="panel-heading">配送方式</div>
+                <div class="panel-body"><input type="radio" name="deliver" value="Home_Delivery" checked required>&nbsp;宅配</div>
             </div>
 
             <div class=" panel panel-primary">
-              <div class="panel-heading">付款方式</div>
-              <div class="panel-body "><input type="radio" name="payment_methond" value="COD" checked required>&nbsp;貨到付款</div>
+                <div class="panel-heading">付款方式</div>
+                <div class="panel-body "><input type="radio" name="payment_methond" value="COD" checked required>&nbsp;貨到付款</div>
             </div>
 
             <div class=" panel panel-primary">
-              <div class="panel-heading">訂購人資訊</div>
-              <div class="panel-body">
-                  <p>姓名&#xFF1A;王小明</p>
-                  <p>Email&#xFF1A;mail@mail.com</p>
-                  <div class="form-group">
-                      <label class="control-label col-md-2" for="buyer-name" style="">姓名&#xFF1A;</label>
-                      <div class="col-md-10">
-                      <p class="form-control-static">王小明</p>
-                      </div>
-                  </div>
+                <div class="panel-heading">發票資訊</div>
+                <div class="panel-body"><input type="radio" name="invoice_type" value="paper" placeholder="請輸入中文街道地址" checked required>&nbsp;紙本發票</div>
+            </div>
 
-                  <div class="form-group">
-                      <label class="control-label col-md-2" for="buyer-email" style="">Email&#xFF1A;</label>
-                      <div class="col-md-10">
-                      <p class="form-control-static">mail@mail.com</p>
-                      </div>
-                  </div>
+            <div class=" panel panel-primary">
+                <div class="panel-heading">訂購人資訊</div>
+                <div class="panel-body">
+                    <p>姓名&#xFF1A;王小明</p>
+                    <p>Email&#xFF1A;mail@mail.com</p>
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="buyer-name" style="">姓名&#xFF1A;</label>
+                        <div class="col-md-10">
+                        <p class="form-control-static">王小明</p>
+                        </div>
+                    </div>
 
-              </div>
-            </div><!-- 訂購人資訊 -->
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="buyer-email" style="">Email&#xFF1A;</label>
+                        <div class="col-md-10">
+                        <p class="form-control-static">mail@mail.com</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div><!-- panel 訂購人資訊 -->
 
             <div class=" panel panel-primary">
                 <div class="panel-heading">收件人資訊</div>
@@ -200,7 +205,7 @@ $(document).ready(function(){
                         <div class="col-md-10">
                         <input type="text" class="form-control input-lg col-md-3" id="addr_city" name="addr_city" style="width: 100px;margin-right:10px;" placeholder="" readonly>
                         <input type="text" class="form-control input-lg col-md-3" id="addr_area" name="addr_area" style="width: 100px;margin-right:10px;" placeholder="" readonly>
-                        <input type="text" class="form-control input-lg col-md-6" id="addr_street" name="addr_street" style="width: 400px;" placeholder="" required>
+                        <input type="text" class="form-control input-lg col-md-6" id="addr_street" name="addr_street" style="width: 450px;" placeholder="" required>
                         </div>
                     </div>
 
@@ -226,16 +231,11 @@ $(document).ready(function(){
                         
                     </div>
                 </div>
-            </div><!-- 收件人資訊 -->
-
-            <div class=" panel panel-primary">
-              <div class="panel-heading">發票資訊</div>
-              <div class="panel-body"><input type="radio" name="invoice_type" value="paper" placeholder="請輸入中文街道地址" checked required>&nbsp;紙本發票</div>
-            </div>
+            </div><!-- panel 收件人資訊 -->
 
             <div class="text-right" style="margin:20px">
-            <button type="button" class="btn btn-primary btn-lg" onclick="location.href='#'"><i class="fa fa-hand-o-left" aria-hidden="true"></i>&nbsp;上一步</button>
-            <button type="submit" form="deliver-form" class="btn btn-primary btn-lg" >下一步&nbsp;<i class="fa fa-hand-o-right" aria-hidden="true"></i></button>
+                <button type="button" class="btn btn-primary btn-lg" onclick="location.href='#'"><i class="fa fa-hand-o-left" aria-hidden="true"></i>&nbsp;上一步</button>
+                <button type="submit" form="deliver-form" class="btn btn-primary btn-lg" >下一步&nbsp;<i class="fa fa-hand-o-right" aria-hidden="true"></i></button>
             </div>
 
             </form>

@@ -164,8 +164,8 @@ $(document).ready(function(){
                         <tr>
                             <input type="hidden" name="id" value="1">
                             <td><div class="form-group"><input name="cartCheck[]" id="check1" type="checkbox" value="" ></div></td>
-                            <td><a href=""><img class="img-thumbnail" src="/storage/books/March2017/RVSWmBp8TQkF74TecDZq-small.jpg" alt="失控的歐元︰從經濟整合的美夢到制度失靈的惡夢" style="width:100px"></a></td>
-                            <td><a href="">失控的歐元︰從經濟整合的美夢到制度失靈的惡夢</a></td>
+                            <td><a href="" target="_blank"><img class="img-thumbnail" src="/storage/books/March2017/RVSWmBp8TQkF74TecDZq-small.jpg" alt="失控的歐元︰從經濟整合的美夢到制度失靈的惡夢" style="width:100px"></a></td>
+                            <td><a href="" target="_blank">失控的歐元︰從經濟整合的美夢到制度失靈的惡夢</a></td>
                             <td>480元</td>
                             <td><span class="deeporange-color">79折</span><br>379元</td>
                             <td><div class="form-group"><input onchange="" type="text" value="1" style="width:50px"></div></td>
@@ -176,8 +176,8 @@ $(document).ready(function(){
                         <tr>
                             <input type="hidden" name="id" value="1">
                             <td><div class="form-group"><input name="cartCheck[]" id="check2" type="checkbox" value="" ></div></td>
-                            <td><a href=""><img class="img-thumbnail" src="/storage/books/March2017/RVSWmBp8TQkF74TecDZq-small.jpg" alt="失控的歐元︰從經濟整合的美夢到制度失靈的惡夢" style="width:100px"></a></td>
-                            <td><a href="">失控的歐元︰從經濟整合的美夢到制度失靈的惡夢</a></td>
+                            <td><a href="" target="_blank"><img class="img-thumbnail" src="/storage/books/March2017/RVSWmBp8TQkF74TecDZq-small.jpg" alt="失控的歐元︰從經濟整合的美夢到制度失靈的惡夢" style="width:100px"></a></td>
+                            <td><a href="" target="_blank">失控的歐元︰從經濟整合的美夢到制度失靈的惡夢</a></td>
                             <td>480元</td>
                             <td><span class="deeporange-color">79折</span><br>379元</td>
                             <td><div class="form-group"><input onchange="" type="text" value="1" style="width:50px"></div></td>
@@ -188,8 +188,8 @@ $(document).ready(function(){
                         <tr>
                             <input type="hidden" name="id" value="1">
                             <td><div class="form-group"><input name="cartCheck[]" id="check3" type="checkbox" value="" ></div></td>
-                            <td><a href=""><img class="img-thumbnail" src="/storage/books/March2017/RVSWmBp8TQkF74TecDZq-small.jpg" alt="失控的歐元︰從經濟整合的美夢到制度失靈的惡夢" style="width:100px"></a></td>
-                            <td><a href="">失控的歐元︰從經濟整合的美夢到制度失靈的惡夢</a></td>
+                            <td><a href="" target="_blank"><img class="img-thumbnail" src="/storage/books/March2017/RVSWmBp8TQkF74TecDZq-small.jpg" alt="失控的歐元︰從經濟整合的美夢到制度失靈的惡夢" style="width:100px"></a></td>
+                            <td><a href="" target="_blank">失控的歐元︰從經濟整合的美夢到制度失靈的惡夢</a></td>
                             <td>480元</td>
                             <td><span class="deeporange-color">79折</span><br>379元</td>
                             <td><div class="form-group"><input onchange="" type="text" value="1" style="width:50px"></div></td>
@@ -210,7 +210,7 @@ $(document).ready(function(){
 
                         <li class="pull-right">
                         <div>
-                            <p>共&nbsp;<span class="deeporange-color">3</span>&nbsp;項商品&#xFF0C;總金額&nbsp;NT$&nbsp;<span class="deeporange-color">1000</span>&nbsp;元</p>
+                            <p>共&nbsp;<span class="deeporange-color">3</span>&nbsp;項商品&#xFF0C;處理費&nbsp;NT$&nbsp;<span class="deeporange-color">0</span>&nbsp;元&#xFF0C;訂單金額&nbsp;NT$&nbsp;<span class="deeporange-color">1000</span>&nbsp;元</p>
                         </div>
                         </li>
                     </ul>
@@ -218,7 +218,11 @@ $(document).ready(function(){
 
             </div><!-- tab-content -->
 
-            <div class="text-right" style="margin:20px">
+            <div class="well text-right">
+			<p>&#42;&#42;&#42;&nbsp;重要提醒&nbsp;&#42;&#42;&#42;&nbsp;<span style="color:blue;">單次實際付款金額未滿500元加收60元處理費<span></p>
+            </div>
+
+			<div class="text-right" style="margin:20px">
             <button type="button" class="btn btn-primary btn-lg" onclick="location.href='/bookstore'">繼續購物</button>
             <button type="button" class="btn btn-primary btn-lg" onclick="location.href='#'">結帳</button>
             </div>
