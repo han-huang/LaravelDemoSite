@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Book;
-
+use Log;
+use App\Facades\ShoppingCart;
 
 class BookstoreController extends Controller
 {
@@ -36,9 +37,13 @@ class BookstoreController extends Controller
         $todaysale = $bookModel->selectprice()->discount(66)->first();
         $rankingnew = $bookModel->getRankingNew();
         $rankingsold = $bookModel->getRankingSold();
+
+        ShoppingCart::checkTempCart();
+        $PutInCart = ShoppingCart::findInCart("shopping", $todaysale->id);
+
         $view = 'site.bookstore.home';
         return view($view, compact('newarrivals', 'marketings', 'hits', 'editors'
-                   , 'todaysale', 'rankingnew', 'rankingsold'));
+                   , 'todaysale', 'rankingnew', 'rankingsold', 'PutInCart'));
     }
 
     /**
@@ -64,16 +69,22 @@ class BookstoreController extends Controller
         $match = preg_match("/^[1-9][0-9]*$/", $id); ;
         if (!$match) {
             // Log::info('!$match: $id: '.$id." ".__FILE__." ".__FUNCTION__." ".__LINE__);
-            return gohome();
+            return $this->gohome();
         }
+
+        // Log::info('$request->path(): '.$request->path()." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        // Log::info('$request->url(): '.$request->url()." ".__FILE__." ".__FUNCTION__." ".__LINE__);
 
         $bookModel = new Book();
         // $book = $bookModel->active()->find($id);
         $book = $bookModel->getBook($id);
 
         if (!count($book)) {
-            return gohome();
+            return $this->gohome();
         }
+
+        ShoppingCart::checkTempCart();
+        $PutInCart = ShoppingCart::findInCart("shopping", $book->id);
 
         $current = array(
                        "id" => $book->id,
@@ -89,9 +100,9 @@ class BookstoreController extends Controller
         $translators = $book->booktranslators()->get();
 
         $view = 'site.bookstore.book';
-        // return compact('book', 'authors', 'translators');
-        // return view($view, compact('book', 'authors', 'translators', 'randoms'));
-        return response()->view($view, compact('book', 'authors', 'translators', 'randoms', 'name'))
+        // return compact('book', 'authors', 'translators', 'randoms', 'name', 'PutInCart');
+        // return view($view, compact('book', 'authors', 'translators', 'randoms', 'name', 'PutInCart'));
+        return response()->view($view, compact('book', 'authors', 'translators', 'randoms', 'name', 'PutInCart'))
                    ->withCookie(cookie()->forever($name, $browsed));
     }
 

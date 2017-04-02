@@ -18,7 +18,7 @@
 
 @section('javascript')
 <!-- <script type="text/javascript" src="{{ asset('js/bootstrap-hover-tabs.js') }}"></script> -->
-
+<script src="{{ asset('js/jquery.alerts.js') }}"></script>
 @stop
 
 @section('css')
@@ -31,6 +31,7 @@
 <link href="{{ asset('css/style.css') }}" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="{{ asset('css/w3.css') }}">
 <link rel="stylesheet" href="{{ asset('css/hover-min.css') }}">
+<link href="{{ asset('css/jquery.alerts.css') }}" rel="stylesheet" type="text/css">
 @stop
 
 @section('content')
@@ -195,8 +196,56 @@ li.theme-color{text-indent:16px;font-weight:bold;color:orange;font-size:1em;}
 .text-darkred {
   color: #900 !important;
 }
+
+.btn-dark {
+  color: #fff;
+  background-color: #000000;
+  border-color: #808080;
+}
+
+.cursor-auto {
+  cursor: auto;
+}
 </style>
 <script type="text/javascript">
+function addCart(bookid, element_id, checkout = false) {
+    $.ajax({
+        type: "POST",
+        url: "/ajax/shopping/addCart",
+        data: {'bookid': bookid, 'current_url': '{{ Request::path() }}'},
+        dataType: 'json',
+        beforeSend: function (xhr) {
+            return xhr.setRequestHeader('X-CSRF-TOKEN', $('meta[name="csrf-token"]').attr('content'));
+        },
+        success: function (data, textStatus) {
+            console.log(JSON.stringify(data, undefined, 2));
+            console.log(textStatus);
+            if (data.status == "done") {
+                if ($('#cart_btn').hasClass("btn-info")) {
+                    $('#cart_btn').removeClass("btn-info").addClass("btn-dark")
+                        .attr('onclick', '').css('cursor', 'auto')
+                        .find('span').eq(1).html('&nbsp;已放入購物車');
+                }
+                if (checkout)
+                    $(location).attr('href', '/bookstore/tempcart');
+            // } else if (data.status == "unauthorized") {
+            } else if (data.status == "unauthorized" && data.message != undefined) {
+                console.log(data.message);
+                console.log(data.redirectTo);
+                jAlert(data.message, "注意", function () {
+                    if (data.redirectTo != undefined)
+                        $(location).attr('href', data.redirectTo);
+                });
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log('jqXHR.responseText: ' + jqXHR.responseText);
+            console.log('jqXHR.status: ' + jqXHR.status);
+            jAlert(jqXHR.responseText, jqXHR.status);
+        }
+    });
+}
+
 $(document).ready(function(){
     //Dynamic tab on mouseenter
     $(".tab-hover .nav-tabs a").mouseenter(function() {
@@ -280,7 +329,13 @@ $(document).ready(function(){
                         <li class="text-center">{{ Presenter::truncate($todaysale->title, 20) }}</li>
                         <li class="text-center"><span class="" style="color:red">66折價 $ {{ round($todaysale->discount * $todaysale->list_price / 100) }} 元</span></li>
                         </a>
-                        <li class="text-center"><a class="w3-button w3-dark-grey w3-round-large" href="#">放入購物車</a></li>
+                        <li class="text-center">
+                        @if($PutInCart)
+                        <a id="cart_btn" class="btn btn-dark cursor-auto" role="button" onclick=""><span class="glyphicon glyphicon-shopping-cart"></span><span >&nbsp;已放入購物車</span></a>
+                        @else
+                        <a id="cart_btn" class="btn btn-info" role="button" onclick="addCart({{ $todaysale->id }}, this.id)"><span class="glyphicon glyphicon-shopping-cart"></span><span >&nbsp;放入購物車</span></a>
+                        @endif
+                        </li>
                     </ul>
                 </div>
             </div>
