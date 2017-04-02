@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Hesto\MultiAuth\Traits\LogsoutGuard;
 use Illuminate\Http\Request;
+use Log;
 
 class LoginController extends Controller
 {
@@ -30,7 +31,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    // public $redirectTo = '/client/home';
+    // public $redirectTo = '/';
 
     /**
      * Messages for Validator.
@@ -52,6 +53,7 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('client.guest', ['except' => 'logout']);
+        $this->middleware('redirectTo', ['only' => 'showLoginForm']);
     }
 
     /**
@@ -61,7 +63,6 @@ class LoginController extends Controller
      */
     public function showLoginForm()
     {
-        // return view('client.auth.login');
         return view('site.auth.login');
     }
 
@@ -77,6 +78,23 @@ class LoginController extends Controller
             $this->username() => 'required', 'password' => 'required',
             'g-recaptcha-response' => 'required|captcha',
         ], $this->messages);
+    }
+
+    /**
+     * The user has been authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function authenticated(Request $request, $user)
+    {
+		if (session()->has('redirectTo')) {
+			$redirectTo = session()->pull('redirectTo', null);
+			// Log::info('redirectTo: '.$redirectTo." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+			if ($redirectTo)
+			    return redirect()->intended($redirectTo);
+		}
     }
 
     /**
