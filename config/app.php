@@ -250,7 +250,7 @@ return [
          * Custom Facades...
          */
         'Presenter' => App\Facades\Presenter::class,
-        'ShoppingCart' => App\Facades\Presenter::class,
+        'ShoppingCart' => App\Facades\ShoppingCart::class,
 
     ],
 
