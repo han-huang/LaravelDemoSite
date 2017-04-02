@@ -186,6 +186,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\PresenterServiceProvider::class,
+        App\Providers\ShoppingCartServiceProvider::class,
 
     ],
 
@@ -249,6 +250,7 @@ return [
          * Custom Facades...
          */
         'Presenter' => App\Facades\Presenter::class,
+        'ShoppingCart' => App\Facades\Presenter::class,
 
     ],
 
