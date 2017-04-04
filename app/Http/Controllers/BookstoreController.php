@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Book;
-use Log;
 use App\Facades\ShoppingCart;
+use Gloudemans\Shoppingcart\Facades\Cart;
+use Log;
 
 class BookstoreController extends Controller
 {
@@ -19,6 +20,7 @@ class BookstoreController extends Controller
         $this->middleware('clicktrack', ['only' => [
             'book',
         ]]);
+        $this->middleware('client', ['only' => 'shoppingcart']);
     }
 
     /**
@@ -144,5 +146,39 @@ class BookstoreController extends Controller
         }
         // Log::info('$current: '.collect($current)." ".'count($browsed): '.count($browsed).' $browsed: '.collect($browsed)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
         return $browsed;
+    }
+
+    /**
+     * shoppingcart
+     *
+     * @param  Request $request
+     * @return
+     */
+    public function shoppingcart(Request $request)
+    {
+        ShoppingCart::checkTempCart();
+        $count = Cart::instance('shopping')->count();
+        $total = Cart::instance('shopping')->total();
+        $total = (int)str_replace(",", "", $total);
+        $shipping_fee = ($total >= 500 || $total == 0) ? 0 : 60;
+        $sum = $shipping_fee + $total;
+        $view = 'site.bookstore.shoppingcart';
+        // return compact('count', 'total', 'shipping_fee', 'sum');
+        return view($view, compact('count', 'total', 'shipping_fee', 'sum'));
+    }
+
+    /**
+     * deliver
+     *
+     * @param  Request $request
+     * @return
+     */
+    public function deliver(Request $request)
+    {
+
+        $view = 'site.bookstore.deliver';
+        // return compact('count', 'total', 'shipping_fee', 'sum');
+        // return view($view, compact('count', 'total', 'shipping_fee', 'sum'));
+        return view($view);
     }
 }
