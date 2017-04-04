@@ -66,11 +66,20 @@ class ShoppingCartController extends Controller
             // return response()->json(['status' => 'unauthorized']);
 
             $redirectTo = "/login";
-            // save url to session
-            if ($request->checkout) {
+
+            // Log::info('$request->checkout: '.$request->checkout." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+            // if (is_string($request->checkout))
+                // Log::info('is_string($request->checkout): '.is_string($request->checkout)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+            // Log::info('empty($request->checkout): '.empty($request->checkout)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+            // Log::info('$request->current_url: '.$request->current_url." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+
+            // save url to session, pay attention to $request->checkout is string not boolean
+            if (preg_match("/^true$/", $request->checkout)) {
                 session()->put('afterLoginPath', '/bookstore/shoppingcart');
+                // Log::info('if ($request->checkout): '." ".__FILE__." ".__FUNCTION__." ".__LINE__);
             } else {
                 session()->put('afterLoginPath', $request->current_url);
+                // Log::info('if ($request->checkout): '."else"." ".$request->current_url." ".__FILE__." ".__FUNCTION__." ".__LINE__);
             }
 
             return response()->json([
