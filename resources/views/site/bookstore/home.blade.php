@@ -208,11 +208,12 @@ li.theme-color{text-indent:16px;font-weight:bold;color:orange;font-size:1em;}
 }
 </style>
 <script type="text/javascript">
+var shoppingcart_url = "/bookstore/shoppingcart";
 function addCart(bookid, element_id, checkout = false) {
     $.ajax({
         type: "POST",
         url: "/ajax/shopping/addCart",
-        data: {'bookid': bookid, 'current_url': '{{ Request::path() }}'},
+        data: {'bookid': bookid, 'current_url': '{{ Request::path() }}', 'checkout': checkout},
         dataType: 'json',
         beforeSend: function (xhr) {
             return xhr.setRequestHeader('X-CSRF-TOKEN', $('meta[name="csrf-token"]').attr('content'));
@@ -227,7 +228,7 @@ function addCart(bookid, element_id, checkout = false) {
                         .find('span').eq(1).html('&nbsp;已放入購物車');
                 }
                 if (checkout)
-                    $(location).attr('href', '/bookstore/tempcart');
+                    $(location).attr('href', shoppingcart_url);
             // } else if (data.status == "unauthorized") {
             } else if (data.status == "unauthorized" && data.message != undefined) {
                 console.log(data.message);
@@ -304,7 +305,7 @@ $(document).ready(function(){
                         </form>
                     </li>
 
-                    <li class=""><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;購物車</a></li>
+                    <li class=""><a href="{{ url('/bookstore/shoppingcart') }}"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;購物車</a></li>
                     @if (Auth::guard('client')->guest())
                         <li class=""><a href="{{ url('/login') }}"><span class="glyphicon glyphicon-log-in"></span>&nbsp;登入</a></li>
                         <li class=""><a href="{{ url('/register') }}"><span class="glyphicon glyphicon-user"></span>&nbsp;加入會員</a></li>

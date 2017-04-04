@@ -15,8 +15,8 @@ class RedirectToMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if ($request->has('redirectTo')) {
-            session()->put('redirectTo', $request->input('redirectTo'));
+        if ($request->has('afterLoginPath')) {
+            session()->put('afterLoginPath', $request->input('afterLoginPath'));
         }
 
         return $next($request);

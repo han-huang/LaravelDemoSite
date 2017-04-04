@@ -366,6 +366,7 @@ li.theme-color{text-indent:16px;font-weight:bold;color:orange;font-size:1em;}
 }
 </style>
 <script type="text/javascript">
+var shoppingcart_url = "/bookstore/shoppingcart";
 
 function displayable() {
     $('.book-info-block').each(function(index, obj) {
@@ -409,37 +410,34 @@ function addCart(bookid, element_id, checkout = false) {
     $.ajax({
         type: "POST",
         url: "/ajax/shopping/addCart",
-        data: {'bookid': bookid, 'current_url': '{{ Request::path() }}'},
+        data: {'bookid': bookid, 'current_url': '{{ Request::path() }}', 'checkout': checkout},
         dataType: 'json',
         beforeSend: function (xhr) {
             return xhr.setRequestHeader('X-CSRF-TOKEN', $('meta[name="csrf-token"]').attr('content'));
-        },
-        success: function (data, textStatus) {
-            console.log(JSON.stringify(data, undefined, 2));
-            console.log(textStatus);
-            if (data.status == "done") {
-                if ($('#cart_btn').hasClass("btn-info")) {
-                    $('#cart_btn').removeClass("btn-info").addClass("btn-dark")
-                        .attr('onclick', '').css('cursor', 'auto')
-                        .find('span').eq(1).html('&nbsp;已放入購物車');
-                }
-                if (checkout)
-                    $(location).attr('href', '/bookstore/tempcart');
-            // } else if (data.status == "unauthorized") {
-            } else if (data.status == "unauthorized" && data.message != undefined) {
-                console.log(data.message);
-                console.log(data.redirectTo);
-                jAlert(data.message, "注意", function () {
-                    if (data.redirectTo != undefined)
-                        $(location).attr('href', data.redirectTo);
-                });
-            }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.log('jqXHR.responseText: ' + jqXHR.responseText);
-            console.log('jqXHR.status: ' + jqXHR.status);
-            jAlert(jqXHR.responseText, jqXHR.status);
         }
+    }).done(function (data, textStatus) {
+        console.log(JSON.stringify(data, undefined, 2));
+        console.log(textStatus);
+        if (data.status == "done") {
+            if ($('#cart_btn').hasClass("btn-info")) {
+                $('#cart_btn').removeClass("btn-info").addClass("btn-dark")
+                    .attr('onclick', '').css('cursor', 'auto')
+                    .find('span').eq(1).html('&nbsp;已放入購物車');
+            }
+            if (checkout)
+                $(location).attr('href', shoppingcart_url);
+        } else if (data.status == "unauthorized" && data.message != undefined) {
+            console.log(data.message);
+            console.log(data.redirectTo);
+            jAlert(data.message, "注意", function () {
+                if (data.redirectTo != undefined)
+                    $(location).attr('href', data.redirectTo);
+            });
+        }
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        console.log('jqXHR.responseText: ' + jqXHR.responseText);
+        console.log('jqXHR.status: ' + jqXHR.status);
+        jAlert(jqXHR.responseText, jqXHR.status);
     });
 }
 
@@ -571,7 +569,7 @@ $(document).ready(function(){
                         </form>
                     </li>
 
-                    <li class=""><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;購物車</a></li>
+                    <li class=""><a href="{{ url('/bookstore/shoppingcart') }}"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;購物車</a></li>
                     @if (Auth::guard('client')->guest())
                         <li class=""><a href="{{ url('/login') }}"><span class="glyphicon glyphicon-log-in"></span>&nbsp;登入</a></li>
                         <li class=""><a href="{{ url('/register') }}"><span class="glyphicon glyphicon-user"></span>&nbsp;加入會員</a></li>
@@ -638,10 +636,10 @@ $(document).ready(function(){
                     </div>
                     @if($PutInCart)
                     <a id="cart_btn" class="btn btn-dark btn-block text-left cursor-auto" role="button" onclick=""><span class="glyphicon glyphicon-shopping-cart"></span><span >&nbsp;已放入購物車</span></a>
-                    <a id="checkout_btn" href="#" class="btn btn-warning btn-block text-left" role="button" onclick="location.href='/bookstore/tempcart'"><i class="fa fa-usd" aria-hidden="true"></i><span class="" >&nbsp;結帳</span></a>
+                    <a id="checkout_btn" href="{{ url('/bookstore/shoppingcart') }}" class="btn btn-warning btn-block text-left" role="button" ><i class="fa fa-usd" aria-hidden="true"></i><span class="" >&nbsp;結帳</span></a>
                     @else
                     <a id="cart_btn" class="btn btn-info btn-block text-left" role="button" onclick="addCart({{ $book->id }}, this.id)"><span class="glyphicon glyphicon-shopping-cart"></span><span >&nbsp;放入購物車</span></a>
-                    <a id="checkout_btn" href="#" class="btn btn-warning btn-block text-left" role="button" onclick="addCart({{ $book->id }}, this.id, true)"><i class="fa fa-usd" aria-hidden="true"></i><span class="" >&nbsp;結帳</span></a>
+                    <a id="checkout_btn" class="btn btn-warning btn-block text-left" role="button" onclick="addCart({{ $book->id }}, this.id, true)"><i class="fa fa-usd" aria-hidden="true"></i><span class="" >&nbsp;結帳</span></a>
                     @endif
                     <a href="#" class="btn btn-success btn-block text-left" role="button"  ><i class="fa fa-heart" aria-hidden="true"></i><span >&nbsp;加入下次購買清單</span></a>
                 </div>

@@ -9,7 +9,10 @@ Route::group([
             'prefix' => 'shopping',
         ], function () {
             Route::post('addCart', 'ShoppingCartController@addCart')->name('addCart');
-            Route::put('updateCart', 'ShoppingCartController@updateCart')->name('updateCart');
-            Route::delete('deleteCart', 'ShoppingCartController@updateCart')->name('deleteCart');
+            Route::match(['PUT', 'PATCH'],'updateCart/{id}', 'ShoppingCartController@updateCart')
+                ->name('updateCart');
+            Route::delete('deleteCart/{id}', 'ShoppingCartController@deleteCart')->name('deleteCart');
+            Route::delete('deleteCartMultiple/', 'ShoppingCartController@deleteCartMultiple')
+                ->name('deleteCartMultiple');
     });
 });

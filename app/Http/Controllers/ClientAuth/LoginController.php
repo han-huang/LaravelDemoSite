@@ -53,7 +53,7 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('client.guest', ['except' => 'logout']);
-        $this->middleware('redirectTo', ['only' => 'showLoginForm']);
+        // $this->middleware('redirectTo', ['only' => 'showLoginForm']);
     }
 
     /**
@@ -89,8 +89,8 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-		if (session()->has('redirectTo')) {
-			$redirectTo = session()->pull('redirectTo', null);
+		if (session()->has('afterLoginPath')) {
+			$redirectTo = session()->pull('afterLoginPath', '/');
 			// Log::info('redirectTo: '.$redirectTo." ".__FILE__." ".__FUNCTION__." ".__LINE__);
 			if ($redirectTo)
 			    return redirect()->intended($redirectTo);

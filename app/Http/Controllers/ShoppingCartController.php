@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Book;
 use EllipseSynergie\ApiResponse\Contracts\Response;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use TCG\Voyager\Facades\Voyager;
+use App\Facades\Presenter;
 use Log;
 
 class ShoppingCartController extends Controller
@@ -20,6 +22,9 @@ class ShoppingCartController extends Controller
      */
     public function __construct(Response $response)
     {
+        $this->middleware('client', ['only' => [
+            'updateCart', 'deleteCart'
+        ]]);
         $this->response = $response;
     }
 
@@ -33,7 +38,7 @@ class ShoppingCartController extends Controller
     {
         $book = Book::selectprice()->find($request->bookid);
         if (!$book) {
-            return $this->response->errorNotFound('Book Not Found');
+            return $this->response->errorNotFound('無此商品資料');
         }
 
         // $price = round($book->discount * $book->list_price / 100);
@@ -56,11 +61,23 @@ class ShoppingCartController extends Controller
 
             $this->addToCart("temp", $book);            
 
-            $redirectTo = "/login"."?redirectTo=".$request->current_url;
+            // $redirectTo = "/login"."?afterLoginPath=".$request->current_url;
             // Log::info('$redirectTo: '.$redirectTo." ".__FILE__." ".__FUNCTION__." ".__LINE__);
             // return response()->json(['status' => 'unauthorized']);
-            return response()->json(['status' => 'unauthorized',
-                       'message' => '請先登入會員', 'redirectTo' => $redirectTo]);
+
+            $redirectTo = "/login";
+            // save url to session
+            if ($request->checkout) {
+                session()->put('afterLoginPath', '/bookstore/shoppingcart');
+            } else {
+                session()->put('afterLoginPath', $request->current_url);
+            }
+
+            return response()->json([
+                       'status'     => 'unauthorized',
+                       'message'    => '請先登入會員',
+                       'redirectTo' => $redirectTo
+                   ]);
             // return redirect($redirectTo);
         }
 
@@ -75,18 +92,22 @@ class ShoppingCartController extends Controller
      */
     public function checkTempCart()
     {
-		if (Auth::guard('client')->check()) {
+        if (Auth::guard('client')->check()) {
             // check 'temp' cart
             if (Cart::instance('temp')->count()) {
                 foreach(Cart::instance('temp')->content() as $row) {
-                    Cart::instance('shopping')->add($row->id, $row->name, $row->qty, $row->price);
+                    Cart::instance('shopping')->add($row->id, $row->name, $row->qty, $row->price, [
+                        'image'      => $row->options->image,
+                        'list_price' => $row->options->list_price,
+                        'discount'   => $row->options->discount
+                    ]);
                 }
                 Cart::instance('temp')->destroy();
             }
         }
         // add to 'shopping' cart if this record does not exist
         // $this->addToCart("shopping", $book);
-        
+
         // $count = $this->findInCart("shopping", $book->id);
         // if (!$count)
             // Cart::instance('shopping')->add($book->id, $book->title, 1, $price);
@@ -108,7 +129,11 @@ class ShoppingCartController extends Controller
         $count = $this->findInCart($whichCart, $book->id);
         if (!$count) {
             $price = $this->SalePrice($book);
-            Cart::instance($whichCart)->add($book->id, $book->title, 1, $price);
+            Cart::instance($whichCart)->add($book->id, $book->title, 1, $price, [
+                'image'      => $book->image,
+                'list_price' => $book->list_price,
+                'discount'   => $book->discount
+            ]);
         }
         // add to 'shopping' cart if this record does not exist
         // $count = $this->findInCart("shopping", $book->id);
@@ -119,7 +144,7 @@ class ShoppingCartController extends Controller
         // if (!$rows->where('id', $book->id)->count())
             // Cart::instance('shopping')->add($book->id, $book->title, 1, $price);
     }   
-    
+
     /**
      * Sale Price
      *
@@ -132,7 +157,7 @@ class ShoppingCartController extends Controller
     }
 
     /**
-     * check temp Cart and move to shopping Cart
+     * find id In Cart and return count()
      *
      * @param  string  $whichCart
      * @param  integer $id
@@ -145,24 +170,207 @@ class ShoppingCartController extends Controller
     }
 
     /**
+     * find rowId In Cart
+     *
+     * @param  string  $whichCart
+     * @param  integer $id
+     * @return
+     */
+    public function findRowIdInCart($whichCart, $id)
+    {
+        if (!$this->findInCart($whichCart, $id))
+            return null;
+        $rows = Cart::instance($whichCart)->content();
+        return $rows->where('id', $id)->first()->rowId;
+    }
+
+    /**
      * updateCart
      *
      * @param  Request $request
+     * @param  integer $id
      * @return
      */
-    public function updateCart(Request $request)
+    public function updateCart(Request $request, $id)
     {
+        $book = Book::selectprice()->find($id);
+        if (!$book) {
+            return $this->response->errorNotFound('無此商品資料');
+        }
 
+        $this->checkTempCart();
+
+        $rowId = $this->findRowIdInCart('shopping', $id);
+        if ($rowId)
+            Cart::instance('shopping')->update($rowId, ['qty' => $request->qty]);
+
+        // $count = Cart::instance('shopping')->count();
+        // if ($count) {
+            // $empty = false;
+            // $tbody = "";
+            // foreach (Cart::instance('shopping')->content() as $row) {
+                // $tbody .= "<tr>";
+                // $tbody .= "<input type='hidden' name='id' value='$row->id'>";
+                // $tbody .= "<td><div class='form-group'><input name='cartCheck[]' id='check".$row->id."' type='checkbox' value='$row->id' ></div></td>";
+                // $img = Presenter::smallimg(Voyager::image($row->options->image));
+                // $tbody .= "<td><a href='".url('bookstore/book/'.$row->id)."' target='_blank'><img class='img-thumbnail' src='$img' alt='$row->name' style='width:100px'></a></td>";
+                // $tbody .= "<td><a href='".url('bookstore/book/'.$row->id)."' target='_blank'>$row->name</a></td>";
+                // $tbody .= "<td>".$row->options->list_price."元</td>";
+                // $tbody .= "<td><span class='deeporange-color'>".$row->options->discount."折</span><br>".$row->price."元</td>";
+                // $tbody .= "<td><div class='form-group'><input name='book_quanity[]' data-id='$row->id' type='text' value='$row->qty' style='width:50px'></div></td>";
+                // $subtotal = $row->price * $row->qty;
+                // $tbody .= "<td>".$subtotal."元</td>";
+                // $tbody .= "<td><button type='button' id='del_$row->id' data-id='$row->id' class='btn' onclick=''>刪除</button></td>";
+                // $tbody .= "</tr>";
+            // }
+        // } else {
+            // $tbody = "<tr><td colspan='8'><div class='text-center'><b>購物車無商品</b></div></td></tr>";
+            // $empty = true;
+        // }
+        $array = $this->get_tbody();
+        // $count = $array['count'];
+        // $tbody = $array['tbody'];
+        // $empty = $array['empty'];
+        extract($array);
+
+        // $total = Cart::instance('shopping')->total();
+        // $total = (int)str_replace(",", "", $total);
+        // $shipping_fee = ($total >= 500 || $total == 0) ? 0 : 60;
+        // $sum = $shipping_fee + $total;
+        // $summary = "<p>共&nbsp;<span class='deeporange-color'>$count</span>&nbsp;項商品&#xFF0C;處理費&nbsp;NT$&nbsp;<span class='deeporange-color'>$shipping_fee</span>&nbsp;元&#xFF0C;訂單金額&nbsp;NT$&nbsp;<span class='deeporange-color'>$sum</span>&nbsp;元</p>";
+
+        $summary = $this->get_summary($count);
+
+        return response()->json([
+                   'status'  => 'done',
+                   'tbody'   => $tbody,
+                   'summary' => $summary,
+                   'empty'   => $empty
+               ]);
+    }
+
+    /**
+     * get html of summary from Cart::instance('shopping')
+     *
+     * @return array
+     */
+    public function get_summary($count)
+    {
+        $total = Cart::instance('shopping')->total();
+        $total = (int)str_replace(",", "", $total);
+        $shipping_fee = ($total >= 500 || $total == 0) ? 0 : 60;
+        $sum = $shipping_fee + $total;
+        $summary = "<p>共&nbsp;<span class='deeporange-color'>$count</span>&nbsp;項商品&#xFF0C;處理費".
+                   "&nbsp;NT$&nbsp;<span class='deeporange-color'>$shipping_fee</span>&nbsp;元&#xFF0C;".
+                   "訂單金額&nbsp;NT$&nbsp;<span class='deeporange-color'>$sum</span>&nbsp;元</p>";
+        return $summary;
+    }
+
+    /**
+     * get html of tbody from Cart::instance('shopping')
+     *
+     * @return array
+     */
+    public function get_tbody()
+    {
+        $count = Cart::instance('shopping')->count();
+        if ($count) {
+            $empty = false;
+            $tbody = "";
+            foreach (Cart::instance('shopping')->content() as $row) {
+                $tbody .= "<tr>";
+                $tbody .= "<input type='hidden' name='id[]' value='$row->id'>";
+                $tbody .= "<td><div class='form-group'><input name='cartCheck[]' id='check".$row->id."' type='checkbox' value='$row->id'></div></td>";
+                $img = Presenter::smallimg(Voyager::image($row->options->image));
+                $tbody .= "<td><a href='".url('bookstore/book/'.$row->id)."' target='_blank'><img class='img-thumbnail' src='$img' alt='$row->name' style='width:100px'></a></td>";
+                $tbody .= "<td><a href='".url('bookstore/book/'.$row->id)."' target='_blank'>$row->name</a></td>";
+                $tbody .= "<td>".$row->options->list_price."元</td>";
+                $tbody .= "<td><span class='deeporange-color'>".$row->options->discount."折</span><br>".$row->price."元</td>";
+                $tbody .= "<td><div class='form-group'><input name='book_quanity[]' data-id='$row->id' type='text' value='$row->qty' style='width:50px'></div></td>";
+                $subtotal = $row->price * $row->qty;
+                $tbody .= "<td>".$subtotal."元</td>";
+                $tbody .= "<td><button type='button' id='del_$row->id' data-id='$row->id' class='btn'>刪除</button></td>";
+                $tbody .= "</tr>";
+            }
+        } else {
+            $tbody = "<tr><td colspan='8'><div class='text-center'><b>購物車無商品</b></div></td></tr>";
+            $empty = true;
+        }
+
+        return compact('count', 'tbody', 'empty');
     }
 
     /**
      * deleteCart
      *
      * @param  Request $request
+     * @param  integer $id
      * @return
      */
-    public function deleteCart(Request $request)
+    public function deleteCart(Request $request, $id)
     {
+        $book = Book::selectprice()->find($id);
+        if (!$book) {
+            return $this->response->errorNotFound('無此商品資料');
+        }
 
+        $this->checkTempCart();
+
+        $rowId = $this->findRowIdInCart('shopping', $id);
+        if ($rowId)
+            Cart::instance('shopping')->remove($rowId);
+
+        $array = $this->get_tbody();
+        extract($array);
+        $summary = $this->get_summary($count);
+
+        return response()->json([
+                   'status'  => 'done',
+                   'tbody'   => $tbody,
+                   'summary' => $summary,
+                   'empty'   => $empty
+               ]);
+    }
+
+    /**
+     * deleteCart
+     *
+     * @param  Request $request
+     * @param  integer $id
+     * @return
+     */
+    public function deleteCartMultiple(Request $request)
+    {
+        $check_count = count($request->cartCheck);
+        if ($check_count) {
+            foreach ($request->cartCheck as $id) {
+                $book = Book::selectprice()->find($id);
+                if (!$book) {
+                    return $this->response->errorNotFound('無勾選商品資料');
+                }
+            }
+        } else {
+            // return $this->response->errorNotFound('No book(s) selected');
+            return $this->response->errorNotFound('未勾選刪除項目');
+        }
+
+        $this->checkTempCart();
+        foreach ($request->cartCheck as $id) {
+            $rowId = $this->findRowIdInCart('shopping', $id);
+            if ($rowId)
+                Cart::instance('shopping')->remove($rowId);
+        }
+
+        $array = $this->get_tbody();
+        extract($array);
+        $summary = $this->get_summary($count);
+
+        return response()->json([
+                   'status'  => 'done',
+                   'tbody'   => $tbody,
+                   'summary' => $summary,
+                   'empty'   => $empty
+                   // 'cartCheck'  => $request->cartCheck
+               ]);
     }
 }
