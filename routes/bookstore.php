@@ -9,6 +9,9 @@ Route::group([
     // Book Page
     Route::get('book/{id}', ['uses' => 'BookstoreController@book', 'as' => 'book']);
 
+    Route::get('shoppingcart', 'BookstoreController@shoppingcart')->name('shoppingcart');
+    Route::get('deliver', 'BookstoreController@deliver')->name('deliver');
+
     Route::get('tempcart', function () {
         return view('site.bookstore.temp.bookstore_cart_static');
     });
