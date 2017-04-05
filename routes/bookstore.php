@@ -11,6 +11,8 @@ Route::group([
 
     Route::get('shoppingcart', 'BookstoreController@shoppingcart')->name('shoppingcart');
     Route::get('deliver', 'BookstoreController@deliver')->name('deliver');
+    Route::post('SaveDeliver', 'BookstoreController@SaveDeliver')->name('SaveDeliver');
+    Route::get('confirm', 'BookstoreController@confirm')->name('confirm');
 
     Route::get('tempcart', function () {
         return view('site.bookstore.temp.bookstore_cart_static');

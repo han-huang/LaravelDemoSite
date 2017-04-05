@@ -256,7 +256,7 @@ $(document).ready(function(){
                     <li class=""><a href="#"><span class=""></span>門市資訊</a></li>
 
                     <li class="">
-                        <form class="form-inline">
+                        <form id="search-form" class="form-inline">
                         <div class="form-group">
                             <select class="form-control" id="">
                               <option value="all">全部</option>
@@ -266,7 +266,7 @@ $(document).ready(function(){
                               <option value="isbn">ISBN</option>
                             </select>
                             <input type="text" class="form-control" placeholder="關鍵字搜尋">
-                            <button type="submit" class="btn btn-default">搜尋</button>
+                            <button type="submit" form="search-form" class="btn btn-default">搜尋</button>
                         </div>
                         </form>
                     </li>

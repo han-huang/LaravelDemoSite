@@ -17,12 +17,12 @@
 @stop
 
 @section('javascript')
-<script type="text/javascript" src="{{ config('voyager.assets_path') }}/lib/js/toastr.min.js"></script>
+
 @stop
 
 @section('css')
 <link href="{{ asset('css/style.css') }}" rel="stylesheet" type="text/css">
-<link rel="stylesheet" type="text/css" href="{{ config('voyager.assets_path') }}/lib/css/toastr.min.css">
+
 <!-- font-awesome -->
 <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
 @stop
@@ -36,17 +36,19 @@
 
 <script type="text/javascript">
 $('document').ready(function () {
-
+    {{--
     @if (count($errors) > 0)
         @foreach ($errors->all() as $error)
             toastr.error('{{ $error }}');
         @endforeach
-        {{-- 
+    @endif
+
+    @if (count($errors) > 0)
         @foreach ($errors->keys() as $key)
             toastr.error('{{ $key }}');
         @endforeach
-        --}}
     @endif
+    --}}
 
     {{-- {!! $errors->has('g-recaptcha-response') ? 'alert("請勾選驗證服務!");' : '' !!} --}}
 });
