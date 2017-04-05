@@ -1537,12 +1537,12 @@ class NewDataRowsTableSeeder extends Seeder
 
         $dataRow = DataRow::firstOrNew([
             'data_type_id' => $booksDataType->id,
-            'field'        => 'stocks',
+            'field'        => 'stock',
         ]);
         if (!$dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'text',
-                'display_name' => 'Stocks',
+                'display_name' => 'stock',
                 'required'     => 0,
                 'browse'       => 0,
                 'read'         => 1,

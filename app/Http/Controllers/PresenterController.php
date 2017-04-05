@@ -39,4 +39,21 @@ class PresenterController extends Controller
     {
         return str_replace('.jpg', '-small.jpg', $path);
     }
+
+    /**
+     * show Stock of Book.
+     *
+     * @param  integer  $stock
+     * @return string
+     */
+    public function showBookStock($stock)
+    {
+        if($stock > 10) {
+            $span = '<span>&nbsp;&gt;&nbsp;</span><span class="deeporange-color">10</span>';
+        } elseif($stock <= 10) {
+            $span = "<span >&nbsp;&equals;&nbsp;</span><span class='deeporange-color'>".$stock."</span>";
+        }
+        return $span;
+    }
+
 }
