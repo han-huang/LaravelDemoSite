@@ -21,7 +21,7 @@ class CreateBooksTable extends Migration
             $table->string('image')->nullable();
             $table->unsignedInteger('list_price');
             $table->tinyInteger('discount')->nullable();
-            $table->unsignedInteger('stocks')->nullable();
+            $table->unsignedInteger('stock')->nullable();
             $table->unsignedInteger('sold')->nullable();
             $table->unsignedInteger('page_numbers');
             $table->bigInteger('isbn-10')->default(0)->nullable();

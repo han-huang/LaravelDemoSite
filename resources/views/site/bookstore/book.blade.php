@@ -625,22 +625,14 @@ $(document).ready(function(){
             <div class="col-md-2" >
                 <div class="padding-2" style="border: 0px solid red;">
                     <div class="stock">
-                        <span >庫存</span>
-                        @if($book->stocks > 10)
-                            <span >&nbsp;&gt;&nbsp;</span>
-                            <span class="deeporange-color" >10</span>
-                        @elseif($book->stocks <= 10)
-                            <span >&nbsp;&equals;&nbsp;</span>
-                            <span class="deeporange-color" >{{ $book->stocks }}</span>
-                        @endif
+                        <span>庫存</span>{!! Presenter::showBookStock($book->stock) !!}
                     </div>
                     @if($PutInCart)
                     <a id="cart_btn" class="btn btn-dark btn-block text-left cursor-auto" role="button" onclick=""><span class="glyphicon glyphicon-shopping-cart"></span><span >&nbsp;已放入購物車</span></a>
-                    <a id="checkout_btn" href="{{ url('/bookstore/shoppingcart') }}" class="btn btn-warning btn-block text-left" role="button" ><i class="fa fa-usd" aria-hidden="true"></i><span class="" >&nbsp;結帳</span></a>
                     @else
                     <a id="cart_btn" class="btn btn-info btn-block text-left" role="button" onclick="addCart({{ $book->id }}, this.id)"><span class="glyphicon glyphicon-shopping-cart"></span><span >&nbsp;放入購物車</span></a>
-                    <a id="checkout_btn" class="btn btn-warning btn-block text-left" role="button" onclick="addCart({{ $book->id }}, this.id, true)"><i class="fa fa-usd" aria-hidden="true"></i><span class="" >&nbsp;結帳</span></a>
                     @endif
+                    <a id="checkout_btn" class="btn btn-warning btn-block text-left" role="button" onclick="addCart({{ $book->id }}, this.id, true)"><i class="fa fa-usd" aria-hidden="true"></i><span class="" >&nbsp;結帳</span></a>
                     <a href="#" class="btn btn-success btn-block text-left" role="button"  ><i class="fa fa-heart" aria-hidden="true"></i><span >&nbsp;加入下次購買清單</span></a>
                 </div>
 

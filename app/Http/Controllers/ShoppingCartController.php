@@ -36,7 +36,7 @@ class ShoppingCartController extends Controller
      */
     public function addCart(Request $request)
     {
-        $book = Book::selectprice()->find($request->bookid);
+        $book = Book::find($request->bookid);
         if (!$book) {
             return $this->response->errorNotFound('無此商品資料');
         }
@@ -108,7 +108,8 @@ class ShoppingCartController extends Controller
                     Cart::instance('shopping')->add($row->id, $row->name, $row->qty, $row->price, [
                         'image'      => $row->options->image,
                         'list_price' => $row->options->list_price,
-                        'discount'   => $row->options->discount
+                        'discount'   => $row->options->discount,
+                        'stock'      => $row->options->stock
                     ]);
                 }
                 Cart::instance('temp')->destroy();
@@ -141,7 +142,8 @@ class ShoppingCartController extends Controller
             Cart::instance($whichCart)->add($book->id, $book->title, 1, $price, [
                 'image'      => $book->image,
                 'list_price' => $book->list_price,
-                'discount'   => $book->discount
+                'discount'   => $book->discount,
+                'stock'      => $book->stock
             ]);
         }
         // add to 'shopping' cart if this record does not exist
@@ -202,17 +204,32 @@ class ShoppingCartController extends Controller
      */
     public function updateCart(Request $request, $id)
     {
-        $book = Book::selectprice()->find($id);
+        $book = Book::find($id);
         if (!$book) {
             return $this->response->errorNotFound('無此商品資料');
+        }
+
+        if (!ctype_digit($request->qty)) {
+            return $this->response->errorWrongArgs('商品數量需為數字，請重新確認更改的數量！');
+        }
+        // Log::info('gettype($book->stock): '.gettype($book->stock)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        // Log::info('gettype($request->qty): '.gettype($request->qty)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        if ((int)$request->qty > $book->stock) {
+            return $this->response->errorWrongArgs('庫存不足，請重新更改數量！');
         }
 
         $this->checkTempCart();
 
         $rowId = $this->findRowIdInCart('shopping', $id);
-        if ($rowId)
+        $item = Cart::get($rowId);
+        $options = $item->options->merge(['stock' => $book->stock]);
+        if ($rowId) {
+            // must update $book->stock first then update $request->qty
+            // error happen if update $request->qty first and $rowId is deleted when $request->qty is 0
+            // (InvalidRowIDException in Cart.php line 188: The cart does not contain rowId)
+            Cart::instance('shopping')->update($rowId, ['options' => $options]);
             Cart::instance('shopping')->update($rowId, ['qty' => $request->qty]);
-
+        }
         // $count = Cart::instance('shopping')->count();
         // if ($count) {
             // $empty = false;
@@ -269,7 +286,7 @@ class ShoppingCartController extends Controller
         $total = (int)str_replace(",", "", $total);
         $shipping_fee = ($total >= 500 || $total == 0) ? 0 : 60;
         $sum = $shipping_fee + $total;
-        $summary = "<p>共&nbsp;<span class='deeporange-color'>$count</span>&nbsp;項商品&#xFF0C;處理費".
+        $summary = "<p>共&nbsp;<span class='deeporange-color' id='count'>$count</span>&nbsp;項商品&#xFF0C;處理費".
                    "&nbsp;NT$&nbsp;<span class='deeporange-color'>$shipping_fee</span>&nbsp;元&#xFF0C;".
                    "訂單金額&nbsp;NT$&nbsp;<span class='deeporange-color'>$sum</span>&nbsp;元</p>";
         return $summary;
@@ -295,7 +312,15 @@ class ShoppingCartController extends Controller
                 $tbody .= "<td><a href='".url('bookstore/book/'.$row->id)."' target='_blank'>$row->name</a></td>";
                 $tbody .= "<td>".$row->options->list_price."元</td>";
                 $tbody .= "<td><span class='deeporange-color'>".$row->options->discount."折</span><br>".$row->price."元</td>";
-                $tbody .= "<td><div class='form-group'><input name='book_quanity[]' data-id='$row->id' type='text' value='$row->qty' style='width:50px'></div></td>";
+                $tbody .= "<td><div class='form-group'><input name='book_quanity[]' data-id='$row->id' type='text' value='$row->qty' style='width:100px'>";
+                $tbody .= "<span>庫存</span>";
+                if($row->options->stock > 10) {
+                    $tbody .= "<span>&nbsp;&gt;&nbsp;</span><span class='deeporange-color'>10</span>";
+                } elseif($row->options->stock <= 10) {
+                    $tbody .= "<span >&nbsp;&equals;&nbsp;</span><span class='deeporange-color'>".$row->options->stock."</span>";
+                }
+                $tbody .= "<input type='hidden' id='stock_".$row->id."' value='".$row->options->stock."'>";
+                $tbody .= "</div></td>";
                 $subtotal = $row->price * $row->qty;
                 $tbody .= "<td>".$subtotal."元</td>";
                 $tbody .= "<td><button type='button' id='del_$row->id' data-id='$row->id' class='btn'>刪除</button></td>";
