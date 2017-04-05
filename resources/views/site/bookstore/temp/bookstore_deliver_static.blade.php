@@ -144,7 +144,7 @@ $(document).ready(function(){
 
             <div class=" panel panel-primary">
                 <div class="panel-heading">發票資訊</div>
-                <div class="panel-body"><input type="radio" name="invoice_type" value="paper" placeholder="請輸入中文街道地址" checked required>&nbsp;紙本發票</div>
+                <div class="panel-body"><input type="radio" name="invoice_type" value="paper" checked required>&nbsp;紙本發票</div>
             </div>
 
             <div class=" panel panel-primary">

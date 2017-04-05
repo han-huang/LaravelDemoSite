@@ -108,9 +108,13 @@ $(document).ready(function(){
                         </form>
                     </li>
 
-                    <li class=""><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;購物車</a></li>
-                    <li class=""><a href="#"><span class="glyphicon glyphicon-log-in"></span>&nbsp;登入</a></li>
-                    <li class=""><a href="#"><span class="glyphicon glyphicon-user"></span>&nbsp;加入會員</a></li>
+                    <li class=""><a href="{{ url('/bookstore/shoppingcart') }}"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;購物車</a></li>
+                    @if (Auth::guard('client')->guest())
+                        <li class=""><a href="{{ url('/login') }}"><span class="glyphicon glyphicon-log-in"></span>&nbsp;登入</a></li>
+                        <li class=""><a href="{{ url('/register') }}"><span class="glyphicon glyphicon-user"></span>&nbsp;加入會員</a></li>
+                    @else
+                        <li class=""><a href="{{ url('/logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();"><span class="glyphicon glyphicon-log-out"></span>&nbsp;登出</a></li>
+                    @endif
                     <li class=""><a href="#"><span class="glyphicon glyphicon-question-sign"></span>&nbsp;FAQ</a></li>
                     <li class=""><a href="#"><i class="fa fa-users" aria-hidden="true"></i>&nbsp;會員專區</a></li>
                 </ul>
@@ -130,7 +134,7 @@ $(document).ready(function(){
         </div><!-- progressbar -->
 
         <div class="col-md-12" style="margin-top:30px">
-            <form id="deliver-form" class="form-horizontal" role="form" action="" method="POST">
+            <form id="deliver-form" class="form-horizontal" role="form" action="/bookstore/SaveDeliver" method="POST">
             {{ csrf_field() }}
             <div class=" panel panel-primary">
                 <div class="panel-heading">配送方式</div>
@@ -144,25 +148,25 @@ $(document).ready(function(){
 
             <div class=" panel panel-primary">
                 <div class="panel-heading">發票資訊</div>
-                <div class="panel-body"><input type="radio" name="invoice_type" value="paper" placeholder="請輸入中文街道地址" checked required>&nbsp;紙本發票</div>
+                <div class="panel-body"><input type="radio" name="invoice_type" value="paper" checked required>&nbsp;紙本發票</div>
             </div>
 
             <div class=" panel panel-primary">
                 <div class="panel-heading">訂購人資訊</div>
                 <div class="panel-body">
-                    <p>姓名&#xFF1A;王小明</p>
-                    <p>Email&#xFF1A;mail@mail.com</p>
                     <div class="form-group">
-                        <label class="control-label col-md-2" for="buyer-name" style="">姓名&#xFF1A;</label>
+                        <label class="control-label col-md-2" for="buyer-name" style="">姓名</label>
                         <div class="col-md-10">
-                        <p class="form-control-static">王小明</p>
+                        <!-- <p class="form-control-static">{{ $user["name"] }}</p> -->
+                        <p class="form-control-static">{{ $client->name }}</p>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-md-2" for="buyer-email" style="">Email&#xFF1A;</label>
+                        <label class="control-label col-md-2" for="buyer-email" style="">Email</label>
                         <div class="col-md-10">
-                        <p class="form-control-static">mail@mail.com</p>
+                        <!-- <p class="form-control-static">{{ $user["email"] }}</p> -->
+                        <p class="form-control-static">{{ $client->email }}</p>
                         </div>
                     </div>
 
@@ -209,32 +213,11 @@ $(document).ready(function(){
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="control-label col-md-2" for="email">郵遞區號</label>
-                        <div class="col-md-10">
-                              <select class="form-control col-md-3" id="" style="width:100px;margin-right:10px;">
-                                <option value="all">全部</option>
-                                <option value="book">書名</option>
-                                <option value="author">作者</option>
-                                <option value="publisher">出版社</option>
-                                <option value="isbn">ISBN</option>
-                              </select>
-                              <select class="form-control col-md-3" id="" style="width:100px;margin-right:10px;">
-                                <option value="all">全部</option>
-                                <option value="book">書名</option>
-                                <option value="author">作者</option>
-                                <option value="publisher">出版社</option>
-                                <option value="isbn">ISBN</option>
-                              </select>
-                              <input type="email" class="form-control col-md-3" id="email" name="email" style="width: 300px;" placeholder="請輸入收件人的電子郵件">
-                         </div>
-                        
-                    </div>
                 </div>
             </div><!-- panel 收件人資訊 -->
 
             <div class="text-right" style="margin:20px">
-                <button type="button" class="btn btn-primary btn-lg" onclick="location.href='#'"><i class="fa fa-hand-o-left" aria-hidden="true"></i>&nbsp;上一步</button>
+                <button type="button" class="btn btn-primary btn-lg" onclick="location.href='/bookstore/shoppingcart'"><i class="fa fa-hand-o-left" aria-hidden="true"></i>&nbsp;上一步</button>
                 <button type="submit" form="deliver-form" class="btn btn-primary btn-lg" >下一步&nbsp;<i class="fa fa-hand-o-right" aria-hidden="true"></i></button>
             </div>
 
