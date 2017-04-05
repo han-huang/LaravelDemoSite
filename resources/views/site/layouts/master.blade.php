@@ -25,7 +25,7 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-
+    <script type="text/javascript" src="{{ config('voyager.assets_path') }}/lib/js/toastr.min.js"></script>
     @yield('javascript')
 
     <!-- Bootstrap core CSS -->
@@ -34,7 +34,7 @@
     <link href="{{ asset('css/ie10-viewport-bug-workaround.css') }}" rel="stylesheet" type="text/css">
     <!-- Custom styles for this template -->
     <link href="{{ asset('css/master.css') }}" rel="stylesheet" type="text/css">
-
+    <link rel="stylesheet" type="text/css" href="{{ config('voyager.assets_path') }}/lib/css/toastr.min.css">
     @yield('css')
   </head>
   <body id="pagebody">
@@ -109,6 +109,16 @@
       // console.log("{{ Request::url() }}");
       // console.log("{{ Request::path() }}");
       // console.log("{{ explode("/",Request::path())[0] }}");
+
+      @if (count($errors) > 0)
+          @foreach ($errors->all() as $error)
+              toastr.error('{{ $error }}');
+          @endforeach
+      @endif
+
+      @if (!empty($success))
+          toastr.success('{{ $success }}');
+      @endif
   });
   </script>
   </body>

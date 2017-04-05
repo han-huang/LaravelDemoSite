@@ -17,13 +17,13 @@
 @stop
 
 @section('javascript')
-<script type="text/javascript" src="{{ config('voyager.assets_path') }}/lib/js/toastr.min.js"></script>
+
 <script type="text/javascript" src="{{ asset('js/index_view.js') }}"></script>
 @stop
 
 @section('css')
 <link href="{{ asset('css/index_view.css') }}" rel="stylesheet" type="text/css">
-<link rel="stylesheet" type="text/css" href="{{ config('voyager.assets_path') }}/lib/css/toastr.min.css">
+
 @stop
 
 @section('content')

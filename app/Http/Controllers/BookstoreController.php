@@ -20,7 +20,13 @@ class BookstoreController extends Controller
         $this->middleware('clicktrack', ['only' => [
             'book',
         ]]);
-        $this->middleware('client', ['only' => 'shoppingcart']);
+
+        $this->middleware('client', ['only' => [
+            'shoppingcart',
+            'deliver',
+            'SaveDeliver',
+            'confirm'
+        ]]);
     }
 
     /**
@@ -175,10 +181,55 @@ class BookstoreController extends Controller
      */
     public function deliver(Request $request)
     {
+        $count = Cart::instance('shopping')->count();
+        if (!$count) return redirect()->back()->withErrors(['deliver' => '購物車無商品，請先選購商品!']);
+        Log::info('gettype($count): '.gettype($count)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        Log::info('$count: '.$count." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        // Log::info('$request: '.$request." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        // Log::info('$request->user(): '.$request->user()." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        // Log::info('$request->user("client"): '.$request->user("client")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        // Log::info('get_class($request->user("client")): '.get_class($request->user("client"))." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        // $client = ["name" => $request->user("client")->name, "email" => $request->user("client")->email];
+        $user = ["name" => $request->user("client")->name, "email" => $request->user("client")->email];
+        $client = $request->user("client");
 
         $view = 'site.bookstore.deliver';
-        // return compact('count', 'total', 'shipping_fee', 'sum');
-        // return view($view, compact('count', 'total', 'shipping_fee', 'sum'));
+        // return compact('client');
+        return view($view, compact('client', 'user'));
+    }
+
+    /**
+     * confirm
+     *
+     * @param  Request $request
+     * @return
+     */
+    public function confirm(Request $request)
+    {
+        $count = Cart::instance('shopping')->count();
+        if (!$count) return redirect()->back()->withErrors(['confirm' => '購物車無商品，無訂單資料!']);
+
+        $view = 'site.bookstore.confirm';
+        // return compact('client');
+        // return view($view, compact('client', 'user'));
         return view($view);
+    }
+
+    /**
+     * Save Deliver to Session
+     *
+     * @param  Request $request
+     * @return
+     */
+    public function SaveDeliver(Request $request)
+    {
+        $count = Cart::instance('shopping')->count();
+        if (!$count) return redirect('/bookstore')->withErrors(['save' => '購物車無商品，無法儲存!']);
+        // if (!$count) return redirect()->back()->withInput()->withErrors(['save' => '購物車無商品，無法儲存!']);
+        // return "SaveDeliver";
+        // $view = 'site.bookstore.confirm';
+        // return compact('client');
+        // return view($view, compact('client', 'user'));
+        // return view($view);
     }
 }
