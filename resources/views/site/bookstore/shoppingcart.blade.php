@@ -73,6 +73,18 @@
 }
 </style>
 <script type="text/javascript">
+function checkout() {
+    var count = parseInt($('#count').html());
+    // console.log(count);
+    // console.log("Number.isInteger: " + Number.isInteger(count));
+    // console.log("isNaN: " + isNaN(count));
+    if (count === 0) {
+        jAlert('購物車無商品，無法結帳！', '注意');
+    } else {
+        location.href='/bookstore/deliver';
+    }
+}
+
 $(document).ready(function(){
     // checkbox - select/exclude all
     $('#cart_form').on('click', '.checkAll', function () {
@@ -94,9 +106,16 @@ $(document).ready(function(){
 
     $('tbody').on('change', 'input[name^="book_quanity"]', function (event) {
         var bookid = $(this).data("id");
-        var qty = $(this).val();
-        console.log("onchange");
+        var qty = parseInt($(this).val());
+        var stock = parseInt($('#stock_' + bookid).val());
+
+        // console.log("onchange");
         if ($.isNumeric(qty)) {
+            if (qty > stock) {
+                jAlert('庫存不足，請重新更改數量！', '注意');
+                return;
+            }
+
             $.ajax({
                 type: "PUT",
                 cache: false,
@@ -139,7 +158,7 @@ $(document).ready(function(){
                 $.unblockUI();
             });
         } else {
-            jAlert('商品數量為數字，請重新確認更改的數量！', '注意');
+            jAlert('商品數量需為數字，請重新確認更改的數量！', '注意');
         }
     });
 
@@ -294,7 +313,7 @@ $(document).ready(function(){
                             <th>商品名稱</th>
                             <th style="width:120px">定價(NT$)</th>
                             <th style="width:120px">售價(NT$)</th>
-                            <th style="width:50px">數量</th>
+                            <th style="width:100px">數量</th>
                             <th style="width:120px">小計(NT$)</th>
                             <th style="width:100px">變更明細</th>
                         </tr>
@@ -310,7 +329,11 @@ $(document).ready(function(){
                                 <td><a href="{{ url('bookstore/book/'.$row->id) }}" target="_blank">{{ $row->name }}</a></td>
                                 <td>{{ $row->options->list_price }}元</td>
                                 <td><span class="deeporange-color">{{ $row->options->discount }}折</span><br>{{ $row->price }}元</td>
-                                <td><div class="form-group"><input name="book_quanity[]" data-id="{{ $row->id }}" type="text" value="{{ $row->qty }}" style="width:50px"></div></td>
+                                <td><div class="form-group"><input name="book_quanity[]" data-id="{{ $row->id }}" type="text" value="{{ $row->qty }}" style="width:100px">
+                                    <span>庫存</span>{!! Presenter::showBookStock($row->options->stock) !!}
+                                    <input type="hidden" id="stock_{{$row->id}}" value="{{$row->options->stock}}">
+                                    </div>
+                                </td>
                                 <td>{{ $row->price * $row->qty }}元</td>
                                 <td><button type="button" class="btn" id='del_{{ $row->id }}' data-id="{{ $row->id }}" >刪除</button></td>
                             </tr>
@@ -332,7 +355,7 @@ $(document).ready(function(){
 
                         <li class="pull-right">
                         <div id="summary">
-                            <p>共&nbsp;<span class="deeporange-color">{{ $count }}</span>&nbsp;項商品&#xFF0C;處理費&nbsp;NT$&nbsp;<span class="deeporange-color">{{ $shipping_fee }}</span>&nbsp;元&#xFF0C;訂單金額&nbsp;NT$&nbsp;<span class="deeporange-color">{{ $sum }}</span>&nbsp;元</p>
+                            <p>共&nbsp;<span class="deeporange-color" id="count">{{ $count }}</span>&nbsp;項商品&#xFF0C;處理費&nbsp;NT$&nbsp;<span class="deeporange-color">{{ $shipping_fee }}</span>&nbsp;元&#xFF0C;訂單金額&nbsp;NT$&nbsp;<span class="deeporange-color">{{ $sum }}</span>&nbsp;元</p>
                         </div>
                         </li>
                     </ul>
@@ -346,7 +369,7 @@ $(document).ready(function(){
 
             <div class="text-right" style="margin:20px">
             <button type="button" class="btn btn-primary btn-lg" onclick="location.href='/bookstore'">繼續購物</button>
-            <button type="button" class="btn btn-primary btn-lg" onclick="location.href='/bookstore/deliver'">結帳</button>
+            <button type="button" class="btn btn-primary btn-lg" onclick="checkout()">結帳</button>
             </div>
         </div><!-- shopping-cart -->
 
