@@ -126,37 +126,24 @@ $(document).ready(function(){
                                 <th style="width:120px">小計(NT$)</th>
                             </tr>
                         </thead>
-
                         <tbody>
+                        @if($count)
+                            @foreach(Cart::instance('shopping')->content() as $row)
                             <tr>
-                                <td><a href="" target="_blank">失控的歐元︰從經濟整合的美夢到制度失靈的惡夢</a></td>
-                                <td>480元</td>
-                                <td><span class="deeporange-color">79折</span><br>379元</td>
-                                <td>1</td>
-                                <td>379元</td>
+                                <td><a href="{{ url('bookstore/book/'.$row->id) }}" target="_blank">{{ $row->name }}</a></td>
+                                <td>{{ $row->options->list_price }}元</td>
+                                <td><span class="deeporange-color">{{ $row->options->discount }}折</span><br>{{ $row->price }}元</td>
+                                <td style="width:100px">{{ $row->qty }}</td>
+                                <td>{{ $row->price * $row->qty }}元</td>
                             </tr>
-                    
-                            <tr>
-                                <td><a href="" target="_blank">失控的歐元︰從經濟整合的美夢到制度失靈的惡夢</a></td>
-                                <td>480元</td>
-                                <td><span class="deeporange-color">79折</span><br>379元</td>
-                                <td>1</td>
-                                <td>379元</td>
-                            </tr>
-                    
-                            <tr>
-                                <td><a href="" target="_blank">失控的歐元︰從經濟整合的美夢到制度失靈的惡夢</a></td>
-                                <td>480元</td>
-                                <td><span class="deeporange-color">79折</span><br>379元</td>
-                                <td>1</td>
-                                <td>379元</td>
-                            </tr>
+                            @endforeach
+                        @endif
                         </tbody>
                     </table>
                     <div class="text-right" style="margin:20px">
-                        <p>累計&#xFF1A;NT$&nbsp;<span class="deeporange-color span-price" >1000000</span>&nbsp;元</p>
-                        <p>處理費&#xFF1A;NT$&nbsp;<span class="deeporange-color span-price" >0</span>&nbsp;元</p>
-                        <p>訂單金額&#xFF1A;NT$&nbsp;<span class="deeporange-color span-price" >1000000</span>&nbsp;元</p>
+                        <p>共&nbsp;<span class="deeporange-color" id="count">{{ $count }}</span>&nbsp;項商品&#xFF0C;累計&#xFF1A;NT$&nbsp;<span class="deeporange-color span-price" >{{ $total }}</span>&nbsp;元</p>
+                        <p>處理費&#xFF1A;NT$&nbsp;<span class="deeporange-color span-price" >{{ $shipping_fee }}</span>&nbsp;元</p>
+                        <p>訂單金額&#xFF1A;NT$&nbsp;<span class="deeporange-color span-price" >{{ $sum }}</span>&nbsp;元</p>
                     </div>
                 </div><!-- panel-body -->
             </div><!-- panel -->
@@ -174,21 +161,21 @@ $(document).ready(function(){
                     <div class=" ">
                         <label class="col-lg-2 col-md-6 col-sm-6 text-right" for="deliver" style="">配送方式</label>
                         <div class="col-lg-4 col-md-6 col-sm-6">
-                        <p class="">宅配</p>
+                        <p class="">{{ Presenter::deliver_str(Presenter::showSession('deliver')) }}</p>
                         </div>
                     </div>
 
                     <div class=" ">
                         <label class="col-lg-2 col-md-6 col-sm-6 text-right" for="payment_methond" style="">付款方式</label>
                         <div class="col-lg-4 col-md-6 col-sm-6">
-                        <p class="">貨到付款</p>
+                        <p class="">{{ Presenter::payment_methond_str(Presenter::showSession('payment_methond')) }}</p>
                         </div>
                     </div>
 
                     <div class=" ">
                         <label class="col-lg-2 col-md-6 col-sm-6 text-right" for="invoice_type" style="">發票資訊</label>
                         <div class="col-lg-10 col-md-6 col-sm-6">
-                        <p class="">紙本發票</p>
+                        <p class="">{{ Presenter::invoice_type_str(Presenter::showSession('invoice_type')) }}</p>
                         </div>
                     </div>
 
@@ -204,14 +191,14 @@ $(document).ready(function(){
                     <div class=" ">
                         <label class="col-lg-2 col-md-6 col-sm-6 text-right" for="buyer-name" style="">訂購人</label>
                         <div class="col-lg-4 col-md-6 col-sm-6">
-                        <p class="">王小明</p>
+                        <p class="">{{ $client->name }}</p>
                         </div>
                     </div>
 
                     <div class=" " style="">
                         <label class="col-lg-2 col-md-6 col-sm-6 text-right" for="buyer-email" style="">訂購人&nbsp;Email</label>
                         <div class="col-lg-4 col-md-6 col-sm-6">
-                        <p class="">mail@mail.com</p>
+                        <p class="">{{ $client->email }}</p>
                         </div>
                     </div>
 
@@ -227,35 +214,35 @@ $(document).ready(function(){
                     <div class=" ">
                         <label class="col-lg-2 col-md-6 col-sm-6 text-right" for="receiver-name" style="">收件人</label>
                         <div class="col-lg-4 col-md-6 col-sm-6">
-                        <p class="">王小姐</p>
+                        <p class="">{{ Presenter::showSession('name') }}</p>
                         </div>
                     </div>
 
                     <div class=" ">
                         <label class="col-lg-2 col-md-6 col-sm-6 text-right" for="receiver-phone" style="">收件人聯絡電話</label>
                         <div class="col-lg-4 col-md-6 col-sm-6">
-                        <p class="">0910999999</p>
+                        <p class="">{{ Presenter::showSession('phone') }}</p>
                         </div>
                     </div>
 
                     <div class=" ">
                         <label class="col-lg-2 col-md-6 col-sm-6 text-right" for="receiver-email" style="">收件人&nbsp;Email</label>
                         <div class="col-lg-4 col-md-6 col-sm-6">
-                        <p class="">test@mail.com</p>
+                        <p class="">{{ Presenter::showSession('email') }}</p>
                         </div>
                     </div>
 
                     <div class=" ">
                         <label class="col-lg-2 col-md-6 col-sm-6 text-right" for="receiver-zipcode" style="">收件人郵遞區號</label>
                         <div class="col-lg-4 col-md-6 col-sm-6">
-                        <p class="">709</p>
+                        <p class="">{{ Presenter::showSession('zipcode') }}</p>
                         </div>
                     </div>
 
                     <div class=" ">
                         <label class="col-lg-2 col-md-6 col-sm-6 text-right" for="receiver-address" style="">收件人地址</label>
                         <div class="col-lg-10 col-md-6 col-sm-6">
-                        <p class="">台南市北區文賢路720號</p>
+                        <p class="">{{ Presenter::showSession('addr_city', 'addr_area', 'addr_street') }}</p>
                         </div>
                     </div>
                 </div>
