@@ -7,6 +7,7 @@ use App\Book;
 use App\Facades\ShoppingCart;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Log;
+use Validator;
 
 class BookstoreController extends Controller
 {
@@ -183,8 +184,8 @@ class BookstoreController extends Controller
     {
         $count = Cart::instance('shopping')->count();
         if (!$count) return redirect()->back()->withErrors(['deliver' => '購物車無商品，請先選購商品!']);
-        Log::info('gettype($count): '.gettype($count)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
-        Log::info('$count: '.$count." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        // Log::info('gettype($count): '.gettype($count)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        // Log::info('$count: '.$count." ".__FILE__." ".__FUNCTION__." ".__LINE__);
         // Log::info('$request: '.$request." ".__FILE__." ".__FUNCTION__." ".__LINE__);
         // Log::info('$request->user(): '.$request->user()." ".__FILE__." ".__FUNCTION__." ".__LINE__);
         // Log::info('$request->user("client"): '.$request->user("client")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
@@ -196,6 +197,7 @@ class BookstoreController extends Controller
         $view = 'site.bookstore.deliver';
         // return compact('client');
         return view($view, compact('client', 'user'));
+            // ->withSuccess('deliver');
     }
 
     /**
@@ -226,10 +228,78 @@ class BookstoreController extends Controller
         $count = Cart::instance('shopping')->count();
         if (!$count) return redirect('/bookstore')->withErrors(['save' => '購物車無商品，無法儲存!']);
         // if (!$count) return redirect()->back()->withInput()->withErrors(['save' => '購物車無商品，無法儲存!']);
-        // return "SaveDeliver";
+
+        $ret = $this->deliverValidate($request);
+        if(!empty($ret)) {
+            // Log::info('get_class($ret) '.get_class($ret)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+            return $ret;
+        }
+
+        // Log::info('collect($request->all()): '.collect($request->all())." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        $this->SaveToSession($request);
         // $view = 'site.bookstore.confirm';
         // return compact('client');
         // return view($view, compact('client', 'user'));
         // return view($view);
+        return redirect()
+            ->route("bookstore.confirm");
+    }
+
+    /**
+     * SaveToSession
+     *
+     * @param  Request $request
+     * @return Illuminate\Http\RedirectResponse
+     */
+    public function SaveToSession(Request $request)
+    {
+        session()->put('deliver', $request->deliver);
+        session()->put('payment_methond', $request->payment_methond);
+        session()->put('invoice_type', $request->invoice_type);
+        session()->put('name', $request->name);
+        session()->put('phone', $request->phone);
+        session()->put('email', $request->email);
+        session()->put('addr_city', $request->addr_city);
+        session()->put('addr_area', $request->addr_area);
+        session()->put('addr_street', $request->addr_street);
+        session()->put('zipcode', $request->zipcode);
+        Log::info('session()->get("deliver"): '.session()->get("deliver")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        Log::info('session()->get("payment_methond"): '.session()->get("payment_methond")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        Log::info('session()->get("invoice_type"): '.session()->get("invoice_type")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        Log::info('session()->get("name"): '.session()->get("name")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        Log::info('session()->get("phone"): '.session()->get("phone")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        Log::info('session()->get("email"): '.session()->get("email")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        Log::info('session()->get("addr_city"): '.session()->get("addr_city")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        Log::info('session()->get("addr_area"): '.session()->get("addr_area")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        Log::info('session()->get("addr_street"): '.session()->get("addr_street")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        Log::info('session()->get("zipcode"): '.session()->get("zipcode")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+    }
+
+    /**
+     * Validate for requested data of deliver.
+     *
+     * @param  Request $request
+     * @return Illuminate\Http\RedirectResponse
+     */
+    public function deliverValidate(Request $request)
+    {
+        $rules = [
+            'deliver' => 'required|max:255',
+            'payment_methond' => 'required|max:255',
+            'invoice_type' => 'required|max:255',
+            'name' => 'required|max:255',
+            'phone' => 'required|numeric',
+            'email' => 'required|email',
+            'addr_city' => 'required|max:12',
+            'addr_area' => 'required|max:12',
+            'addr_street' => 'required|max:255',
+            'zipcode' => 'required|integer|min:100|max:983|digits:3',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return redirect()->back()->withInput()
+                ->withErrors($validator);
+        }
     }
 }

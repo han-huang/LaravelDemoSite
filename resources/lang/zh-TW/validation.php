@@ -144,6 +144,13 @@ return [
         'title'                 => '標題',
         'username'              => '使用者名字',
         'year'                  => '年',
+        'deliver'               => '配送方式',
+        'payment_methond'       => '付款方式',
+        'invoice_type'          => '發票類型',
+        'addr_city'             => '縣市',
+        'addr_area'             => '鄉鎮市區',
+        'addr_street'           => '街道名稱',
+        'zipcode'               => '郵遞區號',
     ],
 
 ];
