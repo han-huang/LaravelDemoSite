@@ -156,6 +156,21 @@ class BookstoreController extends Controller
     }
 
     /**
+     * shoppingcart summary
+     *
+     * @return
+     */
+    public function cart_summary()
+    {
+        $count = Cart::instance('shopping')->count();
+        $total = Cart::instance('shopping')->total();
+        $total = (int)str_replace(",", "", $total);
+        $shipping_fee = ($total >= 500 || $total == 0) ? 0 : 60;
+        $sum = $shipping_fee + $total;
+        return compact('count', 'total', 'shipping_fee', 'sum');
+    }
+
+    /**
      * shoppingcart
      *
      * @param  Request $request
@@ -164,11 +179,13 @@ class BookstoreController extends Controller
     public function shoppingcart(Request $request)
     {
         ShoppingCart::checkTempCart();
-        $count = Cart::instance('shopping')->count();
-        $total = Cart::instance('shopping')->total();
-        $total = (int)str_replace(",", "", $total);
-        $shipping_fee = ($total >= 500 || $total == 0) ? 0 : 60;
-        $sum = $shipping_fee + $total;
+        // $count = Cart::instance('shopping')->count();
+        // $total = Cart::instance('shopping')->total();
+        // $total = (int)str_replace(",", "", $total);
+        // $shipping_fee = ($total >= 500 || $total == 0) ? 0 : 60;
+        // $sum = $shipping_fee + $total;
+        $array = $this->cart_summary();
+        extract($array);
         $view = 'site.bookstore.shoppingcart';
         // return compact('count', 'total', 'shipping_fee', 'sum');
         return view($view, compact('count', 'total', 'shipping_fee', 'sum'));
@@ -210,11 +227,12 @@ class BookstoreController extends Controller
     {
         $count = Cart::instance('shopping')->count();
         if (!$count) return redirect()->back()->withErrors(['confirm' => '購物車無商品，無訂單資料!']);
-
+        $array = $this->cart_summary();
+        extract($array);
+        $client = $request->user("client");
         $view = 'site.bookstore.confirm';
-        // return compact('client');
-        // return view($view, compact('client', 'user'));
-        return view($view);
+        // return compact('count', 'total', 'shipping_fee', 'sum');
+        return view($view, compact('count', 'total', 'shipping_fee', 'sum', 'client'));
     }
 
     /**

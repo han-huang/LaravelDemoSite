@@ -59,18 +59,78 @@ class PresenterController extends Controller
     /**
      * show Session
      *
-     * @param  integer  $name
+     * @param  string
      * @return string
      */
-    public function showSession($name)
+    public function showSession()
     {
-		$str = "";
-        if (session()->has($name))
-			$str = session()->get($name);
+        $args = func_get_args();
+        $str = "";
+        $strs = "";
+        if (func_num_args()) {
+            foreach ($args as $arg) {
+                if (session()->has($arg))
+                    $str = session()->get($arg);
+                if (!is_null(old($arg)))
+                    $str = old($arg);
+                $strs .= $str;
+            }
+        }
 
-		if(!is_null(old($name)))
-			$str = old($name);
+        return $strs;
+    }
 
+    /**
+     * convert deliver to String
+     *
+     * @param  string  $val
+     * @return string
+     */
+    public function deliver_str($val)
+    {
+        switch ($val) {
+            case 'Home_Delivery':
+                $str = "宅配";
+                break;
+            default:
+                $str = "";
+        }
+        return $str;
+    }
+
+    /**
+     * convert payment_methond to String
+     *
+     * @param  string  $val
+     * @return string
+     */
+    public function payment_methond_str($val)
+    {
+        switch ($val) {
+            case 'COD':
+                $str = "貨到付款";
+                break;
+            default:
+                $str = "";
+        }
+        return $str;
+    }
+
+    /**
+     * convert payment_methond to String
+     *
+     * @param  string  $val
+     * @return string
+     */
+    public function invoice_type_str($val)
+    {
+        switch ($val) {
+            case 'paper':
+                $str = "紙本發票";
+                break;
+            default:
+                $str = "";
+        }
         return $str;
     }
 }

@@ -355,7 +355,7 @@ $(document).ready(function(){
 
                         <li class="pull-right">
                         <div id="summary">
-                            <p>共&nbsp;<span class="deeporange-color" id="count">{{ $count }}</span>&nbsp;項商品&#xFF0C;處理費&nbsp;NT$&nbsp;<span class="deeporange-color">{{ $shipping_fee }}</span>&nbsp;元&#xFF0C;訂單金額&nbsp;NT$&nbsp;<span class="deeporange-color">{{ $sum }}</span>&nbsp;元</p>
+                            <p>共&nbsp;<span class="deeporange-color" id="count">{{ $count }}</span>&nbsp;項商品&#xFF0C;累計&nbsp;NT$&nbsp;<span class="deeporange-color span-price" >{{ $total }}</span>&nbsp;元&#xFF0C;處理費&nbsp;NT$&nbsp;<span class="deeporange-color">{{ $shipping_fee }}</span>&nbsp;元&#xFF0C;訂單金額&nbsp;NT$&nbsp;<span class="deeporange-color">{{ $sum }}</span>&nbsp;元</p>
                         </div>
                         </li>
                     </ul>
