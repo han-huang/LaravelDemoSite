@@ -56,4 +56,21 @@ class PresenterController extends Controller
         return $span;
     }
 
+    /**
+     * show Session
+     *
+     * @param  integer  $name
+     * @return string
+     */
+    public function showSession($name)
+    {
+		$str = "";
+        if (session()->has($name))
+			$str = session()->get($name);
+
+		if(!is_null(old($name)))
+			$str = old($name);
+
+        return $str;
+    }
 }

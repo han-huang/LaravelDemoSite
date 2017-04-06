@@ -262,7 +262,7 @@ $(document).ready(function(){
             </div><!-- panel 付款方式及寄送資訊 -->
 
             <div class="text-right" style="margin:20px">
-                <button type="button" class="btn btn-primary btn-lg" onclick="location.href='#'"><i class="fa fa-hand-o-left" aria-hidden="true"></i>&nbsp;上一步</button>
+                <button type="button" class="btn btn-primary btn-lg" onclick="location.href='/bookstore/deliver'"><i class="fa fa-hand-o-left" aria-hidden="true"></i>&nbsp;上一步</button>
                 <button type="submit" form="deliver-form" class="btn btn-primary btn-lg" >確認送出&nbsp;<i class="fa fa-hand-o-right" aria-hidden="true"></i></button>
             </div>
 
