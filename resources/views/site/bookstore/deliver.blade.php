@@ -71,6 +71,21 @@ $(document).ready(function(){
         },
     });
 
+    // for county changes to '縣市'
+    $('#twzipcode select[name="county"]').on('change', function(){
+        var district = $('#twzipcode select[name="district"]').val();
+        $('#addr_area').val(district);
+        // console.log('change: ' + district);
+    });
+
+    @if(!empty(Presenter::showSession("addr_city")) && !empty(Presenter::showSession("addr_area")) && !empty(Presenter::showSession("zipcode")))
+        $('#twzipcode').twzipcode('set', {
+            'zipcode'  : '{{ Presenter::showSession("zipcode") }}',
+            'county'   : '{{ Presenter::showSession("addr_city") }}',
+            'district' : '{{ Presenter::showSession("addr_area") }}',
+        });
+    @endif
+
     $('#twzipcode input[name="zipcode"]').addClass('form-control').addClass('col-md-3').addClass('zipcode-input');
     $('#twzipcode select').addClass('form-control').addClass('col-md-3').addClass('zipcode-select');
     $('#twzipcode input[name="zipcode"]').on('click', function() {
@@ -158,7 +173,7 @@ $(document).ready(function(){
                         <label class="control-label col-md-2" for="buyer-name" style="">姓名</label>
                         <div class="col-md-10">
                         <!-- <p class="form-control-static">{{ $user["name"] }}</p> -->
-                        <p class="form-control-static">{{ $client->name }}</p>
+                        <p id="buyer-name" class="form-control-static">{{ $client->name }}</p>
                         </div>
                     </div>
 
@@ -166,7 +181,7 @@ $(document).ready(function(){
                         <label class="control-label col-md-2" for="buyer-email" style="">Email</label>
                         <div class="col-md-10">
                         <!-- <p class="form-control-static">{{ $user["email"] }}</p> -->
-                        <p class="form-control-static">{{ $client->email }}</p>
+                        <p id="buyer-email" class="form-control-static">{{ $client->email }}</p>
                         </div>
                     </div>
 
@@ -179,37 +194,37 @@ $(document).ready(function(){
                     <div class="form-group">
                         <label class="control-label col-md-2" for="name">收件人</label>
                         <div class="col-md-10">
-                        <input type="text" class="form-control input-lg" id="name" name="name" style="width: 300px;" placeholder="請輸入收件人的姓名">
+                        <input type="text" class="form-control input-lg" id="name" name="name" style="width: 300px;" placeholder="請輸入收件人的姓名" value="{{ Presenter::showSession('name') }}" required >
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="control-label col-md-2" for="phone">聯絡電話</label>
                         <div class="col-md-10">
-                        <input type="tel" class="form-control input-lg" id="phone" name="phone" style="width: 300px;" placeholder="請輸入收件人的聯絡電話">
+                        <input type="tel" class="form-control input-lg" id="phone" name="phone" style="width: 300px;" placeholder="請輸入收件人的聯絡電話" value="{{ Presenter::showSession('phone') }}" required >
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="control-label col-md-2" for="email">Email</label>
                         <div class="col-md-10">
-                        <input type="email" class="form-control input-lg" id="email" name="email" style="width: 300px;" placeholder="請輸入收件人的電子郵件">
+                        <input type="email" class="form-control input-lg" id="email" name="email" style="width: 300px;" placeholder="請輸入收件人的電子郵件" value="{{ Presenter::showSession('email') }}" required >
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-md-2" for="email">郵遞區號</label>
+                        <label class="control-label col-md-2" for="twzipcode">郵遞區號</label>
                         <div class="col-md-10" id="twzipcode" data-required="true">
                         
                         </div>
                     </div>
 
                     <div class="form-group" id="addr-div">
-                        <label class="control-label col-md-2" for="email">地址</label>
-                        <div class="col-md-10">
+                        <label class="control-label col-md-2" for="address">地址</label>
+                        <div id="address" class="col-md-10">
                         <input type="text" class="form-control input-lg col-md-3" id="addr_city" name="addr_city" style="width: 100px;margin-right:10px;" placeholder="" readonly>
                         <input type="text" class="form-control input-lg col-md-3" id="addr_area" name="addr_area" style="width: 100px;margin-right:10px;" placeholder="" readonly>
-                        <input type="text" class="form-control input-lg col-md-6" id="addr_street" name="addr_street" style="width: 450px;" placeholder="" required>
+                        <input type="text" class="form-control input-lg col-md-6" id="addr_street" name="addr_street" style="width: 450px;" placeholder="請輸入街道名稱" required value="{{ Presenter::showSession('addr_street') }}">
                         </div>
                     </div>
 
