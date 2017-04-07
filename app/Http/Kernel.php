@@ -59,6 +59,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'ajax' => \App\Http\Middleware\Ajax::class,
         'redirectTo' => \App\Http\Middleware\RedirectToMiddleware::class,
+        'checkcart' => \App\Http\Middleware\CheckCart::class,
         'jwt.auth' => GetUserFromToken::class,
         'jwt.refresh' => RefreshToken::class,
     ];

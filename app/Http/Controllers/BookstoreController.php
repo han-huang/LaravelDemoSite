@@ -28,6 +28,12 @@ class BookstoreController extends Controller
             'SaveDeliver',
             'confirm'
         ]]);
+
+        $this->middleware('checkcart', ['only' => [
+            'deliver',
+            'SaveDeliver',
+            'confirm'
+        ]]);
     }
 
     /**
@@ -199,8 +205,9 @@ class BookstoreController extends Controller
      */
     public function deliver(Request $request)
     {
-        $count = Cart::instance('shopping')->count();
-        if (!$count) return redirect()->back()->withErrors(['deliver' => '購物車無商品，請先選購商品!']);
+        // $count = Cart::instance('shopping')->count();
+        // if (!$count) return redirect()->back()->withErrors(['deliver' => '購物車無商品，請先選購商品!']);
+
         // Log::info('gettype($count): '.gettype($count)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
         // Log::info('$count: '.$count." ".__FILE__." ".__FUNCTION__." ".__LINE__);
         // Log::info('$request: '.$request." ".__FILE__." ".__FUNCTION__." ".__LINE__);
@@ -225,8 +232,8 @@ class BookstoreController extends Controller
      */
     public function confirm(Request $request)
     {
-        $count = Cart::instance('shopping')->count();
-        if (!$count) return redirect()->back()->withErrors(['confirm' => '購物車無商品，無訂單資料!']);
+        // $count = Cart::instance('shopping')->count();
+        // if (!$count) return redirect()->back()->withErrors(['confirm' => '購物車無商品，無訂單資料!']);
         $array = $this->cart_summary();
         extract($array);
         $client = $request->user("client");
@@ -243,8 +250,8 @@ class BookstoreController extends Controller
      */
     public function SaveDeliver(Request $request)
     {
-        $count = Cart::instance('shopping')->count();
-        if (!$count) return redirect('/bookstore')->withErrors(['save' => '購物車無商品，無法儲存!']);
+        // $count = Cart::instance('shopping')->count();
+        // if (!$count) return redirect('/bookstore')->withErrors(['save' => '購物車無商品，無法儲存!']);
         // if (!$count) return redirect()->back()->withInput()->withErrors(['save' => '購物車無商品，無法儲存!']);
 
         $ret = $this->deliverValidate($request);
