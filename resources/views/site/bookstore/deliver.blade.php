@@ -78,6 +78,7 @@ $(document).ready(function(){
         // console.log('change: ' + district);
     });
 
+    {{--
     @if(!empty(Presenter::showSession("addr_city")) && !empty(Presenter::showSession("addr_area")) && !empty(Presenter::showSession("zipcode")))
         $('#twzipcode').twzipcode('set', {
             'zipcode'  : '{{ Presenter::showSession("zipcode") }}',
@@ -85,6 +86,9 @@ $(document).ready(function(){
             'district' : '{{ Presenter::showSession("addr_area") }}',
         });
     @endif
+    --}}
+
+    {!! Presenter::twzipcode() !!}
 
     $('#twzipcode input[name="zipcode"]').addClass('form-control').addClass('col-md-3').addClass('zipcode-input');
     $('#twzipcode select').addClass('form-control').addClass('col-md-3').addClass('zipcode-select');

@@ -14,5 +14,6 @@ Route::group([
             Route::delete('deleteCart/{id}', 'ShoppingCartController@deleteCart')->name('deleteCart');
             Route::delete('deleteCartMultiple/', 'ShoppingCartController@deleteCartMultiple')
                 ->name('deleteCartMultiple');
+            Route::get('establishOrder', 'ShoppingCartController@establishOrder')->name('establishOrder');
     });
 });
