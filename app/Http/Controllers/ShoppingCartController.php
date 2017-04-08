@@ -23,8 +23,16 @@ class ShoppingCartController extends Controller
     public function __construct(Response $response)
     {
         $this->middleware('client', ['only' => [
-            'updateCart', 'deleteCart'
+            'updateCart',
+            'deleteCart',
+            'deleteCartMultiple',
+            'establishOrder',
         ]]);
+
+        $this->middleware('checkcart', ['only' => [
+            'establishOrder'
+        ]]);
+
         $this->response = $response;
     }
 
@@ -134,12 +142,12 @@ class ShoppingCartController extends Controller
      * @param  Illuminate\Database\Eloquent\Model $book
      * @return
      */
-    public function addToCart($whichCart, $book)
+    public function addToCart($whichCart, $book, $qty = 1)
     {
         $count = $this->findInCart($whichCart, $book->id);
         if (!$count) {
             $price = $this->SalePrice($book);
-            Cart::instance($whichCart)->add($book->id, $book->title, 1, $price, [
+            Cart::instance($whichCart)->add($book->id, $book->title, $qty, $price, [
                 'image'      => $book->image,
                 'list_price' => $book->list_price,
                 'discount'   => $book->discount,
@@ -221,14 +229,20 @@ class ShoppingCartController extends Controller
         $this->checkTempCart();
 
         $rowId = $this->findRowIdInCart('shopping', $id);
-        $item = Cart::get($rowId);
-        $options = $item->options->merge(['stock' => $book->stock]);
         if ($rowId) {
+            $item = Cart::get($rowId);
+            $options = $item->options->merge(['stock' => $book->stock]);
+
             // must update $book->stock first then update $request->qty
             // error happen if update $request->qty first and $rowId is deleted when $request->qty is 0
             // (InvalidRowIDException in Cart.php line 188: The cart does not contain rowId)
             Cart::instance('shopping')->update($rowId, ['options' => $options]);
             Cart::instance('shopping')->update($rowId, ['qty' => $request->qty]);
+        } else {
+            // return $this->response->errorNotFound('購物車內無此商品！');
+
+            //add to shopping cart if no rowId
+            $this->addToCart("shopping", $book, $request->qty);
         }
         // $count = Cart::instance('shopping')->count();
         // if ($count) {
@@ -353,6 +367,10 @@ class ShoppingCartController extends Controller
         $rowId = $this->findRowIdInCart('shopping', $id);
         if ($rowId)
             Cart::instance('shopping')->remove($rowId);
+        else {
+            // return $this->response->errorNotFound('購物車內無此商品！');
+            // Do not return errorNotFound if no $rowId , return done to update tbody and summary
+        }
 
         $array = $this->get_tbody();
         extract($array);
@@ -393,6 +411,10 @@ class ShoppingCartController extends Controller
             $rowId = $this->findRowIdInCart('shopping', $id);
             if ($rowId)
                 Cart::instance('shopping')->remove($rowId);
+            else {
+                // return $this->response->errorNotFound('購物車內無此商品！');
+                // Do not return errorNotFound if no $rowId , return done to update tbody and summary
+            }
         }
 
         $array = $this->get_tbody();
@@ -406,5 +428,16 @@ class ShoppingCartController extends Controller
                    'empty'   => $empty
                    // 'cartCheck'  => $request->cartCheck
                ]);
+    }
+
+    /**
+     * establish order
+     *
+     * @param  Request $request
+     * @return
+     */
+    public function establishOrder(Request $request)
+    {
+        return "establishOrder";
     }
 }
