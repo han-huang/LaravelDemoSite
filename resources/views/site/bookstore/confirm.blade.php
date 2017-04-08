@@ -17,6 +17,8 @@
 @stop
 
 @section('javascript')
+<script src="{{ asset('js/jquery.alerts.js') }}"></script>
+<script src="{{ asset('js/jquery.blockUI.js') }}"></script>
 
 @stop
 
@@ -30,6 +32,7 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('css/jssocials-theme-classic.css') }}" />
 
 <link href="{{ asset('css/style.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset('css/jquery.alerts.css') }}" rel="stylesheet" type="text/css">
 @stop
 
 @section('content')
@@ -57,7 +60,90 @@
 </style>
 <script type="text/javascript">
 $(document).ready(function(){
+    $('#order').on('click', function (event) {
+        $.ajax({
+            type: "GET",
+            cache: true,
+            url: "/ajax/shopping/establishOrder/",
+            data: {},
+            beforeSend: function (xhr) {
+                $.blockUI({ message: '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span><h3>處理中</h3>',
+                            css: {
+                                border: 'none',
+                                padding: '15px',
+                                backgroundColor: '#000',
+                                '-webkit-border-radius': '10px',
+                                '-moz-border-radius': '10px',
+                                opacity: .5,
+                                color: '#fff'
+                            }
+                });
+                return xhr.setRequestHeader('X-CSRF-TOKEN', $('meta[name="csrf-token"]').attr('content'));
+            }
+        }).done(function (data, textStatus) {
+            console.log(JSON.stringify(data, undefined, 2));
+            console.log(textStatus);
+            if (data.status == "done") {
 
+            }
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            console.log('jqXHR.responseText: ' + jqXHR.responseText);
+            console.log('jqXHR.status: ' + jqXHR.status);
+            msg = JSON.parse(jqXHR.responseText);
+            console.log('msg.error.message: ' + msg.error.message);
+            console.log('Array.isArray(msg.error.message): ' + Array.isArray(msg.error.message));
+            if (Array.isArray(msg.error.message)) {
+
+                // for(var errormsg in msg.error.message) {
+                    // jAlert(msg.error.message[errormsg], '注意', function (){
+                        // jAlert(msg.error.message[errormsg], '注意',
+                    // });
+                    // console.log(msg.error.message[errormsg]);
+                // }
+
+                // var length = msg.error.message.length;
+                // var index = 0 ;
+                // jAlert(msg.error.message[index], '注意', function (){
+                    // index ++;
+                    // if (index < length) {
+                        // jAlert(msg.error.message[index], '注意', function (){
+                            // index += 1;
+                            // if (index < length) {
+                                    // jAlert(msg.error.message[index], '注意');
+                            // }
+                        // });
+                    // }
+                // });
+
+                // refer to http://stackoverflow.com/questions/36456109/jalert-is-not-working-properly-in-a-loop
+                // jAlert must have a handler on close to show the next one
+                // Therefor generate jAlert string the use eval to execute
+                length = msg.error.message.length;
+                index = 0 ;
+                var str = "";
+                str = "jAlert(msg.error.message[index], '注意', function (){";
+                for (i = 1 ; i < msg.error.message.length ; i++) {
+                    str += "index++;";
+                    if (i < msg.error.message.length -1)
+                        str += "jAlert(msg.error.message[index], '注意', function (){";
+                    else
+                        str += "jAlert(msg.error.message[index], '注意');";
+                }
+                for (i = 1 ; i < msg.error.message.length - 1 ; i++) {
+                    str += "});";
+                }
+                //for the first jAlert
+                str += "});";
+                console.log(str);
+                eval(str);
+
+            } else {
+                jAlert(msg.error.message, '注意');
+            }
+        }).always(function (jqXHR, textStatus) {
+            $.unblockUI();
+        });
+    });
 
 });
 </script>
@@ -250,7 +336,7 @@ $(document).ready(function(){
 
             <div class="text-right" style="margin:20px">
                 <button type="button" class="btn btn-primary btn-lg" onclick="location.href='/bookstore/deliver'"><i class="fa fa-hand-o-left" aria-hidden="true"></i>&nbsp;上一步</button>
-                <button type="submit" form="deliver-form" class="btn btn-primary btn-lg" >確認送出&nbsp;<i class="fa fa-hand-o-right" aria-hidden="true"></i></button>
+                <button id="order" type="button" class="btn btn-primary btn-lg" >確認送出&nbsp;<i class="fa fa-hand-o-right" aria-hidden="true"></i></button>
             </div>
 
         </div>

@@ -81,6 +81,28 @@ class PresenterController extends Controller
     }
 
     /**
+     * show twzipcode
+     *
+     * @param  string
+     * @return string
+     */
+    public function twzipcode()
+    {
+        $strs = "$('#twzipcode').twzipcode('set', {";
+        if (!empty($this->showSession("zipcode"))) {
+            $strs .= '"zipcode": "'.$this->showSession("zipcode").'",';
+            if (!empty($this->showSession("addr_city")))
+                $strs .= '"county": "'.$this->showSession("addr_city").'",';
+            if (!empty($this->showSession("addr_area")))
+                $strs .= '"district": "'.$this->showSession("addr_area").'",';
+        } else
+            return;
+
+        $strs .= "});";
+        return $strs;
+    }
+
+    /**
      * convert deliver to String
      *
      * @param  string  $val
