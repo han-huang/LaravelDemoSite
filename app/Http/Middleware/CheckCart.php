@@ -20,6 +20,24 @@ class CheckCart
     }
 
     /**
+     * validate session
+     *
+     * @param  array  $keys
+     * @return mixed
+     */
+    public function validate($keys)
+    {
+        $terminate = false;
+        foreach ($keys as $key) {
+            if (!session()->has($key)) {
+                $errors[] = trans('validation.attributes.'.$key).'資訊不完整!';
+                $terminate = true;
+            }
+        }
+        return compact('terminate', 'errors');
+    }
+
+    /**
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -33,7 +51,7 @@ class CheckCart
         $count = Cart::instance('shopping')->count();
         $keys = ['deliver', 'payment_methond', 'invoice_type', 'name', 'phone',
                  'email', 'addr_city', 'addr_area', 'addr_street', 'zipcode'];
-        $return = false;
+        // $terminate = false;
         if ($request->ajax()) {
             if (!$count) return $this->response->errorNotFound('購物車內尚無商品，無法繼續進行!');
             // if (!strcmp($request->path(), "bookstore/confirm")) {
@@ -47,28 +65,31 @@ class CheckCart
                 // session()->forget('payment_methond');
                 // session()->forget('invoice_type');
 
-                foreach ($keys as $key) {
-                    if (!session()->has($key)) {
-                        // return $this->response->errorNotFound(trans('validation.attributes.'.$key).'資訊不完整，訂單無法成立!');
-                        $errors[] = trans('validation.attributes.'.$key).'資訊不完整!';
-                        $return = true;
-                    }
-                }
-                if ($return) return $this->response->errorNotFound($errors);
+                // foreach ($keys as $key) {
+                    // if (!session()->has($key)) {
+                        // $errors[] = trans('validation.attributes.'.$key).'資訊不完整!';
+                        // $terminate = true;
+                    // }
+                // }
+
+                $array = $this->validate($keys);
+                extract($array);
+                if ($terminate) return $this->response->errorNotFound($errors);
             }
         } else {
             if (!$count) return redirect()->route('bookstore.shoppingcart')->withErrors('購物車內尚無商品，無法繼續進行!');
             // if (!strcmp($request->path(), "bookstore/confirm")) {
             if (!strcmp($request->route()->getName(), "bookstore.confirm")) {
-                foreach ($keys as $key) {
-                    if (!session()->has($key)) {
-                        // return redirect()->route('bookstore.deliver')->withErrors('請輸入'.trans('validation.attributes.'.$key).'資訊!');
-                        // $errors[] = '請輸入'.trans('validation.attributes.'.$key).'資訊!';
-                        $errors[] = trans('validation.attributes.'.$key).'資訊不完整!';
-                        $return = true;
-                    }
-                }
-                if ($return) return redirect()->route('bookstore.deliver')->withErrors($errors);
+                // foreach ($keys as $key) {
+                    // if (!session()->has($key)) {
+                        // $errors[] = trans('validation.attributes.'.$key).'資訊不完整!';
+                        // $terminate = true;
+                    // }
+                // }
+
+                $array = $this->validate($keys);
+                extract($array);
+                if ($terminate) return redirect()->route('bookstore.deliver')->withErrors($errors);
             }
         }
 
