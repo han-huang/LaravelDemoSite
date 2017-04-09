@@ -172,8 +172,8 @@ class BookstoreController extends Controller
         $total = Cart::instance('shopping')->total();
         $total = (int)str_replace(",", "", $total);
         $shipping_fee = ($total >= 500 || $total == 0) ? 0 : 60;
-        $sum = $shipping_fee + $total;
-        return compact('count', 'total', 'shipping_fee', 'sum');
+        $amount = $shipping_fee + $total;
+        return compact('count', 'total', 'shipping_fee', 'amount');
     }
 
     /**
@@ -189,12 +189,12 @@ class BookstoreController extends Controller
         // $total = Cart::instance('shopping')->total();
         // $total = (int)str_replace(",", "", $total);
         // $shipping_fee = ($total >= 500 || $total == 0) ? 0 : 60;
-        // $sum = $shipping_fee + $total;
+        // $amount = $shipping_fee + $total;
         $array = $this->cart_summary();
         extract($array);
         $view = 'site.bookstore.shoppingcart';
-        // return compact('count', 'total', 'shipping_fee', 'sum');
-        return view($view, compact('count', 'total', 'shipping_fee', 'sum'));
+        // return compact('count', 'total', 'shipping_fee', 'amount');
+        return view($view, compact('count', 'total', 'shipping_fee', 'amount'));
     }
 
     /**
@@ -238,8 +238,8 @@ class BookstoreController extends Controller
         extract($array);
         $client = $request->user("client");
         $view = 'site.bookstore.confirm';
-        // return compact('count', 'total', 'shipping_fee', 'sum');
-        return view($view, compact('count', 'total', 'shipping_fee', 'sum', 'client'));
+        // return compact('count', 'total', 'shipping_fee', 'amount');
+        return view($view, compact('count', 'total', 'shipping_fee', 'amount', 'client'));
     }
 
     /**
