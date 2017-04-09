@@ -138,7 +138,11 @@ $(document).ready(function(){
                 eval(str);
 
             } else {
+                // '購物車內尚無商品，無法繼續進行!'
                 jAlert(msg.error.message, '注意');
+                $(document).on("click","#popup_ok",function() {
+                    location.href = '/bookstore/shoppingcart';
+                });
             }
         }).always(function (jqXHR, textStatus) {
             $.unblockUI();
@@ -229,7 +233,7 @@ $(document).ready(function(){
                     <div class="text-right" style="margin:20px">
                         <p>共&nbsp;<span class="deeporange-color" id="count">{{ $count }}</span>&nbsp;項商品&#xFF0C;累計&#xFF1A;NT$&nbsp;<span class="deeporange-color span-price" >{{ $total }}</span>&nbsp;元</p>
                         <p>處理費&#xFF1A;NT$&nbsp;<span class="deeporange-color span-price" >{{ $shipping_fee }}</span>&nbsp;元</p>
-                        <p>訂單金額&#xFF1A;NT$&nbsp;<span class="deeporange-color span-price" >{{ $sum }}</span>&nbsp;元</p>
+                        <p>訂單金額&#xFF1A;NT$&nbsp;<span class="deeporange-color span-price" >{{ $amount }}</span>&nbsp;元</p>
                     </div>
                 </div><!-- panel-body -->
             </div><!-- panel -->

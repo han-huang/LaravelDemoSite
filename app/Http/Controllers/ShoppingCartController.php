@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Book;
+use App\Receiver;
+use App\Order;
+use App\BookOrder;
 use EllipseSynergie\ApiResponse\Contracts\Response;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use TCG\Voyager\Facades\Voyager;
@@ -276,8 +279,8 @@ class ShoppingCartController extends Controller
         // $total = Cart::instance('shopping')->total();
         // $total = (int)str_replace(",", "", $total);
         // $shipping_fee = ($total >= 500 || $total == 0) ? 0 : 60;
-        // $sum = $shipping_fee + $total;
-        // $summary = "<p>共&nbsp;<span class='deeporange-color'>$count</span>&nbsp;項商品&#xFF0C;處理費&nbsp;NT$&nbsp;<span class='deeporange-color'>$shipping_fee</span>&nbsp;元&#xFF0C;訂單金額&nbsp;NT$&nbsp;<span class='deeporange-color'>$sum</span>&nbsp;元</p>";
+        // $amount = $shipping_fee + $total;
+        // $summary = "<p>共&nbsp;<span class='deeporange-color'>$count</span>&nbsp;項商品&#xFF0C;處理費&nbsp;NT$&nbsp;<span class='deeporange-color'>$shipping_fee</span>&nbsp;元&#xFF0C;訂單金額&nbsp;NT$&nbsp;<span class='deeporange-color'>$amount</span>&nbsp;元</p>";
 
         $summary = $this->get_summary($count);
 
@@ -292,18 +295,36 @@ class ShoppingCartController extends Controller
     /**
      * get html of summary from Cart::instance('shopping')
      *
+     * @param  integer $count
      * @return array
      */
     public function get_summary($count)
     {
+        // $total = Cart::instance('shopping')->total();
+        // $total = (int)str_replace(",", "", $total);
+        // $shipping_fee = ($total >= 500 || $total == 0) ? 0 : 60;
+        // $amount = $shipping_fee + $total;
+        $array = $this->get_summary_items();
+        extract($array);
+        $summary = "<p>共&nbsp;<span class='deeporange-color' id='count'>$count</span>&nbsp;項商品&#xFF0C;處理費".
+                   "&nbsp;NT$&nbsp;<span class='deeporange-color'>$shipping_fee</span>&nbsp;元&#xFF0C;".
+                   "訂單金額&nbsp;NT$&nbsp;<span class='deeporange-color'>$amount</span>&nbsp;元</p>";
+        return $summary;
+    }
+
+    /**
+     * get summary items from Cart::instance('shopping')
+     *
+     * @param  integer $count
+     * @return array
+     */
+    public function get_summary_items()
+    {
         $total = Cart::instance('shopping')->total();
         $total = (int)str_replace(",", "", $total);
         $shipping_fee = ($total >= 500 || $total == 0) ? 0 : 60;
-        $sum = $shipping_fee + $total;
-        $summary = "<p>共&nbsp;<span class='deeporange-color' id='count'>$count</span>&nbsp;項商品&#xFF0C;處理費".
-                   "&nbsp;NT$&nbsp;<span class='deeporange-color'>$shipping_fee</span>&nbsp;元&#xFF0C;".
-                   "訂單金額&nbsp;NT$&nbsp;<span class='deeporange-color'>$sum</span>&nbsp;元</p>";
-        return $summary;
+        $amount = $shipping_fee + $total;
+        return compact('total', 'shipping_fee', 'amount');
     }
 
     /**
@@ -438,6 +459,85 @@ class ShoppingCartController extends Controller
      */
     public function establishOrder(Request $request)
     {
+        $client = Auth::guard('client')->user();
+        $client_id = $client->id;
+        $receiver = Receiver::firstOrCreate([
+            'name'        => session()->get('name'),
+            'client_id'   => $client_id,
+            'phone'       => session()->get('phone'),
+            'email'       => session()->get('email'),
+            'addr_city'   => session()->get('addr_city'),
+            'addr_area'   => session()->get('addr_area'),
+            'addr_street' => session()->get('addr_street'),
+            'zipcode'     => session()->get('zipcode'),
+        ]);
+
+        $order_no = date('YmdHis').substr(sprintf("%08d", $client_id), -8, 8).mt_rand(100000, 999999);
+        $receiver_id = $receiver->id;
+        $array = $this->get_summary_items();
+        extract($array);
+
+        foreach(Cart::instance('shopping')->content() as $row) {
+            $details[] = [
+                             'id'         => $row->id,
+                             'qty'        => $row->qty,
+                             'name'       => $row->name,
+                             'list_price' => $row->options->list_price,
+                             'discount'   => $row->options->discount,
+                             'price'      => $row->price,
+                         ];
+        }
+
+        $order = Order::firstOrNew([
+            'order_no'        => $order_no,
+            'client_id'       => $client_id,
+            'receiver_id'     => $receiver_id,
+            'deliver'         => session()->get('deliver'),
+            'payment_methond' => session()->get('payment_methond'),
+            'invoice_type'    => session()->get('invoice_type'),
+            'shipping_fee'    => $shipping_fee,
+            'amount'          => $amount,
+            'status'          => 'pending',
+            'active'          => 1,
+            'details'         => json_encode($details, JSON_NUMERIC_CHECK | JSON_UNESCAPED_UNICODE),
+        ]);
+        $order->save();
+
+        $data = [];
+        foreach(Cart::instance('shopping')->content() as $row) {
+            $data[$row->id] = [
+                'book_quantity' => $row->qty
+            ];
+        }
+        $order->books()->sync($data);
+
+        Cart::instance('shopping')->destroy();
+        // $keys = ['deliver', 'payment_methond', 'invoice_type', 'name', 'phone',
+                 // 'email', 'addr_city', 'addr_area', 'addr_street', 'zipcode'];
+        // foreach ($keys as $key) {
+            // if (!session()->has($key)) {
+                // session()->forget($key);
+            // }
+        // }
+        $this->flush_sessions();
+
         return "establishOrder";
+    }
+
+    /**
+     * flush sessions
+     *
+     * @param  Request $request
+     * @return
+     */
+    public function flush_sessions()
+    {
+        $keys = ['deliver', 'payment_methond', 'invoice_type', 'name', 'phone',
+                 'email', 'addr_city', 'addr_area', 'addr_street', 'zipcode'];
+        foreach ($keys as $key) {
+            if (session()->has($key)) {
+                session()->forget($key);
+            }
+        }
     }
 }
