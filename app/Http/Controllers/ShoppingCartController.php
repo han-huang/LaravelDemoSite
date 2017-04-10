@@ -527,7 +527,7 @@ class ShoppingCartController extends Controller
         $this->flush_sessions();
 
         $orderEmail = new OrderEmail($order);
-        $orderEmail->subject("LaravelDemoSite 訂購通知信");
+        $orderEmail->subject("LaravelDemoSite 訂單通知信");
         Mail::to($client->email)->queue($orderEmail);
 
         return "establishOrder";

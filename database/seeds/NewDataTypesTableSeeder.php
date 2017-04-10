@@ -151,5 +151,21 @@ class NewDataTypesTableSeeder extends Seeder
                 'description'           => '',
             ])->save();
         }
+
+        $dataType = DataType::firstOrNew([
+            'slug'                  => 'orders',
+        ]);
+        if (!$dataType->exists) {
+            $dataType->fill([
+                'name'                  => 'orders',
+                'display_name_singular' => 'Order',
+                'display_name_plural'   => 'Orders',
+                'icon'                  => 'voyager-basket',
+                'model_name'            => '\\App\\Order',
+                'generate_permissions'  => 1,
+                'server_side'           => 1,
+                'description'           => '',
+            ])->save();
+        }
     }
 }
