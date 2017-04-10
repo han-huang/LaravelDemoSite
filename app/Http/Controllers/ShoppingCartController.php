@@ -476,7 +476,8 @@ class ShoppingCartController extends Controller
         // ]);
         $receiver = $this->create_receiver($client_id);
 
-        $order_no = date('YmdHis').substr(sprintf("%08d", $client_id), -8, 8).mt_rand(100000, 999999);
+        // $order_no = date('YmdHis').substr(sprintf("%08d", $client_id), -8, 8).mt_rand(100000, 999999);
+        $order_no = date('YmdHis').mt_rand(100000, 999999);
         $receiver_id = $receiver->id;
         $array = $this->get_summary_items();
         extract($array);
