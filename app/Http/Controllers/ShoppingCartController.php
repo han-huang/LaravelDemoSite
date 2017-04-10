@@ -13,6 +13,9 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 use TCG\Voyager\Facades\Voyager;
 use App\Facades\Presenter;
 use Log;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderEmail;
+
 
 class ShoppingCartController extends Controller
 {
@@ -461,32 +464,34 @@ class ShoppingCartController extends Controller
     {
         $client = Auth::guard('client')->user();
         $client_id = $client->id;
-        $receiver = Receiver::firstOrCreate([
-            'name'        => session()->get('name'),
-            'client_id'   => $client_id,
-            'phone'       => session()->get('phone'),
-            'email'       => session()->get('email'),
-            'addr_city'   => session()->get('addr_city'),
-            'addr_area'   => session()->get('addr_area'),
-            'addr_street' => session()->get('addr_street'),
-            'zipcode'     => session()->get('zipcode'),
-        ]);
+        // $receiver = Receiver::firstOrCreate([
+            // 'name'        => session()->get('name'),
+            // 'client_id'   => $client_id,
+            // 'phone'       => session()->get('phone'),
+            // 'email'       => session()->get('email'),
+            // 'addr_city'   => session()->get('addr_city'),
+            // 'addr_area'   => session()->get('addr_area'),
+            // 'addr_street' => session()->get('addr_street'),
+            // 'zipcode'     => session()->get('zipcode'),
+        // ]);
+        $receiver = $this->create_receiver($client_id);
 
         $order_no = date('YmdHis').substr(sprintf("%08d", $client_id), -8, 8).mt_rand(100000, 999999);
         $receiver_id = $receiver->id;
         $array = $this->get_summary_items();
         extract($array);
 
-        foreach(Cart::instance('shopping')->content() as $row) {
-            $details[] = [
-                             'id'         => $row->id,
-                             'qty'        => $row->qty,
-                             'name'       => $row->name,
-                             'list_price' => $row->options->list_price,
-                             'discount'   => $row->options->discount,
-                             'price'      => $row->price,
-                         ];
-        }
+        // foreach(Cart::instance('shopping')->content() as $row) {
+            // $details[] = [
+                             // 'id'         => $row->id,
+                             // 'qty'        => $row->qty,
+                             // 'name'       => $row->name,
+                             // 'list_price' => $row->options->list_price,
+                             // 'discount'   => $row->options->discount,
+                             // 'price'      => $row->price,
+                         // ];
+        // }
+        $details = $this->create_details();
 
         $order = Order::firstOrNew([
             'order_no'        => $order_no,
@@ -521,6 +526,10 @@ class ShoppingCartController extends Controller
         // }
         $this->flush_sessions();
 
+        $orderEmail = new OrderEmail($order);
+        $orderEmail->subject("LaravelDemoSite 訂購通知信");
+        Mail::to($client->email)->queue($orderEmail);
+
         return "establishOrder";
     }
 
@@ -539,5 +548,46 @@ class ShoppingCartController extends Controller
                 session()->forget($key);
             }
         }
+    }
+
+    /**
+     * create details
+     *
+     * @return array   $details
+     */
+    public function create_details()
+    {
+        foreach(Cart::instance('shopping')->content() as $row) {
+            $details[] = [
+                             'id'         => $row->id,
+                             'qty'        => $row->qty,
+                             'name'       => $row->name,
+                             'list_price' => $row->options->list_price,
+                             'discount'   => $row->options->discount,
+                             'price'      => $row->price,
+                         ];
+        }
+        return $details;
+    }
+
+    /**
+     * create receiver
+     *
+     * @param  integer $client_id
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function create_receiver($client_id)
+    {
+        $receiver = Receiver::firstOrCreate([
+            'name'        => session()->get('name'),
+            'client_id'   => $client_id,
+            'phone'       => session()->get('phone'),
+            'email'       => session()->get('email'),
+            'addr_city'   => session()->get('addr_city'),
+            'addr_area'   => session()->get('addr_area'),
+            'addr_street' => session()->get('addr_street'),
+            'zipcode'     => session()->get('zipcode'),
+        ]);
+        return $receiver;
     }
 }

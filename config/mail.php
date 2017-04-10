@@ -57,7 +57,7 @@ return [
 
     'from' => [
         'address' => 'service@LaravelDemoSite.com',
-        'name' => 'LaravelDemoSite 客服',
+        'name' => 'LaravelDemoSite 客服中心',
     ],
 
     /*
