@@ -184,5 +184,19 @@ class NewMenuItemsTableSeeder extends Seeder
             ])->save();
         }
 
+        $menuItem = MenuItem::firstOrNew([
+            'menu_id'    => $menu->id,
+            'title'      => 'Orders',
+            'url'        => '/admin/orders',
+        ]);
+        if (!$menuItem->exists) {
+            $menuItem->fill([
+                'target'     => '_self',
+                'icon_class' => 'voyager-basket',
+                'color'      => null,
+                'parent_id'  => null,
+                'order'      => 21,
+            ])->save();
+        }
     }
 }

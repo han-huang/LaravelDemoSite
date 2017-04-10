@@ -37,7 +37,7 @@ class AddActiveAndChangeStatusToEnum extends Migration
     public function down()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->dropColumn('acitve');
+            $table->dropColumn('active');
             // $table->string('status')->nullable()->change();
             DB::statement("ALTER TABLE `orders` CHANGE `status` `status` varchar(255) NULL DEFAULT NULL;");
         });
