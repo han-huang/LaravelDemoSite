@@ -139,7 +139,7 @@ class PresenterController extends Controller
     }
 
     /**
-     * convert payment_methond to String
+     * convert invoice_type to String
      *
      * @param  string  $val
      * @return string
@@ -154,5 +154,31 @@ class PresenterController extends Controller
                 $str = "";
         }
         return $str;
+    }
+
+    /**
+     * convert timestamp to array $ymd
+     *
+     * @param  string  $val
+     * @return string
+     */
+    public function showDay($val)
+    {
+        $ymd = $this->timestampToDay($val);
+        $str = $ymd[0].'年'.$ymd[1].'月'.$ymd[2].'日';
+        return $str;
+    }
+
+    /**
+     * convert timestamp to array $ymd
+     *
+     * @param  string  $val
+     * @return array   $ymd
+     */
+    public function timestampToDay($val)
+    {
+        $date = substr($val, 0, 10);
+        $ymd = explode("-", $date);
+        return $ymd;
     }
 }
