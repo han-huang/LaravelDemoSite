@@ -29,4 +29,8 @@ Route::group([
     Route::get('tempconfirm', function () {
         return view('site.bookstore.temp.bookstore_confirm_static');
     });
+
+    Route::get('temporder', function () {
+        return view('site.bookstore.temp.bookstore_order_static');
+    });
 });
