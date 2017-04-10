@@ -21,5 +21,6 @@ class NewPermissionsTableSeeder extends Seeder
         Permission::generateFor('bookauthors');
         Permission::generateFor('booktranslators');
         Permission::generateFor('books');
+        Permission::generateFor('orders');
     }
 }
