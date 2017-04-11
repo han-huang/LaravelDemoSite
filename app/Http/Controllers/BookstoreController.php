@@ -288,16 +288,16 @@ class BookstoreController extends Controller
         session()->put('addr_area', $request->addr_area);
         session()->put('addr_street', $request->addr_street);
         session()->put('zipcode', $request->zipcode);
-        Log::info('session()->get("deliver"): '.session()->get("deliver")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
-        Log::info('session()->get("payment_methond"): '.session()->get("payment_methond")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
-        Log::info('session()->get("invoice_type"): '.session()->get("invoice_type")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
-        Log::info('session()->get("name"): '.session()->get("name")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
-        Log::info('session()->get("phone"): '.session()->get("phone")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
-        Log::info('session()->get("email"): '.session()->get("email")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
-        Log::info('session()->get("addr_city"): '.session()->get("addr_city")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
-        Log::info('session()->get("addr_area"): '.session()->get("addr_area")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
-        Log::info('session()->get("addr_street"): '.session()->get("addr_street")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
-        Log::info('session()->get("zipcode"): '.session()->get("zipcode")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        // Log::info('session()->get("deliver"): '.session()->get("deliver")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        // Log::info('session()->get("payment_methond"): '.session()->get("payment_methond")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        // Log::info('session()->get("invoice_type"): '.session()->get("invoice_type")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        // Log::info('session()->get("name"): '.session()->get("name")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        // Log::info('session()->get("phone"): '.session()->get("phone")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        // Log::info('session()->get("email"): '.session()->get("email")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        // Log::info('session()->get("addr_city"): '.session()->get("addr_city")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        // Log::info('session()->get("addr_area"): '.session()->get("addr_area")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        // Log::info('session()->get("addr_street"): '.session()->get("addr_street")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+        // Log::info('session()->get("zipcode"): '.session()->get("zipcode")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
     }
 
     /**
@@ -326,5 +326,21 @@ class BookstoreController extends Controller
             return redirect()->back()->withInput()
                 ->withErrors($validator);
         }
+    }
+
+    /**
+     * order
+     *
+     * @param  Request $request
+     * @return
+     */
+    public function order(Request $request)
+    {
+        $client = $request->user("client");
+        $view = 'site.bookstore.order';
+        // return 'order';
+        return view($view);
+        // return compact('count', 'total', 'shipping_fee', 'amount');
+        // return view($view, compact('count', 'total', 'shipping_fee', 'amount', 'client'));
     }
 }
