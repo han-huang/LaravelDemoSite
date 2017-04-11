@@ -201,7 +201,7 @@ $(document).ready(function(){
                 $.unblockUI();
             });
         }
-    }); 
+    });
 
     $('#del_selected').on('click', function () {
         var options = {

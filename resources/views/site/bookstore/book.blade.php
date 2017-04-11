@@ -376,7 +376,7 @@ function displayable() {
         var close = $(obj).find('.close-btn');
         var innerHeight = inner.height();
         var textHeight = text.height();
-        
+
         // reset display
         close.css('display', '');
         open.css('display', '');
@@ -437,7 +437,7 @@ function addCart(bookid, element_id, checkout = false) {
     }).fail(function (jqXHR, textStatus, errorThrown) {
         console.log('jqXHR.responseText: ' + jqXHR.responseText);
         console.log('jqXHR.status: ' + jqXHR.status);
-        jAlert(jqXHR.responseText, jqXHR.status);
+        // jAlert(jqXHR.responseText, jqXHR.status);
     });
 }
 
