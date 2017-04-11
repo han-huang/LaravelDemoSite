@@ -13,7 +13,7 @@ class Order extends Model
 
     public function books()
     {
-        return $this->belongsToMany(Book::class, 'book_order')->withPivot('book_quanity');
+        return $this->belongsToMany(Book::class, 'book_order')->withPivot('book_quantity');
     }
 
     public function client()
