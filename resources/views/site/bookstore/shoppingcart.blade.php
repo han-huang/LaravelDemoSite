@@ -104,7 +104,7 @@ $(document).ready(function(){
         }
     });
 
-    $('tbody').on('change', 'input[name^="book_quanity"]', function (event) {
+    $('tbody').on('change', 'input[name^="book_quantity"]', function (event) {
         var bookid = $(this).data("id");
         var qty = parseInt($(this).val());
         var stock = parseInt($('#stock_' + bookid).val());
@@ -329,7 +329,7 @@ $(document).ready(function(){
                                 <td><a href="{{ url('bookstore/book/'.$row->id) }}" target="_blank">{{ $row->name }}</a></td>
                                 <td>{{ $row->options->list_price }}元</td>
                                 <td><span class="deeporange-color">{{ $row->options->discount }}折</span><br>{{ $row->price }}元</td>
-                                <td><div class="form-group"><input name="book_quanity[]" data-id="{{ $row->id }}" type="text" value="{{ $row->qty }}" style="width:100px">
+                                <td><div class="form-group"><input name="book_quantity[]" data-id="{{ $row->id }}" type="text" value="{{ $row->qty }}" style="width:100px">
                                     <span>庫存</span>{!! Presenter::showBookStock($row->options->stock) !!}
                                     <input type="hidden" id="stock_{{$row->id}}" value="{{$row->options->stock}}">
                                     </div>
