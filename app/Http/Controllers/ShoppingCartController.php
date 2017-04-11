@@ -431,15 +431,16 @@ class ShoppingCartController extends Controller
         }
 
         $this->checkTempCart();
-        foreach ($request->cartCheck as $id) {
-            $rowId = $this->findRowIdInCart('shopping', $id);
-            if ($rowId)
-                Cart::instance('shopping')->remove($rowId);
-            else {
-                // return $this->response->errorNotFound('購物車內無此商品！');
-                // Do not return errorNotFound if no $rowId , return done to update tbody and summary
-            }
-        }
+        // foreach ($request->cartCheck as $id) {
+            // $rowId = $this->findRowIdInCart('shopping', $id);
+            // if ($rowId)
+                // Cart::instance('shopping')->remove($rowId);
+            // else {
+                // // return $this->response->errorNotFound('購物車內無此商品！');
+                // // Do not return errorNotFound if no $rowId , return done to update tbody and summary
+            // }
+        // }
+        $this->remove_shopping_rowId($request);
 
         $array = $this->get_tbody();
         extract($array);
@@ -452,6 +453,25 @@ class ShoppingCartController extends Controller
                    'empty'   => $empty
                    // 'cartCheck'  => $request->cartCheck
                ]);
+    }
+
+    /**
+     * remove shopping rowId
+     *
+     * @param  Request $request
+     * @return
+     */
+    public function remove_shopping_rowId(Request $request)
+    {
+        foreach ($request->cartCheck as $id) {
+            $rowId = $this->findRowIdInCart('shopping', $id);
+            if ($rowId)
+                Cart::instance('shopping')->remove($rowId);
+            else {
+                // return $this->response->errorNotFound('購物車內無此商品！');
+                // Do not return errorNotFound if no $rowId , return done to update tbody and summary
+            }
+        }
     }
 
     /**
@@ -477,45 +497,39 @@ class ShoppingCartController extends Controller
         $receiver = $this->create_receiver($client_id);
 
         // $order_no = date('YmdHis').substr(sprintf("%08d", $client_id), -8, 8).mt_rand(100000, 999999);
-        $order_no = date('YmdHis').mt_rand(100000, 999999);
-        $receiver_id = $receiver->id;
-        $array = $this->get_summary_items();
-        extract($array);
+        // $order_no = date('YmdHis').mt_rand(100000, 999999);
+        // $receiver_id = $receiver->id;
+        // $array = $this->get_summary_items();
+        // extract($array);
 
+        // $details = $this->create_details();
+
+        // $order = Order::firstOrNew([
+            // 'order_no'        => $order_no,
+            // 'client_id'       => $client_id,
+            // 'receiver_id'     => $receiver_id,
+            // 'deliver'         => session()->get('deliver'),
+            // 'payment_methond' => session()->get('payment_methond'),
+            // 'invoice_type'    => session()->get('invoice_type'),
+            // 'shipping_fee'    => $shipping_fee,
+            // 'amount'          => $amount,
+            // 'status'          => 'pending',
+            // 'active'          => 1,
+            // 'details'         => json_encode($details, JSON_NUMERIC_CHECK | JSON_UNESCAPED_UNICODE),
+        // ]);
+        // $order->save();
+
+        $order = $this->create_order($client_id, $receiver->id);
+
+        // $data = [];
         // foreach(Cart::instance('shopping')->content() as $row) {
-            // $details[] = [
-                             // 'id'         => $row->id,
-                             // 'qty'        => $row->qty,
-                             // 'name'       => $row->name,
-                             // 'list_price' => $row->options->list_price,
-                             // 'discount'   => $row->options->discount,
-                             // 'price'      => $row->price,
-                         // ];
+            // $data[$row->id] = [
+                // 'book_quantity' => $row->qty
+            // ];
         // }
-        $details = $this->create_details();
+        // $order->books()->sync($data);
 
-        $order = Order::firstOrNew([
-            'order_no'        => $order_no,
-            'client_id'       => $client_id,
-            'receiver_id'     => $receiver_id,
-            'deliver'         => session()->get('deliver'),
-            'payment_methond' => session()->get('payment_methond'),
-            'invoice_type'    => session()->get('invoice_type'),
-            'shipping_fee'    => $shipping_fee,
-            'amount'          => $amount,
-            'status'          => 'pending',
-            'active'          => 1,
-            'details'         => json_encode($details, JSON_NUMERIC_CHECK | JSON_UNESCAPED_UNICODE),
-        ]);
-        $order->save();
-
-        $data = [];
-        foreach(Cart::instance('shopping')->content() as $row) {
-            $data[$row->id] = [
-                'book_quantity' => $row->qty
-            ];
-        }
-        $order->books()->sync($data);
+        $this->sync_book_order($order);
 
         Cart::instance('shopping')->destroy();
         // $keys = ['deliver', 'payment_methond', 'invoice_type', 'name', 'phone',
@@ -527,17 +541,56 @@ class ShoppingCartController extends Controller
         // }
         $this->flush_sessions();
 
+        // $orderEmail = new OrderEmail($order);
+        // $orderEmail->subject("LaravelDemoSite 訂單通知信");
+        // Mail::to($client->email)->queue($orderEmail);
+        $this->send_order_email($order, $client->email);
+        $redirectTo = '/bookstore/order';
+        // return "establishOrder";
+        return response()->json([
+                   'status'     => 'done',
+                   'redirectTo' => $redirectTo,
+                   'title'      => '通知',
+                   'message'    => '訂單成立，已寄出通知信!'
+               ]);
+    }
+
+    /**
+     * send order email
+     *
+     * @param  App\Order $order
+     * @param  str $client_email
+     * @return
+     */
+    public function send_order_email($order, $client_email)
+    {
         $orderEmail = new OrderEmail($order);
         $orderEmail->subject("LaravelDemoSite 訂單通知信");
-        Mail::to($client->email)->queue($orderEmail);
+        Mail::to($client_email)->queue($orderEmail);
+    }
 
-        return "establishOrder";
+    /**
+     * sync table book_order
+     *
+     * @param  App\Order $order
+     * @return
+     */
+    public function sync_book_order($order)
+    {
+        $data = [];
+        foreach(Cart::instance('shopping')->content() as $row) {
+            $data[$row->id] = [
+                'book_quantity' => $row->qty,
+                'sales_discount'      => $row->options->discount,
+                'sale_price'    => $row->price
+            ];
+        }
+        $order->books()->sync($data);
     }
 
     /**
      * flush sessions
      *
-     * @param  Request $request
      * @return
      */
     public function flush_sessions()
@@ -590,5 +643,49 @@ class ShoppingCartController extends Controller
             'zipcode'     => session()->get('zipcode'),
         ]);
         return $receiver;
+    }
+
+    /**
+     * create order
+     *
+     * @param  integer $client_id
+     * @param  integer $receiver_id
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function create_order($client_id, $receiver_id)
+    {
+        // $order_no = date('YmdHis').substr(sprintf("%08d", $client_id), -8, 8).mt_rand(100000, 999999);
+        $order_no = date('YmdHis').mt_rand(100000, 999999);
+        // $receiver_id = $receiver->id;
+        $array = $this->get_summary_items();
+        extract($array);
+
+        // foreach(Cart::instance('shopping')->content() as $row) {
+            // $details[] = [
+                             // 'id'         => $row->id,
+                             // 'qty'        => $row->qty,
+                             // 'name'       => $row->name,
+                             // 'list_price' => $row->options->list_price,
+                             // 'discount'   => $row->options->discount,
+                             // 'price'      => $row->price,
+                         // ];
+        // }
+        $details = $this->create_details();
+
+        $order = Order::firstOrNew([
+            'order_no'        => $order_no,
+            'client_id'       => $client_id,
+            'receiver_id'     => $receiver_id,
+            'deliver'         => session()->get('deliver'),
+            'payment_methond' => session()->get('payment_methond'),
+            'invoice_type'    => session()->get('invoice_type'),
+            'shipping_fee'    => $shipping_fee,
+            'amount'          => $amount,
+            'status'          => 'pending',
+            'active'          => 1,
+            'details'         => json_encode($details, JSON_NUMERIC_CHECK | JSON_UNESCAPED_UNICODE),
+        ]);
+        $order->save();
+        return $order;
     }
 }

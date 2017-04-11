@@ -84,7 +84,9 @@ $(document).ready(function(){
             console.log(JSON.stringify(data, undefined, 2));
             console.log(textStatus);
             if (data.status == "done") {
-
+                jAlert(data.message, data.title, function () {
+                    location.href = data.redirectTo;
+                });
             }
         }).fail(function (jqXHR, textStatus, errorThrown) {
             console.log('jqXHR.responseText: ' + jqXHR.responseText);
@@ -136,13 +138,14 @@ $(document).ready(function(){
                 str += "});";
                 console.log(str);
                 eval(str);
-
             } else {
                 // '購物車內尚無商品，無法繼續進行!'
-                jAlert(msg.error.message, '注意');
-                $(document).on("click","#popup_ok",function() {
+                jAlert(msg.error.message, '注意', function (){
                     location.href = '/bookstore/shoppingcart';
                 });
+                // $(document).on("click","#popup_ok",function() {
+                    // location.href = '/bookstore/shoppingcart';
+                // });
             }
         }).always(function (jqXHR, textStatus) {
             $.unblockUI();

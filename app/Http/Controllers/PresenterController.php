@@ -157,6 +157,36 @@ class PresenterController extends Controller
     }
 
     /**
+     * Show Order Status
+     *
+     * @param  string  $val
+     * @return string
+     */
+    public function showOrderStatus($val)
+    {
+        switch ($val) {
+            case 'pending':
+                $str = "待處理";
+                break;
+            case 'processing':
+                $str = "處理中";
+                break;
+            case 'shipped':
+                $str = "已出貨";
+                break;
+            case 'returned':
+                $str = "已退貨";
+                break;
+            case 'canceled':
+                $str = "已取消";
+                break;
+            default:
+                $str = "";
+        }
+        return $str;
+    }
+
+    /**
      * convert timestamp to array $ymd
      *
      * @param  string  $val
@@ -180,5 +210,32 @@ class PresenterController extends Controller
         $date = substr($val, 0, 10);
         $ymd = explode("-", $date);
         return $ymd;
+    }
+
+    /**
+     * get YMD
+     *
+     * @param  string  $val
+     * @return string   $ymd
+     */
+    public function getYMD($val)
+    {
+        $ymd = substr($val, 0, 10);
+        return $ymd;
+    }
+
+    /**
+     * radio checked
+     *
+     * @param  string  $val
+     * @param  string  $match
+     * @return
+     */
+    public function radioCheck($val, $match)
+    {
+        if (strcmp($val, $match))
+            return;
+        else
+            return 'checked';
     }
 }

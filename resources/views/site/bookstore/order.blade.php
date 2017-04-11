@@ -64,6 +64,10 @@
   display: inline-block;
   width:60px
 }
+
+.deeporange-color {
+  color: #d93800;
+}
 </style>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -111,14 +115,14 @@ $(document).ready(function(){
                     <tbody class="">
                         <tr>
                             <td class="col-md-2" style=""><label>查詢條件</label></td>
-                            <td class="col-md-2" style=""><input type="radio" id="one_month" name="during" value="">&nbsp;<label for="">一個月內訂單</label></td>
-                            <td class="col-md-2" style=""><input type="radio" id="six_month" name="during" value="">&nbsp;<label for="">六個月內訂單</label></td>
+                            <td class="col-md-2" style=""><input type="radio" id="one_month" name="condition" value="" {{ Presenter::radioCheck($condition, 'one') }}>&nbsp;<label for="">一個月內訂單</label></td>
+                            <td class="col-md-2" style=""><input type="radio" id="six_month" name="condition" value="" {{ Presenter::radioCheck($condition, 'six') }}>&nbsp;<label for="">六個月內訂單</label></td>
                             <td class="col-md-2"></td>
                             <td class="col-md-2"></td>
                         </tr>
                         <tr>
                             <td class="col-md-2" style=""><label>訂單編號</label></td>
-                            <td class="col-md-4" style=""><input type="radio" id="" name="during" value="">&nbsp;<input type="text" id="" name="" value=""></td>
+                            <td class="col-md-4" style=""><input type="radio" id="" name="condition" value="" {{ Presenter::radioCheck($condition, 'order_no') }}>&nbsp;<input type="text" id="" name="" value=""></td>
                             <td class="col-md-1"></td>
                             <td class="col-md-1"></td>
                             <td class="col-md-2"></td>
@@ -133,7 +137,7 @@ $(document).ready(function(){
                 <table class="table table-hover ">
                     <thead>
                         <tr>
-                            <th colspan='7' class="box-title">所有訂單</th>
+                            <th colspan='7' class="box-title">查詢結果</th>
                         </tr>
                         <tr>
                             <td class="col-md-1" style=""><label>訂單編號</label></td>
@@ -146,9 +150,23 @@ $(document).ready(function(){
                         </tr>
                     </thead>
                     <tbody class="">
+                        @if(count($lastMonthOrders))
+                            @foreach($lastMonthOrders as $order)
+                            <tr>
+                                <td class="col-md-1" style="">{{ $order->order_no }}</td>
+                                <td class="col-md-1" style="">{{ Presenter::getYMD($order->created_at) }}</td>
+                                <td class="col-md-1" style="">{{ Presenter::deliver_str($order->deliver) }}</td>
+                                <td class="col-md-1" style="">{{ Presenter::payment_methond_str($order->payment_methond) }}</td>
+                                <td class="col-md-1" style="">{{ $order->amount }}</td>
+                                <td class="col-md-1" style="">{{ Presenter::showOrderStatus($order->status) }}</td>
+                                <td class="col-md-1" style=""><button type="button" id='' data-id="{{ $order->id }}"  data-toggle="modal" data-target="#details-{{ $order->id }}">明細</button></td>
+                            </tr>
+                            @endforeach
+                        @else
                         <tr>
-                            <td colspan='7' class="col-md-7 text-center" style="">你目前沒有1個月內訂單</td>
+                            <td colspan='7' class="col-md-7 text-center"><span class="deeporange-color">查無訂單資料</span></td>
                         </tr>
+                        @endif
                         <tr>
                             <td class="col-md-1" style="">20170410230301560108</td>
                             <td class="col-md-1" style="">2017-04-10</td>
