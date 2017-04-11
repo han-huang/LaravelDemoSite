@@ -13,6 +13,7 @@ Route::group([
     Route::get('deliver', 'BookstoreController@deliver')->name('deliver');
     Route::post('SaveDeliver', 'BookstoreController@SaveDeliver')->name('SaveDeliver');
     Route::get('confirm', 'BookstoreController@confirm')->name('confirm');
+    Route::get('order', 'BookstoreController@order')->name('order');
 
     Route::get('tempcart', function () {
         return view('site.bookstore.temp.bookstore_cart_static');
