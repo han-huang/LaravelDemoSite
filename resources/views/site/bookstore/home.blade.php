@@ -242,7 +242,7 @@ function addCart(bookid, element_id, checkout = false) {
         error: function (jqXHR, textStatus, errorThrown) {
             console.log('jqXHR.responseText: ' + jqXHR.responseText);
             console.log('jqXHR.status: ' + jqXHR.status);
-            jAlert(jqXHR.responseText, jqXHR.status);
+            // jAlert(jqXHR.responseText, jqXHR.status);
         }
     });
 }

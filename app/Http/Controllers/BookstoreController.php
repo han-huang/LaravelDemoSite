@@ -8,6 +8,8 @@ use App\Facades\ShoppingCart;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Log;
 use Validator;
+use App\Order;
+use Carbon\Carbon;
 
 class BookstoreController extends Controller
 {
@@ -26,7 +28,8 @@ class BookstoreController extends Controller
             'shoppingcart',
             'deliver',
             'SaveDeliver',
-            'confirm'
+            'confirm',
+            'order'
         ]]);
 
         $this->middleware('checkcart', ['only' => [
@@ -337,10 +340,15 @@ class BookstoreController extends Controller
     public function order(Request $request)
     {
         $client = $request->user("client");
+        $orderModel = new Order();
+        $lastMonthOrders = $orderModel->lastMonthOrders($client->id);
+        $condition = 'one';
+        // $condition = 'six';
+        // $condition = 'order_no';
         $view = 'site.bookstore.order';
         // return 'order';
-        return view($view);
+        // return view($view);
         // return compact('count', 'total', 'shipping_fee', 'amount');
-        // return view($view, compact('count', 'total', 'shipping_fee', 'amount', 'client'));
+        return view($view, compact('lastMonthOrders', 'condition'));
     }
 }

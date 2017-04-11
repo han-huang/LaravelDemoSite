@@ -16,4 +16,12 @@ Route::group([
                 ->name('deleteCartMultiple');
             Route::get('establishOrder', 'ShoppingCartController@establishOrder')->name('establishOrder');
     });
+
+    Route::group([
+            'as'     => 'order.',
+            'prefix' => 'order',
+        ], function () {
+            Route::get('details/{id}', 'OrderController@details')->name('details');
+    });
+
 });
