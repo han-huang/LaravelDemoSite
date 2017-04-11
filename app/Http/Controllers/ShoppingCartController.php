@@ -263,7 +263,7 @@ class ShoppingCartController extends Controller
                 // $tbody .= "<td><a href='".url('bookstore/book/'.$row->id)."' target='_blank'>$row->name</a></td>";
                 // $tbody .= "<td>".$row->options->list_price."元</td>";
                 // $tbody .= "<td><span class='deeporange-color'>".$row->options->discount."折</span><br>".$row->price."元</td>";
-                // $tbody .= "<td><div class='form-group'><input name='book_quanity[]' data-id='$row->id' type='text' value='$row->qty' style='width:50px'></div></td>";
+                // $tbody .= "<td><div class='form-group'><input name='book_quantity[]' data-id='$row->id' type='text' value='$row->qty' style='width:50px'></div></td>";
                 // $subtotal = $row->price * $row->qty;
                 // $tbody .= "<td>".$subtotal."元</td>";
                 // $tbody .= "<td><button type='button' id='del_$row->id' data-id='$row->id' class='btn' onclick=''>刪除</button></td>";
@@ -350,7 +350,7 @@ class ShoppingCartController extends Controller
                 $tbody .= "<td><a href='".url('bookstore/book/'.$row->id)."' target='_blank'>$row->name</a></td>";
                 $tbody .= "<td>".$row->options->list_price."元</td>";
                 $tbody .= "<td><span class='deeporange-color'>".$row->options->discount."折</span><br>".$row->price."元</td>";
-                $tbody .= "<td><div class='form-group'><input name='book_quanity[]' data-id='$row->id' type='text' value='$row->qty' style='width:100px'>";
+                $tbody .= "<td><div class='form-group'><input name='book_quantity[]' data-id='$row->id' type='text' value='$row->qty' style='width:100px'>";
                 $tbody .= "<span>庫存</span>";
                 if($row->options->stock > 10) {
                     $tbody .= "<span>&nbsp;&gt;&nbsp;</span><span class='deeporange-color'>10</span>";
