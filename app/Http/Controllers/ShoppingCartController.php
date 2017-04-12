@@ -671,7 +671,7 @@ class ShoppingCartController extends Controller
                          // ];
         // }
         $details = $this->create_details();
-
+        $count = Cart::instance('shopping')->count();
         $order = Order::firstOrNew([
             'order_no'        => $order_no,
             'client_id'       => $client_id,
@@ -679,6 +679,7 @@ class ShoppingCartController extends Controller
             'deliver'         => session()->get('deliver'),
             'payment_methond' => session()->get('payment_methond'),
             'invoice_type'    => session()->get('invoice_type'),
+            'count'           => $count,
             'shipping_fee'    => $shipping_fee,
             'amount'          => $amount,
             'status'          => 'pending',
