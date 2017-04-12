@@ -66,6 +66,7 @@ $(document).ready(function(){
             cache: true,
             url: "/ajax/shopping/establishOrder/",
             data: {},
+            dataType: 'json',
             beforeSend: function (xhr) {
                 $.blockUI({ message: '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span><h3>處理中</h3>',
                             css: {
