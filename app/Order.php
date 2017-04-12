@@ -64,6 +64,21 @@ class Order extends Model
     }
 
     /**
+     * Scope a query to select brief columns.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSelectbrief(Builder $query)
+    {
+        return $query->select(
+                           'id', 'order_no', 'created_at',
+                           'deliver', 'payment_methond',
+                           'amount', 'status'
+                       );
+    }
+
+    /**
      * Get orders of last month.
      *
      * @param  integer $client_id
@@ -71,7 +86,18 @@ class Order extends Model
      */
     public function lastMonthOrders($client_id)
     {
-        return $this->clientid($client_id)->active()
+        return $this->selectbrief()->clientid($client_id)->active()
                    ->lastmonth()->get();
+    }
+
+    /**
+     * Get Details of order.
+     *
+     * @param  integer $order_id
+     * @return Illuminate\Database\Eloquent\Collection
+     */
+    public function getDetails($order_id)
+    {
+        return $this->find($order_id)->books()->get();
     }
 }

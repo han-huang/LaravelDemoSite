@@ -17,6 +17,8 @@
 @stop
 
 @section('javascript')
+<script src="{{ asset('js/jquery.alerts.js') }}"></script>
+<script src="{{ asset('js/jquery.blockUI.js') }}"></script>
 
 @stop
 
@@ -71,8 +73,51 @@
 </style>
 <script type="text/javascript">
 $(document).ready(function(){
+    $('#result_table').on('click', 'button', function (event) {
+        var orderid = $(this).data("id");
+        // console.log('orderid: ' + orderid);
+        if($('#details-' + orderid).length) {
+            $('#details-' + orderid).modal();
+        } else {
+            $.ajax({
+                type: "GET",
+                cache: true,
+                url: "/ajax/order/details/" + orderid,
+                data: {},
+                dataType: 'json',
+                beforeSend: function (xhr) {
+                    $.blockUI({ message: '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span><h3>處理中</h3>',
+                                css: {
+                                          border: 'none',
+                                          padding: '15px',
+                                          backgroundColor: '#000',
+                                          '-webkit-border-radius': '10px',
+                                          '-moz-border-radius': '10px',
+                                          opacity: .5,
+                                          color: '#fff'
+                                      }
+                    });
 
-
+                    return xhr.setRequestHeader('X-CSRF-TOKEN', $('meta[name="csrf-token"]').attr('content'));
+                }
+            }).done(function (data, textStatus) {
+                // console.log(JSON.stringify(data, undefined, 2));
+                // console.log(textStatus);
+                if (data.status == "done" && data.modal != undefined) {
+                    if (!document.getElementById('details-'+ orderid))
+                        $('#order').append(data.modal);
+                    $('#details-' + orderid).modal();
+                }
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                console.log('jqXHR.responseText: ' + jqXHR.responseText);
+                console.log('jqXHR.status: ' + jqXHR.status);
+                // msg = JSON.parse(jqXHR.responseText);
+                // jAlert(msg.error.message, '注意');
+            }).always(function (jqXHR, textStatus) {
+                $.unblockUI();
+            });
+        }
+    });
 });
 </script>
     <div class="container div-top decoration-none" style="border: 0px solid red;">
@@ -134,7 +179,7 @@ $(document).ready(function(){
             </div>
 
             <div class="" style="border: 1px solid #ddd;margin-top:20px">
-                <table class="table table-hover ">
+                <table id="result_table" class="table table-hover ">
                     <thead>
                         <tr>
                             <th colspan='7' class="box-title">查詢結果</th>
@@ -159,7 +204,7 @@ $(document).ready(function(){
                                 <td class="col-md-1" style="">{{ Presenter::payment_methond_str($order->payment_methond) }}</td>
                                 <td class="col-md-1" style="">{{ $order->amount }}</td>
                                 <td class="col-md-1" style="">{{ Presenter::showOrderStatus($order->status) }}</td>
-                                <td class="col-md-1" style=""><button type="button" id='' data-id="{{ $order->id }}"  data-toggle="modal" data-target="#details-{{ $order->id }}">明細</button></td>
+                                <td class="col-md-1" style=""><button type="button" id='' data-id="{{ $order->id }}">明細</button></td>
                             </tr>
                             @endforeach
                         @else
@@ -167,117 +212,9 @@ $(document).ready(function(){
                             <td colspan='7' class="col-md-7 text-center"><span class="deeporange-color">查無訂單資料</span></td>
                         </tr>
                         @endif
-                        <tr>
-                            <td class="col-md-1" style="">20170410230301560108</td>
-                            <td class="col-md-1" style="">2017-04-10</td>
-                            <td class="col-md-1" style="">宅配</td>
-                            <td class="col-md-1" style="">貨到付款</td>
-                            <td class="col-md-1" style="">1000000</td>
-                            <td class="col-md-1" style="">待處理</td>
-                            <td class="col-md-1" style=""><button type="button" id='' data-id=""  data-toggle="modal" data-target="#details-1">明細</button></td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-1" style="">20170410230301560108</td>
-                            <td class="col-md-1" style="">2017-04-10</td>
-                            <td class="col-md-1" style="">宅配</td>
-                            <td class="col-md-1" style="">貨到付款</td>
-                            <td class="col-md-1" style="">1000000</td>
-                            <td class="col-md-1" style="">待處理</td>
-                            <td class="col-md-1" style=""><button type="button" id='' data-id=""  data-toggle="modal" data-target="#details-1">明細</button></td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
-
-            <!-- Modal -->
-            <div id="details-1" class="modal fade" role="dialog" style="">
-                <div class="modal-dialog">
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <table class="table table-hover ">
-                            <thead>
-                                <tr class="info">
-                                    <th class="col-md-2">商品名稱</th>
-                                    <th class="col-md-1">定價(NT$)</th>
-                                    <th class="col-md-1">售價(NT$)</th>
-                                    <th class="col-md-1">數量</th>
-                                    <th class="col-md-1">小計(NT$)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="col-md-2"><a href="http://domain.app:8040/bookstore/book/4" target="_blank">王與馬戲團</a></td>
-                                    <td class="col-md-1">320元</td>
-                                    <td class="col-md-1"><span class="deeporange-color">79折</span><br>253元</td>
-                                    <td class="col-md-1" style="width:100px">1</td>
-                                    <td class="col-md-1">253元</td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-2"><a href="http://domain.app:8040/bookstore/book/2" target="_blank">財富之城：威尼斯共和國的海洋霸權</a></td>
-                                    <td class="col-md-1">500元</td>
-                                    <td class="col-md-1"><span class="deeporange-color">79折</span><br>395元</td>
-                                    <td class="col-md-1" style="width:100px">1</td>
-                                    <td class="col-md-1">395元</td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-2"><a href="http://domain.app:8040/bookstore/book/2" target="_blank">財富之城：威尼斯共和國的海洋霸權</a></td>
-                                    <td class="col-md-1">500元</td>
-                                    <td class="col-md-1"><span class="deeporange-color">79折</span><br>395元</td>
-                                    <td class="col-md-1" style="width:100px">1</td>
-                                    <td class="col-md-1">395元</td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-2"><a href="http://domain.app:8040/bookstore/book/2" target="_blank">財富之城：威尼斯共和國的海洋霸權</a></td>
-                                    <td class="col-md-1">500元</td>
-                                    <td class="col-md-1"><span class="deeporange-color">79折</span><br>395元</td>
-                                    <td class="col-md-1" style="width:100px">1</td>
-                                    <td class="col-md-1">395元</td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-2"><a href="http://domain.app:8040/bookstore/book/2" target="_blank">財富之城：威尼斯共和國的海洋霸權</a></td>
-                                    <td class="col-md-1">500元</td>
-                                    <td class="col-md-1"><span class="deeporange-color">79折</span><br>395元</td>
-                                    <td class="col-md-1" style="width:100px">1</td>
-                                    <td class="col-md-1">395元</td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-2"><a href="http://domain.app:8040/bookstore/book/2" target="_blank">財富之城：威尼斯共和國的海洋霸權</a></td>
-                                    <td class="col-md-1">500元</td>
-                                    <td class="col-md-1"><span class="deeporange-color">79折</span><br>395元</td>
-                                    <td class="col-md-1" style="width:100px">1</td>
-                                    <td class="col-md-1">395元</td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-2"><a href="http://domain.app:8040/bookstore/book/2" target="_blank">財富之城：威尼斯共和國的海洋霸權</a></td>
-                                    <td class="col-md-1">500元</td>
-                                    <td class="col-md-1"><span class="deeporange-color">79折</span><br>395元</td>
-                                    <td class="col-md-1" style="width:100px">1</td>
-                                    <td class="col-md-1">395元</td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-2"><a href="http://domain.app:8040/bookstore/book/2" target="_blank">財富之城：威尼斯共和國的海洋霸權</a></td>
-                                    <td class="col-md-1">500元</td>
-                                    <td class="col-md-1"><span class="deeporange-color">79折</span><br>395元</td>
-                                    <td class="col-md-1" style="width:100px">1</td>
-                                    <td class="col-md-1">395元</td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-2"><a href="http://domain.app:8040/bookstore/book/2" target="_blank">財富之城：威尼斯共和國的海洋霸權</a></td>
-                                    <td class="col-md-1">500元</td>
-                                    <td class="col-md-1"><span class="deeporange-color">79折</span><br>395元</td>
-                                    <td class="col-md-1" style="width:100px">1</td>
-                                    <td class="col-md-1">395元</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="text-right" style="margin:20px">
-                            <p>共&nbsp;<span class="deeporange-color" id="count">2</span>&nbsp;項商品，累計：NT$&nbsp;<span class="deeporange-color span-price">648</span>&nbsp;元</p>
-                            <p>處理費：NT$&nbsp;<span class="deeporange-color span-price">0</span>&nbsp;元</p>
-                            <p>訂單金額：NT$&nbsp;<span class="deeporange-color span-price">648</span>&nbsp;元</p>
-                        </div>
-                    </div>
-                </div>
-            </div><!-- Modal -->
         </div><!-- right -->
 
     </div>
