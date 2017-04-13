@@ -27,6 +27,7 @@ class CheckCart
      */
     public function validate($keys)
     {
+        $errors = [];
         $terminate = false;
         foreach ($keys as $key) {
             if (!session()->has($key)) {

@@ -243,6 +243,18 @@ function addCart(bookid, element_id, checkout = false) {
             console.log('jqXHR.responseText: ' + jqXHR.responseText);
             console.log('jqXHR.status: ' + jqXHR.status);
             // jAlert(jqXHR.responseText, jqXHR.status);
+            msg = JSON.parse(jqXHR.responseText);
+            if (jqXHR.status == 400) {
+                res = JSON.parse(msg.error.message);
+                // jAlert(msg.error.message, '注意');
+                jAlert(res.msg, '注意', function () {
+                    $('#cart_btn').addClass('btn-dark').addClass('cursor-auto')
+                        .removeAttr("onclick").find('span').eq(1)
+                        .html('&nbsp;' + res.msg);
+                });
+            } else {
+                jAlert(msg.error.message, '注意');
+            }
         }
     });
 }
@@ -296,10 +308,14 @@ $(document).ready(function(){
                         <li class="text-center"><span class="" style="color:red">66折價 $ {{ round($todaysale->discount * $todaysale->list_price / 100) }} 元</span></li>
                         </a>
                         <li class="text-center">
-                        @if($PutInCart)
-                        <a id="cart_btn" class="btn btn-dark cursor-auto" role="button" onclick=""><span class="glyphicon glyphicon-shopping-cart"></span><span >&nbsp;已放入購物車</span></a>
+                        @if($todaysale->stock)
+                            @if($PutInCart)
+                            <a id="cart_btn" class="btn btn-dark cursor-auto" role="button" onclick=""><span class="glyphicon glyphicon-shopping-cart"></span><span >&nbsp;已放入購物車</span></a>
+                            @else
+                            <a id="cart_btn" class="btn btn-info" role="button" onclick="addCart({{ $todaysale->id }}, this.id)"><span class="glyphicon glyphicon-shopping-cart"></span><span >&nbsp;放入購物車</span></a>
+                            @endif
                         @else
-                        <a id="cart_btn" class="btn btn-info" role="button" onclick="addCart({{ $todaysale->id }}, this.id)"><span class="glyphicon glyphicon-shopping-cart"></span><span >&nbsp;放入購物車</span></a>
+                            <a id="cart_btn" class="btn btn-dark cursor-auto" role="button" onclick=""><span class="glyphicon glyphicon-shopping-cart"></span><span >&nbsp;目前已無庫存</span></a>
                         @endif
                         </li>
                     </ul>

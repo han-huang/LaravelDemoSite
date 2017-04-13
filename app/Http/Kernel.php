@@ -60,6 +60,7 @@ class Kernel extends HttpKernel
         'ajax' => \App\Http\Middleware\Ajax::class,
         'redirectTo' => \App\Http\Middleware\RedirectToMiddleware::class,
         'checkcart' => \App\Http\Middleware\CheckCart::class,
+        'checkbookstock' => \App\Http\Middleware\CheckBookStock::class,
         'jwt.auth' => GetUserFromToken::class,
         'jwt.refresh' => RefreshToken::class,
     ];
