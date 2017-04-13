@@ -438,6 +438,26 @@ function addCart(bookid, element_id, checkout = false) {
         console.log('jqXHR.responseText: ' + jqXHR.responseText);
         console.log('jqXHR.status: ' + jqXHR.status);
         // jAlert(jqXHR.responseText, jqXHR.status);
+        msg = JSON.parse(jqXHR.responseText);
+        if (jqXHR.status == 400) {
+            // console.log(typeof msg.error.message.msg);
+            // console.log(msg.error.message.msg);
+            // console.log(msg);
+            res = JSON.parse(msg.error.message);
+            // console.log('res: ' + res);
+            // console.log('typeof res.stock: ' + typeof res.stock);
+            // console.log('res.stock: ' + res.stock);
+            if(res.stock != undefined) {
+                jAlert(res.msg, '注意', function () {
+                    $('.stock').html(res.stock);
+                    $('#cart_btn').remove();
+                    $('#checkout_btn').remove();
+                });
+                return;
+            } //else
+                // jAlert(msg.error.message, '注意');
+        }
+        jAlert(msg.error.message, '注意');
     });
 }
 
@@ -589,14 +609,16 @@ $(document).ready(function(){
             <div class="col-md-2" >
                 <div class="padding-2" style="border: 0px solid red;">
                     <div class="stock">
-                        <span>庫存</span>{!! Presenter::showBookStock($book->stock) !!}
+                        {!! Presenter::showBookStock($book->stock) !!}
                     </div>
-                    @if($PutInCart)
-                    <a id="cart_btn" class="btn btn-dark btn-block text-left cursor-auto" role="button" onclick=""><span class="glyphicon glyphicon-shopping-cart"></span><span >&nbsp;已放入購物車</span></a>
-                    @else
-                    <a id="cart_btn" class="btn btn-info btn-block text-left" role="button" onclick="addCart({{ $book->id }}, this.id)"><span class="glyphicon glyphicon-shopping-cart"></span><span >&nbsp;放入購物車</span></a>
+                    @if($book->stock)
+                        @if($PutInCart)
+                        <a id="cart_btn" class="btn btn-dark btn-block text-left cursor-auto" role="button" onclick=""><span class="glyphicon glyphicon-shopping-cart"></span><span >&nbsp;已放入購物車</span></a>
+                        @else
+                        <a id="cart_btn" class="btn btn-info btn-block text-left" role="button" onclick="addCart({{ $book->id }}, this.id)"><span class="glyphicon glyphicon-shopping-cart"></span><span >&nbsp;放入購物車</span></a>
+                        @endif
+                        <a id="checkout_btn" class="btn btn-warning btn-block text-left" role="button" onclick="addCart({{ $book->id }}, this.id, true)"><i class="fa fa-usd" aria-hidden="true"></i><span class="" >&nbsp;結帳</span></a>
                     @endif
-                    <a id="checkout_btn" class="btn btn-warning btn-block text-left" role="button" onclick="addCart({{ $book->id }}, this.id, true)"><i class="fa fa-usd" aria-hidden="true"></i><span class="" >&nbsp;結帳</span></a>
                     <a href="#" class="btn btn-success btn-block text-left" role="button"  ><i class="fa fa-heart" aria-hidden="true"></i><span >&nbsp;加入下次購買清單</span></a>
                 </div>
 

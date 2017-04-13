@@ -95,58 +95,78 @@ $(document).ready(function(){
             msg = JSON.parse(jqXHR.responseText);
             console.log('msg.error.message: ' + msg.error.message);
             console.log('Array.isArray(msg.error.message): ' + Array.isArray(msg.error.message));
-            if (Array.isArray(msg.error.message)) {
 
-                // for(var errormsg in msg.error.message) {
-                    // jAlert(msg.error.message[errormsg], '注意', function (){
-                        // jAlert(msg.error.message[errormsg], '注意',
-                    // });
-                    // console.log(msg.error.message[errormsg]);
-                // }
+            switch (jqXHR.status) {
+                case 400 :
+                    res = JSON.parse(msg.error.message);
+                    if(res.msg != undefined) {
+                        length = res.msg.length;
+                        var str = "";
+                        for (i = 0 ; i < length ; i++) {
+                            str += "jAlert(res.msg[" + i + "], '注意', function (){";
+                            if (i == length - 1)
+                                str += "location.href = '" + res.redirectTo + "';";
+                        }
+                        for (i = 0 ; i < length ; i++) {
+                            str += "});";
+                        }
+                        console.log(str);
+                        eval(str);
+                    }
+                    break;
+                default :
+                    if (Array.isArray(msg.error.message)) {
+                        // for(var errormsg in msg.error.message) {
+                            // jAlert(msg.error.message[errormsg], '注意', function (){
+                                // jAlert(msg.error.message[errormsg], '注意',
+                            // });
+                            // console.log(msg.error.message[errormsg]);
+                        // }
 
-                // var length = msg.error.message.length;
-                // var index = 0 ;
-                // jAlert(msg.error.message[index], '注意', function (){
-                    // index ++;
-                    // if (index < length) {
+                        // var length = msg.error.message.length;
+                        // var index = 0 ;
                         // jAlert(msg.error.message[index], '注意', function (){
-                            // index += 1;
+                            // index ++;
                             // if (index < length) {
-                                    // jAlert(msg.error.message[index], '注意');
+                                // jAlert(msg.error.message[index], '注意', function (){
+                                    // index += 1;
+                                    // if (index < length) {
+                                            // jAlert(msg.error.message[index], '注意');
+                                    // }
+                                // });
                             // }
                         // });
-                    // }
-                // });
 
-                // refer to http://stackoverflow.com/questions/36456109/jalert-is-not-working-properly-in-a-loop
-                // jAlert must have a handler on close to show the next one
-                // Therefor generate jAlert string the use eval to execute
-                length = msg.error.message.length;
-                index = 0 ;
-                var str = "";
-                str = "jAlert(msg.error.message[index], '注意', function (){";
-                for (i = 1 ; i < msg.error.message.length ; i++) {
-                    str += "index++;";
-                    if (i < msg.error.message.length -1)
-                        str += "jAlert(msg.error.message[index], '注意', function (){";
-                    else
-                        str += "jAlert(msg.error.message[index], '注意');";
-                }
-                for (i = 1 ; i < msg.error.message.length - 1 ; i++) {
-                    str += "});";
-                }
-                //for the first jAlert
-                str += "});";
-                console.log(str);
-                eval(str);
-            } else {
-                // '購物車內尚無商品，無法繼續進行!'
-                jAlert(msg.error.message, '注意', function (){
-                    location.href = '/bookstore/shoppingcart';
-                });
-                // $(document).on("click","#popup_ok",function() {
-                    // location.href = '/bookstore/shoppingcart';
-                // });
+                        // refer to http://stackoverflow.com/questions/36456109/jalert-is-not-working-properly-in-a-loop
+                        // jAlert must have a handler on close to show the next one
+                        // Therefor generate jAlert string the use eval to execute
+                        length = msg.error.message.length;
+                        index = 0 ;
+                        var str = "";
+                        str = "jAlert(msg.error.message[index], '注意', function (){";
+                        for (i = 1 ; i < length ; i++) {
+                            str += "index++;";
+                            if (i < length -1)
+                                str += "jAlert(msg.error.message[index], '注意', function (){";
+                            else
+                                str += "jAlert(msg.error.message[index], '注意');";
+                        }
+                        for (i = 1 ; i < length - 1 ; i++) {
+                            str += "});";
+                        }
+                        //for the first jAlert
+                        str += "});";
+                        console.log(str);
+                        eval(str);
+                    } else {
+                        // '購物車內尚無商品，無法繼續進行!'
+                        jAlert(msg.error.message, '注意', function (){
+                            location.href = '/bookstore/shoppingcart';
+                        });
+                        // $(document).on("click","#popup_ok",function() {
+                            // location.href = '/bookstore/shoppingcart';
+                        // });
+                    }
             }
         }).always(function (jqXHR, textStatus) {
             $.unblockUI();

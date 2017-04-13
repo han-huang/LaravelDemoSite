@@ -15,7 +15,7 @@ use App\Facades\Presenter;
 use Log;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OrderEmail;
-
+use DB;
 
 class ShoppingCartController extends Controller
 {
@@ -39,6 +39,10 @@ class ShoppingCartController extends Controller
             'establishOrder'
         ]]);
 
+        $this->middleware('checkbookstock', ['only' => [
+            'establishOrder'
+        ]]);
+
         $this->response = $response;
     }
 
@@ -55,6 +59,14 @@ class ShoppingCartController extends Controller
             return $this->response->errorNotFound('無此商品資料');
         }
 
+        if ($book->stock == 0) {
+            $json = json_encode([
+                       'stock' => Presenter::showBookStock($book->stock),
+                       'msg'   => '目前已無庫存'
+                    ], JSON_NUMERIC_CHECK | JSON_UNESCAPED_UNICODE);
+            // return $this->response->errorWrongArgs('目前已無庫存');
+            return $this->response->errorWrongArgs($json);
+        }
         // $price = round($book->discount * $book->list_price / 100);
 
         //check authentication
@@ -122,8 +134,8 @@ class ShoppingCartController extends Controller
                     Cart::instance('shopping')->add($row->id, $row->name, $row->qty, $row->price, [
                         'image'      => $row->options->image,
                         'list_price' => $row->options->list_price,
-                        'discount'   => $row->options->discount,
-                        'stock'      => $row->options->stock
+                        'discount'   => $row->options->discount
+                        // 'stock'      => $row->options->stock
                     ]);
                 }
                 Cart::instance('temp')->destroy();
@@ -156,8 +168,8 @@ class ShoppingCartController extends Controller
             Cart::instance($whichCart)->add($book->id, $book->title, $qty, $price, [
                 'image'      => $book->image,
                 'list_price' => $book->list_price,
-                'discount'   => $book->discount,
-                'stock'      => $book->stock
+                'discount'   => $book->discount
+                // 'stock'      => $book->stock
             ]);
         }
         // add to 'shopping' cart if this record does not exist
@@ -229,7 +241,13 @@ class ShoppingCartController extends Controller
         // Log::info('gettype($book->stock): '.gettype($book->stock)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
         // Log::info('gettype($request->qty): '.gettype($request->qty)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
         if ((int)$request->qty > $book->stock) {
-            return $this->response->errorWrongArgs('庫存不足，請重新更改數量！');
+            $json = json_encode([
+                       'stock'     => Presenter::showBookStock($book->stock),
+                       'stock_val' => $book->stock,
+                       'msg'       => '庫存不足，請重新更改數量！'
+                    ], JSON_NUMERIC_CHECK | JSON_UNESCAPED_UNICODE);
+            // return $this->response->errorWrongArgs('庫存不足，請重新更改數量！');
+            return $this->response->errorWrongArgs($json);
         }
 
         $this->checkTempCart();
@@ -237,13 +255,13 @@ class ShoppingCartController extends Controller
         $rowId = $this->findRowIdInCart('shopping', $id);
         if ($rowId) {
             $item = Cart::get($rowId);
-            $options = $item->options->merge(['stock' => $book->stock]);
+            // $options = $item->options->merge(['stock' => $book->stock]);
 
             // must update $book->stock first then update $request->qty
             // error happen if update $request->qty first and $rowId is deleted when $request->qty is 0
             // (InvalidRowIDException in Cart.php line 188: The cart does not contain rowId)
-            Cart::instance('shopping')->update($rowId, ['options' => $options]);
-            Cart::instance('shopping')->update($rowId, ['qty' => $request->qty]);
+            // Cart::instance('shopping')->update($rowId, ['options' => $options]);
+            Cart::instance('shopping')->update($rowId, ['qty' => (int)$request->qty]);
         } else {
             // return $this->response->errorNotFound('購物車內無此商品！');
 
@@ -350,14 +368,10 @@ class ShoppingCartController extends Controller
                 $tbody .= "<td><a href='".url('bookstore/book/'.$row->id)."' target='_blank'>$row->name</a></td>";
                 $tbody .= "<td>".$row->options->list_price."元</td>";
                 $tbody .= "<td><span class='deeporange-color'>".$row->options->discount."折</span><br>".$row->price."元</td>";
-                $tbody .= "<td><div class='form-group'><input name='book_quantity[]' data-id='$row->id' type='text' value='$row->qty' style='width:100px'>";
-                $tbody .= "<span>庫存</span>";
-                if($row->options->stock > 10) {
-                    $tbody .= "<span>&nbsp;&gt;&nbsp;</span><span class='deeporange-color'>10</span>";
-                } elseif($row->options->stock <= 10) {
-                    $tbody .= "<span >&nbsp;&equals;&nbsp;</span><span class='deeporange-color'>".$row->options->stock."</span>";
-                }
-                $tbody .= "<input type='hidden' id='stock_".$row->id."' value='".$row->options->stock."'>";
+                $tbody .= "<td><div id='quantity_".$row->id."' class='form-group'><input aria-label='數量' name='book_quantity[]' data-id='$row->id' type='text' value='$row->qty' style='width:100px'>";
+                $tbody .= Presenter::findBookStock($row->id);
+                $tbody .= "<input type='hidden' id='stock_".$row->id."' value='".Presenter::findBookStockVal($row->id)."'>";
+                $tbody .= "<label class='sr-only'>".$row->name."</label>";
                 $tbody .= "</div></td>";
                 $subtotal = $row->price * $row->qty;
                 $tbody .= "<td>".$subtotal."元</td>";
@@ -580,10 +594,17 @@ class ShoppingCartController extends Controller
         $data = [];
         foreach(Cart::instance('shopping')->content() as $row) {
             $data[$row->id] = [
-                'book_quantity' => $row->qty,
-                'sales_discount'      => $row->options->discount,
-                'sale_price'    => $row->price
+                'book_quantity'  => $row->qty,
+                'sales_discount' => $row->options->discount,
+                'sale_price'     => $row->price
             ];
+            // process stock and sold
+            DB::transaction(function () use ($row) {
+                $book = Book::lockForUpdate()->find($row->id);
+                $book->stock = $book->stock - $row->qty;
+                $book->sold = $book->sold + $row->qty;
+                $book->save();
+            });
         }
         $order->books()->sync($data);
     }

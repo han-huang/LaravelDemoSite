@@ -30,6 +30,7 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('css/jssocials-theme-classic.css') }}" />
 
 <link href="{{ asset('css/style.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset('css/jquery.alerts.css') }}" rel="stylesheet" type="text/css">
 @stop
 
 @section('content')
@@ -113,6 +114,8 @@ $(document).ready(function(){
                 console.log('jqXHR.status: ' + jqXHR.status);
                 // msg = JSON.parse(jqXHR.responseText);
                 // jAlert(msg.error.message, '注意');
+                if (jqXHR.status == 403)
+                    jAlert("此動作未經授權", '注意');
             }).always(function (jqXHR, textStatus) {
                 $.unblockUI();
             });
