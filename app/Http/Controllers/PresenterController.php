@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Book;
 
 class PresenterController extends Controller
 {
@@ -41,6 +42,30 @@ class PresenterController extends Controller
     }
 
     /**
+     * find Stock of Book.
+     *
+     * @param  integer  $book_id
+     * @return string
+     */
+    public function findBookStock($book_id)
+    {
+        $book = Book::find($book_id);
+        return $this->showBookStock($book->stock);
+    }
+
+    /**
+     * find Stock of Book.
+     *
+     * @param  integer  $book_id
+     * @return string
+     */
+    public function findBookStockVal($book_id)
+    {
+        $book = Book::find($book_id);
+        return $book->stock;
+    }
+
+    /**
      * show Stock of Book.
      *
      * @param  integer  $stock
@@ -49,9 +74,11 @@ class PresenterController extends Controller
     public function showBookStock($stock)
     {
         if($stock > 10) {
-            $span = '<span>&nbsp;&gt;&nbsp;</span><span class="deeporange-color">10</span>';
-        } elseif($stock <= 10) {
-            $span = "<span >&nbsp;&equals;&nbsp;</span><span class='deeporange-color'>".$stock."</span>";
+            $span = '<p><span>庫存</span><span aria-label="大於">&nbsp;&gt;&nbsp;</span><span class="deeporange-color">10</span></p>';
+        } elseif($stock <= 10 && $stock > 0) {
+            $span = '<p><span>庫存</span><span aria-label="等於">&nbsp;&equals;&nbsp;</span><span class="deeporange-color">'.$stock.'</span></p>';
+        } else {
+            $span = '<p><span class="deeporange-color">目前已無庫存</span></p>';
         }
         return $span;
     }

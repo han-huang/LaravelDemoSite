@@ -191,7 +191,7 @@ class Book extends Model
      */
     public function scopeSelectprice(Builder $query)
     {
-        return $query->select('id', 'title', 'image', 'list_price', 'discount');
+        return $query->select('id', 'title', 'image', 'list_price', 'discount', 'stock');
     }
 
     /**

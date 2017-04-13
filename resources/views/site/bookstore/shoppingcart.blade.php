@@ -73,18 +73,6 @@
 }
 </style>
 <script type="text/javascript">
-function checkout() {
-    var count = parseInt($('#count').html());
-    // console.log(count);
-    // console.log("Number.isInteger: " + Number.isInteger(count));
-    // console.log("isNaN: " + isNaN(count));
-    if (count === 0) {
-        jAlert('購物車無商品，無法結帳！', '注意');
-    } else {
-        location.href='/bookstore/deliver';
-    }
-}
-
 $(document).ready(function(){
     // checkbox - select/exclude all
     $('#cart_form').on('click', '.checkAll', function () {
@@ -108,55 +96,78 @@ $(document).ready(function(){
         var bookid = $(this).data("id");
         var qty = parseInt($(this).val());
         var stock = parseInt($('#stock_' + bookid).val());
-
+        var self = this;
+        // console.log('next p: ' + $(this).next('p').html());
         // console.log("onchange");
         if ($.isNumeric(qty)) {
             if (qty > stock) {
                 jAlert('庫存不足，請重新更改數量！', '注意');
-                return;
-            }
+            } else {
+                $.ajax({
+                    type: "PUT",
+                    cache: false,
+                    url: "/ajax/shopping/updateCart/" + bookid,
+                    data: {'bookid': bookid, 'qty': qty},
+                    dataType: 'json',
+                    beforeSend: function (xhr) {
+                        $.blockUI({ message: '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span><h3>處理中</h3>',
+                                    css: {
+                                              border: 'none',
+                                              padding: '15px',
+                                              backgroundColor: '#000',
+                                              '-webkit-border-radius': '10px',
+                                              '-moz-border-radius': '10px',
+                                              opacity: .5,
+                                              color: '#fff'
+                                          }
+                        });
 
-            $.ajax({
-                type: "PUT",
-                cache: false,
-                url: "/ajax/shopping/updateCart/" + bookid,
-                data: {'bookid': bookid, 'qty': qty},
-                dataType: 'json',
-                beforeSend: function (xhr) {
-                    $.blockUI({ message: '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span><h3>處理中</h3>',
-                                css: {
-                                          border: 'none', 
-                                          padding: '15px', 
-                                          backgroundColor: '#000', 
-                                          '-webkit-border-radius': '10px', 
-                                          '-moz-border-radius': '10px', 
-                                          opacity: .5, 
-                                          color: '#fff' 
-                                      }
-                    });
-            
-                    return xhr.setRequestHeader('X-CSRF-TOKEN', $('meta[name="csrf-token"]').attr('content'));
-                }
-            }).done(function (data, textStatus) {
-                console.log(JSON.stringify(data, undefined, 2));
-                console.log(textStatus);
-                if (data.status == "done") {
-                    // weird, prevent form submitting
-                    if (data.empty) {
-                        $('form').on('submit', function () {return false;});
-                        console.log("empty");
+                        return xhr.setRequestHeader('X-CSRF-TOKEN', $('meta[name="csrf-token"]').attr('content'));
                     }
-                    $('tbody').html(data.tbody);
-                    $('#summary').html(data.summary);
-                }
-            }).fail(function (jqXHR, textStatus, errorThrown) {
-                console.log('jqXHR.responseText: ' + jqXHR.responseText);
-                console.log('jqXHR.status: ' + jqXHR.status);
-                msg = JSON.parse(jqXHR.responseText);
-                jAlert(msg.error.message, '注意');
-            }).always(function (jqXHR, textStatus) {
-                $.unblockUI();
-            });
+                }).done(function (data, textStatus) {
+                    console.log(JSON.stringify(data, undefined, 2));
+                    console.log(textStatus);
+                    if (data.status == "done") {
+                        // weird, prevent form submitting
+                        if (data.empty) {
+                            $('form').on('submit', function () {return false;});
+                            console.log("empty");
+                        }
+                        $('tbody').html(data.tbody);
+                        $('#summary').html(data.summary);
+                    }
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    console.log('jqXHR.responseText: ' + jqXHR.responseText);
+                    console.log('jqXHR.status: ' + jqXHR.status);
+                    msg = JSON.parse(jqXHR.responseText);
+                    // jAlert(msg.error.message, '注意');
+                    if (jqXHR.status == 400) {
+                        // console.log(typeof msg.error.message.msg);
+                        // console.log(msg.error.message.msg);
+                        // console.log(msg);
+                        res = JSON.parse(msg.error.message);
+                        // console.log('res: ' + res);
+                        // console.log('typeof res.stock: ' + typeof res.stock);
+                        console.log('res.stock: ' + res.stock);
+                        // console.log('next p: ' + $(this).next('p').html()); //failed, due to not original this
+                        console.log('self next p: ' + $(self).next('p').html());
+                        console.log('input p: ' + $('#quantity_' + bookid).find('input[name^="book"]').next('p').html());
+
+                        if(res.stock != undefined) {
+                            jAlert(res.msg, '注意', function () {
+                                // $(this).next('p').replaceWith(res.stock); //failed, due to not original this
+                                $(self).next('p').replaceWith(res.stock);
+                                // $('#quantity_' + bookid).find('input[name^="book"]').next('p').replaceWith(res.stock);
+                                $('#stock_' + bookid).val(res.stock_val);
+                            });
+                        } else
+                            jAlert(msg.error.message, '注意');
+                    }
+
+                }).always(function (jqXHR, textStatus) {
+                    $.unblockUI();
+                });
+            }
         } else {
             jAlert('商品數量需為數字，請重新確認更改的數量！', '注意');
         }
@@ -244,6 +255,46 @@ $(document).ready(function(){
         $('#cart_form').ajaxSubmit(options);
     });
 
+    $('#checkout').on('click', function () {
+        var stock_alert = "";
+        var count_alert = 0;
+        $('div[id^="quantity_"]').each(function () {
+            var qty = parseInt($(this).find('input[name^="book_quantity"]').val());
+            var stock = parseInt($(this).find('input[id^="stock_"]').val());
+            var name = $(this).find('label').text();
+            console.log('qty: ' + qty);
+            console.log('stock: ' + stock);
+            console.log('name: ' + name);
+            if (qty > stock) {
+                stock_alert += "jAlert('" + name + "： 庫存不足，請重新更改數量！', '注意', function (){";
+                count_alert++;
+                // console.log('count_alert: ' + count_alert);
+                // console.log('stock_alert: ' + stock_alert);
+            } else {
+                // console.log('qty !> stock: ' + qty + ' '+ stock);
+            }
+        });
+        if (stock_alert) {
+            // for (i = 0 ; i < $('div[id^="quantity_"]').length ; i++) {
+            for (i = 0 ; i < count_alert ; i++) {
+                stock_alert += "});";
+            }
+            console.log(stock_alert);
+            eval(stock_alert);
+            return false;
+        }
+
+        var count = parseInt($('#count').html());
+        // console.log(count);
+        // console.log("Number.isInteger: " + Number.isInteger(count));
+        // console.log("isNaN: " + isNaN(count));
+        if (count === 0) {
+            jAlert('購物車無商品，無法結帳！', '注意');
+        } else {
+            location.href='/bookstore/deliver';
+        }
+    });
+
 });
 </script>
     <div class="container div-top decoration-none" style="border: 0px solid red;">
@@ -294,9 +345,10 @@ $(document).ready(function(){
                                 <td><a href="{{ url('bookstore/book/'.$row->id) }}" target="_blank">{{ $row->name }}</a></td>
                                 <td>{{ $row->options->list_price }}元</td>
                                 <td><span class="deeporange-color">{{ $row->options->discount }}折</span><br>{{ $row->price }}元</td>
-                                <td><div class="form-group"><input name="book_quantity[]" data-id="{{ $row->id }}" type="text" value="{{ $row->qty }}" style="width:100px">
-                                    <span>庫存</span>{!! Presenter::showBookStock($row->options->stock) !!}
-                                    <input type="hidden" id="stock_{{$row->id}}" value="{{$row->options->stock}}">
+                                <td><div id="quantity_{{$row->id}}" class="form-group"><input aria-label="數量" name="book_quantity[]" data-id="{{ $row->id }}" type="text" value="{{ $row->qty }}" style="width:100px">
+                                    {!! Presenter::findBookStock($row->id) !!}
+                                    <input type="hidden" id="stock_{{$row->id}}" value="{{ Presenter::findBookStockVal($row->id) }}">
+                                    <label class="sr-only">{{ $row->name }}</label>
                                     </div>
                                 </td>
                                 <td>{{ $row->price * $row->qty }}元</td>
@@ -334,7 +386,7 @@ $(document).ready(function(){
 
             <div class="text-right" style="margin:20px">
             <button type="button" class="btn btn-primary btn-lg" onclick="location.href='/bookstore'">繼續購物</button>
-            <button type="button" class="btn btn-primary btn-lg" onclick="checkout()">結帳</button>
+            <button type="button" class="btn btn-primary btn-lg" id="checkout">結帳</button>
             </div>
         </div><!-- shopping-cart -->
 
