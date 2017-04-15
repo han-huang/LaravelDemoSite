@@ -18,7 +18,7 @@ class IndexMenusTableSeeder extends Seeder
         ]);
         if (!$dataType->exists) {
             $dataType->fill([
-                'parent_id' => null,
+                'parent_id' => 0,
                 'order'     => 1,
                 'active'    => 1,
             ])->save();
@@ -30,7 +30,7 @@ class IndexMenusTableSeeder extends Seeder
         ]);
         if (!$dataType->exists) {
             $dataType->fill([
-                'parent_id' => null,
+                'parent_id' => 0,
                 'order'     => 2,
                 'active'    => 1,
             ])->save();
@@ -42,7 +42,7 @@ class IndexMenusTableSeeder extends Seeder
         ]);
         if (!$dataType->exists) {
             $dataType->fill([
-                'parent_id' => null,
+                'parent_id' => 0,
                 'order'     => 3,
                 'active'    => 1,
             ])->save();
@@ -66,7 +66,7 @@ class IndexMenusTableSeeder extends Seeder
         ]);
         if (!$dataType->exists) {
             $dataType->fill([
-                'parent_id' => null,
+                'parent_id' => 0,
                 'order'     => 5,
                 'active'    => 1,
             ])->save();
@@ -78,7 +78,7 @@ class IndexMenusTableSeeder extends Seeder
         ]);
         if (!$dataType->exists) {
             $dataType->fill([
-                'parent_id' => null,
+                'parent_id' => 0,
                 'order'     => 6,
                 'active'    => 1,
             ])->save();
@@ -90,7 +90,7 @@ class IndexMenusTableSeeder extends Seeder
         ]);
         if (!$dataType->exists) {
             $dataType->fill([
-                'parent_id' => null,
+                'parent_id' => 0,
                 'order'     => 7,
                 'active'    => 1,
             ])->save();
