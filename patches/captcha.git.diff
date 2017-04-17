@@ -1,0 +1,356 @@
+diff --git a/app/Http/Controllers/ClientAuth/ForgotPasswordController.php b/app/Http/Controllers/ClientAuth/ForgotPasswordController.php
+index 967db06..7d48090 100644
+--- a/app/Http/Controllers/ClientAuth/ForgotPasswordController.php
++++ b/app/Http/Controllers/ClientAuth/ForgotPasswordController.php
+@@ -30,7 +30,8 @@ class ForgotPasswordController extends Controller
+     private $messages = [
+         'required' => ':attribute 的欄位不能留空。',
+         'email.required' => '電子郵件的欄位不能留空。',
+-        'g-recaptcha-response.required' => '請勾選驗證服務',
++        'captcha.required' => '請輸入驗證碼',
++        'captcha.captcha' => '驗證碼錯誤',
+     ];
+ 
+     /**
+@@ -63,7 +64,7 @@ class ForgotPasswordController extends Controller
+     public function sendResetLinkEmail(Request $request)
+     {
+         $this->validate($request, ['email' => 'required|email',
+-            'g-recaptcha-response' => 'required|captcha'
++            'captcha' => 'required|captcha'
+         ], $this->messages);
+ 
+         // We will send the password reset link to this user. Once we have attempted
+diff --git a/app/Http/Controllers/ClientAuth/LoginController.php b/app/Http/Controllers/ClientAuth/LoginController.php
+index 6470d6e..60725c6 100644
+--- a/app/Http/Controllers/ClientAuth/LoginController.php
++++ b/app/Http/Controllers/ClientAuth/LoginController.php
+@@ -42,7 +42,8 @@ class LoginController extends Controller
+         'required' => ':attribute 的欄位是必要的。',
+         'email.required' => '電子郵件的欄位是必要的。',
+         'password.required' => '密碼的欄位是必要的。',
+-        'g-recaptcha-response.required' => '請勾選驗證服務',
++        'captcha.required' => '請輸入驗證碼',
++        'captcha.captcha' => '驗證碼錯誤',
+     ];
+ 
+     /**
+@@ -76,7 +77,7 @@ class LoginController extends Controller
+     {
+         $this->validate($request, [
+             $this->username() => 'required', 'password' => 'required',
+-            'g-recaptcha-response' => 'required|captcha',
++            'captcha' => 'required|captcha',
+         ], $this->messages);
+     }
+ 
+diff --git a/app/Http/Controllers/ClientAuth/RegisterController.php b/app/Http/Controllers/ClientAuth/RegisterController.php
+index 3e53605..cc20e6e 100644
+--- a/app/Http/Controllers/ClientAuth/RegisterController.php
++++ b/app/Http/Controllers/ClientAuth/RegisterController.php
+@@ -34,7 +34,8 @@ class RegisterController extends Controller
+         'birthday.required' => '生日的欄位不能留空。',
+         'gender.required' => '性別的欄位不能留空。',
+         'agree_edm.required' => '請勾選是否同意獲得本站提供之相關活動訊息',
+-        'g-recaptcha-response.required' => '請勾選驗證服務',
++        'captcha.required' => '請輸入驗證碼',
++        'captcha.captcha' => '驗證碼錯誤',
+     ];
+ 
+     use RegistersUsers;
+@@ -71,7 +72,7 @@ class RegisterController extends Controller
+             'birthday' => 'required|date',
+             'gender' => array('required', 'regex:/^(M|F)$/'),
+             'agree_edm' => 'required|boolean',
+-            'g-recaptcha-response' => 'required|captcha',
++            'captcha' => 'required|captcha',
+         ], $this->messages);
+     }
+ 
+diff --git a/app/Http/Controllers/ClientAuth/ResetPasswordController.php b/app/Http/Controllers/ClientAuth/ResetPasswordController.php
+index bbaa33b..24cae74 100644
+--- a/app/Http/Controllers/ClientAuth/ResetPasswordController.php
++++ b/app/Http/Controllers/ClientAuth/ResetPasswordController.php
+@@ -69,7 +69,7 @@ class ResetPasswordController extends Controller
+             'token' => 'required',
+             'email' => 'required|email',
+             'password' => 'required|confirmed|min:6',
+-            'g-recaptcha-response' => 'required|captcha',
++            'captcha' => 'required|captcha',
+         ];
+     }
+ 
+@@ -85,7 +85,8 @@ class ResetPasswordController extends Controller
+             'required' => ':attribute 的欄位不能留空。',
+             'email.required' => '電子郵件的欄位不能留空。',
+             'password.required' => '密碼的欄位不能留空。',
+-            'g-recaptcha-response.required' => '請勾選驗證服務',
++            'captcha.required' => '請輸入驗證碼',
++            'captcha.captcha' => '驗證碼錯誤',
+         ];
+     }
+ 
+diff --git a/config/app.php b/config/app.php
+index 91b087d..e2142dc 100644
+--- a/config/app.php
++++ b/config/app.php
+@@ -167,9 +167,9 @@ return [
+          * Package Service Providers...
+          */
+         TCG\Voyager\VoyagerServiceProvider::class,
+-        Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
++        // Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
+         Collective\Html\HtmlServiceProvider::class,
+-        // Mews\Captcha\CaptchaServiceProvider::class,
++        Mews\Captcha\CaptchaServiceProvider::class,
+         EllipseSynergie\ApiResponse\Laravel\ResponseServiceProvider::class,
+         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
+         Dingo\Api\Provider\LaravelServiceProvider::class,
+@@ -237,7 +237,7 @@ return [
+         'View' => Illuminate\Support\Facades\View::class,
+         'Form' => Collective\Html\FormFacade::class,
+         'Html' => Collective\Html\HtmlFacade::class,
+-        // 'Captcha' => Mews\Captcha\Facades\Captcha::class,
++        'Captcha' => Mews\Captcha\Facades\Captcha::class,
+ 
+         /*
+          * Package Facades...
+diff --git a/resources/views/site/auth/login.blade.php b/resources/views/site/auth/login.blade.php
+index b0ce406..6c35c89 100644
+--- a/resources/views/site/auth/login.blade.php
++++ b/resources/views/site/auth/login.blade.php
+@@ -50,6 +50,7 @@ $('document').ready(function () {
+     --}}
+     {!! $errors->has('g-recaptcha-response') ? 'alert("請勾選驗證服務!");' : '' !!}
+ });
++
+ </script>
+ 
+ <div class="container container-margin-top">
+@@ -62,7 +63,7 @@ $('document').ready(function () {
+                   <div class="form-group div-margin-top{{ $errors->has('email') ? ' has-error' : '' }}">
+                       <div class="input-group col-md-8 col-md-offset-2">
+                           <span class="input-group-addon"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></span>
+-                          <input type="text" class="form-control input-lg" name="email" id="email" placeholder="請輸入您的電子郵件" value="{{ old('email') }}" autofocus required />
++                          <input type="text" class="form-control input-lg" name="email" id="email" placeholder="請輸入您的電子郵件" aria-label="請輸入您的電子郵件" value="{{ old('email') }}" autofocus required />
+                       </div>
+                       @if ($errors->has('email'))
+                       <div class="col-md-8 col-md-offset-2">
+@@ -76,7 +77,7 @@ $('document').ready(function () {
+                   <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                       <div class="input-group col-md-8 col-md-offset-2">
+                           <span class="input-group-addon"><i class="fa fa-lock fa-2x" aria-hidden="true"></i></span>
+-                          <input type="password" class="form-control input-lg" name="password" id="password" placeholder="請輸入您的密碼" required />
++                          <input type="password" class="form-control input-lg" name="password" id="password" placeholder="請輸入您的密碼" aria-label="請輸入您的密碼" required />
+                       </div>
+                       @if ($errors->has('password'))
+                       <div class="col-md-8 col-md-offset-2">
+@@ -87,15 +88,18 @@ $('document').ready(function () {
+                       @endif
+                   </div>
+ 
+-                  <div class="row form-group col-md-offset-2{{ $errors->has('g-recaptcha-response') ? ' has-error' : '' }}">
+-                      <label class=""></label>
++                  <div class="row form-group col-md-offset-2{{ $errors->has('captcha') ? ' has-error' : '' }}">
+                       <div class="col-md-8">
+-                          {!! app('captcha')->display(); !!}
++                          <p>{!! captcha_img(); !!}</p>
++                          <div class="input-group">
++                              <input type="text" class="form-control input-lg" name="captcha" placeholder="請輸入驗證碼" aria-label="請輸入驗證碼" required>
++                              <span class="input-group-addon"><a href="javascript:reload_captcha()" title="重新產生驗證碼" tabindex="-1"><i class="fa fa-refresh fa-2x" aria-label="重新產生驗證碼"></i></a></span>
++                          </div>
+                       </div>
+-                      @if ($errors->has('g-recaptcha-response'))
++                      @if ($errors->has('captcha'))
+                       <div class="col-md-8 col-md-offset-2">
+                           <span class="help-block">
+-                              <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
++                              <strong>{{ $errors->first('captcha') }}</strong>
+                           </span>
+                       </div>
+                       @endif
+diff --git a/resources/views/site/auth/passwords/email.blade.php b/resources/views/site/auth/passwords/email.blade.php
+index 0a31c02..57bd0b6 100644
+--- a/resources/views/site/auth/passwords/email.blade.php
++++ b/resources/views/site/auth/passwords/email.blade.php
+@@ -71,7 +71,7 @@ $('document').ready(function () {
+                   <div class="form-group div-margin-top{{ $errors->has('email') ? ' has-error' : '' }}">
+                       <div class="input-group col-md-8 col-md-offset-2">
+                           <span class="input-group-addon"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></span>
+-                          <input type="text" class="form-control input-lg" name="email" id="email" placeholder="請輸入您的電子郵件" value="{{ old('email') }}" autofocus required />
++                          <input type="text" class="form-control input-lg" name="email" id="email" placeholder="請輸入您的電子郵件" aria-label="請輸入您的電子郵件" value="{{ old('email') }}" autofocus required />
+                       </div>
+                       @if ($errors->has('email'))
+                       <div class="col-md-8 col-md-offset-2">
+@@ -82,15 +82,18 @@ $('document').ready(function () {
+                       @endif
+                   </div>
+ 
+-                  <div class="row form-group col-md-offset-2 col-sm-offset-3 col-xs-offset-2{{ $errors->has('g-recaptcha-response') ? ' has-error' : '' }}">
+-                      <label class=""></label>
++                  <div class="row form-group col-md-offset-2 col-sm-offset-3 col-xs-offset-2{{ $errors->has('captcha') ? ' has-error' : '' }}">
+                       <div class="col-md-8">
+-                          {!! app('captcha')->display(); !!}
++                          <p>{!! captcha_img(); !!}</p>
++                          <div class="input-group">
++                              <input type="text" class="form-control input-lg" name="captcha" placeholder="請輸入驗證碼" aria-label="請輸入驗證碼" required>
++                              <span class="input-group-addon"><a href="javascript:reload_captcha()" title="重新產生驗證碼" tabindex="-1"><i class="fa fa-refresh fa-2x" aria-label="重新產生驗證碼"></i></a></span>
++                          </div>
+                       </div>
+-                      @if ($errors->has('g-recaptcha-response'))
++                      @if ($errors->has('captcha'))
+                       <div class="col-md-8 ">      
+                           <span class="help-block">
+-                              <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
++                              <strong>{{ $errors->first('captcha') }}</strong>
+                           </span>
+                       </div>
+                       @endif
+diff --git a/resources/views/site/auth/passwords/reset.blade.php b/resources/views/site/auth/passwords/reset.blade.php
+index ab2f059..0cde535 100644
+--- a/resources/views/site/auth/passwords/reset.blade.php
++++ b/resources/views/site/auth/passwords/reset.blade.php
+@@ -73,7 +73,7 @@ $('document').ready(function () {
+                   <div class="form-group div-margin-top{{ $errors->has('email') ? ' has-error' : '' }}">
+                       <div class="input-group col-md-8 col-md-offset-2">
+                           <span class="input-group-addon"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></span>
+-                          <input type="text" class="form-control input-lg" name="email" id="email" placeholder="請輸入您的電子郵件" value="{{ old('email') }}" autofocus required />
++                          <input type="text" class="form-control input-lg" name="email" id="email" placeholder="請輸入您的電子郵件" aria-label="請輸入您的電子郵件" value="{{ old('email') }}" autofocus required />
+                       </div>
+                       @if ($errors->has('email'))
+                       <div class="col-md-8 col-md-offset-2">
+@@ -87,7 +87,7 @@ $('document').ready(function () {
+                   <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                       <div class="input-group col-md-8 col-md-offset-2">
+                           <span class="input-group-addon"><i class="fa fa-lock fa-2x" aria-hidden="true"></i></span>
+-                          <input type="password" class="form-control input-lg" name="password" id="password" placeholder="請輸入至少6個字元的密碼" required />
++                          <input type="password" class="form-control input-lg" name="password" id="password" placeholder="請輸入至少6個字元的密碼" aria-label="請輸入至少6個字元的密碼" required />
+                       </div>
+                       @if ($errors->has('password'))
+                       <div class="col-md-8 col-md-offset-2">
+@@ -101,7 +101,7 @@ $('document').ready(function () {
+                   <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
+                       <div class="input-group col-md-8 col-md-offset-2">
+                           <span class="input-group-addon"><i class="fa fa-lock fa-2x" aria-hidden="true"></i></span>
+-                          <input type="password" class="form-control input-lg" name="password_confirmation" id="password-confirm" placeholder="請再次確認您的密碼" required />
++                          <input type="password" class="form-control input-lg" name="password_confirmation" id="password-confirm" placeholder="請再次確認您的密碼" aria-label="請再次確認您的密碼" required />
+                       </div>
+ 
+                       @if ($errors->has('password_confirmation'))
+@@ -113,15 +113,18 @@ $('document').ready(function () {
+                       @endif
+                   </div>
+ 
+-                  <div class="row form-group col-md-offset-2 col-sm-offset-3 col-xs-offset-2{{ $errors->has('g-recaptcha-response') ? ' has-error' : '' }}">
+-                      <label class=""></label>
++                  <div class="row form-group col-md-offset-2 col-sm-offset-3 col-xs-offset-2{{ $errors->has('captcha') ? ' has-error' : '' }}">
+                       <div class="col-md-8">
+-                          {!! app('captcha')->display(); !!}
++                          <p>{!! captcha_img(); !!}</p>
++                          <div class="input-group">
++                              <input type="text" class="form-control input-lg" name="captcha" placeholder="請輸入驗證碼" aria-label="請輸入驗證碼" required>
++                              <span class="input-group-addon"><a href="javascript:reload_captcha()" title="重新產生驗證碼" tabindex="-1"><i class="fa fa-refresh fa-2x" aria-label="重新產生驗證碼"></i></a></span>
++                          </div>
+                       </div>
+-                      @if ($errors->has('g-recaptcha-response'))
++                      @if ($errors->has('captcha'))
+                       <div class="col-md-8 ">      
+                           <span class="help-block">
+-                              <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
++                              <strong>{{ $errors->first('captcha') }}</strong>
+                           </span>
+                       </div>
+                       @endif
+diff --git a/resources/views/site/auth/register.blade.php b/resources/views/site/auth/register.blade.php
+index 90223eb..47d4081 100644
+--- a/resources/views/site/auth/register.blade.php
++++ b/resources/views/site/auth/register.blade.php
+@@ -92,7 +92,7 @@ $('document').ready(function () {
+                   <div class="form-group div-margin-top{{ $errors->has('name') ? ' has-error' : '' }}">
+                       <div class="input-group col-md-8 col-md-offset-2">
+                           <span class="input-group-addon"><i class="fa fa-user-circle fa-lg" aria-hidden="true"></i></span>
+-                          <input type="text" class="form-control input-lg" name="name" id="name" placeholder="請輸入您的姓名" value="{{ old('name') }}" autofocus required />
++                          <input type="text" class="form-control input-lg" name="name" id="name" placeholder="請輸入您的姓名" aria-label="請輸入您的姓名" value="{{ old('name') }}" autofocus required />
+                       </div>
+                       @if ($errors->has('name'))
+                       <div class="col-md-8 col-md-offset-2">
+@@ -106,7 +106,7 @@ $('document').ready(function () {
+                   <div class="form-group div-margin-top{{ $errors->has('email') ? ' has-error' : '' }}">
+                       <div class="input-group col-md-8 col-md-offset-2">
+                           <span class="input-group-addon"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></span>
+-                          <input type="text" class="form-control input-lg" name="email" id="email" placeholder="請輸入您的電子郵件" value="{{ old('email') }}" autofocus required />
++                          <input type="text" class="form-control input-lg" name="email" id="email" placeholder="請輸入您的電子郵件" aria-label="請輸入您的電子郵件" value="{{ old('email') }}" autofocus required />
+                       </div>
+                       @if ($errors->has('email'))
+                       <div class="col-md-8 col-md-offset-2">
+@@ -120,7 +120,7 @@ $('document').ready(function () {
+                   <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                       <div class="input-group col-md-8 col-md-offset-2">
+                           <span class="input-group-addon"><i class="fa fa-lock fa-2x" aria-hidden="true"></i></span>
+-                          <input type="password" class="form-control input-lg" name="password" id="password" placeholder="請輸入至少6個字元的密碼" required />
++                          <input type="password" class="form-control input-lg" name="password" id="password" placeholder="請輸入至少6個字元的密碼" aria-label="請輸入至少6個字元的密碼" required />
+                       </div>
+                       @if ($errors->has('password'))
+                       <div class="col-md-8 col-md-offset-2">
+@@ -134,14 +134,14 @@ $('document').ready(function () {
+                   <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
+                       <div class="input-group col-md-8 col-md-offset-2">
+                           <span class="input-group-addon"><i class="fa fa-lock fa-2x" aria-hidden="true"></i></span>
+-                          <input type="password" class="form-control input-lg" name="password_confirmation" id="password-confirm" placeholder="請再次確認您的密碼" required />
++                          <input type="password" class="form-control input-lg" name="password_confirmation" id="password-confirm" placeholder="請再次確認您的密碼" aria-label="請再次確認您的密碼" required />
+                       </div>
+                   </div>
+ 
+                   <div class="form-group{{ $errors->has('birthday') ? ' has-error' : '' }}">
+                       <div id="birthday-div" class="input-group col-md-8 col-md-offset-2">
+                           <span class="input-group-addon"><i class="fa fa-calendar fa-lg" aria-hidden="true"></i></span>
+-                          <input type="text" class="form-control input-lg" name="birthday" id="birthday" placeholder="請輸入您的生日" value="{{ old('birthday') }}" required />
++                          <input type="text" class="form-control input-lg" name="birthday" id="birthday" placeholder="請輸入您的生日" aria-label="請輸入您的生日" value="{{ old('birthday') }}" required />
+                       </div>
+                       @if ($errors->has('birthday'))
+                       <div class="col-md-8 col-md-offset-2">
+@@ -192,15 +192,18 @@ $('document').ready(function () {
+                       @endif
+                   </div>
+ 
+-                  <div class="row form-group col-md-offset-2 col-sm-offset-3 col-xs-offset-2{{ $errors->has('g-recaptcha-response') ? ' has-error' : '' }}">
+-                      <label class=""></label>
++                  <div class="row form-group col-md-offset-2 col-sm-offset-3 col-xs-offset-2{{ $errors->has('captcha') ? ' has-error' : '' }}">
+                       <div class="col-md-8">
+-                          {!! app('captcha')->display(); !!}
++                          <p>{!! captcha_img(); !!}</p>
++                          <div class="input-group">
++                              <input type="text" class="form-control input-lg" name="captcha" placeholder="請輸入驗證碼" aria-label="請輸入驗證碼" required>
++                              <span class="input-group-addon"><a href="javascript:reload_captcha()" title="重新產生驗證碼" tabindex="-1"><i class="fa fa-refresh fa-2x" aria-label="重新產生驗證碼"></i></a></span>
++                          </div>
+                       </div>
+-                      @if ($errors->has('g-recaptcha-response'))
++                      @if ($errors->has('captcha'))
+                       <div class="col-md-8 ">      
+                           <span class="help-block">
+-                              <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
++                              <strong>{{ $errors->first('captcha') }}</strong>
+                           </span>
+                       </div>
+                       @endif
+diff --git a/resources/views/site/layouts/master.blade.php b/resources/views/site/layouts/master.blade.php
+index 9dc1893..d315b48 100644
+--- a/resources/views/site/layouts/master.blade.php
++++ b/resources/views/site/layouts/master.blade.php
+@@ -120,6 +120,16 @@
+           toastr.success('{{ $success }}');
+       @endif
+   });
++
++  function reload_captcha () {
++      var date = new Date();
++      // var obj = document.getElementsByTagName("img")[0];
++      // obj.src = "http://domain.app:8040/captcha/default?" + date.getTime();
++      var src = "{{ url('captcha/default?') }}" + date.getTime();
++      $('img[alt="captcha"]').attr("src", src);
++      console.log(src);
++      return false;
++  }
+   </script>
+   </body>
+ </html>
