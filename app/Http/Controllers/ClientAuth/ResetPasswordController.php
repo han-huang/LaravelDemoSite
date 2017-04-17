@@ -69,7 +69,7 @@ class ResetPasswordController extends Controller
             'token' => 'required',
             'email' => 'required|email',
             'password' => 'required|confirmed|min:6',
-            'g-recaptcha-response' => 'required|captcha',
+            'captcha' => 'required|captcha',
         ];
     }
 
@@ -85,7 +85,8 @@ class ResetPasswordController extends Controller
             'required' => ':attribute 的欄位不能留空。',
             'email.required' => '電子郵件的欄位不能留空。',
             'password.required' => '密碼的欄位不能留空。',
-            'g-recaptcha-response.required' => '請勾選驗證服務',
+            'captcha.required' => '請輸入驗證碼',
+            'captcha.captcha' => '驗證碼錯誤',
         ];
     }
 

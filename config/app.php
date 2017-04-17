@@ -167,9 +167,9 @@ return [
          * Package Service Providers...
          */
         TCG\Voyager\VoyagerServiceProvider::class,
-        Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
+        // Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
-        // Mews\Captcha\CaptchaServiceProvider::class,
+        Mews\Captcha\CaptchaServiceProvider::class,
         EllipseSynergie\ApiResponse\Laravel\ResponseServiceProvider::class,
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
         Dingo\Api\Provider\LaravelServiceProvider::class,
@@ -237,7 +237,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
-        // 'Captcha' => Mews\Captcha\Facades\Captcha::class,
+        'Captcha' => Mews\Captcha\Facades\Captcha::class,
 
         /*
          * Package Facades...

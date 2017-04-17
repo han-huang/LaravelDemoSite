@@ -42,7 +42,8 @@ class LoginController extends Controller
         'required' => ':attribute 的欄位是必要的。',
         'email.required' => '電子郵件的欄位是必要的。',
         'password.required' => '密碼的欄位是必要的。',
-        'g-recaptcha-response.required' => '請勾選驗證服務',
+        'captcha.required' => '請輸入驗證碼',
+        'captcha.captcha' => '驗證碼錯誤',
     ];
 
     /**
@@ -76,7 +77,7 @@ class LoginController extends Controller
     {
         $this->validate($request, [
             $this->username() => 'required', 'password' => 'required',
-            'g-recaptcha-response' => 'required|captcha',
+            'captcha' => 'required|captcha',
         ], $this->messages);
     }
 

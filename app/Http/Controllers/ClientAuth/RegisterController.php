@@ -34,7 +34,8 @@ class RegisterController extends Controller
         'birthday.required' => '生日的欄位不能留空。',
         'gender.required' => '性別的欄位不能留空。',
         'agree_edm.required' => '請勾選是否同意獲得本站提供之相關活動訊息',
-        'g-recaptcha-response.required' => '請勾選驗證服務',
+        'captcha.required' => '請輸入驗證碼',
+        'captcha.captcha' => '驗證碼錯誤',
     ];
 
     use RegistersUsers;
@@ -71,7 +72,7 @@ class RegisterController extends Controller
             'birthday' => 'required|date',
             'gender' => array('required', 'regex:/^(M|F)$/'),
             'agree_edm' => 'required|boolean',
-            'g-recaptcha-response' => 'required|captcha',
+            'captcha' => 'required|captcha',
         ], $this->messages);
     }
 

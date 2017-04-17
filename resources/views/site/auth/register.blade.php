@@ -92,7 +92,7 @@ $('document').ready(function () {
                   <div class="form-group div-margin-top{{ $errors->has('name') ? ' has-error' : '' }}">
                       <div class="input-group col-md-8 col-md-offset-2">
                           <span class="input-group-addon"><i class="fa fa-user-circle fa-lg" aria-hidden="true"></i></span>
-                          <input type="text" class="form-control input-lg" name="name" id="name" placeholder="請輸入您的姓名" value="{{ old('name') }}" autofocus required />
+                          <input type="text" class="form-control input-lg" name="name" id="name" placeholder="請輸入您的姓名" aria-label="請輸入您的姓名" value="{{ old('name') }}" autofocus required />
                       </div>
                       @if ($errors->has('name'))
                       <div class="col-md-8 col-md-offset-2">
@@ -106,7 +106,7 @@ $('document').ready(function () {
                   <div class="form-group div-margin-top{{ $errors->has('email') ? ' has-error' : '' }}">
                       <div class="input-group col-md-8 col-md-offset-2">
                           <span class="input-group-addon"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></span>
-                          <input type="text" class="form-control input-lg" name="email" id="email" placeholder="請輸入您的電子郵件" value="{{ old('email') }}" autofocus required />
+                          <input type="text" class="form-control input-lg" name="email" id="email" placeholder="請輸入您的電子郵件" aria-label="請輸入您的電子郵件" value="{{ old('email') }}" autofocus required />
                       </div>
                       @if ($errors->has('email'))
                       <div class="col-md-8 col-md-offset-2">
@@ -120,7 +120,7 @@ $('document').ready(function () {
                   <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                       <div class="input-group col-md-8 col-md-offset-2">
                           <span class="input-group-addon"><i class="fa fa-lock fa-2x" aria-hidden="true"></i></span>
-                          <input type="password" class="form-control input-lg" name="password" id="password" placeholder="請輸入至少6個字元的密碼" required />
+                          <input type="password" class="form-control input-lg" name="password" id="password" placeholder="請輸入至少6個字元的密碼" aria-label="請輸入至少6個字元的密碼" required />
                       </div>
                       @if ($errors->has('password'))
                       <div class="col-md-8 col-md-offset-2">
@@ -134,14 +134,14 @@ $('document').ready(function () {
                   <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
                       <div class="input-group col-md-8 col-md-offset-2">
                           <span class="input-group-addon"><i class="fa fa-lock fa-2x" aria-hidden="true"></i></span>
-                          <input type="password" class="form-control input-lg" name="password_confirmation" id="password-confirm" placeholder="請再次確認您的密碼" required />
+                          <input type="password" class="form-control input-lg" name="password_confirmation" id="password-confirm" placeholder="請再次確認您的密碼" aria-label="請再次確認您的密碼" required />
                       </div>
                   </div>
 
                   <div class="form-group{{ $errors->has('birthday') ? ' has-error' : '' }}">
                       <div id="birthday-div" class="input-group col-md-8 col-md-offset-2">
                           <span class="input-group-addon"><i class="fa fa-calendar fa-lg" aria-hidden="true"></i></span>
-                          <input type="text" class="form-control input-lg" name="birthday" id="birthday" placeholder="請輸入您的生日" value="{{ old('birthday') }}" required />
+                          <input type="text" class="form-control input-lg" name="birthday" id="birthday" placeholder="請輸入您的生日" aria-label="請輸入您的生日" value="{{ old('birthday') }}" required />
                       </div>
                       @if ($errors->has('birthday'))
                       <div class="col-md-8 col-md-offset-2">
@@ -192,15 +192,18 @@ $('document').ready(function () {
                       @endif
                   </div>
 
-                  <div class="row form-group col-md-offset-2 col-sm-offset-3 col-xs-offset-2{{ $errors->has('g-recaptcha-response') ? ' has-error' : '' }}">
-                      <label class=""></label>
+                  <div class="row form-group col-md-offset-2 col-sm-offset-3 col-xs-offset-2{{ $errors->has('captcha') ? ' has-error' : '' }}">
                       <div class="col-md-8">
-                          {!! app('captcha')->display(); !!}
+                          <p>{!! captcha_img(); !!}</p>
+                          <div class="input-group">
+                              <input type="text" class="form-control input-lg" name="captcha" placeholder="請輸入驗證碼" aria-label="請輸入驗證碼" required>
+                              <span class="input-group-addon"><a href="javascript:reload_captcha()" title="重新產生驗證碼" tabindex="-1"><i class="fa fa-refresh fa-2x" aria-label="重新產生驗證碼"></i></a></span>
+                          </div>
                       </div>
-                      @if ($errors->has('g-recaptcha-response'))
+                      @if ($errors->has('captcha'))
                       <div class="col-md-8 ">      
                           <span class="help-block">
-                              <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
+                              <strong>{{ $errors->first('captcha') }}</strong>
                           </span>
                       </div>
                       @endif

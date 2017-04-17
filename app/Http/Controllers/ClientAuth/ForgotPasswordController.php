@@ -30,7 +30,8 @@ class ForgotPasswordController extends Controller
     private $messages = [
         'required' => ':attribute 的欄位不能留空。',
         'email.required' => '電子郵件的欄位不能留空。',
-        'g-recaptcha-response.required' => '請勾選驗證服務',
+        'captcha.required' => '請輸入驗證碼',
+        'captcha.captcha' => '驗證碼錯誤',
     ];
 
     /**
@@ -63,7 +64,7 @@ class ForgotPasswordController extends Controller
     public function sendResetLinkEmail(Request $request)
     {
         $this->validate($request, ['email' => 'required|email',
-            'g-recaptcha-response' => 'required|captcha'
+            'captcha' => 'required|captcha'
         ], $this->messages);
 
         // We will send the password reset link to this user. Once we have attempted

@@ -120,6 +120,16 @@
           toastr.success('{{ $success }}');
       @endif
   });
+
+  function reload_captcha () {
+      var date = new Date();
+      // var obj = document.getElementsByTagName("img")[0];
+      // obj.src = "http://domain.app:8040/captcha/default?" + date.getTime();
+      var src = "{{ url('captcha/default?') }}" + date.getTime();
+      $('img[alt="captcha"]').attr("src", src);
+      console.log(src);
+      return false;
+  }
   </script>
   </body>
 </html>
