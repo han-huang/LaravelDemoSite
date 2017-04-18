@@ -17,7 +17,7 @@ class NewDataRowsTableSeeder extends Seeder
         $menuItemsDataType = DataType::where('slug', 'menu-items')->firstOrFail();
         $indexCarouselsDataType = DataType::where('slug', 'index-carousels')->firstOrFail();
         $newsCategoriesDataType = DataType::where('slug', 'news-categories')->firstOrFail();
-        $newsArticlesDataType = DataType::where('slug', 'news-articles')->firstOrFail();
+        // $newsArticlesDataType = DataType::where('slug', 'news-articles')->firstOrFail();
         $newsPostsDataType = DataType::where('slug', 'news-posts')->firstOrFail();
         $userDataType = DataType::where('slug', 'users')->firstOrFail();
 
@@ -674,151 +674,151 @@ class NewDataRowsTableSeeder extends Seeder
             ])->save();
         }
 
-        $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $newsArticlesDataType->id,
-            'field'        => 'id',
-        ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'PRI',
-                'display_name' => 'ID',
-                'required'     => 1,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 0,
-                'add'          => 0,
-                'delete'       => 0,
-                'details'      => '',
-            ])->save();
-        }
+        // $dataRow = DataRow::firstOrNew([
+            // 'data_type_id' => $newsArticlesDataType->id,
+            // 'field'        => 'id',
+        // ]);
+        // if (!$dataRow->exists) {
+            // $dataRow->fill([
+                // 'type'         => 'PRI',
+                // 'display_name' => 'ID',
+                // 'required'     => 1,
+                // 'browse'       => 1,
+                // 'read'         => 1,
+                // 'edit'         => 0,
+                // 'add'          => 0,
+                // 'delete'       => 0,
+                // 'details'      => '',
+            // ])->save();
+        // }
 
-        $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $newsArticlesDataType->id,
-            'field'        => 'author',
-        ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'text',
-                'display_name' => 'Author',
-                'required'     => 1,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'details'      => '',
-            ])->save();
-        }
+        // $dataRow = DataRow::firstOrNew([
+            // 'data_type_id' => $newsArticlesDataType->id,
+            // 'field'        => 'author',
+        // ]);
+        // if (!$dataRow->exists) {
+            // $dataRow->fill([
+                // 'type'         => 'text',
+                // 'display_name' => 'Author',
+                // 'required'     => 1,
+                // 'browse'       => 1,
+                // 'read'         => 1,
+                // 'edit'         => 1,
+                // 'add'          => 1,
+                // 'delete'       => 1,
+                // 'details'      => '',
+            // ])->save();
+        // }
 
-        $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $newsArticlesDataType->id,
-            'field'        => 'news_category_id',
-        ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'select_dropdown',
-                'display_name' => 'News Category Id',
-                'required'     => 1,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'details'      => '{
-"details": "empty"
-}',
-            ])->save();
-        }
+        // $dataRow = DataRow::firstOrNew([
+            // 'data_type_id' => $newsArticlesDataType->id,
+            // 'field'        => 'news_category_id',
+        // ]);
+        // if (!$dataRow->exists) {
+            // $dataRow->fill([
+                // 'type'         => 'select_dropdown',
+                // 'display_name' => 'News Category Id',
+                // 'required'     => 1,
+                // 'browse'       => 1,
+                // 'read'         => 1,
+                // 'edit'         => 1,
+                // 'add'          => 1,
+                // 'delete'       => 1,
+                // 'details'      => '{
+// "details": "empty"
+// }',
+            // ])->save();
+        // }
 
-        $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $newsArticlesDataType->id,
-            'field'        => 'tag',
-        ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'text',
-                'display_name' => 'Tag',
-                'required'     => 0,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'details'      => '',
-            ])->save();
-        }
+        // $dataRow = DataRow::firstOrNew([
+            // 'data_type_id' => $newsArticlesDataType->id,
+            // 'field'        => 'tag',
+        // ]);
+        // if (!$dataRow->exists) {
+            // $dataRow->fill([
+                // 'type'         => 'text',
+                // 'display_name' => 'Tag',
+                // 'required'     => 0,
+                // 'browse'       => 1,
+                // 'read'         => 1,
+                // 'edit'         => 1,
+                // 'add'          => 1,
+                // 'delete'       => 1,
+                // 'details'      => '',
+            // ])->save();
+        // }
 
-        $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $newsArticlesDataType->id,
-            'field'        => 'title',
-        ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'text',
-                'display_name' => 'Title',
-                'required'     => 0,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'details'      => '',
-            ])->save();
-        }
+        // $dataRow = DataRow::firstOrNew([
+            // 'data_type_id' => $newsArticlesDataType->id,
+            // 'field'        => 'title',
+        // ]);
+        // if (!$dataRow->exists) {
+            // $dataRow->fill([
+                // 'type'         => 'text',
+                // 'display_name' => 'Title',
+                // 'required'     => 0,
+                // 'browse'       => 1,
+                // 'read'         => 1,
+                // 'edit'         => 1,
+                // 'add'          => 1,
+                // 'delete'       => 1,
+                // 'details'      => '',
+            // ])->save();
+        // }
 
-        $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $newsArticlesDataType->id,
-            'field'        => 'active',
-        ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'checkbox',
-                'display_name' => 'Active',
-                'required'     => 1,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'details'      => '',
-            ])->save();
-        }
+        // $dataRow = DataRow::firstOrNew([
+            // 'data_type_id' => $newsArticlesDataType->id,
+            // 'field'        => 'active',
+        // ]);
+        // if (!$dataRow->exists) {
+            // $dataRow->fill([
+                // 'type'         => 'checkbox',
+                // 'display_name' => 'Active',
+                // 'required'     => 1,
+                // 'browse'       => 1,
+                // 'read'         => 1,
+                // 'edit'         => 1,
+                // 'add'          => 1,
+                // 'delete'       => 1,
+                // 'details'      => '',
+            // ])->save();
+        // }
 
-        $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $newsArticlesDataType->id,
-            'field'        => 'created_at',
-        ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'timestamp',
-                'display_name' => 'Created At',
-                'required'     => 0,
-                'browse'       => 0,
-                'read'         => 1,
-                'edit'         => 0,
-                'add'          => 0,
-                'delete'       => 0,
-                'details'      => '',
-            ])->save();
-        }
+        // $dataRow = DataRow::firstOrNew([
+            // 'data_type_id' => $newsArticlesDataType->id,
+            // 'field'        => 'created_at',
+        // ]);
+        // if (!$dataRow->exists) {
+            // $dataRow->fill([
+                // 'type'         => 'timestamp',
+                // 'display_name' => 'Created At',
+                // 'required'     => 0,
+                // 'browse'       => 0,
+                // 'read'         => 1,
+                // 'edit'         => 0,
+                // 'add'          => 0,
+                // 'delete'       => 0,
+                // 'details'      => '',
+            // ])->save();
+        // }
 
-        $dataRow = DataRow::firstOrNew([
-            'data_type_id' => $newsArticlesDataType->id,
-            'field'        => 'updated_at',
-        ]);
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'timestamp',
-                'display_name' => 'Updated At',
-                'required'     => 0,
-                'browse'       => 0,
-                'read'         => 1,
-                'edit'         => 0,
-                'add'          => 0,
-                'delete'       => 0,
-                'details'      => '',
-            ])->save();
-        }
+        // $dataRow = DataRow::firstOrNew([
+            // 'data_type_id' => $newsArticlesDataType->id,
+            // 'field'        => 'updated_at',
+        // ]);
+        // if (!$dataRow->exists) {
+            // $dataRow->fill([
+                // 'type'         => 'timestamp',
+                // 'display_name' => 'Updated At',
+                // 'required'     => 0,
+                // 'browse'       => 0,
+                // 'read'         => 1,
+                // 'edit'         => 0,
+                // 'add'          => 0,
+                // 'delete'       => 0,
+                // 'details'      => '',
+            // ])->save();
+        // }
 
         $dataRow = DataRow::firstOrNew([
             'data_type_id' => $newsPostsDataType->id,
