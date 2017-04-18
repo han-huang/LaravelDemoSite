@@ -16,7 +16,6 @@ class CreateIndexMenusTable extends Migration
         Schema::create('index_menus', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('parent_id')->nullable()->default(null);
-            $table->foreign('parent_id')->references('id')->on('index_menus')->onUpdate('cascade')->onDelete('set null');
             $table->string('title');
             $table->string('url');
             $table->unsignedInteger('order');
