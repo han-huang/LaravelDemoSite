@@ -86,12 +86,6 @@ class NewsCategory extends Model
         return $this->newsPost()->selectbrief()
                    ->active()->published()->updatedtimedesc()
                    ->getlimit($offset, $limit)->get();
-        // return $this->newsPost()->selectbrief()
-                   // ->active()->published()
-                   // ->offset($offset)->limit($limit)->get();
-        // return $this->newsPost()->selectbrief()
-                   // ->active()->published()
-                   // ->skip($offset)->take($limit)->get();
     }
 
     /**
@@ -108,17 +102,6 @@ class NewsCategory extends Model
                    ->selectjoined()
                    ->active()->published()->updatedtimedesc()
                    ->getlimit($offset, $limit)->get();
-        // return $this->newsPost()->selectbrief()
-                   // ->active()->published()
-                   // ->offset($offset)->limit($limit)->get();
-        // return $this->newsPost()->selectbrief()
-                   // ->active()->published()
-                   // ->skip($offset)->take($limit)->get();
-        // return $this->newsPost()
-                   // ->join('news_categories', 'news_posts.news_category_id', '=', 'news_categories.id')
-                   // ->select('news_posts.id', 'news_posts.news_category_id', 'news_posts.title', 'news_posts.updated_at', 'news_categories.title as cate_title', 'news_categories.label_class', 'news_categories.color')
-                   // ->active()->published()->updatedtimedesc()
-                   // ->getlimit($offset, $limit)->get();
     }
 
     /**
@@ -162,7 +145,6 @@ class NewsCategory extends Model
      */
     public function scopeExcludenullcolor(Builder $query)
     {
-        // Log::info('Excludenullcolor '.__FILE__." ".__FUNCTION__." ".__LINE__);
         return $query->select('label_class', 'color', 'title')->whereNotNull('color');
     }
 }

@@ -24,11 +24,9 @@ class ClickCounterController extends Controller
         DB::transaction(function () use ($url, $session_id, $client_ip)
         {
             $prefix = explode("/", $url)[0];
-            // Log::info('$prefix: '.$prefix." ".__FILE__." ".__FUNCTION__." ".__LINE__);
             if (!strcmp("api", $prefix)) {
                 $url = str_replace("api", "news", $url);
             }
-            // Log::info('$url: '.$url." ".__FILE__." ".__FUNCTION__." ".__LINE__);
             $url_records = ClickCounter::where('url', $url)->get();
 
             if ($url_records->count()) {
@@ -42,15 +40,6 @@ class ClickCounterController extends Controller
                         'client_ip' => $client_ip,
                         'count'     => $latest->count + 1,
                     ]);
-                    /*
-                    $record = new ClickCounter;
-                    $record->fill([
-                        'url' => $url,
-                        'session_id' => $session_id,
-                        'client_ip' => $client_ip,
-                        'count'     => $latest_count,
-                    ])->save();
-                    */
                 }
             } else {
                 //empty record, add new record
@@ -60,15 +49,6 @@ class ClickCounterController extends Controller
                     'client_ip' => $client_ip,
                     'count'     => 1,
                 ]);
-                /*
-                $record = new ClickCounter;
-                $record->fill([
-                    'url' => $url,
-                    'session_id' => $session_id,
-                    'client_ip' => $client_ip,
-                    'count'     => 1,
-                ])->save();
-                */
             }
         });
     }

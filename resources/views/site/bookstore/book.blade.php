@@ -440,13 +440,7 @@ function addCart(bookid, element_id, checkout = false) {
         // jAlert(jqXHR.responseText, jqXHR.status);
         msg = JSON.parse(jqXHR.responseText);
         if (jqXHR.status == 400) {
-            // console.log(typeof msg.error.message.msg);
-            // console.log(msg.error.message.msg);
-            // console.log(msg);
             res = JSON.parse(msg.error.message);
-            // console.log('res: ' + res);
-            // console.log('typeof res.stock: ' + typeof res.stock);
-            // console.log('res.stock: ' + res.stock);
             if(res.stock != undefined) {
                 jAlert(res.msg, '注意', function () {
                     $('.stock').html(res.stock);
@@ -462,11 +456,8 @@ function addCart(bookid, element_id, checkout = false) {
 }
 
 $(document).ready(function(){
-    //$(".nav-tabs a").click(function(){
     $(".tab-hover .nav-tabs a").mouseover(function() {
         $(this).tab('show');
-        //id = $(this).attr('href');
-        //$(id).siblings().removeClass('in').removeClass('active');
     });
 
     /* img display */
@@ -478,14 +469,12 @@ $(document).ready(function(){
     $("#book_categories div").on("hide.bs.collapse", function(event) {
         if ($(this).is(event.target)) {
             $(this).prev("a").find("i").removeClass('fa-caret-up').addClass('fa-caret-down');
-            //console.log(this.id);
         }
     });
 
     $("#book_categories div").on("show.bs.collapse", function(event) {
         if ($(this).is(event.target)) {
             $(this).prev("a").find("i").removeClass('fa-caret-down').addClass('fa-caret-up');
-            //console.log(this.id);
         }
     });
 
@@ -508,7 +497,6 @@ $(document).ready(function(){
         event.preventDefault();
         // Store hash
         var hash = this.hash;
-        //console.log("this.hash " + this.hash);
         
         if(($(hash).offset().top - 50 - 40) > ($('#book_info').offset().top - 30)) {
             if(!$('.box-title').hasClass('box-title-fixed'))
@@ -525,22 +513,17 @@ $(document).ready(function(){
         }, 900, function() {
             // Add hash (#) to URL when done scrolling (default click behavior)
             window.location.hash = hash;
-            //console.log('$(hash).offset().top - 50 - 40 ' + ($(hash).offset().top - 50 - 40));
         });
     });
 
     //fixed box-title
     document.onscroll = function() {
-        //console.log('$("#book_info").offset().top - 30 ' + ($('#book_info').offset().top - 30));
-        //console.log('$(window).scrollTop() ' + $(window).scrollTop());
         if( $(window).scrollTop() > ($('#book_info').offset().top - 30)) {
             $('.box-title').addClass('box-title-fixed');
-            //console.log('addClass box-title-fixed ');
         }
         else {
             if($('.box-title').hasClass('box-title-fixed')) {
                 $('.box-title').removeClass('box-title-fixed');
-                //console.log('removeClass box-title-fixed ');
             }
         }
     };

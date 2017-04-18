@@ -12,7 +12,6 @@ class EnquiryController extends Controller
 	// public function index()
 	public function index(Request $request)
 	{
-	    //$data = Input::all();
 	    $data = $request->all();
 	    $rules = array(
 		  	'name' => 'required',
@@ -27,7 +26,7 @@ class EnquiryController extends Controller
 		}
 		else{
 		    // Do your stuff.
-			Log::info('verify , '.__FILE__." ".__FUNCTION__." ".__LINE__);
+			// Log::info('verify , '.__FILE__." ".__FUNCTION__." ".__LINE__);
 		}
 	}
 }

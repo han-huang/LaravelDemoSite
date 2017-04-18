@@ -14,7 +14,6 @@ class UserController extends Controller
 
     public function showProfile(Request $request)
     {
-        // Log::info('Showing user profile for user: '.$request->user()->id." ".__FILE__." ".__FUNCTION__." ".__LINE__);
         $user = User::where('api_token', '=', $request->get('api_token'))->get();
         return $this->response->collection($user, new UserTransformer);
     }

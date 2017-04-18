@@ -39,7 +39,6 @@ class BookController extends VoyagerBreadController
         // remove empty values
         $booktranslator_id = array_filter($request->input('booktranslator_id', []));
         $booktranslator_id_length = count($booktranslator_id);
-        // return compact('bookauthor_id', 'bookauthor_id_length', 'booktranslator_id', 'booktranslator_id_length');
 
         $slug = $this->getSlug($request);
 
@@ -74,7 +73,6 @@ class BookController extends VoyagerBreadController
         // remove empty values
         $booktranslator_id = array_filter($request->input('booktranslator_id', []));
         $booktranslator_id_length = count($booktranslator_id);
-        // return compact('bookauthor_id', 'bookauthor_id_length', 'booktranslator_id', 'booktranslator_id_length');
 
         $slug = $this->getSlug($request);
 

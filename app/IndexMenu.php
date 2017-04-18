@@ -47,8 +47,6 @@ class IndexMenu extends Model
             }
         }
 
-        // $output .= '</ul>';
-        // $output .= '</div>';
         return $output;
     }
     
@@ -66,11 +64,9 @@ class IndexMenu extends Model
         $parentItems = $menuItems->filter(function($value, $key) use ($parentId) {
             return $value->parent_id == $parentId;
         });
-        
-        $parentItems = $parentItems->sortBy('order');
 
+        $parentItems = $parentItems->sortBy('order');
         $output = '<ul class="dropdown-menu">';
-        
         foreach ($parentItems as $item) {
             $children_menu_items = $menuItems->filter(function ($value, $key) use ($item) {
                 return $value->parent_id == $item->id;
@@ -90,7 +86,7 @@ class IndexMenu extends Model
                 }
             }
         }
-        
+
         $output .= '</ul>';
         return $output;
     }

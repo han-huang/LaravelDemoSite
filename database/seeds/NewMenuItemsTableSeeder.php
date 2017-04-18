@@ -109,20 +109,20 @@ class NewMenuItemsTableSeeder extends Seeder
             ])->save();
         }
 
-        $menuItem = MenuItem::firstOrNew([
-            'menu_id'    => $menu->id,
-            'title'      => 'News Articles',
-            'url'        => '/admin/news-articles',
-        ]);
-        if (!$menuItem->exists) {
-            $menuItem->fill([
-                'target'     => '_self',
-                'icon_class' => 'voyager-world',
-                'color'      => null,
-                'parent_id'  => null,
-                'order'      => 16,
-            ])->save();
-        }
+        // $menuItem = MenuItem::firstOrNew([
+            // 'menu_id'    => $menu->id,
+            // 'title'      => 'News Articles',
+            // 'url'        => '/admin/news-articles',
+        // ]);
+        // if (!$menuItem->exists) {
+            // $menuItem->fill([
+                // 'target'     => '_self',
+                // 'icon_class' => 'voyager-world',
+                // 'color'      => null,
+                // 'parent_id'  => null,
+                // 'order'      => 16,
+            // ])->save();
+        // }
 
         $menuItem = MenuItem::firstOrNew([
             'menu_id'    => $menu->id,

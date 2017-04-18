@@ -229,7 +229,6 @@ function addCart(bookid, element_id, checkout = false) {
                 }
                 if (checkout)
                     $(location).attr('href', shoppingcart_url);
-            // } else if (data.status == "unauthorized") {
             } else if (data.status == "unauthorized" && data.message != undefined) {
                 console.log(data.message);
                 console.log(data.redirectTo);
@@ -242,11 +241,9 @@ function addCart(bookid, element_id, checkout = false) {
         error: function (jqXHR, textStatus, errorThrown) {
             console.log('jqXHR.responseText: ' + jqXHR.responseText);
             console.log('jqXHR.status: ' + jqXHR.status);
-            // jAlert(jqXHR.responseText, jqXHR.status);
             msg = JSON.parse(jqXHR.responseText);
             if (jqXHR.status == 400) {
                 res = JSON.parse(msg.error.message);
-                // jAlert(msg.error.message, '注意');
                 jAlert(res.msg, '注意', function () {
                     $('#cart_btn').addClass('btn-dark').addClass('cursor-auto')
                         .removeAttr("onclick").find('span').eq(1)
@@ -278,14 +275,12 @@ $(document).ready(function(){
     $("#book_categories div").on("hide.bs.collapse", function(event) {
         if ($(this).is(event.target)) {
             $(this).prev("a").find("i").removeClass('fa-caret-up').addClass('fa-caret-down');
-            //console.log(this.id);
         }
     });
 
     $("#book_categories div").on("show.bs.collapse", function(event) {
         if ($(this).is(event.target)) {
             $(this).prev("a").find("i").removeClass('fa-caret-down').addClass('fa-caret-up');
-            //console.log(this.id);
         }
     });
 

@@ -86,15 +86,10 @@ class BookstoreController extends Controller
         //verify $id
         $match = preg_match("/^[1-9][0-9]*$/", $id); ;
         if (!$match) {
-            // Log::info('!$match: $id: '.$id." ".__FILE__." ".__FUNCTION__." ".__LINE__);
             return $this->gohome();
         }
 
-        // Log::info('$request->path(): '.$request->path()." ".__FILE__." ".__FUNCTION__." ".__LINE__);
-        // Log::info('$request->url(): '.$request->url()." ".__FILE__." ".__FUNCTION__." ".__LINE__);
-
         $bookModel = new Book();
-        // $book = $bookModel->active()->find($id);
         $book = $bookModel->getBook($id);
 
         if (!count($book)) {
@@ -118,8 +113,6 @@ class BookstoreController extends Controller
         $translators = $book->booktranslators()->get();
 
         $view = 'site.bookstore.book';
-        // return compact('book', 'authors', 'translators', 'randoms', 'name', 'PutInCart');
-        // return view($view, compact('book', 'authors', 'translators', 'randoms', 'name', 'PutInCart'));
         return response()->view($view, compact('book', 'authors', 'translators', 'randoms', 'name', 'PutInCart'))
                    ->withCookie(cookie()->forever($name, $browsed));
     }
@@ -141,26 +134,19 @@ class BookstoreController extends Controller
 
             $browsed = $cookie_data;
             $repeat = false;
-            // Log::info('$cookie_data '.collect($cookie_data)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
             foreach ($cookie_data as $data) {
                 if(in_array($id, $data)) {
                     $repeat = true;
-                    // Log::info('in_array '.__FILE__." ".__FUNCTION__." ".__LINE__);
                 }
             }
             // if it's greater or equal to remaining count and no repeated record, remove the first record
             if (count($browsed) >= $remain && !$repeat) {
-                // Log::info('before array_shift($browsed) '.'count($browsed): '.count($browsed).__FILE__." ".__FUNCTION__." ".__LINE__);
                 array_shift($browsed);
-                // Log::info('array_shift($browsed) '.'count($browsed): '.count($browsed).__FILE__." ".__FUNCTION__." ".__LINE__);
             }
             if (!$repeat) $browsed[] = $current;
-
         } else {
             $browsed[] = $current;
-            // Log::info('else '." ".__FILE__." ".__FUNCTION__." ".__LINE__);
         }
-        // Log::info('$current: '.collect($current)." ".'count($browsed): '.count($browsed).' $browsed: '.collect($browsed)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
         return $browsed;
     }
 
@@ -188,15 +174,9 @@ class BookstoreController extends Controller
     public function shoppingcart(Request $request)
     {
         ShoppingCart::checkTempCart();
-        // $count = Cart::instance('shopping')->count();
-        // $total = Cart::instance('shopping')->total();
-        // $total = (int)str_replace(",", "", $total);
-        // $shipping_fee = ($total >= 500 || $total == 0) ? 0 : 60;
-        // $amount = $shipping_fee + $total;
         $array = $this->cart_summary();
         extract($array);
         $view = 'site.bookstore.shoppingcart';
-        // return compact('count', 'total', 'shipping_fee', 'amount');
         return view($view, compact('count', 'total', 'shipping_fee', 'amount'));
     }
 
@@ -208,23 +188,10 @@ class BookstoreController extends Controller
      */
     public function deliver(Request $request)
     {
-        // $count = Cart::instance('shopping')->count();
-        // if (!$count) return redirect()->back()->withErrors(['deliver' => '購物車無商品，請先選購商品!']);
-
-        // Log::info('gettype($count): '.gettype($count)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
-        // Log::info('$count: '.$count." ".__FILE__." ".__FUNCTION__." ".__LINE__);
-        // Log::info('$request: '.$request." ".__FILE__." ".__FUNCTION__." ".__LINE__);
-        // Log::info('$request->user(): '.$request->user()." ".__FILE__." ".__FUNCTION__." ".__LINE__);
-        // Log::info('$request->user("client"): '.$request->user("client")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
-        // Log::info('get_class($request->user("client")): '.get_class($request->user("client"))." ".__FILE__." ".__FUNCTION__." ".__LINE__);
-        // $client = ["name" => $request->user("client")->name, "email" => $request->user("client")->email];
         $user = ["name" => $request->user("client")->name, "email" => $request->user("client")->email];
         $client = $request->user("client");
-
         $view = 'site.bookstore.deliver';
-        // return compact('client');
         return view($view, compact('client', 'user'));
-            // ->withSuccess('deliver');
     }
 
     /**
@@ -235,13 +202,10 @@ class BookstoreController extends Controller
      */
     public function confirm(Request $request)
     {
-        // $count = Cart::instance('shopping')->count();
-        // if (!$count) return redirect()->back()->withErrors(['confirm' => '購物車無商品，無訂單資料!']);
         $array = $this->cart_summary();
         extract($array);
         $client = $request->user("client");
         $view = 'site.bookstore.confirm';
-        // return compact('count', 'total', 'shipping_fee', 'amount');
         return view($view, compact('count', 'total', 'shipping_fee', 'amount', 'client'));
     }
 
@@ -253,22 +217,13 @@ class BookstoreController extends Controller
      */
     public function SaveDeliver(Request $request)
     {
-        // $count = Cart::instance('shopping')->count();
-        // if (!$count) return redirect('/bookstore')->withErrors(['save' => '購物車無商品，無法儲存!']);
-        // if (!$count) return redirect()->back()->withInput()->withErrors(['save' => '購物車無商品，無法儲存!']);
-
         $ret = $this->deliverValidate($request);
         if(!empty($ret)) {
-            // Log::info('get_class($ret) '.get_class($ret)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
             return $ret;
         }
 
         // Log::info('collect($request->all()): '.collect($request->all())." ".__FILE__." ".__FUNCTION__." ".__LINE__);
         $this->SaveToSession($request);
-        // $view = 'site.bookstore.confirm';
-        // return compact('client');
-        // return view($view, compact('client', 'user'));
-        // return view($view);
         return redirect()
             ->route("bookstore.confirm");
     }
@@ -343,12 +298,7 @@ class BookstoreController extends Controller
         $orderModel = new Order();
         $lastMonthOrders = $orderModel->lastMonthOrders($client->id);
         $condition = 'one';
-        // $condition = 'six';
-        // $condition = 'order_no';
         $view = 'site.bookstore.order';
-        // return 'order';
-        // return view($view);
-        // return compact('count', 'total', 'shipping_fee', 'amount');
         return view($view, compact('lastMonthOrders', 'condition'));
     }
 }

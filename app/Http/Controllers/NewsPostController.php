@@ -51,41 +51,19 @@ class NewsPostController extends VoyagerController
     public function create(Request $request)
     {
         $slug = $this->getSlug($request);
-
         $dataType = DataType::where('slug', '=', $slug)->first();
-
         // Check permission
         Voyager::canOrFail('add_'.$dataType->name);
-
         $view = 'backstage.news_posts.edit-add';
-        // $view = 'voyager::bread.edit-add';
-
-        // if (view()->exists("voyager::$slug.edit-add")) {
-            // $view = "voyager::$slug.edit-add";
-        // }
-        
-        // for checked checkbox of field active
-        // $request->session()->put('active', '1');
-        // Log::info('active : '.session('active')." ".__FILE__." ".__FUNCTION__." ".__LINE__);
-
-        // $dataRowFieldStatus = DataRow::where('data_type_id', $dataType->id)->where('field', 'status')->first();
-        // Log::info('$dataRowFieldStatus->field : '.$dataRowFieldStatus->field.' $dataRowFieldStatus : '.get_class($dataRowFieldStatus)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
         $row = DataRow::where('data_type_id', $dataType->id)->where('field', 'status')->first();
-        
         $newsCategories = NewsCategory::all();
-        
-        // return view($view, compact('dataType', 'row', 'newsCategories'))->withSuccess('success');
         return view($view, compact('dataType', 'row', 'newsCategories'));
-
-        // return "NewsArticleController. ".__FILE__." ".__FUNCTION__." ".__LINE__;
     }
 
     public function edit(Request $request, $id)
     {
         $slug = $this->getSlug($request);
-
         $dataType = DataType::where('slug', '=', $slug)->first();
-
         // Check permission
         Voyager::canOrFail('edit_'.$dataType->name);
 
@@ -94,17 +72,9 @@ class NewsPostController extends VoyagerController
             : DB::table($dataType->name)->where('id', $id)->first(); // If Model doest exist, get data from table name
 
         $view = 'backstage.news_posts.edit-add';
-        // $view = 'voyager::bread.edit-add';
-
-        // if (view()->exists("voyager::$slug.edit-add")) {
-            // $view = "voyager::$slug.edit-add";
-        // }
-        
         $row = DataRow::where('data_type_id', $dataType->id)->where('field', 'status')->first();
-        
         $newsCategories = NewsCategory::all();
-        
-        // Log::info('edit : '.__FILE__." ".__FUNCTION__." ".__LINE__);
+
         return view($view, compact('dataType', 'dataTypeContent', 'row', 'newsCategories'));
     }
 
@@ -113,36 +83,19 @@ class NewsPostController extends VoyagerController
     {
         $ret = $this->newspostValidate($request);
         if(!empty($ret)) {
-            // Log::info('get_class($ret) '.get_class($ret)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
             return $ret;
         }
         
-        // $validator = Validator::make($request->all(), $this->rules, $this->messages);
-        
-        // Log::info('Validator::make '.__FILE__." ".__FUNCTION__." ".__LINE__);
-        
-        // if ($validator->fails()) {
-            // Log::info('$validator->fails() '.__FILE__." ".__FUNCTION__." ".__LINE__);
-
-            // return redirect()->back()->withInput()
-                // ->withErrors($validator);
-        // }
-        
         $slug = $this->getSlug($request);
-
         $dataType = DataType::where('slug', '=', $slug)->first();
-
         // Check permission
         Voyager::canOrFail('add_'.$dataType->name);
-
         if (function_exists('voyager_add_post')) {
             $url = $request->url();
             voyager_add_post($request);
         }
-
         $data = new $dataType->model_name();
         $this->insertUpdateData($request, $slug, $dataType->addRows, $data);
-
         return redirect()
             ->route("voyager.{$dataType->slug}.index")
             ->with([
@@ -156,31 +109,15 @@ class NewsPostController extends VoyagerController
     {
         $ret = $this->newspostValidate($request);
         if(!empty($ret)) {
-            // Log::info('get_class($ret) '.get_class($ret)." ".__FILE__." ".__FUNCTION__." ".__LINE__);
             return $ret;
         }
-        
-        // $validator = Validator::make($request->all(), $this->rules, $this->messages);
-        
-        // Log::info('Validator::make '.__FILE__." ".__FUNCTION__." ".__LINE__);
-        
-        // if ($validator->fails()) {
-            // Log::info('$validator->fails() '.__FILE__." ".__FUNCTION__." ".__LINE__);
 
-            // return redirect()->back()->withInput()
-                // ->withErrors($validator);
-        // }
-        
         $slug = $this->getSlug($request);
-
         $dataType = DataType::where('slug', '=', $slug)->first();
-
         // Check permission
         Voyager::canOrFail('edit_'.$dataType->name);
-
         $data = call_user_func([$dataType->model_name, 'findOrFail'], $id);
         $this->insertUpdateData($request, $slug, $dataType->editRows, $data);
-
         return redirect()
             ->route("voyager.{$dataType->slug}.index")
             ->with([
@@ -199,15 +136,9 @@ class NewsPostController extends VoyagerController
     {
         $validator = Validator::make($request->all(), $this->rules, $this->messages);
 
-        // Log::info('Validator::make '.__FILE__." ".__FUNCTION__." ".__LINE__);
-
         if ($validator->fails()) {
-            // Log::info('$validator->fails() '.__FILE__." ".__FUNCTION__." ".__LINE__);
-
             return redirect()->back()->withInput()
                 ->withErrors($validator);
-            // return redirect(route('voyager.news-posts.create'))->withInput()
-                // ->withErrors($validator);
         }
     }
 }

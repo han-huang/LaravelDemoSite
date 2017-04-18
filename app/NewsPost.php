@@ -50,7 +50,6 @@ class NewsPost extends Model
      */
     public function scopeActive(Builder $query)
     {
-        // Log::info('active '.__FILE__." ".__FUNCTION__." ".__LINE__);
         return $query->where('active', 1);
     }
 
@@ -62,7 +61,6 @@ class NewsPost extends Model
      */
     public function scopeBreakingnews(Builder $query)
     {
-        // Log::info('active '.__FILE__." ".__FUNCTION__." ".__LINE__);
         return $query->where('breaking_news', 1);
     }
 
@@ -74,7 +72,6 @@ class NewsPost extends Model
      */
     public function scopeCarousel(Builder $query)
     {
-        // Log::info('active '.__FILE__." ".__FUNCTION__." ".__LINE__);
         return $query->where('carousel', 1);
     }
 
@@ -87,7 +84,6 @@ class NewsPost extends Model
      */
     public function scopeFindid(Builder $query, $id)
     {
-        // Log::info('active '.__FILE__." ".__FUNCTION__." ".__LINE__);
         return $query->where('id', '=', $id);
     }
 
@@ -99,7 +95,6 @@ class NewsPost extends Model
      */
     public function scopeSelectbrief(Builder $query)
     {
-        // Log::info('select brief index '.__FILE__." ".__FUNCTION__." ".__LINE__);
         return $query->select('id', 'news_category_id', 'title', 'updated_at');
     }
 
@@ -111,7 +106,6 @@ class NewsPost extends Model
      */
     public function scopeSelectimage(Builder $query)
     {
-        // Log::info('select brief index '.__FILE__." ".__FUNCTION__." ".__LINE__);
         return $query->select('id', 'image', 'title', 'updated_at');
     }
 
@@ -123,7 +117,6 @@ class NewsPost extends Model
      */
     public function scopeUpdatedtimedesc(Builder $query)
     {
-        // Log::info('order by updated_at desc '.__FILE__." ".__FUNCTION__." ".__LINE__);
         return $query->orderBy('updated_at', 'desc');
     }
 
@@ -135,7 +128,6 @@ class NewsPost extends Model
      */
     public function scopeUpdatedtimeasc(Builder $query)
     {
-        // Log::info('order by updated_at desc '.__FILE__." ".__FUNCTION__." ".__LINE__);
         return $query->orderBy('updated_at', 'asc');
     }
 
@@ -149,7 +141,6 @@ class NewsPost extends Model
      */
     public function scopeGetlimit(Builder $query, $offset = 0, $limit = 10)
     {
-        // Log::info('get limited rows '.__FILE__." ".__FUNCTION__." ".__LINE__);
         return $query->offset($offset)->limit($limit);
     }
 
@@ -163,7 +154,6 @@ class NewsPost extends Model
      */
     public function scopeNewspage(Builder $query, $offset = 0, $limit = 10)
     {
-        // Log::info('get news page '.__FILE__." ".__FUNCTION__." ".__LINE__);
         return $query->selectbrief()->active()->published()
                    ->updatedtimedesc()->getlimit($offset, $limit);
     }
@@ -177,8 +167,6 @@ class NewsPost extends Model
      */
     public function scopeNewsarticle(Builder $query, $id)
     {
-        // Log::info('get news article, $id: '.$id." ".__FILE__." ".__FUNCTION__." ".__LINE__);
-        // return $query->findid($id)->active()->published();
         return $query->joinnewscategories()->where('news_posts.id', '=', $id)->active()->published()->articleselectjoined();
     }
 
@@ -191,10 +179,6 @@ class NewsPost extends Model
      */
     public function scopeNewsarticlebrief(Builder $query, $id)
     {
-        // Log::info('get news article, $id: '.$id." ".__FILE__." ".__FUNCTION__." ".__LINE__);
-        // return $query->findid($id)->active()->published();
-        // return $query->selectbrief()->where('id', '=', $id)->active()->published();
-        // return $query->selectbrief()->findid($id)->active()->published()->first();
         return $query->selectbrief()->active()->published()->find($id);
     }
 
@@ -208,7 +192,6 @@ class NewsPost extends Model
      */
     public function scopeLatestnews(Builder $query, $offset = 0, $limit = 8)
     {
-        // Log::info('get Latestnews '." ".__FILE__." ".__FUNCTION__." ".__LINE__);
         return $query->selectbrief()->active()->published()
                    ->updatedtimedesc()->getlimit($offset, $limit);
     }
@@ -221,7 +204,6 @@ class NewsPost extends Model
      */
     public function scopeArticleselectjoined(Builder $query)
     {
-        // Log::info('Selectjoined '.__FILE__." ".__FUNCTION__." ".__LINE__);
         return $query->select('news_posts.*', 'news_categories.title as cate_title', 'news_categories.label_class', 'news_categories.color');
     }
 
@@ -233,7 +215,6 @@ class NewsPost extends Model
      */
     public function scopeNewscount(Builder $query)
     {
-        // Log::info('count news article '.__FILE__." ".__FUNCTION__." ".__LINE__);
         return $query->active()->published()->count();
     }
 
@@ -245,7 +226,6 @@ class NewsPost extends Model
      */
     public function scopeJoinnewscategories(Builder $query)
     {
-        // Log::info('Joinnewscategories '.__FILE__." ".__FUNCTION__." ".__LINE__);
         return $query->join('news_categories', 'news_posts.news_category_id', '=', 'news_categories.id');
     }
 
@@ -257,7 +237,6 @@ class NewsPost extends Model
      */
     public function scopeSelectjoined(Builder $query)
     {
-        // Log::info('Selectjoined '.__FILE__." ".__FUNCTION__." ".__LINE__);
         return $query->select('news_posts.id', 'news_posts.news_category_id', 'news_posts.title', 'news_posts.updated_at', 'news_categories.title as cate_title', 'news_categories.label_class', 'news_categories.color');
     }
 
@@ -280,10 +259,6 @@ class NewsPost extends Model
      */
     public function newsPostJoinNewsCategory($offset = 0, $limit = 10)
     {
-        // return $this->join('news_categories', 'news_posts.news_category_id', '=', 'news_categories.id')
-                   // ->active()->published()->updatedtimedesc()
-                   // ->select('news_posts.id', 'news_posts.news_category_id', 'news_posts.title', 'news_posts.updated_at', 'news_categories.title as cate_title', 'news_categories.label_class', 'news_categories.color')
-                   // ->getlimit($offset, $limit);
         return $this->joinnewscategories()
                    ->active()->published()->updatedtimedesc()
                    ->selectjoined()
@@ -311,7 +286,6 @@ class NewsPost extends Model
      */
     public function getBreakingnews($limit = 10)
     {
-        // Log::info('getBreakingnews '.__FILE__." ".__FUNCTION__." ".__LINE__);
         return $this->selectbrief()->breakingnews()
                    ->active()->published()
                    ->updatedtimedesc()->offset(0)->limit($limit);
@@ -325,7 +299,6 @@ class NewsPost extends Model
      */
     public function getCarousel($limit = 10)
     {
-        // Log::info('getBreakingnews '.__FILE__." ".__FUNCTION__." ".__LINE__);
         return $this->selectimage()->carousel()
                    ->active()->published()
                    ->updatedtimedesc()->offset(0)->limit($limit);

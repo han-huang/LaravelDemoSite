@@ -76,7 +76,6 @@
 $(document).ready(function(){
     $('#result_table').on('click', 'button', function (event) {
         var orderid = $(this).data("id");
-        // console.log('orderid: ' + orderid);
         if($('#details-' + orderid).length) {
             $('#details-' + orderid).modal();
         } else {
@@ -112,8 +111,6 @@ $(document).ready(function(){
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 console.log('jqXHR.responseText: ' + jqXHR.responseText);
                 console.log('jqXHR.status: ' + jqXHR.status);
-                // msg = JSON.parse(jqXHR.responseText);
-                // jAlert(msg.error.message, '注意');
                 if (jqXHR.status == 403)
                     jAlert("此動作未經授權", '注意');
             }).always(function (jqXHR, textStatus) {

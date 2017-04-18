@@ -76,18 +76,13 @@
 $(document).ready(function(){
     // checkbox - select/exclude all
     $('#cart_form').on('click', '.checkAll', function () {
-        //console.log($(this).attr("id") + $(this).prop("checked"));
         if ($(this).prop("checked")) {
-            // console.log($(this).attr("id") + " select");
             $('tbody input[type="checkbox"]').each(function () {
                 $(this).prop("checked", true);
-                // console.log($(this).attr("id") + " select");
             });
         } else {
-            // console.log($(this).attr("id") + " exclude");
             $('tbody input[type="checkbox"]').each(function () {
                 $(this).prop("checked", false);
-                // console.log($(this).attr("id") + " exclude");
             });
         }
     });
@@ -97,8 +92,6 @@ $(document).ready(function(){
         var qty = parseInt($(this).val());
         var stock = parseInt($('#stock_' + bookid).val());
         var self = this;
-        // console.log('next p: ' + $(this).next('p').html());
-        // console.log("onchange");
         if ($.isNumeric(qty)) {
             if (qty > stock) {
                 jAlert('庫存不足，請重新更改數量！', '注意');
@@ -140,18 +133,11 @@ $(document).ready(function(){
                     console.log('jqXHR.responseText: ' + jqXHR.responseText);
                     console.log('jqXHR.status: ' + jqXHR.status);
                     msg = JSON.parse(jqXHR.responseText);
-                    // jAlert(msg.error.message, '注意');
                     if (jqXHR.status == 400) {
-                        // console.log(typeof msg.error.message.msg);
-                        // console.log(msg.error.message.msg);
-                        // console.log(msg);
                         res = JSON.parse(msg.error.message);
-                        // console.log('res: ' + res);
-                        // console.log('typeof res.stock: ' + typeof res.stock);
-                        console.log('res.stock: ' + res.stock);
-                        // console.log('next p: ' + $(this).next('p').html()); //failed, due to not original this
-                        console.log('self next p: ' + $(self).next('p').html());
-                        console.log('input p: ' + $('#quantity_' + bookid).find('input[name^="book"]').next('p').html());
+                        // console.log('res.stock: ' + res.stock);
+                        // console.log('self next p: ' + $(self).next('p').html());
+                        // console.log('input p: ' + $('#quantity_' + bookid).find('input[name^="book"]').next('p').html());
 
                         if(res.stock != undefined) {
                             jAlert(res.msg, '注意', function () {
@@ -275,7 +261,6 @@ $(document).ready(function(){
             }
         });
         if (stock_alert) {
-            // for (i = 0 ; i < $('div[id^="quantity_"]').length ; i++) {
             for (i = 0 ; i < count_alert ; i++) {
                 stock_alert += "});";
             }
@@ -285,9 +270,6 @@ $(document).ready(function(){
         }
 
         var count = parseInt($('#count').html());
-        // console.log(count);
-        // console.log("Number.isInteger: " + Number.isInteger(count));
-        // console.log("isNaN: " + isNaN(count));
         if (count === 0) {
             jAlert('購物車無商品，無法結帳！', '注意');
         } else {

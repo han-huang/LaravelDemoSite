@@ -116,27 +116,6 @@ $(document).ready(function(){
                     break;
                 default :
                     if (Array.isArray(msg.error.message)) {
-                        // for(var errormsg in msg.error.message) {
-                            // jAlert(msg.error.message[errormsg], '注意', function (){
-                                // jAlert(msg.error.message[errormsg], '注意',
-                            // });
-                            // console.log(msg.error.message[errormsg]);
-                        // }
-
-                        // var length = msg.error.message.length;
-                        // var index = 0 ;
-                        // jAlert(msg.error.message[index], '注意', function (){
-                            // index ++;
-                            // if (index < length) {
-                                // jAlert(msg.error.message[index], '注意', function (){
-                                    // index += 1;
-                                    // if (index < length) {
-                                            // jAlert(msg.error.message[index], '注意');
-                                    // }
-                                // });
-                            // }
-                        // });
-
                         // refer to http://stackoverflow.com/questions/36456109/jalert-is-not-working-properly-in-a-loop
                         // jAlert must have a handler on close to show the next one
                         // Therefor generate jAlert string the use eval to execute
@@ -163,9 +142,6 @@ $(document).ready(function(){
                         jAlert(msg.error.message, '注意', function (){
                             location.href = '/bookstore/shoppingcart';
                         });
-                        // $(document).on("click","#popup_ok",function() {
-                            // location.href = '/bookstore/shoppingcart';
-                        // });
                     }
             }
         }).always(function (jqXHR, textStatus) {
