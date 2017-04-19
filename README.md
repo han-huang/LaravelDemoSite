@@ -1,7 +1,5 @@
-## Voyager & MultiAuth
+## LaravelDemoSite
 ### Usage
-
-- Multi-auth - client has been created.
 
 - Install Through Composer
 ```
@@ -33,7 +31,6 @@ php artisan db:seed --class=NewDatabaseSeeder
 ```
 - URL
   - http://yourdomain
-  - http://yourdomain/client/register
-  - http://yourdomain/client/login
-  - http://yourdomain/admin/login
-
+  - http://yourdomain/admin/
+- Demo Video
+  - https://youtu.be/qd-ISvoiPQo
