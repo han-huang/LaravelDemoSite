@@ -23,11 +23,11 @@ class NewsArticleController extends VoyagerController
         // Check permission
         Voyager::canOrFail('add_'.$dataType->name);
         $view = 'backstage.news.edit-add';
-		// for checked checkbox of field active
+        // for checked checkbox of field active
         $request->session()->put('active', '1');
         return view($view, compact('dataType'));
     }
-	
+
     public function edit(Request $request, $id)
     {
         $slug = $this->getSlug($request);
@@ -41,5 +41,4 @@ class NewsArticleController extends VoyagerController
         Log::info('edit : '.__FILE__." ".__FUNCTION__." ".__LINE__);
         return view($view, compact('dataType', 'dataTypeContent'));
     }
-	
 }

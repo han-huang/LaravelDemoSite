@@ -20,7 +20,6 @@ class RedirectIfNotClient
     {
         if (!Auth::guard($guard)->check()) {
             session()->put('afterLoginPath', $request->path());
-            // Log::info('afterLoginPath: '.session()->get('afterLoginPath')." ".__FILE__." ".__FUNCTION__." ".__LINE__);
             return redirect('/login');
         }
 

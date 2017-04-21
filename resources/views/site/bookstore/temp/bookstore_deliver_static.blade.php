@@ -139,7 +139,7 @@ $(document).ready(function(){
 
             <div class=" panel panel-primary">
                 <div class="panel-heading">付款方式</div>
-                <div class="panel-body "><input type="radio" name="payment_methond" value="COD" checked required>&nbsp;貨到付款</div>
+                <div class="panel-body "><input type="radio" name="payment_method" value="COD" checked required>&nbsp;貨到付款</div>
             </div>
 
             <div class=" panel panel-primary">

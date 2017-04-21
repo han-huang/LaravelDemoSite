@@ -46,7 +46,7 @@ class NewsController extends Controller
      * Name    news
      *
      * @param  Request $request
-     * @return 
+     * @return
      */
     public function newsIndex(Request $request)
     {
@@ -62,14 +62,14 @@ class NewsController extends Controller
      * @param  Request $request
      * @param  $page
      * @param  $limit
-     * @return 
+     * @return
      */
     public function newsPage(Request $request, $page, $limit = 10)
     {
         $limit = 30;
 
         //verify $page is an integer or not
-        $match = preg_match("/^[1-9][0-9]*$/", $page); ;
+        $match = preg_match("/^[1-9][0-9]*$/", $page);
         if (!$match) {
             return redirect()->route('news');
         }
@@ -95,8 +95,16 @@ class NewsController extends Controller
         $newscategories = $newscategoryModel->excludenullcolor()->get();
 
         $view = 'site.news.news_index';
-        return view($view, compact('newsposts', 'newscategories', 'pages',
-                   'page', 'start', 'end', 'breakingnews', 'carousel'));
+        return view($view, compact(
+            'newsposts',
+            'newscategories',
+            'pages',
+            'page',
+            'start',
+            'end',
+            'breakingnews',
+            'carousel'
+        ));
     }
 
     /**
@@ -158,8 +166,17 @@ class NewsController extends Controller
         $newscategories = $newscategoryModel->excludenullcolor()->get();
 
         $view = 'site.news.news_index';
-        return view($view, compact('newsposts', 'newscategories', 'pages',
-                   'page', 'start', 'end', 'str', 'breakingnews', 'carousel'));
+        return view($view, compact(
+            'newsposts',
+            'newscategories',
+            'pages',
+            'page',
+            'start',
+            'end',
+            'str',
+            'breakingnews',
+            'carousel'
+        ));
     }
 
     /**
@@ -174,7 +191,7 @@ class NewsController extends Controller
     public function newsArticle(Request $request, $id)
     {
         //verify $id
-        $match = preg_match("/^[1-9][0-9]*$/", $id); ;
+        $match = preg_match("/^[1-9][0-9]*$/", $id);
         if (!$match) {
             return redirect()->route('news');
         }
@@ -204,8 +221,15 @@ class NewsController extends Controller
 
         $hotnews = $this->getHotNews();
         $view = 'site.news.news_article';
-        return response()->view($view, compact('newspost', 'newscategories', 'urlcount', 'latestnews', 'hotnews', 'previous', 'next'))
-                   ->withCookie(cookie()->forever('browsed', $browsed));
+        return response()->view($view, compact(
+            'newspost',
+            'newscategories',
+            'urlcount',
+            'latestnews',
+            'hotnews',
+            'previous',
+            'next'
+        ))->withCookie(cookie()->forever('browsed', $browsed));
     }
 
     /**
@@ -219,7 +243,7 @@ class NewsController extends Controller
     public function newsArticleApi(Request $request, $id)
     {
         /* api/article/{id} */
-        $match = preg_match("/^[1-9][0-9]*$/", $id); ;
+        $match = preg_match("/^[1-9][0-9]*$/", $id);
         if (!$match) {
             return $this->response->errorNotFound('News Not Found');
         }
@@ -249,13 +273,16 @@ class NewsController extends Controller
     public function getHotNews()
     {
         $clickcounterModel = new ClickCounter();
-        if ($clickcounterModel->count())
+        if ($clickcounterModel->count()) {
             $hotnews = $clickcounterModel->getHotNews()->get();
-        else
+        } else {
             return null;
+        }
 
         //return null to fix Syntax error when click_counter has no news record but has book records
-        if(empty($hotnews->count())) return null;
+        if (empty($hotnews->count())) {
+            return null;
+        }
 
         $ids = array();
         foreach ($hotnews as $hot) {
@@ -284,7 +311,7 @@ class NewsController extends Controller
             $browsed = $cookie_data;
             $repeat = false;
             foreach ($cookie_data as $data) {
-                if(in_array($id, $data)) {
+                if (in_array($id, $data)) {
                     $repeat = true;
                 }
             }
@@ -292,8 +319,9 @@ class NewsController extends Controller
             if (count($browsed) >= $remain && !$repeat) {
                 array_shift($browsed);
             }
-            if (!$repeat) $browsed[] = $current;
-
+            if (!$repeat) {
+                $browsed[] = $current;
+            }
         } else {
             $browsed[] = $current;
         }
@@ -308,9 +336,9 @@ class NewsController extends Controller
      *
      * @param  Request $request
      * @param  $id
-     * @return 
+     * @return
      */
-    public function old_show(Request $request, $id)
+    public function oldShow(Request $request, $id)
     {
         // GET THE Str, e.g. 'sports', 'life', etc.
         $str = $this->getStr($request);

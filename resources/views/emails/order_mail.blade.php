@@ -14,7 +14,7 @@
         <li>訂單編號&#xFF1A;{{ $order_no }}</li>
         <li>訂單日期&#xFF1A;{{ $created_at }}</li>
         <li>訂單配送方式&#xFF1A;{{ $deliver }}</li>
-        <li>訂單付款方式&#xFF1A;{{ $payment_methond }}</li>
+        <li>訂單付款方式&#xFF1A;{{ $payment_method }}</li>
         <li>訂單金額&#xFF1A;NT&#36;&nbsp;{{ $amount }}&nbsp;元</li>
     </ul>
     <p>＊ 備註：因應個人資料保護，即日起，「訂單通知信」只告知【訂購者資訊】，如您欲查詢詳細訂單資訊，請利用「訂單查詢系統」查詢，不便之處，敬請見諒！ ＊</p>

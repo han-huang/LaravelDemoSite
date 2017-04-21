@@ -74,7 +74,7 @@ class ShoppingCartController extends Controller
             $this->addToCart("shopping", $book);
             return response()->json(['status' => 'done']);
         } else {
-            $this->addToCart("temp", $book);            
+            $this->addToCart("temp", $book);
             $redirectTo = "/login";
 
             // save url to session, pay attention to $request->checkout is string not boolean
@@ -102,7 +102,7 @@ class ShoppingCartController extends Controller
         if (Auth::guard('client')->check()) {
             // check 'temp' cart
             if (Cart::instance('temp')->count()) {
-                foreach(Cart::instance('temp')->content() as $row) {
+                foreach (Cart::instance('temp')->content() as $row) {
                     Cart::instance('shopping')->add($row->id, $row->name, $row->qty, $row->price, [
                         'image'      => $row->options->image,
                         'list_price' => $row->options->list_price,
@@ -126,7 +126,7 @@ class ShoppingCartController extends Controller
     {
         $count = $this->findInCart($whichCart, $book->id);
         if (!$count) {
-            $price = $this->SalePrice($book);
+            $price = $this->salePrice($book);
             Cart::instance($whichCart)->add($book->id, $book->title, $qty, $price, [
                 'image'      => $book->image,
                 'list_price' => $book->list_price,
@@ -134,7 +134,7 @@ class ShoppingCartController extends Controller
                 // 'stock'      => $book->stock
             ]);
         }
-    }   
+    }
 
     /**
      * Sale Price
@@ -142,7 +142,7 @@ class ShoppingCartController extends Controller
      * @param  Illuminate\Database\Eloquent\Model $book
      * @return integer
      */
-    public function SalePrice($book)
+    public function salePrice($book)
     {
         return round($book->discount * $book->list_price / 100);
     }
@@ -169,8 +169,9 @@ class ShoppingCartController extends Controller
      */
     public function findRowIdInCart($whichCart, $id)
     {
-        if (!$this->findInCart($whichCart, $id))
+        if (!$this->findInCart($whichCart, $id)) {
             return null;
+        }
         $rows = Cart::instance($whichCart)->content();
         return $rows->where('id', $id)->first()->rowId;
     }
@@ -210,10 +211,10 @@ class ShoppingCartController extends Controller
             $this->addToCart("shopping", $book, $request->qty);
         }
 
-        $array = $this->get_tbody();
+        $array = $this->getTbody();
         extract($array);
 
-        $summary = $this->get_summary($count);
+        $summary = $this->getSummary($count);
 
         return response()->json([
                    'status'  => 'done',
@@ -229,11 +230,12 @@ class ShoppingCartController extends Controller
      * @param  integer $count
      * @return array
      */
-    public function get_summary($count)
+    public function getSummary($count)
     {
-        $array = $this->get_summary_items();
+        $array = $this->getSummaryItems();
         extract($array);
-        $summary = "<p>共&nbsp;<span class='deeporange-color' id='count'>$count</span>&nbsp;項商品&#xFF0C;處理費".
+        $summary = "<p>共&nbsp;<span class='deeporange-color' id='count'>".
+                   $count."</span>&nbsp;項商品&#xFF0C;處理費".
                    "&nbsp;NT$&nbsp;<span class='deeporange-color'>$shipping_fee</span>&nbsp;元&#xFF0C;".
                    "訂單金額&nbsp;NT$&nbsp;<span class='deeporange-color'>$amount</span>&nbsp;元</p>";
         return $summary;
@@ -245,7 +247,7 @@ class ShoppingCartController extends Controller
      * @param  integer $count
      * @return array
      */
-    public function get_summary_items()
+    public function getSummaryItems()
     {
         $total = Cart::instance('shopping')->total();
         $total = (int)str_replace(",", "", $total);
@@ -259,7 +261,7 @@ class ShoppingCartController extends Controller
      *
      * @return array
      */
-    public function get_tbody()
+    public function getTbody()
     {
         $count = Cart::instance('shopping')->count();
         if ($count) {
@@ -268,20 +270,27 @@ class ShoppingCartController extends Controller
             foreach (Cart::instance('shopping')->content() as $row) {
                 $tbody .= "<tr>";
                 $tbody .= "<input type='hidden' name='id[]' value='$row->id'>";
-                $tbody .= "<td><div class='form-group'><input name='cartCheck[]' id='check".$row->id."' type='checkbox' value='$row->id'></div></td>";
+                $tbody .= "<td><div class='form-group'><input name='cartCheck[]' id='check";
+                $tbody .= $row->id."' type='checkbox' value='$row->id'></div></td>";
                 $img = Presenter::smallimg(Voyager::image($row->options->image));
-                $tbody .= "<td><a href='".url('bookstore/book/'.$row->id)."' target='_blank'><img class='img-thumbnail' src='$img' alt='$row->name' style='width:100px'></a></td>";
+                $tbody .= "<td><a href='".url('bookstore/book/'.$row->id)."' target='_blank'>";
+                $tbody .= "<img class='img-thumbnail' src='$img' alt='$row->name' style='width:100px'></a></td>";
                 $tbody .= "<td><a href='".url('bookstore/book/'.$row->id)."' target='_blank'>$row->name</a></td>";
                 $tbody .= "<td>".$row->options->list_price."元</td>";
-                $tbody .= "<td><span class='deeporange-color'>".$row->options->discount."折</span><br>".$row->price."元</td>";
-                $tbody .= "<td><div id='quantity_".$row->id."' class='form-group'><input aria-label='數量' name='book_quantity[]' data-id='$row->id' type='text' value='$row->qty' style='width:100px'>";
+                $tbody .= "<td><span class='deeporange-color'>".$row->options->discount;
+                $tbody .= "折</span><br>".$row->price."元</td>";
+                $tbody .= "<td><div id='quantity_".$row->id."' class='form-group'>";
+                $tbody .= "<input aria-label='數量' name='book_quantity[]' data-id='".$row->id."' ";
+                $tbody .= "type='text' value='$row->qty' style='width:100px'>";
                 $tbody .= Presenter::findBookStock($row->id);
-                $tbody .= "<input type='hidden' id='stock_".$row->id."' value='".Presenter::findBookStockVal($row->id)."'>";
+                $tbody .= "<input type='hidden' id='stock_".$row->id;
+                $tbody .= "' value='".Presenter::findBookStockVal($row->id)."'>";
                 $tbody .= "<label class='sr-only'>".$row->name."</label>";
                 $tbody .= "</div></td>";
                 $subtotal = $row->price * $row->qty;
                 $tbody .= "<td>".$subtotal."元</td>";
-                $tbody .= "<td><button type='button' id='del_$row->id' data-id='$row->id' class='btn'>刪除</button></td>";
+                $tbody .= "<td><button type='button' id='del_".$row->id."' ";
+                $tbody .= "data-id='".$row->id."' class='btn'>刪除</button></td>";
                 $tbody .= "</tr>";
             }
         } else {
@@ -309,16 +318,16 @@ class ShoppingCartController extends Controller
         $this->checkTempCart();
 
         $rowId = $this->findRowIdInCart('shopping', $id);
-        if ($rowId)
+        if ($rowId) {
             Cart::instance('shopping')->remove($rowId);
-        else {
+        } else {
             // return $this->response->errorNotFound('購物車內無此商品！');
             // Do not return errorNotFound if no $rowId , return done to update tbody and summary
         }
 
-        $array = $this->get_tbody();
+        $array = $this->getTbody();
         extract($array);
-        $summary = $this->get_summary($count);
+        $summary = $this->getSummary($count);
 
         return response()->json([
                    'status'  => 'done',
@@ -350,11 +359,11 @@ class ShoppingCartController extends Controller
         }
 
         $this->checkTempCart();
-        $this->remove_shopping_rowId($request);
+        $this->removeShoppingRowId($request);
 
-        $array = $this->get_tbody();
+        $array = $this->getTbody();
         extract($array);
-        $summary = $this->get_summary($count);
+        $summary = $this->getSummary($count);
 
         return response()->json([
                    'status'  => 'done',
@@ -371,13 +380,13 @@ class ShoppingCartController extends Controller
      * @param  Request $request
      * @return
      */
-    public function remove_shopping_rowId(Request $request)
+    public function removeShoppingRowId(Request $request)
     {
         foreach ($request->cartCheck as $id) {
             $rowId = $this->findRowIdInCart('shopping', $id);
-            if ($rowId)
+            if ($rowId) {
                 Cart::instance('shopping')->remove($rowId);
-            else {
+            } else {
                 // return $this->response->errorNotFound('購物車內無此商品！');
                 // Do not return errorNotFound if no $rowId , return done to update tbody and summary
             }
@@ -394,14 +403,14 @@ class ShoppingCartController extends Controller
     {
         $client = Auth::guard('client')->user();
         $client_id = $client->id;
-        $receiver = $this->create_receiver($client_id);
-        $order = $this->create_order($client_id, $receiver->id);
-        $this->sync_book_order($order);
+        $receiver = $this->createReceiver($client_id);
+        $order = $this->createOrder($client_id, $receiver->id);
+        $this->syncBookOrder($order);
 
         Cart::instance('shopping')->destroy();
-        $this->flush_sessions();
+        $this->flushSessions();
 
-        $this->send_order_email($order, $client->email);
+        $this->sendOrderEmail($order, $client->email);
         $redirectTo = '/bookstore/order';
         return response()->json([
                    'status'     => 'done',
@@ -418,7 +427,7 @@ class ShoppingCartController extends Controller
      * @param  str $client_email
      * @return
      */
-    public function send_order_email($order, $client_email)
+    public function sendOrderEmail($order, $client_email)
     {
         $orderEmail = new OrderEmail($order);
         $orderEmail->subject("LaravelDemoSite 訂單通知信");
@@ -431,10 +440,10 @@ class ShoppingCartController extends Controller
      * @param  App\Order $order
      * @return
      */
-    public function sync_book_order($order)
+    public function syncBookOrder($order)
     {
         $data = [];
-        foreach(Cart::instance('shopping')->content() as $row) {
+        foreach (Cart::instance('shopping')->content() as $row) {
             $data[$row->id] = [
                 'book_quantity'  => $row->qty,
                 'sales_discount' => $row->options->discount,
@@ -456,10 +465,21 @@ class ShoppingCartController extends Controller
      *
      * @return
      */
-    public function flush_sessions()
+    public function flushSessions()
     {
-        $keys = ['deliver', 'payment_methond', 'invoice_type', 'name', 'phone',
-                 'email', 'addr_city', 'addr_area', 'addr_street', 'zipcode'];
+        $keys = [
+            'deliver',
+            'payment_method',
+            'invoice_type',
+            'name',
+            'phone',
+            'email',
+            'addr_city',
+            'addr_area',
+            'addr_street',
+            'zipcode'
+        ];
+
         foreach ($keys as $key) {
             if (session()->has($key)) {
                 session()->forget($key);
@@ -472,17 +492,17 @@ class ShoppingCartController extends Controller
      *
      * @return array   $details
      */
-    public function create_details()
+    public function createDetails()
     {
-        foreach(Cart::instance('shopping')->content() as $row) {
+        foreach (Cart::instance('shopping')->content() as $row) {
             $details[] = [
-                             'id'         => $row->id,
-                             'qty'        => $row->qty,
-                             'name'       => $row->name,
-                             'list_price' => $row->options->list_price,
-                             'discount'   => $row->options->discount,
-                             'price'      => $row->price,
-                         ];
+                'id'         => $row->id,
+                'qty'        => $row->qty,
+                'name'       => $row->name,
+                'list_price' => $row->options->list_price,
+                'discount'   => $row->options->discount,
+                'price'      => $row->price,
+            ];
         }
         return $details;
     }
@@ -493,7 +513,7 @@ class ShoppingCartController extends Controller
      * @param  integer $client_id
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function create_receiver($client_id)
+    public function createReceiver($client_id)
     {
         $receiver = Receiver::firstOrCreate([
             'name'        => session()->get('name'),
@@ -515,21 +535,21 @@ class ShoppingCartController extends Controller
      * @param  integer $receiver_id
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function create_order($client_id, $receiver_id)
+    public function createOrder($client_id, $receiver_id)
     {
         // $order_no = date('YmdHis').substr(sprintf("%08d", $client_id), -8, 8).mt_rand(100000, 999999);
         $order_no = date('YmdHis').mt_rand(100000, 999999);
-        $array = $this->get_summary_items();
+        $array = $this->getSummaryItems();
         extract($array);
 
-        $details = $this->create_details();
+        $details = $this->createDetails();
         $count = Cart::instance('shopping')->count();
         $order = Order::firstOrNew([
             'order_no'        => $order_no,
             'client_id'       => $client_id,
             'receiver_id'     => $receiver_id,
             'deliver'         => session()->get('deliver'),
-            'payment_methond' => session()->get('payment_methond'),
+            'payment_method' => session()->get('payment_method'),
             'invoice_type'    => session()->get('invoice_type'),
             'count'           => $count,
             'shipping_fee'    => $shipping_fee,

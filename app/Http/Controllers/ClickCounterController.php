@@ -21,8 +21,7 @@ class ClickCounterController extends Controller
         $session_id = session()->getId();
         $client_ip = $request->ip();
         
-        DB::transaction(function () use ($url, $session_id, $client_ip)
-        {
+        DB::transaction(function () use ($url, $session_id, $client_ip) {
             $prefix = explode("/", $url)[0];
             if (!strcmp("api", $prefix)) {
                 $url = str_replace("api", "news", $url);

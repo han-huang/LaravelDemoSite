@@ -27,14 +27,14 @@ class BookstoreController extends Controller
         $this->middleware('client', ['only' => [
             'shoppingcart',
             'deliver',
-            'SaveDeliver',
+            'saveDeliver',
             'confirm',
             'order'
         ]]);
 
         $this->middleware('checkcart', ['only' => [
             'deliver',
-            'SaveDeliver',
+            'saveDeliver',
             'confirm'
         ]]);
     }
@@ -60,8 +60,16 @@ class BookstoreController extends Controller
         $PutInCart = ShoppingCart::findInCart("shopping", $todaysale->id);
 
         $view = 'site.bookstore.home';
-        return view($view, compact('newarrivals', 'marketings', 'hits', 'editors'
-                   , 'todaysale', 'rankingnew', 'rankingsold', 'PutInCart'));
+        return view($view, compact(
+            'newarrivals',
+            'marketings',
+            'hits',
+            'editors',
+            'todaysale',
+            'rankingnew',
+            'rankingsold',
+            'PutInCart'
+        ));
     }
 
     /**
@@ -84,7 +92,7 @@ class BookstoreController extends Controller
     public function book(Request $request, $id)
     {
         //verify $id
-        $match = preg_match("/^[1-9][0-9]*$/", $id); ;
+        $match = preg_match("/^[1-9][0-9]*$/", $id);
         if (!$match) {
             return $this->gohome();
         }
@@ -131,11 +139,10 @@ class BookstoreController extends Controller
     {
         $browsed = [];
         if ($cookie_data = $request->cookie($cname)) {
-
             $browsed = $cookie_data;
             $repeat = false;
             foreach ($cookie_data as $data) {
-                if(in_array($id, $data)) {
+                if (in_array($id, $data)) {
                     $repeat = true;
                 }
             }
@@ -143,7 +150,9 @@ class BookstoreController extends Controller
             if (count($browsed) >= $remain && !$repeat) {
                 array_shift($browsed);
             }
-            if (!$repeat) $browsed[] = $current;
+            if (!$repeat) {
+                $browsed[] = $current;
+            }
         } else {
             $browsed[] = $current;
         }
@@ -155,7 +164,7 @@ class BookstoreController extends Controller
      *
      * @return
      */
-    public function cart_summary()
+    public function cartSummary()
     {
         $count = Cart::instance('shopping')->count();
         $total = Cart::instance('shopping')->total();
@@ -174,7 +183,7 @@ class BookstoreController extends Controller
     public function shoppingcart(Request $request)
     {
         ShoppingCart::checkTempCart();
-        $array = $this->cart_summary();
+        $array = $this->cartSummary();
         extract($array);
         $view = 'site.bookstore.shoppingcart';
         return view($view, compact('count', 'total', 'shipping_fee', 'amount'));
@@ -202,7 +211,7 @@ class BookstoreController extends Controller
      */
     public function confirm(Request $request)
     {
-        $array = $this->cart_summary();
+        $array = $this->cartSummary();
         extract($array);
         $client = $request->user("client");
         $view = 'site.bookstore.confirm';
@@ -215,29 +224,29 @@ class BookstoreController extends Controller
      * @param  Request $request
      * @return
      */
-    public function SaveDeliver(Request $request)
+    public function saveDeliver(Request $request)
     {
         $ret = $this->deliverValidate($request);
-        if(!empty($ret)) {
+        if (!empty($ret)) {
             return $ret;
         }
 
         // Log::info('collect($request->all()): '.collect($request->all())." ".__FILE__." ".__FUNCTION__." ".__LINE__);
-        $this->SaveToSession($request);
+        $this->saveToSession($request);
         return redirect()
             ->route("bookstore.confirm");
     }
 
     /**
-     * SaveToSession
+     * saveToSession
      *
      * @param  Request $request
      * @return Illuminate\Http\RedirectResponse
      */
-    public function SaveToSession(Request $request)
+    public function saveToSession(Request $request)
     {
         session()->put('deliver', $request->deliver);
-        session()->put('payment_methond', $request->payment_methond);
+        session()->put('payment_method', $request->payment_method);
         session()->put('invoice_type', $request->invoice_type);
         session()->put('name', $request->name);
         session()->put('phone', $request->phone);
@@ -246,16 +255,6 @@ class BookstoreController extends Controller
         session()->put('addr_area', $request->addr_area);
         session()->put('addr_street', $request->addr_street);
         session()->put('zipcode', $request->zipcode);
-        // Log::info('session()->get("deliver"): '.session()->get("deliver")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
-        // Log::info('session()->get("payment_methond"): '.session()->get("payment_methond")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
-        // Log::info('session()->get("invoice_type"): '.session()->get("invoice_type")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
-        // Log::info('session()->get("name"): '.session()->get("name")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
-        // Log::info('session()->get("phone"): '.session()->get("phone")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
-        // Log::info('session()->get("email"): '.session()->get("email")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
-        // Log::info('session()->get("addr_city"): '.session()->get("addr_city")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
-        // Log::info('session()->get("addr_area"): '.session()->get("addr_area")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
-        // Log::info('session()->get("addr_street"): '.session()->get("addr_street")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
-        // Log::info('session()->get("zipcode"): '.session()->get("zipcode")." ".__FILE__." ".__FUNCTION__." ".__LINE__);
     }
 
     /**
@@ -268,7 +267,7 @@ class BookstoreController extends Controller
     {
         $rules = [
             'deliver' => 'required|max:255',
-            'payment_methond' => 'required|max:255',
+            'payment_method' => 'required|max:255',
             'invoice_type' => 'required|max:255',
             'name' => 'required|max:255',
             'phone' => 'required|numeric',

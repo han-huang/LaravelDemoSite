@@ -11,7 +11,7 @@ Route::group([
 
     Route::get('shoppingcart', 'BookstoreController@shoppingcart')->name('shoppingcart');
     Route::get('deliver', 'BookstoreController@deliver')->name('deliver');
-    Route::post('SaveDeliver', 'BookstoreController@SaveDeliver')->name('SaveDeliver');
+    Route::post('saveDeliver', 'BookstoreController@saveDeliver')->name('saveDeliver');
     Route::get('confirm', 'BookstoreController@confirm')->name('confirm');
     Route::get('order', 'BookstoreController@order')->name('order');
 

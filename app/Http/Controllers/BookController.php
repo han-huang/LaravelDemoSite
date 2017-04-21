@@ -51,8 +51,9 @@ class BookController extends VoyagerBreadController
         $this->insertUpdateData($request, $slug, $dataType->addRows, $data);
 
         $data->bookauthors()->sync($bookauthor_id);
-        if($booktranslator_id_length)
+        if ($booktranslator_id_length) {
             $data->booktranslators()->sync($booktranslator_id);
+        }
 
         return redirect()
             ->route("voyager.{$dataType->slug}.index")
@@ -60,7 +61,6 @@ class BookController extends VoyagerBreadController
                 'message'    => "Successfully Added New {$dataType->display_name_singular}",
                 'alert-type' => 'success',
             ]);
-
     }
 
     // POST BR(E)AD
@@ -86,8 +86,9 @@ class BookController extends VoyagerBreadController
         $this->insertUpdateData($request, $slug, $dataType->editRows, $data);
 
         $data->bookauthors()->sync($bookauthor_id);
-        if($booktranslator_id_length)
+        if ($booktranslator_id_length) {
             $data->booktranslators()->sync($booktranslator_id);
+        }
 
         return redirect()
             ->route("voyager.{$dataType->slug}.index")

@@ -28,7 +28,7 @@ class NewsPostController extends VoyagerController
         /**
          * toggleswitch checkbox - on -> send active:on
          * toggleswitch checkbox - off -> send nothing
-         * 
+         *
          * comment 'active' due to : on -> send active:on (not integer), off -> send nothing(not required)
          */
         //'active' => 'required|integer',
@@ -82,7 +82,7 @@ class NewsPostController extends VoyagerController
     public function store(Request $request)
     {
         $ret = $this->newspostValidate($request);
-        if(!empty($ret)) {
+        if (!empty($ret)) {
             return $ret;
         }
         
@@ -108,7 +108,7 @@ class NewsPostController extends VoyagerController
     public function update(Request $request, $id)
     {
         $ret = $this->newspostValidate($request);
-        if(!empty($ret)) {
+        if (!empty($ret)) {
             return $ret;
         }
 

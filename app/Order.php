@@ -72,10 +72,14 @@ class Order extends Model
     public function scopeSelectbrief(Builder $query)
     {
         return $query->select(
-                           'id', 'order_no', 'created_at',
-                           'deliver', 'payment_methond',
-                           'amount', 'status'
-                       );
+            'id',
+            'order_no',
+            'created_at',
+            'deliver',
+            'payment_method',
+            'amount',
+            'status'
+        );
     }
 
     /**

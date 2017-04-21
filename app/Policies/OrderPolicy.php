@@ -29,7 +29,7 @@ class OrderPolicy
      */
     public function view(Client $client, Order $order)
     {
-		// additional condition : active - 1
+        // additional condition : active - 1
         return $client->id === $order->client_id ? $order->active == 1 : false ;
     }
 }

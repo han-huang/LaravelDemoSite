@@ -20,11 +20,11 @@ class ResetPasswordController extends Controller
             }
         );
 
-        if($response !== Password::PASSWORD_RESET) {
+        if ($response !== Password::PASSWORD_RESET) {
             throw new HttpException(500);
         }
 
-        if(!Config::get('boilerplate.reset_password.release_token')) {
+        if (!Config::get('boilerplate.reset_password.release_token')) {
             return response()->json([
                 'status' => 'ok',
             ]);
@@ -57,7 +57,10 @@ class ResetPasswordController extends Controller
     protected function credentials(ResetPasswordRequest $request)
     {
         return $request->only(
-            'email', 'password', 'password_confirmation', 'token'
+            'email',
+            'password',
+            'password_confirmation',
+            'token'
         );
     }
 

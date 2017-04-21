@@ -167,7 +167,8 @@ class NewsPost extends Model
      */
     public function scopeNewsarticle(Builder $query, $id)
     {
-        return $query->joinnewscategories()->where('news_posts.id', '=', $id)->active()->published()->articleselectjoined();
+        return $query->joinnewscategories()->where('news_posts.id', '=', $id)
+               ->active()->published()->articleselectjoined();
     }
 
     /**
@@ -204,7 +205,12 @@ class NewsPost extends Model
      */
     public function scopeArticleselectjoined(Builder $query)
     {
-        return $query->select('news_posts.*', 'news_categories.title as cate_title', 'news_categories.label_class', 'news_categories.color');
+        return $query->select(
+            'news_posts.*',
+            'news_categories.title as cate_title',
+            'news_categories.label_class',
+            'news_categories.color'
+        );
     }
 
     /**
@@ -237,7 +243,15 @@ class NewsPost extends Model
      */
     public function scopeSelectjoined(Builder $query)
     {
-        return $query->select('news_posts.id', 'news_posts.news_category_id', 'news_posts.title', 'news_posts.updated_at', 'news_categories.title as cate_title', 'news_categories.label_class', 'news_categories.color');
+        return $query->select(
+            'news_posts.id',
+            'news_posts.news_category_id',
+            'news_posts.title',
+            'news_posts.updated_at',
+            'news_categories.title as cate_title',
+            'news_categories.label_class',
+            'news_categories.color'
+        );
     }
 
     /**

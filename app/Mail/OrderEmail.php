@@ -41,10 +41,10 @@ class OrderEmail extends Mailable implements ShouldQueue
                     // ->subject('This is a test mail')
                     ->with([
                         'order_no' => $this->order->order_no,
-                        'deliver' => Presenter::deliver_str($this->order->deliver),
+                        'deliver' => Presenter::deliver($this->order->deliver),
                         'created_at' => Presenter::showDay($this->order->created_at),
                         'amount' => $this->order->amount,
-                        'payment_methond' => Presenter::payment_methond_str($this->order->payment_methond),
+                        'payment_method' => Presenter::paymentMethod($this->order->payment_method),
                     ]);
     }
 }

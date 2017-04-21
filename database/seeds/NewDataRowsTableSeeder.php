@@ -1952,7 +1952,7 @@ class NewDataRowsTableSeeder extends Seeder
 
         $dataRow = DataRow::firstOrNew([
             'data_type_id' => $ordersDataType->id,
-            'field'        => 'payment_methond',
+            'field'        => 'payment_method',
         ]);
         if (!$dataRow->exists) {
             $dataRow->fill([

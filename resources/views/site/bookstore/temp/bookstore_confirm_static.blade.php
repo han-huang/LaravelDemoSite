@@ -175,7 +175,7 @@ $(document).ready(function(){
                     </div>
 
                     <div class=" ">
-                        <label class="col-lg-2 col-md-6 col-sm-6 text-right" for="payment_methond" style="">付款方式</label>
+                        <label class="col-lg-2 col-md-6 col-sm-6 text-right" for="payment_method" style="">付款方式</label>
                         <div class="col-lg-4 col-md-6 col-sm-6">
                         <p class="">貨到付款</p>
                         </div>

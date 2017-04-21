@@ -71,20 +71,29 @@ class OrderController extends Controller
             foreach ($details as $detail) {
                 $modal .= "";
                 $modal .= "<tr>";
-                $modal .= "<td class='col-md-2'><a href='".url('/bookstore/book/'.$detail->id)."' target='_blank'>".$detail->title."</a></td>";
+                $modal .= "<td class='col-md-2'><a href='".url('/bookstore/book/'.$detail->id).
+                          "' target='_blank'>".$detail->title."</a></td>";
                 $modal .= "<td class='col-md-1'>".$detail->list_price."元</td>";
-                $modal .= "<td class='col-md-1'><span class='deeporange-color'>".$detail->pivot->sales_discount."折</span><br>".$detail->pivot->sale_price."元</td>";
-                $modal .= "<td class='col-md-1' style='width:100px'>".$detail->pivot->book_quantity."</td>";
-                $modal .= "<td class='col-md-1'>".$detail->pivot->book_quantity * $detail->pivot->sale_price."元</td>";
+                $modal .= "<td class='col-md-1'><span class='deeporange-color'>".
+                          $detail->pivot->sales_discount."折</span><br>".
+                          $detail->pivot->sale_price."元</td>";
+                $modal .= "<td class='col-md-1' style='width:100px'>".
+                          $detail->pivot->book_quantity."</td>";
+                $modal .= "<td class='col-md-1'>".$detail->pivot
+                          ->book_quantity * $detail->pivot->sale_price."元</td>";
                 $modal .= "</tr>";
             }
         }
         $modal .= "</tbody>";
         $modal .= "</table>";
         $modal .= "<div class='text-right' style='margin:20px'>";
-        $modal .= "<p>共&nbsp;<span class='deeporange-color' id='count'>".$order->count."</span>&nbsp;項商品，累計：NT$&nbsp;<span class='deeporange-color span-price'>".($order->amount - $order->shipping_fee)."</span>&nbsp;元</p>";
-        $modal .= "<p>處理費：NT$&nbsp;<span class='deeporange-color span-price'>".$order->shipping_fee."</span>&nbsp;元</p>";
-        $modal .= "<p>訂單金額：NT$&nbsp;<span class='deeporange-color span-price'>".$order->amount."</span>&nbsp;元</p>";
+        $modal .= "<p>共&nbsp;<span class='deeporange-color' id='count'>".
+                  $order->count."</span>&nbsp;項商品，累計：NT$&nbsp;<span class='deeporange-color span-price'>".
+                  ($order->amount - $order->shipping_fee)."</span>&nbsp;元</p>";
+        $modal .= "<p>處理費：NT$&nbsp;<span class='deeporange-color span-price'>".
+                  $order->shipping_fee."</span>&nbsp;元</p>";
+        $modal .= "<p>訂單金額：NT$&nbsp;<span class='deeporange-color span-price'>".
+                  $order->amount."</span>&nbsp;元</p>";
         $modal .= "</div>";
 
         return $modal;

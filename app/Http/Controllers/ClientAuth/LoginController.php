@@ -89,12 +89,13 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-		if (session()->has('afterLoginPath')) {
-			$redirectTo = session()->pull('afterLoginPath', '/');
-			// Log::info('redirectTo: '.$redirectTo." ".__FILE__." ".__FUNCTION__." ".__LINE__);
-			if ($redirectTo)
-			    return redirect()->intended($redirectTo);
-		}
+        if (session()->has('afterLoginPath')) {
+            $redirectTo = session()->pull('afterLoginPath', '/');
+            // Log::info('redirectTo: '.$redirectTo." ".__FILE__." ".__FUNCTION__." ".__LINE__);
+            if ($redirectTo) {
+                return redirect()->intended($redirectTo);
+            }
+        }
     }
 
     /**

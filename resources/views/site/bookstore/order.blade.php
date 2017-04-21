@@ -200,8 +200,8 @@ $(document).ready(function(){
                             <tr>
                                 <td class="col-md-1" style="">{{ $order->order_no }}</td>
                                 <td class="col-md-1" style="">{{ Presenter::getYMD($order->created_at) }}</td>
-                                <td class="col-md-1" style="">{{ Presenter::deliver_str($order->deliver) }}</td>
-                                <td class="col-md-1" style="">{{ Presenter::payment_methond_str($order->payment_methond) }}</td>
+                                <td class="col-md-1" style="">{{ Presenter::deliver($order->deliver) }}</td>
+                                <td class="col-md-1" style="">{{ Presenter::paymentMethod($order->payment_method) }}</td>
                                 <td class="col-md-1" style="">{{ $order->amount }}</td>
                                 <td class="col-md-1" style="">{{ Presenter::showOrderStatus($order->status) }}</td>
                                 <td class="col-md-1" style=""><button type="button" id='' data-id="{{ $order->id }}">明細</button></td>

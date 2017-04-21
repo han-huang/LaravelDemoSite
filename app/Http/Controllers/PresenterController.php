@@ -73,10 +73,12 @@ class PresenterController extends Controller
      */
     public function showBookStock($stock)
     {
-        if($stock > 10) {
-            $span = '<p><span>庫存</span><span aria-label="大於">&nbsp;&gt;&nbsp;</span><span class="deeporange-color">10</span></p>';
-        } elseif($stock <= 10 && $stock > 0) {
-            $span = '<p><span>庫存</span><span aria-label="等於">&nbsp;&equals;&nbsp;</span><span class="deeporange-color">'.$stock.'</span></p>';
+        if ($stock > 10) {
+            $span = '<p><span>庫存</span><span aria-label="大於">&nbsp;&gt;&nbsp;</span>';
+            $span .= '<span class="deeporange-color">10</span></p>';
+        } elseif ($stock <= 10 && $stock > 0) {
+            $span = '<p><span>庫存</span><span aria-label="等於">&nbsp;&equals;&nbsp;</span>';
+            $span .= '<span class="deeporange-color">'.$stock.'</span></p>';
         } else {
             $span = '<p><span class="deeporange-color">目前已無庫存</span></p>';
         }
@@ -96,10 +98,12 @@ class PresenterController extends Controller
         $strs = "";
         if (func_num_args()) {
             foreach ($args as $arg) {
-                if (session()->has($arg))
+                if (session()->has($arg)) {
                     $str = session()->get($arg);
-                if (!is_null(old($arg)))
+                }
+                if (!is_null(old($arg))) {
                     $str = old($arg);
+                }
                 $strs .= $str;
             }
         }
@@ -118,12 +122,15 @@ class PresenterController extends Controller
         $strs = "$('#twzipcode').twzipcode('set', {";
         if (!empty($this->showSession("zipcode"))) {
             $strs .= '"zipcode": "'.$this->showSession("zipcode").'",';
-            if (!empty($this->showSession("addr_city")))
+            if (!empty($this->showSession("addr_city"))) {
                 $strs .= '"county": "'.$this->showSession("addr_city").'",';
-            if (!empty($this->showSession("addr_area")))
+            }
+            if (!empty($this->showSession("addr_area"))) {
                 $strs .= '"district": "'.$this->showSession("addr_area").'",';
-        } else
+            }
+        } else {
             return;
+        }
 
         $strs .= "});";
         return $strs;
@@ -135,7 +142,7 @@ class PresenterController extends Controller
      * @param  string  $val
      * @return string
      */
-    public function deliver_str($val)
+    public function deliver($val)
     {
         switch ($val) {
             case 'Home_Delivery':
@@ -148,12 +155,12 @@ class PresenterController extends Controller
     }
 
     /**
-     * convert payment_methond to String
+     * convert payment_method to String
      *
      * @param  string  $val
      * @return string
      */
-    public function payment_methond_str($val)
+    public function paymentMethod($val)
     {
         switch ($val) {
             case 'COD':
@@ -171,7 +178,7 @@ class PresenterController extends Controller
      * @param  string  $val
      * @return string
      */
-    public function invoice_type_str($val)
+    public function invoiceType($val)
     {
         switch ($val) {
             case 'paper':
@@ -260,9 +267,10 @@ class PresenterController extends Controller
      */
     public function radioCheck($val, $match)
     {
-        if (strcmp($val, $match))
+        if (strcmp($val, $match)) {
             return;
-        else
+        } else {
             return 'checked';
+        }
     }
 }

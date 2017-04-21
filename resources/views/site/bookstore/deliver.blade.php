@@ -117,7 +117,7 @@ $(document).ready(function(){
         </div><!-- progressbar -->
 
         <div class="col-md-12" style="margin-top:30px">
-            <form id="deliver-form" class="form-horizontal" role="form" action="/bookstore/SaveDeliver" method="POST">
+            <form id="deliver-form" class="form-horizontal" role="form" action="/bookstore/saveDeliver" method="POST">
             {{ csrf_field() }}
             <div class=" panel panel-primary">
                 <div class="panel-heading">配送方式</div>
@@ -126,7 +126,7 @@ $(document).ready(function(){
 
             <div class=" panel panel-primary">
                 <div class="panel-heading">付款方式</div>
-                <div class="panel-body "><input type="radio" name="payment_methond" value="COD" checked required>&nbsp;貨到付款</div>
+                <div class="panel-body "><input type="radio" name="payment_method" value="COD" checked required>&nbsp;貨到付款</div>
             </div>
 
             <div class=" panel panel-primary">

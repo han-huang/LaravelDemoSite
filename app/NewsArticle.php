@@ -11,7 +11,7 @@ class NewsArticle extends Model
     protected $fillable = [
         'author', 'tag', 'title', 'news_category_id', 'active',
     ];
-	
+
     /**
      * Get NewsArticleContent.
      */
@@ -19,7 +19,7 @@ class NewsArticle extends Model
     {
         return $this->hasMany('App\NewsArticleContent', 'news_article_id');
     }
-	
+
     /**
      * Get NewsCategory.
      */

@@ -215,21 +215,21 @@ $(document).ready(function(){
                     <div class=" ">
                         <label class="col-lg-2 col-md-6 col-sm-6 text-right" for="deliver" style="">配送方式</label>
                         <div class="col-lg-4 col-md-6 col-sm-6">
-                        <p class="">{{ Presenter::deliver_str(Presenter::showSession('deliver')) }}</p>
+                        <p class="">{{ Presenter::deliver(Presenter::showSession('deliver')) }}</p>
                         </div>
                     </div>
 
                     <div class=" ">
-                        <label class="col-lg-2 col-md-6 col-sm-6 text-right" for="payment_methond" style="">付款方式</label>
+                        <label class="col-lg-2 col-md-6 col-sm-6 text-right" for="payment_method" style="">付款方式</label>
                         <div class="col-lg-4 col-md-6 col-sm-6">
-                        <p class="">{{ Presenter::payment_methond_str(Presenter::showSession('payment_methond')) }}</p>
+                        <p class="">{{ Presenter::paymentMethod(Presenter::showSession('payment_method')) }}</p>
                         </div>
                     </div>
 
                     <div class=" ">
                         <label class="col-lg-2 col-md-6 col-sm-6 text-right" for="invoice_type" style="">發票資訊</label>
                         <div class="col-lg-10 col-md-6 col-sm-6">
-                        <p class="">{{ Presenter::invoice_type_str(Presenter::showSession('invoice_type')) }}</p>
+                        <p class="">{{ Presenter::invoiceType(Presenter::showSession('invoice_type')) }}</p>
                         </div>
                     </div>
 
