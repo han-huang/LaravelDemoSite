@@ -47,7 +47,6 @@ use Dingo\Api\Routing\Router;
 
 $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', function ($api) {
-
     $api->get('test', function () {
         return 'It is ok';
     });
@@ -59,9 +58,13 @@ $api->version('v1', function ($api) {
 
     $api->get('/user', ['middleware' => 'auth:api', 'uses' => 'App\\Http\\Controllers\\UserController@showProfile']);
 
-    $api->get('article/{id}', ['middleware' => 'cors', 'uses' => 'App\\Http\\Controllers\\NewsController@newsArticleApi', 'as' => 'article']);
+    $api->get('article/{id}', [
+        'middleware' => 'cors',
+        'uses'       => 'App\\Http\\Controllers\\NewsController@newsArticleApi',
+        'as'         => 'article'
+    ]);
 
-    $api->group(['prefix' => 'auth', 'as' => 'auth.'], function(Router $api) {
+    $api->group(['prefix' => 'auth', 'as' => 'auth.'], function (Router $api) {
         $api->post('signup', 'App\\Api\\V1\\Controllers\\SignUpController@signUp');
         $api->post('login', 'App\\Api\\V1\\Controllers\\LoginController@login');
 
@@ -69,8 +72,8 @@ $api->version('v1', function ($api) {
         $api->post('reset', 'App\\Api\\V1\\Controllers\\ResetPasswordController@resetPassword');
     });
 
-    $api->group(['middleware' => 'jwt.auth'], function(Router $api) {
-        $api->get('protected', function() {
+    $api->group(['middleware' => 'jwt.auth'], function (Router $api) {
+        $api->get('protected', function () {
             return response()->json([
                 'message' => 'Access to this item is only for authenticated user. Provide a token in your request!'
             ]);
@@ -78,7 +81,7 @@ $api->version('v1', function ($api) {
 
         $api->get('refresh', [
             'middleware' => 'jwt.refresh',
-            function() {
+            function () {
                 return response()->json([
                     'message' => 'By accessing this endpoint, you can refresh your access token at each request. Check out this response headers!'
                 ]);

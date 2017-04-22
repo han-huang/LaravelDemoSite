@@ -16,41 +16,36 @@ Route::get('/welcome', function () {
 });
 
 Route::group(['prefix' => 'client', 'as' => 'client.'], function () {
-  //Route::get('/login', 'ClientAuth\LoginController@showLoginForm');
-  Route::get('/login', 'ClientAuth\LoginController@showLoginForm')->name('login');
-  Route::post('/login', 'ClientAuth\LoginController@login');
-  // Route::post('/logout', 'ClientAuth\LoginController@logout');
-  Route::post('/logout', 'ClientAuth\LoginController@logout')->name('logout');
+    //Route::get('/login', 'ClientAuth\LoginController@showLoginForm');
+    Route::get('/login', 'ClientAuth\LoginController@showLoginForm')->name('login');
+    Route::post('/login', 'ClientAuth\LoginController@login');
+    // Route::post('/logout', 'ClientAuth\LoginController@logout');
+    Route::post('/logout', 'ClientAuth\LoginController@logout')->name('logout');
 
-  // Route::get('/register', 'ClientAuth\RegisterController@showRegistrationForm');
-  Route::get('/register', 'ClientAuth\RegisterController@showRegistrationForm')->name('register');
-  Route::post('/register', 'ClientAuth\RegisterController@register');
+    // Route::get('/register', 'ClientAuth\RegisterController@showRegistrationForm');
+    Route::get('/register', 'ClientAuth\RegisterController@showRegistrationForm')->name('register');
+    Route::post('/register', 'ClientAuth\RegisterController@register');
 
-  Route::post('/password/email', 'ClientAuth\ForgotPasswordController@sendResetLinkEmail');
-  Route::post('/password/reset', 'ClientAuth\ResetPasswordController@reset');
-  Route::get('/password/reset', 'ClientAuth\ForgotPasswordController@showLinkRequestForm')->name('resetRequest');
-  Route::get('/password/reset/{token}', 'ClientAuth\ResetPasswordController@showResetForm')->name('resetPassword');
+    Route::post('/password/email', 'ClientAuth\ForgotPasswordController@sendResetLinkEmail');
+    Route::post('/password/reset', 'ClientAuth\ResetPasswordController@reset');
+    Route::get('/password/reset', 'ClientAuth\ForgotPasswordController@showLinkRequestForm')->name('resetRequest');
+    Route::get('/password/reset/{token}', 'ClientAuth\ResetPasswordController@showResetForm')->name('resetPassword');
 });
 
-Route::get('contact', function() {
+Route::get('contact', function () {
     return View::make('contact');
 });
 Route::post('contact', 'EnquiryController@index');
 
-Route::any('captcha-test', function(\Illuminate\Http\Request $request)
-{
-    if ($request->method() == 'POST')
-    {
+Route::any('captcha-test', function (\Illuminate\Http\Request $request) {
+    if ($request->method() == 'POST') {
         $rules = ['captcha' => 'required|captcha'];
         //$validator = Validator::make(array('captcha'=>$request->input('captcha')), $rules);
         $data = $request->all();
         $validator = Validator::make($data, $rules);
-        if ($validator->fails())
-        {
+        if ($validator->fails()) {
             echo '<p style="color: #ff0000;">Incorrect!</p>';
-        }
-        else
-        {
+        } else {
             echo '<p style="color: #00ff30;">Matched :)</p>';
         }
     }
@@ -81,7 +76,6 @@ Route::any('captcha-test', function(\Illuminate\Http\Request $request)
 
     $form .= '</form></body></html>';
     return $form;
-
 });
 
 Route::get('/', 'IndexController@getIndexView');
@@ -115,7 +109,6 @@ Route::get('/password/reset', 'ClientAuth\ForgotPasswordController@showLinkReque
 Route::get('/password/reset/{token}', 'ClientAuth\ResetPasswordController@showResetForm')->name('resetPassword');
 
 Route::group(['prefix' => 'admin'], function () {
-
     Voyager::routes();
 
     // custom routes
