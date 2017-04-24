@@ -56,6 +56,237 @@ class PostalStreetNameData extends Command
             $end = $cityAreaCount[$i + 1];
             for ($j = $start; $j <= $end; $j++) {
                 $this->info($city[$i]." ".$cityArea[$j]);
+                $response = $this->requestPostalUri($city[$i], $cityArea[$j]);
+                // $body = $response->getBody();
+                if ($response) {
+                    $xml = simplexml_load_string($response->getBody());
+                    $this->line($city[$i]." ".$cityArea[$j]." 總數：".count($xml->array->array0));
+                    $streets = $xml->array->array0;
+                    foreach ($streets as $street) {
+                        // $this->info($street);
+                        $cols = [$city[$i], $cityArea[$j], $street];
+                        $rows[] = $cols;
+                    }
+                } else {
+                    $this->error("No Response");
+                    exit(2);
+                }
+            }
+        }
+        // print_r($rows);
+        $this->createExcel($rows);
+    }
+
+    /**
+     * Send Request to PostalUri.
+     *
+     * @param  string  $city
+     * @param  string  $cityArea
+     * @return mixed
+     */
+    public function requestPostalUri($city, $cityArea)
+    {
+        $response = null;
+        sleep(mt_rand(1, 2));
+        $client = new Client();
+        try {
+            $response = $client->request('POST', $this->postalUri, [
+                'form_params' => [
+                    'city'     => $city,
+                    'cityarea' => $cityArea
+                ],
+                'timeout' => 5
+            ]);
+        } catch (RequestException $e) {
+            $this->error(Psr7\str($e->getRequest()));
+            if ($e->hasResponse()) {
+                $this->error(Psr7\str($e->getResponse()));
+            } else {
+                $this->error("No Response");
+            }
+            $this->error("city=".$city."&cityarea=".$cityArea);
+            exit(1);
+        }
+        return $response;
+    }
+
+    /**
+     * Create Excel.
+     *
+     * @return mixed
+     */
+    public function createExcel($rows)
+    {
+        // print_r($rows);
+        // date_default_timezone_set('Asia/Taipei');
+        $now = date("YmdHis");
+        Excel::create('street'.$now, function ($excel) use ($rows) {
+            $excel->sheet('street', function ($sheet) use ($rows) {
+                // Set width for multiple cells
+                $sheet->setWidth(array(
+                    'A'     =>  10,
+                    'B'     =>  12,
+                    'C'     =>  25
+                ));
+                $sheet->fromArray($rows, null, 'A1', false, false);
+            });
+        })->store('xlsx', storage_path('excel/exports'));
+    }
+
+    /**
+     * Execute the console command.
+     *
+     * @return mixed
+     */
+    public function handleCreateOrAppendToExcel()
+    {
+        $array = $this->getCity();
+        extract($array);
+        $cityLength = count($city);
+        // $rows = [];
+        // $rows[0] = ['縣市', '鄉鎮市區', '道路或街名或村里名稱'];
+        $filename = 'street'.date("YmdHis");
+        // $filename = 'street20170424170921';
+        for ($i = 0; $i < $cityLength; $i++) {
+            $count = $cityAreaCount[$i + 1] - $cityAreaCount[$i];
+            $start = $cityAreaCount[$i] + 1;
+            $end = $cityAreaCount[$i + 1];
+            for ($j = $start; $j <= $end; $j++) {
+                $this->info($city[$i]." ".$cityArea[$j]);
+                sleep(mt_rand(1, 2));
+                $client = new Client();
+                try {
+                    $response = $client->request('POST', $this->postalUri, [
+                        'form_params' => [
+                            'city'     => $city[$i],
+                            'cityarea' => $cityArea[$j]
+                        ],
+                        'timeout' => 5
+                    ]);
+                } catch (RequestException $e) {
+                    // Log::info('Exception StatusCode: '.$response->getStatusCode());
+                    // $this->info('Exception StatusCode: '.$response->getStatusCode());
+                    $this->error(Psr7\str($e->getRequest()));
+                    if ($e->hasResponse()) {
+                        $this->error(Psr7\str($e->getResponse()));
+                    }
+                    exit(1);
+                }
+
+                $body = $response->getBody();
+                $xml = simplexml_load_string($response->getBody());
+                $this->line($city[$i]." ".$cityArea[$j]." 總數：".count($xml->array->array0));
+                $streets = $xml->array->array0;
+                $rows = [];
+                foreach ($streets as $street) {
+                    $rows[] = [$city[$i], $cityArea[$j], $street];
+                }
+                $this->createOrAppendToExcel($filename, $rows);
+            }
+        }
+        // print_r($rows);
+        // date_default_timezone_set('Asia/Taipei');
+        // $now = date("YmdHis");
+        // Excel::create('street'.$now, function ($excel) use ($rows) {
+            // $excel->sheet('street', function ($sheet) use ($rows) {
+                // Set width for multiple cells
+                // $sheet->setWidth(array(
+                    // 'A'     =>  10,
+                    // 'B'     =>  12,
+                    // 'C'     =>  25
+                // ));
+                // $sheet->fromArray($rows, null, 'A1', false, false);
+            // });
+        // })->store('xlsx', storage_path('excel/exports'));
+    }
+
+    /**
+     * Create Or Append To Excel.
+     *
+     * @param  string $filename
+     * @param  array  $rows
+     * @return mixed
+     *
+     * @result
+     * ini_set("memory_limit","1024M") or modify memory_limit to 1024M
+     * in /etc/php/7.1/fpm/php.ini and /etc/php/7.1/cli/php.ini
+     * but memory still exhausted
+     *
+     * PHP Fatal error:  Allowed memory size of 1073741824 bytes exhausted (tried to allocate 20480 bytes)
+     * in /home/vagrant/Code/Laravel/public/crawler_install/vendor/phpoffice/phpexcel/Classes/PHPExcel.php on line 866
+     * PHP Fatal error:  Allowed memory size of 1073741824 bytes exhausted (tried to allocate 32768 bytes)
+     * in /home/vagrant/Code/Laravel/public/crawler_install/vendor/symfony/debug/Exception/FatalErrorException.php on line 1
+     */
+    public function createOrAppendToExcel($filename, $rows)
+    {
+        $file_path = storage_path('excel/exports/'.$filename.'.xlsx');
+        $this->info($file_path);
+        if (file_exists($file_path)) {
+            Excel::load($file_path, function ($reader) use ($rows) {
+                $reader->sheet('street', function ($sheet) use ($rows) {
+                    // $sheet->appendRow($rows);
+                    // $this->info(implode(', ', $rows));
+                    $sheet->setWidth(array(
+                        'A'     =>  10,
+                        'B'     =>  12,
+                        'C'     =>  25
+                    ));
+
+                    foreach ($rows as $row) {
+                        // $this->info(implode(', ', $row));
+                        $sheet->appendRow($row);
+                    }
+                });
+            // use store, not export
+            // })->export('xls');
+            })->store('xlsx', storage_path('excel/exports'));
+            // $this->info(implode(', ', $rows));
+        } else {
+            Excel::create($filename, function ($excel) use ($rows) {
+                $excel->sheet('street', function ($sheet) use ($rows) {
+                    // Set width for multiple cells
+                    $sheet->setWidth(array(
+                        'A'     =>  10,
+                        'B'     =>  12,
+                        'C'     =>  25
+                    ));
+                    $heading = ['縣市', '鄉鎮市區', '道路或街名或村里名稱'];
+                    // $rows = array($heading, $rows);
+                    // $sheet->fromArray($rows, null, 'A1', false, false);
+                    // $rows = array_merge($heading, $rows);
+                    $data = array();
+                    $data[] = $heading;
+                    foreach ($rows as $row) {
+                        $data[] = $row;
+                    }
+
+                    $sheet->fromArray($data, null, 'A1', false, false);
+                    // foreach ($streets as $street) {
+                        // $sheet->appendRow($streets);
+                    // }
+                });
+            })->store('xlsx', storage_path('excel/exports'));
+        }
+    }
+
+    /**
+     * Execute the console command.
+     *
+     * @return mixed
+     */
+    public function previous()
+    {
+        $array = $this->getCity();
+        extract($array);
+        $cityLength = count($city);
+        $rows = [];
+        $rows[0] = ['縣市', '鄉鎮市區', '道路或街名或村里名稱'];
+        for ($i = 0; $i < $cityLength; $i++) {
+            $count = $cityAreaCount[$i + 1] - $cityAreaCount[$i];
+            $start = $cityAreaCount[$i] + 1;
+            $end = $cityAreaCount[$i + 1];
+            for ($j = $start; $j <= $end; $j++) {
+                $this->info($city[$i]." ".$cityArea[$j]);
                 // $cols = [$city[$i], $cityArea[$j]];
                 // $rows[] = $cols;
 
@@ -68,16 +299,18 @@ class PostalStreetNameData extends Command
                         'form_params' => [
                             'city'     => $city[$i],
                             'cityarea' => $cityArea[$j]
-                        ]
+                        ],
+                        'timeout' => 5
                     ]);
                     // Log::info('$client->request end '." ".__FILE__." ".__FUNCTION__." ".__LINE__);
                 } catch (RequestException $e) {
-                    Log::info('Exception StatusCode: '.$response->getStatusCode());
-                    $this->info('Exception StatusCode: '.$response->getStatusCode());
+                    // Log::info('Exception StatusCode: '.$response->getStatusCode());
+                    // $this->info('Exception StatusCode: '.$response->getStatusCode());
                     $this->error(Psr7\str($e->getRequest()));
                     if ($e->hasResponse()) {
                         $this->error(Psr7\str($e->getResponse()));
                     }
+                    exit(1);
                 }
                 // $this->info('after $client->request');
                 // Log::info('after $client->request '." ".__FILE__." ".__FUNCTION__." ".__LINE__);
