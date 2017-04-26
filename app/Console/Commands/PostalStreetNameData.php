@@ -8,9 +8,13 @@ use GuzzleHttp\Psr7;
 use GuzzleHttp\Exception\RequestException;
 use Excel;
 use Log;
+use Symfony\Component\DomCrawler\Crawler;
+use App\Street;
 
 class PostalStreetNameData extends Command
 {
+    private $postalIndex = 'http://www.post.gov.tw/post/internet/Postal/index.jsp?ID=207';
+
     private $postalUri = 'http://www.post.gov.tw/post/internet/Postal/streetNameData.jsp';
 
     /**
@@ -41,11 +45,12 @@ class PostalStreetNameData extends Command
     /**
      * Execute the console command.
      *
-     * @return mixed
+     * @return void
      */
     public function handle()
     {
-        $array = $this->getCity();
+        $array = $this->getPostalCity();
+        // $array = $this->getCity();
         extract($array);
         $cityLength = count($city);
         $rows = [];
@@ -64,17 +69,49 @@ class PostalStreetNameData extends Command
                     $streets = $xml->array->array0;
                     foreach ($streets as $street) {
                         // $this->info($street);
-                        $cols = [$city[$i], $cityArea[$j], $street];
+                        // $cols = [$city[$i], $cityArea[$j], $street];
+                        $cols = [
+                                    'county'   => "$city[$i]",
+                                    'district' => "$cityArea[$j]",
+                                    'street'   => "$street"
+                                ];
                         $rows[] = $cols;
                     }
                 } else {
-                    $this->error("No Response");
+                    $this->error(__FUNCTION__." No Response");
                     exit(2);
                 }
             }
         }
         // print_r($rows);
         $this->createExcel($rows);
+        $this->insertOrUpdateTable($rows);
+    }
+
+    /**
+     * Send Request to PostalUri.
+     *
+     * @param  array  $rows
+     * @return void
+     */
+    public function insertOrUpdateTable($rows)
+    {
+        // if (Street::all()->count()) {
+            // foreach ($rows as $row) {
+                // Street::firstOrCreate($row);
+            // }
+        // } else {
+            // Street::insert($rows);
+        // }
+        //remove ['縣市', '鄉鎮市區', '道路或街名或村里名稱']
+        array_shift($rows);
+        foreach ($rows as $row) {
+            Street::firstOrCreate([
+                'county'   => $row['county'],
+                'district' => $row['district'],
+                'street'   => $row['street']
+            ]);
+        }
     }
 
     /**
@@ -87,7 +124,8 @@ class PostalStreetNameData extends Command
     public function requestPostalUri($city, $cityArea)
     {
         $response = null;
-        sleep(mt_rand(1, 2));
+        // sleep(mt_rand(1, 2));
+        sleep(1);
         $client = new Client();
         try {
             $response = $client->request('POST', $this->postalUri, [
@@ -102,7 +140,7 @@ class PostalStreetNameData extends Command
             if ($e->hasResponse()) {
                 $this->error(Psr7\str($e->getResponse()));
             } else {
-                $this->error("No Response");
+                $this->error(__FUNCTION__." No Response");
             }
             $this->error("city=".$city."&cityarea=".$cityArea);
             exit(1);
@@ -113,7 +151,8 @@ class PostalStreetNameData extends Command
     /**
      * Create Excel.
      *
-     * @return mixed
+     * @param  array  $rows
+     * @return void
      */
     public function createExcel($rows)
     {
@@ -375,6 +414,74 @@ class PostalStreetNameData extends Command
             // echo $street."\n";
             $this->info($street);
         }
+    }
+
+    /**
+     * Get Postal City.
+     *
+     * @return mixed
+     */
+    public function getPostalCity()
+    {
+        $client = new Client();
+        // $url = 'http://www.post.gov.tw/post/internet/Postal/index.jsp?ID=207';
+        // $response = $client->request('GET', $url);
+
+        try {
+            $response = $client->request('GET', $this->postalIndex, ['timeout' => 5]);
+        } catch (RequestException $e) {
+            $this->error(Psr7\str($e->getRequest()));
+            if ($e->hasResponse()) {
+                $this->error(Psr7\str($e->getResponse()));
+            } else {
+                $this->error(__FUNCTION__." No Response");
+            }
+            exit(1);
+        }
+
+        $html = $response->getBody()->getContents();
+        // echo $body;
+        $crawler = new Crawler($html);
+        // echo $crawler->filter('select[name="city"]')->text();
+        //$city = [];
+        $city = $crawler->filter('select[name="city"]')->filter('option')->each(function (Crawler $node, $i) {
+            // echo $i." ".$node->text().",";
+            // echo gettype($i).' $i '.$node->text().",";
+            // do not return index 0 - "請選擇縣市"
+            if ($i) {
+                return $node->text();
+            }
+        });
+        // var_dump($city);
+        // index 0 is empty value, Shift an element off the beginning of array
+        array_shift($city);
+        print_r($city);
+        // $pattern = "/^cityarea_account\[[0-9]*\] = [0-9]*\;$/"; //fail
+        // $pattern = "/^cityarea_account(.*?) = [0-9]+;$/"; //fail
+        // $pattern = '/^cityarea_account\[\d+\] = (.*)$/m';
+        $pattern = '/^cityarea_account\[\d+\] = (.*);$/m';
+        // preg_match($pattern, $html, $matches);
+        preg_match_all($pattern, $html, $matches);
+        // print_r($matches);
+        // exit(0);
+        // $cityAreaCount = preg_replace('/;/', '', $matches[1]);
+        $cityAreaCount = $matches[1];
+        print_r($cityAreaCount);
+        // exit(0);
+
+        // $pattern = '/^cityarea\[\d+\] = (.*)$/m';
+        // $pattern = '/^cityarea\[\d+\] = (.*);$/m';
+        $pattern = '/^cityarea\[\d+\] = \'(.*)\';$/m';
+        preg_match_all($pattern, $html, $matches);
+        // print_r($matches);
+        array_unshift($matches[1], '');
+        // print_r($matches[1]);
+        // $cityArea = preg_replace('/;/', '', $matches[1]);
+        $cityArea = $matches[1];
+        // $cityArea = preg_replace('/\'/', '', $cityArea);
+        print_r($cityArea);
+        // exit(0);
+        return compact('city', 'cityArea', 'cityAreaCount');
     }
 
     /**
