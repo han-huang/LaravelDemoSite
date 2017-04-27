@@ -34,3 +34,11 @@ php artisan db:seed --class=NewDatabaseSeeder
   - http://yourdomain/admin/
 - Demo Video
   - https://youtu.be/qd-ISvoiPQo
+
+### Command
+Get data of counties, districts, and streets from postal web site and export excel file.
+```
+php artisan postal:street
+```
+- Demo Video
+  - https://youtu.be/lsG_nbcVmgI
