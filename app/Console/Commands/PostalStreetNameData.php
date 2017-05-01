@@ -17,6 +17,12 @@ class PostalStreetNameData extends Command
 
     private $postalUri = 'http://www.post.gov.tw/post/internet/Postal/streetNameData.jsp';
 
+    private $city = [];
+
+    private $cityArea = [];
+
+    private $cityAreaCount = [];
+
     /**
      * The name and signature of the console command.
      *
@@ -30,7 +36,8 @@ class PostalStreetNameData extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Get data of counties, districts, and streets '.
+                             'from postal web site of Taiwan and export excel file.';
 
     /**
      * Create a new command instance.
@@ -50,41 +57,8 @@ class PostalStreetNameData extends Command
     public function handle()
     {
         $array = $this->getPostalCity();
-        // $array = $this->getCity();
-        extract($array);
-        $cityLength = count($city);
-        $rows = [];
-        $rows[0] = ['縣市', '鄉鎮市區', '道路或街名或村里名稱'];
-        for ($i = 0; $i < $cityLength; $i++) {
-            $count = $cityAreaCount[$i + 1] - $cityAreaCount[$i];
-            $start = $cityAreaCount[$i] + 1;
-            $end = $cityAreaCount[$i + 1];
-            for ($j = $start; $j <= $end; $j++) {
-                $this->info($city[$i]." ".$cityArea[$j]);
-                $response = $this->requestPostalUri($city[$i], $cityArea[$j]);
-                // $body = $response->getBody();
-                $contents = $response->getBody()->getContents();
-                if ($response) {
-                    $xml = simplexml_load_string($contents);
-                    $this->line($city[$i]." ".$cityArea[$j]." 總數：".count($xml->array->array0));
-                    $streets = $xml->array->array0;
-                    foreach ($streets as $street) {
-                        // $this->info($street);
-                        // $cols = [$city[$i], $cityArea[$j], $street];
-                        $cols = [
-                                    'county'   => $city[$i],
-                                    'district' => $cityArea[$j],
-                                    'street'   => $street
-                                ];
-                        $rows[] = $cols;
-                    }
-                } else {
-                    $this->error(__FUNCTION__." No Response");
-                    exit(2);
-                }
-            }
-        }
         // print_r($rows);
+        $rows = $this->getStreets();
         $this->createExcel($rows);
         // $this->exportToTable($rows);
     }
@@ -117,6 +91,60 @@ class PostalStreetNameData extends Command
     }
 
     /**
+     * Get streets.
+     *
+     * @return array   $rows
+     */
+    public function getStreets()
+    {
+        $cityLength = count($this->city);
+        $rows = [];
+        $rows[0] = ['縣市', '鄉鎮市區', '道路或街名或村里名稱'];
+        for ($i = 0; $i < $cityLength; $i++) {
+            $count = $this->cityAreaCount[$i + 1] - $this->cityAreaCount[$i];
+            $start = $this->cityAreaCount[$i] + 1;
+            $end = $this->cityAreaCount[$i + 1];
+            for ($j = $start; $j <= $end; $j++) {
+                $this->info($this->city[$i]." ".$this->cityArea[$j]);
+                $response = $this->requestPostalUri($this->city[$i], $this->cityArea[$j]);
+                // $body = $response->getBody();
+                $contents = $response->getBody()->getContents();
+                if ($response) {
+                    $this->parseXML($contents, $this->city[$i], $this->cityArea[$j], $rows);
+                } else {
+                    $this->error(__FUNCTION__.": No Response from ".$this->postalUri);
+                    exit(2);
+                }
+            }
+        }
+        return $rows;
+    }
+
+    /**
+     * Parse XML.
+     *
+     * @param  string  $contents
+     * @param  string  $city
+     * @param  string  $cityArea
+     * @param  array   &$rows
+     * @return void
+     */
+    public function parseXML($contents, $city, $cityArea, &$rows)
+    {
+        $xml = simplexml_load_string($contents);
+        $this->line($city." ".$cityArea." 總數：".count($xml->array->array0));
+        $streets = $xml->array->array0;
+        foreach ($streets as $street) {
+            $cols = [
+                        'county'   => $city,
+                        'district' => $cityArea,
+                        'street'   => $street
+                    ];
+            $rows[] = $cols;
+        }
+    }
+
+    /**
      * Send Request to PostalUri.
      *
      * @param  string  $city
@@ -138,13 +166,12 @@ class PostalStreetNameData extends Command
                 'timeout' => 5
             ]);
         } catch (RequestException $e) {
-            $this->error(Psr7\str($e->getRequest()));
+            // $this->error(Psr7\str($e->getRequest()));
             if ($e->hasResponse()) {
                 $this->error(Psr7\str($e->getResponse()));
             } else {
-                $this->error(__FUNCTION__." No Response");
+                $this->error(__FUNCTION__.": No Response from ".$this->postalUri);
             }
-            $this->error("city=".$city."&cityarea=".$cityArea);
             exit(1);
         }
         return $response;
@@ -182,17 +209,14 @@ class PostalStreetNameData extends Command
     public function getPostalCity()
     {
         $client = new Client();
-        // $url = 'http://www.post.gov.tw/post/internet/Postal/index.jsp?ID=207';
-        // $response = $client->request('GET', $url);
-
         try {
             $response = $client->request('GET', $this->postalIndex, ['timeout' => 5]);
         } catch (RequestException $e) {
-            $this->error(Psr7\str($e->getRequest()));
+            // $this->error(Psr7\str($e->getRequest()));
             if ($e->hasResponse()) {
                 $this->error(Psr7\str($e->getResponse()));
             } else {
-                $this->error(__FUNCTION__." No Response");
+                $this->error(__FUNCTION__.": No Response from ".$this->postalIndex);
             }
             exit(1);
         }
@@ -202,7 +226,8 @@ class PostalStreetNameData extends Command
         $crawler = new Crawler($html);
         // echo $crawler->filter('select[name="city"]')->text();
         //$city = [];
-        $city = $crawler->filter('select[name="city"]')->filter('option')->each(function (Crawler $node, $i) {
+        // $city = $crawler->filter('select[name="city"]')->filter('option')->each(function (Crawler $node, $i) {
+        $this->city = $crawler->filter('select[name="city"]')->filter('option')->each(function (Crawler $node, $i) {
             // echo $i." ".$node->text().",";
             // echo gettype($i).' $i '.$node->text().",";
             // do not return index 0 - "請選擇縣市"
@@ -212,18 +237,24 @@ class PostalStreetNameData extends Command
         });
 
         // index 0 is empty value, Shift an element off the beginning of array
-        array_shift($city);
-        print_r($city);
+        // array_shift($city);
+        // print_r($city);
+        array_shift($this->city);
+        print_r($this->city);
         $pattern = '/^cityarea_account\[\d+\] = (.*);$/m';
         preg_match_all($pattern, $html, $matches);
-        $cityAreaCount = $matches[1];
-        print_r($cityAreaCount);
+        // $cityAreaCount = $matches[1];
+        // print_r($cityAreaCount);
+        $this->cityAreaCount = $matches[1];
+        print_r($this->cityAreaCount);
 
         $pattern = '/^cityarea\[\d+\] = \'(.*)\';$/m';
         preg_match_all($pattern, $html, $matches);
         array_unshift($matches[1], '');
-        $cityArea = $matches[1];
-        print_r($cityArea);
-        return compact('city', 'cityArea', 'cityAreaCount');
+        // $cityArea = $matches[1];
+        // print_r($cityArea);
+        $this->cityArea = $matches[1];
+        print_r($this->cityArea);
+        // return compact('city', 'cityArea', 'cityAreaCount');
     }
 }
