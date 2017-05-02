@@ -12,7 +12,8 @@
         "laravel/tinker": "^1.0",
         "laravel/browser-kit-testing": "^1.0",
         "maatwebsite/excel": "~2.1.0",
-        "symfony/dom-crawler": "^3.2"
+        "symfony/dom-crawler": "^3.2",
+        "kevinlebrun/colors.php": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -25,7 +26,8 @@
             "database"
         ],
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "Hsquare\\TWStreet\\": "packages/hsquare/tw-street/src/"
         }
     },
     "autoload-dev": {
